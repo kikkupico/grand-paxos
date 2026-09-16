@@ -11,6 +11,7 @@ This is a standalone project. Don't reference or pull material from any other re
 - `ERAS.md` is the story timeline: five phases in one generation, walked from the north-west.
 - `tools/island_maps.py` generates the island and writes the map, measured checks and reading-order table into the page between `<!-- MAP -->`, `<!-- STATS -->` and `<!-- ORDER -->` markers. Never hand-edit the content between those markers.
 - `maps/island.svg`, `maps/island-height.png` and `maps/island-sites.json` are generator outputs. Commit them, because they are the spec.
+- `prompts/painted-map.md` is the stage 2 image prompt. The user runs it in the Gemini web UI; don't call image APIs. `tools/painted_map.py` makes the upload (`reference`) and registers the result (`register <file>`).
 - `sources/` holds the papers as PDFs (gitignored). Its `README.md` indexes them by volume.
 
 ## Commands

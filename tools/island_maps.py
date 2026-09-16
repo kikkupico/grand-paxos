@@ -554,25 +554,30 @@ SEA_T = [-60, -25]
 LAND_T = [0, 20, 70, 140, 220, 300, 380]
 LINE_T = [-5, -13, -24]
 
-def svg_for(title, h, site_list, loc, zones=()):
+def svg_for(title, h, site_list, loc, zones=(), clean=False):
+    """clean=True is the layout reference for the painted map: no text, numbers, dots, compass or scale bar."""
     S = []
     VW, VH = W / U, H / U
     S.append(f'<svg class="islemap" viewBox="0 0 {VW:.0f} {VH:.0f}" role="img" aria-labelledby="map-island-t" xmlns="http://www.w3.org/2000/svg">')
     S.append(f'<title id="map-island-t">{title}: rough map of Paxos</title>')
     S.append(f'<rect class="sea0" x="0" y="0" width="{VW:.0f}" height="{VH:.0f}"/>')
-    for k, t in enumerate(SEA_T):
-        S.append(f'<path class="sea{k + 1}" fill-rule="evenodd" d="{loops_to_d(march(h, t), .8, 20)}"/>')
-    for k, t in enumerate(LINE_T):
-        S.append(f'<path class="wline wl{k}" d="{loops_to_d(march(h, t), .6, 10)}"/>')
+    if clean:                                                                    # one shallow halo, so offshore shoals can't read as land
+        near_land = near_sea(-h, 250.0)
+        S.append(f'<path class="sea2" fill-rule="evenodd" d="{loops_to_d(march(np.where(near_land, h, -50.0), -6), .8, 20)}"/>')
+    else:
+        for k, t in enumerate(SEA_T):
+            S.append(f'<path class="sea{k + 1}" fill-rule="evenodd" d="{loops_to_d(march(h, t), .8, 20)}"/>')
+        for k, t in enumerate(LINE_T):
+            S.append(f'<path class="wline wl{k}" d="{loops_to_d(march(h, t), .6, 10)}"/>')
     for k, t in enumerate(LAND_T):
         d = loops_to_d(march(h, t), .45, 6 if k else 3)
         S.append(f'<path class="land{k}{" coast" if k == 0 else " contour"}" fill-rule="evenodd" d="{d}"/>')
-    for z, zx, zy in zones:                                                      # volume zones along the dependency axis
+    for z, zx, zy in ([] if clean else zones):                                   # volume zones along the dependency axis
         S.append(f'<text class="zone" x="{zx / U:.0f}" y="{zy / U:.0f}">{z}</text>')
     # roads (least-cost), statue walk first
     town, rnd = loc["town"], loc["round"]
     S.append(f'<path class="road walk" d="{smooth_d(least_cost_path(h, town, rnd))}"/>')
-    S.append(f'<path class="road walk-dots" d="{smooth_d(least_cost_path(h, town, rnd))}"/>')
+    if not clean: S.append(f'<path class="road walk-dots" d="{smooth_d(least_cost_path(h, town, rnd))}"/>')
     for tgt in [k for k in ("banquet", "hamA", "hamK", "hamM", "citadel", "press", "granary2", "oracle", "city", "hall") if k in loc]:
         p = loc[tgt][0] if isinstance(loc[tgt][0], tuple) else loc[tgt]
         if h_at(h, *p) < 1.5: continue
@@ -640,19 +645,21 @@ def svg_for(title, h, site_list, loc, zones=()):
             S.append(f'<path class="sym-mole" d="M{x - 18:.1f} {y + 4:.1f}A18 18 0 0 1 {x + 18:.1f} {y + 4:.1f}"/>')
         elif kind == "hall":
             S.append(f'<circle class="sym-hall" cx="{x:.1f}" cy="{y:.1f}" r="10"/><circle class="sym-round-in" cx="{x:.1f}" cy="{y:.1f}" r="4"/>')
-        elif kind == "strait":
+        elif kind == "strait" and not clean:
             S.append(f'<circle class="sym-strait" cx="{x:.1f}" cy="{y:.1f}" r="22"/>')
         elif kind == "cliff":
             for k in range(-3, 4):
                 S.append(f'<line class="sym-cliff" x1="{x + k * 9:.1f}" y1="{y - 9:.1f}" x2="{x + k * 9 + 4:.1f}" y2="{y + 9:.1f}"/>')
         for px, py in pts[(1 if kind in ("round", "cothon", "citadel", "strait", "cliff", "port", "harbour", "hall") else 0):]:
-            S.append(f'<circle class="sym-dot" cx="{px / U:.1f}" cy="{py / U:.1f}" r="7"/>')
-        bx, by = badge_at(pts[0][0] / U, pts[0][1] / U, RAD.get(kind, 8), num); badges.append((bx, by))
-        S.append(f'<g class="tag"><circle class="num-bg" cx="{bx:.1f}" cy="{by:.1f}" r="15"/>'
-                 f'<text class="num" x="{bx:.1f}" y="{by + 7:.1f}">{num}</text></g>')
+            if clean: S.append(f'<rect class="sym-bldg" x="{px / U - 4:.1f}" y="{py / U - 3:.1f}" width="8" height="6"/>')
+            else: S.append(f'<circle class="sym-dot" cx="{px / U:.1f}" cy="{py / U:.1f}" r="7"/>')
+        if not clean:
+            bx, by = badge_at(pts[0][0] / U, pts[0][1] / U, RAD.get(kind, 8), num); badges.append((bx, by))
+            S.append(f'<g class="tag"><circle class="num-bg" cx="{bx:.1f}" cy="{by:.1f}" r="15"/>'
+                     f'<text class="num" x="{bx:.1f}" y="{by + 7:.1f}">{num}</text></g>')
         S.append('</g>')
     # compass + scale (1 km and 5 stadia at 185 m)
-    S.append(f'<g class="furniture"><g transform="translate({VW - 80:.0f} 90)"><path class="compass" d="M0 -38L9 6L0 0L-9 6Z"/>'
+    if not clean: S.append(f'<g class="furniture"><g transform="translate({VW - 80:.0f} 90)"><path class="compass" d="M0 -38L9 6L0 0L-9 6Z"/>'
              '<text class="compass-n" x="0" y="-46">N</text></g>'
              f'<g transform="translate(60 {VH - 50:.0f})"><rect class="scale-bg" x="-14" y="-44" width="300" height="66" rx="3"/>'
              '<path class="scale" d="M0 0H200M0 -7V7M100 -5V5M200 -7V7"/>'
@@ -672,7 +679,7 @@ SVG_STYLE = """<style>
 .sym-round{fill:#f8f5ee;stroke:#1c1512;stroke-width:2.4}.sym-round-in{fill:#e2cf9b;stroke:#1c1512;stroke-width:1}.sym-gate{fill:#c1912b;stroke:#1c1512;stroke-width:1}
 .sym-cothon{fill:#7fb2c8;stroke:#1c1512;stroke-width:2.2}.sym-cothon-isle{fill:#f8f5ee;stroke:#1c1512;stroke-width:1.4}.sym-quay{stroke:#1c1512;stroke-width:2}
 .sym-citadel{fill:#8e2323;stroke:#1c1512;stroke-width:1.6}.sym-strait{fill:none;stroke:#8e2323;stroke-width:2.2;stroke-dasharray:4 3}
-.sym-cliff{stroke:#1c1512;stroke-width:2}.sym-port{fill:none;stroke:#1c1512;stroke-width:3.2;stroke-linecap:round}.sym-mole{fill:none;stroke:#1c1512;stroke-width:5;stroke-linecap:round}.sym-hall{fill:#f8f5ee;stroke:#1c1512;stroke-width:2.2}.sym-dot{fill:#1c1512;stroke:#faf3e0;stroke-width:1.5}
+.sym-cliff{stroke:#1c1512;stroke-width:2}.sym-port{fill:none;stroke:#1c1512;stroke-width:3.2;stroke-linecap:round}.sym-mole{fill:none;stroke:#1c1512;stroke-width:5;stroke-linecap:round}.sym-hall{fill:#f8f5ee;stroke:#1c1512;stroke-width:2.2}.sym-bldg{fill:#bf4a26;stroke:#1c1512;stroke-width:.8}.sym-dot{fill:#1c1512;stroke:#faf3e0;stroke-width:1.5}
 .zone{fill:#1c1512;fill-opacity:.2;font:700 italic 74px Optima,'Gill Sans',sans-serif;text-anchor:middle;dominant-baseline:middle}.num-bg{fill:#1c1512}.num{fill:#ffe36e;font:700 19px Optima,'Gill Sans',sans-serif;text-anchor:middle}
 .compass{fill:#1c1512}.compass-n,.scale-t{fill:#1c1512;font:700 22px Optima,'Gill Sans',sans-serif;text-anchor:middle}.scale-t.sm{font-size:17px;text-anchor:start;font-weight:400}
 .scale-bg{fill:#faf3e0;fill-opacity:.85;stroke:#1c1512;stroke-width:1}.scale{fill:none;stroke:#1c1512;stroke-width:2}.scale.st{stroke-width:4;stroke:#bf4a26}
@@ -712,6 +719,8 @@ def main():
                         "points_m": [[round(px), round(py), round(h_at(h, px, py), 1)] for px, py in pts]}
     svg = svg_for(TITLE, h, SITES, loc, rules.get("zones", ()))
     (OUT / "island.svg").write_text(svg.replace(">", ">" + SVG_STYLE, 1))
+    ref = svg_for(TITLE, h, SITES, loc, clean=True)                              # stage 2 layout reference, see tools/paint_reference.py
+    (OUT / "island-reference.svg").write_text(ref.replace(">", ">" + SVG_STYLE, 1))
     png = np.clip((h - HMIN) / (HMAX - HMIN), 0, 1) * 65535
     Image.fromarray(png.astype(np.uint16)).save(OUT / "island-height.png")
     land = (h > 0).mean() * W * H / 1e6

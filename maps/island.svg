@@ -9,7 +9,7 @@
 .sym-round{fill:#f8f5ee;stroke:#1c1512;stroke-width:2.4}.sym-round-in{fill:#e2cf9b;stroke:#1c1512;stroke-width:1}.sym-gate{fill:#c1912b;stroke:#1c1512;stroke-width:1}
 .sym-cothon{fill:#7fb2c8;stroke:#1c1512;stroke-width:2.2}.sym-cothon-isle{fill:#f8f5ee;stroke:#1c1512;stroke-width:1.4}.sym-quay{stroke:#1c1512;stroke-width:2}
 .sym-citadel{fill:#8e2323;stroke:#1c1512;stroke-width:1.6}.sym-strait{fill:none;stroke:#8e2323;stroke-width:2.2;stroke-dasharray:4 3}
-.sym-cliff{stroke:#1c1512;stroke-width:2}.sym-port{fill:none;stroke:#1c1512;stroke-width:3.2;stroke-linecap:round}.sym-mole{fill:none;stroke:#1c1512;stroke-width:5;stroke-linecap:round}.sym-hall{fill:#f8f5ee;stroke:#1c1512;stroke-width:2.2}.sym-dot{fill:#1c1512;stroke:#faf3e0;stroke-width:1.5}
+.sym-cliff{stroke:#1c1512;stroke-width:2}.sym-port{fill:none;stroke:#1c1512;stroke-width:3.2;stroke-linecap:round}.sym-mole{fill:none;stroke:#1c1512;stroke-width:5;stroke-linecap:round}.sym-hall{fill:#f8f5ee;stroke:#1c1512;stroke-width:2.2}.sym-bldg{fill:#bf4a26;stroke:#1c1512;stroke-width:.8}.sym-dot{fill:#1c1512;stroke:#faf3e0;stroke-width:1.5}
 .zone{fill:#1c1512;fill-opacity:.2;font:700 italic 74px Optima,'Gill Sans',sans-serif;text-anchor:middle;dominant-baseline:middle}.num-bg{fill:#1c1512}.num{fill:#ffe36e;font:700 19px Optima,'Gill Sans',sans-serif;text-anchor:middle}
 .compass{fill:#1c1512}.compass-n,.scale-t{fill:#1c1512;font:700 22px Optima,'Gill Sans',sans-serif;text-anchor:middle}.scale-t.sm{font-size:17px;text-anchor:start;font-weight:400}
 .scale-bg{fill:#faf3e0;fill-opacity:.85;stroke:#1c1512;stroke-width:1}.scale{fill:none;stroke:#1c1512;stroke-width:2}.scale.st{stroke-width:4;stroke:#bf4a26}
