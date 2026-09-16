@@ -8,7 +8,8 @@ same source yields three things:
   maps/option-<k>-sites.json   site positions + elevations (for empties)
 and the SVGs are inlined into art-direction-grand.html between MAP markers.
 
-World: x east 0..8000 m, y south 0..5500 m. SVG unit = 5 m (1600 x 1100).
+World: x east, y south, in metres; 8 x 5.5 km for options a-d, 11 x 8 km for e
+(set per option by set_world). SVG unit = 5 m.
 Heightmap range: -120 m .. +480 m  ->  0 .. 65535.
 """
 import heapq, json, math, re, sys
@@ -24,6 +25,14 @@ HMIN, HMAX = -120.0, 480.0
 
 X0, Y0 = np.meshgrid((np.arange(NX) + .5) * CELL, (np.arange(NY) + .5) * CELL)
 X, Y = X0, Y0                                     # primitives read these; warp() bends them
+
+def set_world(w, h):
+    """Every option function calls this first; everything below reads these globals."""
+    global W, H, NX, NY, X0, Y0, X, Y
+    W, H = float(w), float(h)
+    NX, NY = int(W / CELL), int(H / CELL)
+    X0, Y0 = np.meshgrid((np.arange(NX) + .5) * CELL, (np.arange(NY) + .5) * CELL)
+    X, Y = X0, Y0
 
 # ---------------------------------------------------------------- primitives
 def blob(cx, cy, rx, ry, h, ang=0.0, p=2.0):
@@ -115,6 +124,20 @@ def grade(h, a, b, half, feather):
     w = np.clip((half + feather - d) / feather, 0, 1); w = w * w * (3 - 2 * w)
     return h * (1 - w) + (a[2] + (b[2] - a[2]) * t) * w
 
+def channel(h, axis, t, half, depth, seed, feather=140.0, wander=110.0):
+    """Cut a sea channel square across an axis at fraction t, its banks wandering with noise."""
+    (x0, y0), (x1, y1) = axis
+    L = math.hypot(x1 - x0, y1 - y0); ux, uy = (x1 - x0) / L, (y1 - y0) / L
+    d = np.abs((X0 - x0) * ux + (Y0 - y0) * uy - t * L + wander * value_noise(seed, (1400, 700, 350)))
+    w = np.clip((half + feather - d) / feather, 0, 1); w = w * w * (3 - 2 * w)
+    return np.minimum(h, h * (1 - w) - depth * w)
+
+def keep_islands(h, anchors, shoal=-3.0):
+    """Drown every patch of land not connected to one of the anchor points."""
+    keep = np.zeros(h.shape, bool)
+    for a in anchors: keep |= land_component(h, a)
+    return np.where((h > 0) & ~keep, shoal, h)
+
 def bezier(pts, n=60):
     (x0, y0), (x1, y1), (x2, y2) = pts
     return [((1 - t) ** 2 * x0 + 2 * (1 - t) * t * x1 + t * t * x2, (1 - t) ** 2 * y0 + 2 * (1 - t) * t * y1 + t * t * y2)
@@ -151,17 +174,20 @@ SITES = [  # num, key, name, volumes, kind
     (14, "granary2", "Granary on the heights",         "6",   "dot"),
     (15, "cliffs",   "Ledger cliffs",                  "8",   "cliff"),
     (16, "locks",    "Italian guild lock-houses",      "8",   "multi"),
+    (17, "monastery", "Raft monastery",                "9",   "dot"),
 ]
 VOL_ROMAN = {1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI", 7: "VII", 8: "VIII", 9: "IX"}
 # what each site demands of the ground: (min m, max m, within-metres-of-sea or None)
 RULES = {"hamA": (40, 230, None), "hamK": (40, 230, None), "hamM": (40, 230, None), "press": (90, 300, None),
          "signals": (15, 260, 260), "citadel": (60, 240, 420), "oracle": (220, 999, None),
          "town": (4, 50, 320), "round": (140, 270, None), "banquet": (90, 250, None),
-         "granary": (5, 90, None), "granary2": (90, 240, None), "cliffs": (15, 220, 140), "locks": (60, 300, None)}
+         "granary": (5, 90, None), "granary2": (90, 240, None), "cliffs": (15, 220, 140), "locks": (60, 300, None),
+         "monastery": (15, 180, None)}
 
 # ---------------------------------------------------------------- options
 # fn() -> (h, rough sites, cothon hint, rule overrides). Sites are snapped to their RULES afterwards.
 def option_crescent():
+    set_world(8000, 5500)
     cx, cy, r = 4000, 1950, 2000
     at = lambda a, rr=r: (cx + rr * math.cos(math.radians(a)), cy + rr * math.sin(math.radians(a)))
     warp(11)
@@ -184,6 +210,7 @@ def option_crescent():
     return h, sites, (4250, 3300), {}
 
 def option_twin():
+    set_world(8000, 5500)
     warp(23)
     m = blob(2450, 2800, 1500, 1300, 220, ang=-8, p=3.0)                         # west lobe
     m += blob(1750, 2450, 520, 470, 230)                                         # the mountain (oracle)
@@ -211,6 +238,7 @@ def option_twin():
     return h, sites, (3980, 2450), {"round_radius": 250, "round_saddle": True, "causeway": (cw, sea_before)}
 
 def option_caldera():
+    set_world(8000, 5500)
     cx, cy, r = 4000, 2850, 1550
     at = lambda a, f=1.0: (cx + r * f * math.cos(math.radians(a)), cy + r * f * math.sin(math.radians(a)))
     warp(37, 160)
@@ -230,6 +258,7 @@ def option_caldera():
     return h, sites, at(252, .82), {"oracle": (60, 999, None), "cliffs": (15, 260, 120)}
 
 def option_spine():
+    set_world(8000, 5500)
     p0, p1 = (1550, 1050), (5600, 3750)
     L = math.hypot(p1[0] - p0[0], p1[1] - p0[1])
     ux, uy = (p1[0] - p0[0]) / L, (p1[1] - p0[1]) / L
@@ -259,11 +288,72 @@ def option_spine():
     }
     return h, sites, at(.52, 980), {"oracle": (10, 140, 160)}
 
+E_AXIS = ((1500.0, 1300.0), (9800.0, 7200.0))                                     # NW root -> SE leaves
+E_ROUND, E_PORT = (5384.0, 4132.0), (5990.0, 3630.0)                              # the col, and the cothon's mouth below it
+
+def option_dependency():
+    """The island laid out along the papers' dependency graph, read NW -> SE:
+    I+III, then IV (the causeway neck), then V (the Round's spine), then II/VI/VII/VIII
+    in pairs either side of the spine, and IX detached across a strait."""
+    set_world(11000, 8000)
+    (x0, y0), (x1, y1) = E_AXIS
+    L = math.hypot(x1 - x0, y1 - y0); ux, uy = (x1 - x0) / L, (y1 - y0) / L
+    nx, ny = uy, -ux                                                             # +n points north-east
+    at = lambda t, n=0.0: (x0 + ux * L * t + nx * n, y0 + uy * L * t + ny * n)
+    ang = math.degrees(math.atan2(uy, ux))
+    bead = lambda t, n, ra, rc, hh, p=2.4: blob(*at(t, n), ra, rc, hh, ang=ang, p=p)
+    warp(61, 200)
+    m = ridge(*at(-.02), *at(.84), 620, 95, p=2.0)                               # the low spine that strings the beads
+    m += bead(.05, 520, 760, 640, 190)                                           # I   Disordered Sundials
+    m += bead(.11, -560, 720, 620, 285)                                          # III Sleeping Shepherd (the summit)
+    m += bead(.27, 0, 520, 420, 70)                                              # IV  Passable Season: the low neck
+    m += bead(.425, 0, 380, 520, 185) + bead(.545, 0, 380, 520, 180)             # V   two knolls either side of the Round's col
+    m += bead(.485, 0, 950, 650, 100, p=3.0)                                     #     the Parliament's broad middle
+    m += ridge(*at(.43), *at(.54), 230, 40)                                       #     a narrow crest, so the col falls away to both coasts
+    m -= ridge(*at(.48, 170), *at(.48, 1150), 230, 45, p=1.6)                   #     the valley from the col down to the port
+    m += bead(.64, 720, 620, 560, 150)                                           # II  Generals: headland city
+    m += bead(.66, -700, 700, 640, 70, p=3.0)                                    # VI  Ledger: the granary plain
+    m += bead(.79, 760, 600, 540, 165)                                           # VII Citadel
+    m += bead(.80, -760, 640, 560, 175)                                          # VIII Quarries: cliffs and the lock ridge
+    m += bead(.975, 150, 520, 380, 150)                                          # IX  Raft Monks' islet
+    for t, n, ra, rc, dd in ((.20, 1250, 420, 380, 150), (.70, 1350, 380, 420, 150), (.73, -1400, 360, 420, 150),
+                             (.59, -1250, 380, 480, 190), (.59, 1300, 360, 460, 180)):
+        m -= bead(t, n, ra, rc, dd)                                              # bays in the notches between paired zones
+    h = finish(m, 61)
+    h = np.where(h > 0, grade(h, (*at(.505, 820), 14), (*at(.59, 880), 10), 170, 160), h)   # the coastal flat the harbour town stands on
+    R, T = E_ROUND, E_PORT                                                       # grade the Statue Walk's descent so the port stays in view
+    dist = math.dist(R, T); vx, vy = (T[0] - R[0]) / dist, (T[1] - R[1]) / dist
+    eye = h_at(h, *R) + 8; fall = (eye - 2) / dist
+    ramp = lambda s_: (R[0] + vx * s_, R[1] + vy * s_, max(3.0, eye - fall * s_ - 12))
+    h = grade(h, ramp(150), ramp(dist - 130), 45, 90)
+    h = channel(h, E_AXIS, .31, 170, 9.0, seed=62, wander=40)                               # the neck the causeway crosses
+    cw = [at(.29, -20), at(.31, 90), at(.33, -20)]
+    sea_before = h < 0
+    h = causeway(h, cw, seed=61)
+    h = channel(h, E_AXIS, .905, 170, 18.0, seed=63, wander=260)                             # the strait to the Raft islet
+    h = keep_islands(h, [at(.11, -560), at(.48), at(.975, 150)], shoal=-8.0)
+    sites = {
+        "hamA": at(.0, 650), "hamK": at(.13, -1050), "hamM": at(.17, 700), "press": at(.05, 450),
+        "signals": [at(.285, 700), at(.335, 700), at(.02, -1300), at(.975, 700)],
+        "citadel": at(.72, 1250), "oracle": at(.11, -560), "strait": bezier(cw, 3)[1],
+        "town": at(.535, 900), "round": E_ROUND, "banquet": at(.48, 300),
+        "granary": [at(.60, -900), at(.67, -1150), at(.74, -600)], "granary2": at(.70, -350),
+        "cliffs": at(.82, -1350), "locks": [at(.75 + .02 * k, -150) for k in range(5)],
+        "monastery": at(.975, 150),
+    }
+    order = [["hamA", "hamK", "hamM", "press", "oracle"], ["strait"], ["round", "banquet"],
+             ["citadel", "granary", "granary2", "cliffs", "locks"], ["monastery"]]
+    zones = [("I", .03, 900), ("III", .13, -1250), ("IV", .30, -700), ("V", .49, -900), ("II", .62, 1550),
+             ("VI", .64, -1050), ("VII", .80, 1650), ("VIII", .79, -1250), ("IX", .975, -650)]
+    return h, sites, E_PORT, {"round_radius": 0, "round_saddle": True, "causeway": (cw, sea_before),
+                                      "axis": E_AXIS, "order": order, "zones": [(z, *at(t, n)) for z, t, n in zones]}
+
 OPTIONS = {
     "a": ("Crescent", option_crescent),
     "b": ("Twin Lobes", option_twin),
     "c": ("Caldera", option_caldera),
     "d": ("Ridge Spine", option_spine),
+    "e": ("Dependency Spine", option_dependency),
 }
 
 def build(key):
@@ -357,6 +447,32 @@ def measure_causeway(h, spec, step=10.0):
             "width_above_1_5m_mean": round(float(np.mean(widths))), "dry_in_calm": min(crest) > .5,
             "winter_seas_break_over": max(crest) <= 3.0}
 
+def land_component(h, p):
+    """Boolean mask of the dry land connected to p (4-neighbour flood fill)."""
+    land = h > 0; seen = np.zeros_like(land)
+    i0, j0 = int(np.clip(p[1] / CELL, 0, NY - 1)), int(np.clip(p[0] / CELL, 0, NX - 1))
+    if not land[i0, j0]: return seen
+    stack = [(i0, j0)]; seen[i0, j0] = True
+    while stack:
+        i, j = stack.pop()
+        for ii, jj in ((i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1)):
+            if 0 <= ii < NY and 0 <= jj < NX and land[ii, jj] and not seen[ii, jj]:
+                seen[ii, jj] = True; stack.append((ii, jj))
+    return seen
+
+def axis_t(axis, p):
+    (x0, y0), (x1, y1) = axis
+    L2 = (x1 - x0) ** 2 + (y1 - y0) ** 2
+    return ((p[0] - x0) * (x1 - x0) + (p[1] - y0) * (y1 - y0)) / L2
+
+def dependency_order(loc, axis, groups):
+    """Each group of sites lies wholly further along the axis than the group before it."""
+    spans = []
+    for g in groups:
+        ts = [axis_t(axis, q) for k in g for q in (loc[k] if isinstance(loc[k], list) else [loc[k]])]
+        spans.append((round(min(ts), 3), round(max(ts), 3)))
+    return all(spans[k][1] < spans[k + 1][0] for k in range(len(spans) - 1)), spans
+
 def least_cost_path(h, a, b, slope_k=900.0):
     """Dijkstra on the 12.5 m grid; roads avoid water and steep ground."""
     step = 2                                                                      # 25 m moves
@@ -442,7 +558,10 @@ def checks(h, loc, rules):
             "town_to_round_clear": los_clear(h, loc["round"], loc["cothon"], 8, 2),
             "round_in_saddle": is_saddle(h, loc["round"]), "round_town_m": round(math.dist(loc["round"], loc["town"])),
             "banquet_offset_m": [round(loc["banquet"][0] - loc["round"][0]), round(loc["banquet"][1] - loc["round"][1])],
-            **({"causeway": measure_causeway(h, rules["causeway"])} if "causeway" in rules else {})}
+            **({"causeway": measure_causeway(h, rules["causeway"])} if "causeway" in rules else {}),
+            **({"dependency_order": dependency_order(loc, rules["axis"], rules["order"])} if "order" in rules else {}),
+            **({"monastery_detached": not land_component(h, loc["round"])[int(loc["monastery"][1] / CELL), int(loc["monastery"][0] / CELL)]}
+               if "monastery" in loc else {})}
 
 # ---------------------------------------------------------------- contours
 def march(h, t):
@@ -527,11 +646,12 @@ SEA_T = [-60, -25]
 LAND_T = [0, 20, 70, 140, 220, 300, 380]
 LINE_T = [-5, -13, -24]
 
-def svg_for(key, title, h, sites, loc):
+def svg_for(key, title, h, sites, loc, zones=()):
     S = []
-    S.append(f'<svg class="islemap" viewBox="0 0 1600 1100" role="img" aria-labelledby="map-{key}-t" xmlns="http://www.w3.org/2000/svg">')
+    VW, VH = W / U, H / U
+    S.append(f'<svg class="islemap" viewBox="0 0 {VW:.0f} {VH:.0f}" role="img" aria-labelledby="map-{key}-t" xmlns="http://www.w3.org/2000/svg">')
     S.append(f'<title id="map-{key}-t">Option {key.upper()} · {title}: rough map of Paxos</title>')
-    S.append('<rect class="sea0" x="0" y="0" width="1600" height="1100"/>')
+    S.append(f'<rect class="sea0" x="0" y="0" width="{VW:.0f}" height="{VH:.0f}"/>')
     for k, t in enumerate(SEA_T):
         S.append(f'<path class="sea{k + 1}" fill-rule="evenodd" d="{loops_to_d(march(h, t), .8, 20)}"/>')
     for k, t in enumerate(LINE_T):
@@ -539,6 +659,8 @@ def svg_for(key, title, h, sites, loc):
     for k, t in enumerate(LAND_T):
         d = loops_to_d(march(h, t), .45, 6 if k else 3)
         S.append(f'<path class="land{k}{" coast" if k == 0 else " contour"}" fill-rule="evenodd" d="{d}"/>')
+    for z, zx, zy in zones:                                                      # volume zones along the dependency axis
+        S.append(f'<text class="zone" x="{zx / U:.0f}" y="{zy / U:.0f}">{z}</text>')
     # roads (least-cost), statue walk first
     town, rnd = loc["town"], loc["round"]
     S.append(f'<path class="road walk" d="{smooth_d(least_cost_path(h, town, rnd))}"/>')
@@ -567,6 +689,7 @@ def svg_for(key, title, h, sites, loc):
     RAD = {"round": 20, "cothon": 34, "strait": 24, "citadel": 22, "cliff": 30}
     marks = []
     for num, skey, name, vols, kind in SITES:
+        if skey not in loc: continue                                             # site 17 exists only on option e
         pts = loc[skey] if isinstance(loc[skey], list) else [loc[skey]]
         marks += [(px / U, py / U, RAD.get(kind, 8) if k == 0 else 8, num) for k, (px, py) in enumerate(pts)]
     badges = []
@@ -576,7 +699,7 @@ def svg_for(key, title, h, sites, loc):
         for dist in (r0 + 16, r0 + 28, r0 + 42, r0 + 58):
             for a in (-40, -140, 40, 140, -90, 90, 0, 180):
                 bx, by = x + dist * math.cos(math.radians(a)), y + dist * math.sin(math.radians(a))
-                if not (16 < bx < 1584 and 16 < by < 1084): continue
+                if not (16 < bx < VW - 16 and 16 < by < VH - 16): continue
                 gaps = [math.hypot(bx - mx, by - my) - mr - 15 for mx, my, mr, n in marks if n != num]
                 gaps += [math.hypot(bx - qx, by - qy) - 30 for qx, qy in badges]
                 own = min(math.hypot(bx - mx, by - my) - mr for mx, my, mr, n in marks if n == num)
@@ -586,6 +709,7 @@ def svg_for(key, title, h, sites, loc):
                 if best_key is None or clear > best_key: best, best_key = (bx, by), clear
         return best
     for num, skey, name, vols, kind in SITES:
+        if skey not in loc: continue                                             # site 17 exists only on option e
         pts = loc[skey] if isinstance(loc[skey], list) else [loc[skey]]
         cls = " ".join(f"v{v}" for v in vols.split())
         S.append(f'<g class="site {cls}" data-site="{num}">')
@@ -614,9 +738,9 @@ def svg_for(key, title, h, sites, loc):
                  f'<text class="num" x="{bx:.1f}" y="{by + 7:.1f}">{num}</text></g>')
         S.append('</g>')
     # compass + scale (1 km and 5 stadia at 185 m)
-    S.append('<g class="furniture"><g transform="translate(1520 90)"><path class="compass" d="M0 -38L9 6L0 0L-9 6Z"/>'
+    S.append(f'<g class="furniture"><g transform="translate({VW - 80:.0f} 90)"><path class="compass" d="M0 -38L9 6L0 0L-9 6Z"/>'
              '<text class="compass-n" x="0" y="-46">N</text></g>'
-             '<g transform="translate(60 1050)"><rect class="scale-bg" x="-14" y="-44" width="300" height="66" rx="3"/>'
+             f'<g transform="translate(60 {VH - 50:.0f})"><rect class="scale-bg" x="-14" y="-44" width="300" height="66" rx="3"/>'
              '<path class="scale" d="M0 0H200M0 -7V7M100 -5V5M200 -7V7"/>'
              '<text class="scale-t" x="0" y="-14">0</text><text class="scale-t" x="200" y="-14">1 km</text>'
              f'<path class="scale st" d="M0 10H{5 * 185 / U:.1f}"/><text class="scale-t sm" x="{5 * 185 / U + 8:.1f}" y="16">5 stadia</text></g></g>')
@@ -635,7 +759,7 @@ SVG_STYLE = """<style>
 .sym-cothon{fill:#7fb2c8;stroke:#1c1512;stroke-width:2.2}.sym-cothon-isle{fill:#f8f5ee;stroke:#1c1512;stroke-width:1.4}.sym-quay{stroke:#1c1512;stroke-width:2}
 .sym-citadel{fill:#8e2323;stroke:#1c1512;stroke-width:1.6}.sym-strait{fill:none;stroke:#8e2323;stroke-width:2.2;stroke-dasharray:4 3}
 .sym-cliff{stroke:#1c1512;stroke-width:2}.sym-dot{fill:#1c1512;stroke:#faf3e0;stroke-width:1.5}
-.num-bg{fill:#1c1512}.num{fill:#ffe36e;font:700 19px Optima,'Gill Sans',sans-serif;text-anchor:middle}
+.zone{fill:#1c1512;fill-opacity:.2;font:700 italic 74px Optima,'Gill Sans',sans-serif;text-anchor:middle;dominant-baseline:middle}.num-bg{fill:#1c1512}.num{fill:#ffe36e;font:700 19px Optima,'Gill Sans',sans-serif;text-anchor:middle}
 .compass{fill:#1c1512}.compass-n,.scale-t{fill:#1c1512;font:700 22px Optima,'Gill Sans',sans-serif;text-anchor:middle}.scale-t.sm{font-size:17px;text-anchor:start;font-weight:400}
 .scale-bg{fill:#faf3e0;fill-opacity:.85;stroke:#1c1512;stroke-width:1}.scale{fill:none;stroke:#1c1512;stroke-width:2}.scale.st{stroke-width:4;stroke:#bf4a26}
 </style>"""
@@ -649,11 +773,12 @@ def main():
         title, h, loc, rules = build(key)
         report = {}
         for num, skey, name, vols, kind in SITES:
+            if skey not in loc: continue
             v = loc[skey]
             pts = v if isinstance(v, list) else [v]
             report[skey] = {"num": num, "name": name, "volumes": [VOL_ROMAN[int(x)] for x in vols.split()],
                             "points_m": [[round(px), round(py), round(h_at(h, px, py), 1)] for px, py in pts]}
-        svg = svg_for(key, title, h, loc, loc)
+        svg = svg_for(key, title, h, loc, loc, rules.get("zones", ()))
         (OUT / f"option-{key}.svg").write_text(svg.replace(">", ">" + SVG_STYLE, 1))
         png = np.clip((h - HMIN) / (HMAX - HMIN), 0, 1) * 65535
         Image.fromarray(png.astype(np.uint16)).save(OUT / f"option-{key}-height.png")
@@ -662,7 +787,8 @@ def main():
         print(f"    checks: hamlets seen {ck['hamlets_mutually_visible'] or 'none'} | banquet {ck['banquet_visible_from_round']}"
               f" | sea from Round {ck['round_sea_bearings']}° two-sided {ck['round_sea_two_sided']} {ck['round_sea_arcs']} | signals {ck['signal_pairs_clear']}"
               f" | harbour seen {ck['town_to_round_clear']} | walk {math.dist(loc['town'], loc['round']):.0f} m"
-              f" | saddle {ck['round_in_saddle']} | banquet offset {ck['banquet_offset_m']} | causeway {ck.get('causeway')}")
+              f" | saddle {ck['round_in_saddle']} | banquet offset {ck['banquet_offset_m']} | causeway {ck.get('causeway')}"
+              f" | order {ck.get('dependency_order')} | IX detached {ck.get('monastery_detached')}")
         meta = {"option": key, "title": title, "world_m": [W, H], "cell_m": CELL,
                 "height_png_range_m": [HMIN, HMAX], "land_km2": round(land, 2),
                 "summit_m": round(float(h.max())), "checks": ck, "sites": report}
@@ -681,6 +807,8 @@ def main():
                     ("The Round sits in a saddle", ck["round_in_saddle"]),
                     (f"The Round clear of the town (≥{ROUND_TOWN_MIN:.0f} m)", ck["round_town_m"] >= ROUND_TOWN_MIN),
                     ("Banquet house due east (±60 m)", ck["banquet_offset_m"][0] >= 120 and abs(ck["banquet_offset_m"][1]) <= 60)]
+            if "dependency_order" in ck: rows += [("Volumes run NW → SE in dependency order", ck["dependency_order"][0])]
+            if "monastery_detached" in ck: rows += [("Raft monastery on its own island", ck["monastery_detached"])]
             if cw: rows += [("Causeway dry in calm weather", cw["dry_in_calm"]),
                             ("Winter seas break over it (crest ≤ 3 m)", cw["winter_seas_break_over"])]
             stats = (f'<dl class="stats"><div><dt>Land</dt><dd>{land:.1f} km²</dd></div>'
@@ -693,7 +821,7 @@ def main():
                      + "".join(f'<div class="ck {"pass" if ok else "fail"}"><dt>{label}</dt><dd>{"✓ yes" if ok else "✗ no"}</dd></div>'
                                for label, ok in rows)
                      + '</dl>')
-            thumb = (f'<svg class="thumb" viewBox="0 0 1600 1100" aria-hidden="true"><rect class="t-sea" width="1600" height="1100"/>'
+            thumb = (f'<svg class="thumb" viewBox="0 0 {W / U:.0f} {H / U:.0f}" aria-hidden="true"><rect class="t-sea" width="{W / U:.0f}" height="{H / U:.0f}"/>'
                      f'<path class="t-land" fill-rule="evenodd" d="{loops_to_d(march(h, 0), 3.0, 60)}"/>'
                      f'<circle class="t-round" cx="{rp[0] / U:.0f}" cy="{rp[1] / U:.0f}" r="34"/></svg>')
             for tag, body in (("MAP", svg), ("STATS", stats), ("THUMB", thumb)):
