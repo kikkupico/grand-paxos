@@ -16,7 +16,7 @@ _Last updated 16 Sep 2026._
    - Detailed: the Great Round (`blender_round.py`, with the user's verandah); the lighthouse and quays, banquet house, agora and stoa, oracle temple, headland city and citadel (`blender_arch.py` components); and doors and windows on every house.
    - Large props, first pass (`blender_props.py`): ships in all three harbours and at the quarry quay, the Raft, amphorae, a crane, the agora's cheese stalls and goat pen, and ox carts.
    - All checks pass: `blender/{terrain,buildings,round,detail,sites,props,vegetation}-checks.json`, §4–6 of the page.
-   - **Small props skipped for now (user, 16 Sep 2026):** the ledger scroll, hourglass, ink and so on are not modelled. The image references already generated for them serve as references when scene images are generated. Tripo stays available for props later; ask before any paid API call.
+   - **Small props skipped for now (user, 16 Sep 2026):** the ledger scroll, hourglass, ink and so on are not modelled. The image references in `references/` (13 sheets for I, III and IV; see its README for where they disagree with the canon) serve as references when scene images are generated. Tripo stays available for props later; ask before any paid API call.
    - **Next:** build the actual scenes. Cameras are placed per scene as it is built, with no generic coverage set (user, 16 Sep 2026).
 5. Shot pre-vis: one camera per panel, rendered as clay plus a line pass. Camera angles are decided when each actual scene is built; no generic per-location coverage cameras.
 6. Comic pass: ligne claire over the pre-vis, checked against the asset sheets.
