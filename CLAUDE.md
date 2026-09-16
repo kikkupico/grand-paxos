@@ -6,7 +6,8 @@ This is the grand art direction for *Distributed Algorithms of Ancient Greece*, 
 
 ## Layout
 - `art-direction-grand.html` is the decision document. The local file is the canonical copy: open it in a browser. The user dropped Artifact publishing on 16 Sep 2026. The old private Artifact (https://claude.ai/artifact/1HDedXGor4CoRNoi8aQ7ho) is stuck at draft 0.1, so don't republish it unless asked.
-- `tools/island_maps.py` generates the island options and injects them into the HTML between `<!-- MAP:k -->`, `<!-- STATS:k -->` and `<!-- THUMB:k -->` markers. Never hand-edit the content between those markers.
+- `art-direction-grand-island-shape.html` is the chosen map E's own page: the reading-order table, the map, the measured checks, the 23-site gazetteer, the places rebuilt per volume, and the Blender spec. The grand page keeps A–D, the decisions and a pointer card for E.
+- `tools/island_maps.py` generates the island options and injects them into every page in `HTML_PAGES` that has `<!-- MAP:k -->`, `<!-- STATS:k -->`, `<!-- THUMB:k -->` or `<!-- ORDER:k -->` markers (E's MAP/STATS/ORDER live on the island-shape page, its THUMB on the grand page). Never hand-edit the content between those markers.
 - `maps/option-{a,b,c,d,e}{.svg,-height.png,-sites.json}` are generator outputs. **E (Dependency Spine) is the chosen map**; B is the fallback. Commit them, because they are the spec.
 - `sources/` holds the original papers as PDFs (gitignored). Its `README.md` indexes them by volume.
 

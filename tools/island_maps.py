@@ -818,11 +818,32 @@ SVG_STYLE = """<style>
 .scale-bg{fill:#faf3e0;fill-opacity:.85;stroke:#1c1512;stroke-width:1}.scale{fill:none;stroke:#1c1512;stroke-width:2}.scale.st{stroke-width:4;stroke:#bf4a26}
 </style>"""
 
+HTML_PAGES = [ROOT / "art-direction-grand.html", ROOT / "art-direction-grand-island-shape.html"]
+VOL_TITLES = {1: "The Disordered Sundials", 2: "The Generals Before the Walls", 3: "The Curse of the Sleeping Shepherd",
+              4: "The Passable Season", 5: "The Part-time Parliament", 6: "The Ledger of Many Decrees",
+              7: "The Citadel of Iron Quorums", 8: "The Quarries of the Roman Guilds", 9: "The Reformation of the Raft Monks"}
+
+def order_table(order, axis):
+    """The walk as a table: each volume's stretch of the axis and what it builds on."""
+    (x0, y0), (x1, y1) = axis
+    km = math.hypot(x1 - x0, y1 - y0) / 1000
+    band = {v: k + 1 for k, g in enumerate(BANDS) for v in g}
+    rows = []
+    for v in (v for g in BANDS for v in g):
+        lo, hi = order["spans"][VOL_ROMAN[v]]
+        parents = [VOL_ROMAN[a] for a, b in DEPENDS if b == v]
+        rows.append(f'<tr><td class="n">{band[v]}</td><td class="n">{VOL_ROMAN[v]}</td><td>{VOL_TITLES[v]}</td>'
+                    f'<td>{", ".join(parents) or "nothing (a root)"}</td><td class="n">{lo * km:.1f}–{hi * km:.1f} km</td></tr>')
+    ok = "✓ all nine links hold" if order["edges_ok"] else "✗ broken: " + ", ".join(order["broken_edges"])
+    return ('<div class="tbl"><table><thead><tr><th>Band</th><th>Vol</th><th>Title</th><th>Builds on</th><th>Along the walk</th></tr></thead><tbody>'
+            + "".join(rows) + f'</tbody></table></div><p class="muted">Measured from the north-west tip along the island\'s axis. {ok}; '
+            + ("the bands don't overlap." if order["bands_ok"] else "the bands overlap.") + '</p>')
+
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
     only = sys.argv[1:] or ["e"]                                                 # a-d are frozen records; name them to rebuild
-    html_path = ROOT / "art-direction-grand.html"
-    html = html_path.read_text() if html_path.exists() else None
+    pages = {p: p.read_text() for p in HTML_PAGES if p.exists()}               # blocks go wherever their markers are
+    html = bool(pages)
     for key in only:
         title, h, loc, rules = build(key)
         report = {}
@@ -881,10 +902,13 @@ def main():
             thumb = (f'<svg class="thumb" viewBox="0 0 {W / U:.0f} {H / U:.0f}" aria-hidden="true"><rect class="t-sea" width="{W / U:.0f}" height="{H / U:.0f}"/>'
                      f'<path class="t-land" fill-rule="evenodd" d="{loops_to_d(march(h, 0), 3.0, 60)}"/>'
                      f'<circle class="t-round" cx="{rp[0] / U:.0f}" cy="{rp[1] / U:.0f}" r="34"/></svg>')
-            for tag, body in (("MAP", svg), ("STATS", stats), ("THUMB", thumb)):
-                html = re.sub(rf"(<!-- {tag}:{key} -->).*?(<!-- /{tag}:{key} -->)",
-                              lambda mo: mo.group(1) + "\n" + body + "\n" + mo.group(2), html, flags=re.S)
-    if html: html_path.write_text(html)
+            blocks = [("MAP", svg), ("STATS", stats), ("THUMB", thumb)]
+            if "dependency_order" in ck: blocks.append(("ORDER", order_table(ck["dependency_order"], rules["axis"])))
+            for p in pages:
+                for tag, body in blocks:
+                    pages[p] = re.sub(rf"(<!-- {tag}:{key} -->).*?(<!-- /{tag}:{key} -->)",
+                                      lambda mo: mo.group(1) + "\n" + body + "\n" + mo.group(2), pages[p], flags=re.S)
+    for p, text in pages.items(): p.write_text(text)
 
 if __name__ == "__main__":
     main()

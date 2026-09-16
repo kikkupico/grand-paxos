@@ -31,9 +31,12 @@ The user explicitly allowed starting afresh. Nothing from the old per-volume art
 - **D02, the chamber is the Great Round:** an open-air circular assembly theatre (after the ekklesiasteria at Metapontum and Paestum), about 50 m across, sunk into a windswept saddle of the hill above the sea. It has about 14 rows of limestone tiers, 8 radial stairways, a mid-height walkway ring, a sand orchestra with a marble kerb, and a high ashlar ring wall. There are four monumental gateways at the cardinal points, each with bronze-plated double doors and an oak drop-bar. Statues of past legislators stand outside the wall. Oratory has to be visibly impossible, which is why messengers exist.
 - **D05, the island:** a Delos-type marble trading port, not Cycladic whitewash. Places: the harbour (stone quays, an outbound merchantman); the agora (stoa, cheese stalls, goat pen by the fountain, a sundial on a pillar); the Statue Walk (town to the Round's main gate, lined with statues); the banquet house (a garden dining house a stone's throw outside the Round's **east** gate, **visible from the tiers**); the scribes' hall; a present-day dig site in the ruined Round; Paxos in decline.
 
-## The page as it stands (`art-direction-grand.html`)
+## The pages as they stand
+**`art-direction-grand-island-shape.html`** (carved out on 16 Sep 2026) is map E's page. It holds §1 the reading-order table (generated, `ORDER:e`), §2 the map with volume chips, legend, "where things fall" and Measured (`MAP:e`, `STATS:e`), §3 the 23-site gazetteer, §4 the shared places rebuilt per volume, and §5 the Blender spec.
+
+**`art-direction-grand.html`** is the decision document. Its sections:
 1. **Scope table:** what each volume becomes on one island. Volume I becomes three hamlets A, K and M (after the chart's a, k, m), hidden from one another. Volume II becomes the headland city. Volume III's Delphi becomes a summit oracle. Volume IV's two islands become two halves split by a strait or causeway. Volume VI's Knossos granary becomes storehouses on the lowland plain. Volume VII's citadel is built on the ruins of the Volume II city. Volume VIII is the Round in ruins, plus lock-houses and ledger cliffs.
-2. **Gazetteer:** map E's 23 sites (`SITES_E`), one volume each, numbered in walking order from the NW. A–D keep the older 16 shared `SITES`, listed in the atlas legend; E has its own legend in its article.
+2. **Gazetteer:** the 16 shared sites of maps A–D, with a link to E's 23-site gazetteer on the island-shape page.
 3. **Five layouts.** A–D use an 8 × 5.5 km world; E uses 11 × 8 km:
    - **A · Crescent:** hills round a north-facing bay. Passes every check.
    - **B · Twin Lobes (previous choice, now the fallback; refined 16 Sep):** two hill masses joined by a curved sand causeway, about 605 m long with its crest at 1.4–2.0 m: dry in calm weather, awash in winter. The Round sits in a real col on the citadel peninsula's neck at 142 m, between a new citadel knoll to the north and the western highland. It sees sea WNW and ESE (165° in total), has the cothon in view, and is 647 m and a 92 m climb from the town. The banquet house is on a graded terrace 160 m due east of the Round and 27 m below it. All 12 checks pass. About 14.8 km².
@@ -51,7 +54,7 @@ The user explicitly allowed starting afresh. Nothing from the old per-volume art
    Each map has volume filter chips, a heightmap view, and a "Measured" panel with the check results.
 4. **Circular harbour:** a Carthage-type cothon (a basin about 300 m across with 7 quays, a central islet with a lantern tower and a channel about 44 m wide). On A–D it sits inside the one shared port. On E it is Volume IV's own harbour, and V and VII have separate harbours.
 5. **Scale, time and Volume IX.**
-6. **Blender handoff spec:** see below.
+6. **Blender handoff:** the general recipe, with a link to E's exact numbers on the island-shape page.
 7. **Decisions export.** The locked choices are pre-checked in the HTML, and a "Decided" box sits under the pipeline.
 The page text now follows ERAS.md: the scope table rows VII and VIII, site 16 renamed "Italian guild lock-houses", and §5's four phases.
 
