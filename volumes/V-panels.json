@@ -1,0 +1,116 @@
+{
+ "volume": "V",
+ "page": "volumes/V-generals-before-the-walls.html",
+ "shapes": {
+  "splash": "splash 3:2",
+  "strip": "strip 12:5",
+  "wide": "wide 16:9",
+  "half": "half 4:3",
+  "tall": "tall 3:4"
+ },
+ "panels": [
+  {
+   "id": "V-00",
+   "shape": "splash",
+   "title": "The divisions before the walls",
+   "desc": "The headland city walled and besieged: divisions camped on the heights around it, each general's tent flying its own banner, messengers riding the roads between.",
+   "scene": "High three-quarter view of Paxos's besieged headland city, walled on its peninsula with the sea on two sides. On the heights around it, separate divisions are camped at a distance from one another, each general's tent flying a different banner. Lone horseback messengers ride the winding roads between the camps, and out on the water a hostile squadron holds the seaward approach.",
+   "sites": ["city", "camps"],
+   "cast": "generals, small; messengers",
+   "refs": [],
+   "caption": ""
+  },
+  {
+   "id": "V-01",
+   "shape": "wide",
+   "title": "The siege",
+   "desc": "The walled headland city at dusk, encircled at a distance by separate camps, each with its own general's tent and banner; messengers ride the long roads between.",
+   "scene": "The walled headland city on its peninsula at dusk, encircled at a distance by the separate camps of the besieging divisions; each camp has its own general's tent flying a different banner, and lone horseback messengers ride the long roads between the camps.",
+   "sites": ["city", "camps"],
+   "cast": "generals, messengers, small",
+   "refs": [],
+   "caption": "THE DIVISIONS WERE CAMPED ALL AROUND THE CITY. THE GENERALS COULD SPEAK TO ONE ANOTHER ONLY BY MESSENGER."
+  },
+  {
+   "id": "V-02",
+   "shape": "half",
+   "tilt": "r",
+   "title": "The bribed general",
+   "desc": "Inside a lamp-lit tent at night, a cloaked go-between hands a general a purse of gold; he is already dictating conflicting orders to two scribes at once.",
+   "scene": "Inside a lamp-lit general's tent at night, a cloaked figure from the besieged city hands a purse of gold coins to a general, who is already dictating to two different scribes at once: one scribe draws a crossed-swords symbol (attack) on a tablet, the other draws a retreating-footprints symbol.",
+   "sites": ["camps"],
+   "cast": "the bribed general, a go-between, two scribes",
+   "refs": [],
+   "caption": "THE BRIBED GENERAL NEED NOT REFUSE TO FIGHT. HE NEED ONLY TELL THE LEFT FLANK ONE THING AND THE RIGHT FLANK ANOTHER."
+  },
+  {
+   "id": "V-03",
+   "shape": "wide",
+   "title": "Two betrayals, one view",
+   "desc": "A split panel: a loyal commander betrayed by a lying lieutenant, and a treacherous commander relayed honestly — from Lieutenant 1's seat, identical.",
+   "scene": "A split panel with a vertical divider. Left half: a loyal commander gives a crossed-swords tablet to Lieutenant 1 and the same to Lieutenant 2, but Lieutenant 2, shifty and shadowed, whispers a retreating-footprints tablet to Lieutenant 1. Right half: a shifty commander hands a crossed-swords tablet to Lieutenant 1 and a retreating-footprints tablet to an honest-faced Lieutenant 2, who passes it on to Lieutenant 1. Lieutenant 1's pose and the tablets he holds are identical in both halves.",
+   "sites": ["camps"],
+   "cast": "a commander, Lieutenant 1, Lieutenant 2",
+   "refs": [],
+   "caption": "TWO DIFFERENT BETRAYALS — AND FROM WHERE LIEUTENANT 1 STANDS, THEY LOOK EXACTLY ALIKE."
+  },
+  {
+   "id": "V-04",
+   "shape": "tall",
+   "tilt": "l",
+   "title": "The Illyrian generals",
+   "desc": "A general bends over a campaign map crowded with painted figurines, moving a whole cluster of them at once with both hands, like a puppeteer.",
+   "scene": "Inside a general's tent, bent over a large campaign map covered with many small painted wooden figurines of foreign generals in distinctive tall helmets; he moves a whole cluster of figurines at once with both hands, like a puppeteer.",
+   "sites": ["camps"],
+   "cast": "one general",
+   "refs": [],
+   "caption": "EACH OF THREE GENERALS PLAYS THE PART OF A THIRD OF THE ILLYRIAN ARMY."
+  },
+  {
+   "id": "V-05",
+   "shape": "wide",
+   "title": "The oral relay",
+   "desc": "Four hilltop camps around a valley: a commander sends three messengers to three lieutenants, who then relay to each other; one sorts three tablets, two matching and one odd.",
+   "scene": "Four hilltop camps around a campfire-lit valley: a commander on the highest hill sends three messengers down to three lieutenants' camps; the lieutenants then send messengers across to each other. In the foreground, Lieutenant 2 sits at a camp table sorting three wax tablets into a pile of two matching ones and one odd one out.",
+   "sites": ["camps"],
+   "cast": "a commander, three lieutenants, messengers",
+   "refs": [],
+   "caption": "FOUR GENERALS, ONE TRAITOR: LIEUTENANT 2 HEARS “ATTACK”, “ATTACK”, AND ONE LIE — AND TAKES THE MAJORITY."
+  },
+  {
+   "id": "V-06",
+   "shape": "half",
+   "tilt": "r",
+   "title": "The same seal, twice",
+   "desc": "A lieutenant holds two wax tablets side by side in torchlight — one attack, one retreat — both bearing the same commander's seal.",
+   "scene": "Close-up of a lieutenant in a bronze helmet holding up two wax tablets side by side in the torchlight: one shows a crossed-swords symbol, the other a retreating-footprints symbol, and both bear the same large red wax seal with the commander's eagle emblem. His eyes are wide with realization.",
+   "sites": ["camps"],
+   "cast": "one lieutenant",
+   "refs": [],
+   "caption": "THE SAME SEAL ON TWO DIFFERENT ORDERS. ONLY THE COMMANDER COULD HAVE MADE BOTH — SO THE COMMANDER IS THE TRAITOR."
+  },
+  {
+   "id": "V-07",
+   "shape": "wide",
+   "title": "The broken roads",
+   "desc": "Bird's-eye over the siege lines: camps joined only by certain passes and bridges; some roads end at collapsed bridges, forcing long detours.",
+   "scene": "A bird's-eye mountain landscape around the besieged headland city: the generals' camps are joined only by certain narrow passes and bridges; several roads end at collapsed bridges over ravines, and messengers must take long detours through other camps.",
+   "sites": ["city", "camps"],
+   "cast": "messengers, distant",
+   "refs": [],
+   "caption": "NOT EVERY CAMP COULD REACH EVERY OTHER. SOME ORDERS HAD TO PASS THROUGH OTHER GENERALS’ HANDS."
+  },
+  {
+   "id": "V-08",
+   "shape": "tall",
+   "tilt": "r",
+   "title": "The marginal lamp",
+   "desc": "On a warship's deck at night, a failing signal lamp guttering at half strength; two helmsmen disagree on whether it is lit.",
+   "scene": "An illustrative scene, not tied to a place on the island. At night on a trireme's deck, a single signal lamp hangs from a pole, its flame guttering at half strength. Two helmsmen stare up at it: one points and gestures 'lit!', the other shakes his head 'dark'.",
+   "sites": ["none (illustrative: the warship)"],
+   "cast": "two helmsmen",
+   "refs": [],
+   "caption": "NO ROPE OR BRONZE CAN SAVE YOU: A FAILING LAMP CAN LOOK LIT TO ONE HELMSMAN AND DARK TO THE OTHER."
+  }
+ ]
+}

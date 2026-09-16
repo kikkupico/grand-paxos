@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volume IX: The Reformation of the Raft Monks — Distributed Algorithms of Ancient Greece</title>
+<link rel="stylesheet" href="volume.css">
+</head>
+<body>
+<nav class="series-nav">
+  <div class="series-nav-inner">
+    <a href="../art-direction-grand-island-shape.html" class="nav-back">← Art direction</a>
+    <span class="nav-current">Volume IX</span>
+  </div>
+</nav>
+<div id="tip" role="tooltip"></div>
+<div class="page">
+
+<!-- ================= COVER ================= -->
+<header class="cover">
+  <div class="kicker">Distributed Algorithms of Ancient Greece · Volume IX</div><br>
+  <!-- PANEL IX-00 -->
+  <div class="frame-cover" id="panel-IX-00" data-panel="IX-00" data-shape="splash" data-refs=""><div class="img-placeholder ph-splash" role="img" aria-label="The monastery on its islet: A bare islet across the strait: a cloister and scriptorium above a jetty, the Raft moored alongside."><span class="ph-label">IX-00 · splash 3:2</span><span class="ph-title">The monastery on its islet</span><span class="ph-desc">A bare islet across the strait: a cloister and scriptorium above a jetty, the Raft moored alongside.</span><span class="ph-meta">Blender: monastery · Sheets: </span></div></div>
+  <!-- /PANEL IX-00 -->
+  <p class="sub display">An illustrated Rule of the monastery across the strait, and everything the
+  monks discarded so that mortals could understand their own laws.</p>
+  <p class="pub">After D. Ongaro &amp; J. Ousterhout, "In Search of an Understandable Consensus
+  Algorithm," <em>USENIX ATC '14</em>, 305–319 (extended version). The complete Rule, retold.</p>
+</header>
+
+<nav class="toc">
+  <h6 id="table-of-contents"><a href="#table-of-contents" class="hlink">Table of Contents</a></h6>
+  <ol>
+    <li><a href="#preface">The Translator's Preface</a></li>
+    <li><a href="#s1">The Apprentices Cross the Strait</a></li>
+    <li><a href="#s2">What Was Wrong with Paxos</a></li>
+    <li><a href="#s3">A Rule Written for Understanding</a></li>
+    <li><a href="#s4">Reigns and the Election of Abbots</a></li>
+    <li><a href="#s5">The Obedient but Suspicious Scribe</a></li>
+    <li><a href="#s6">Why No Committed Line Is Ever Lost</a></li>
+    <li><a href="#s7">Bells, Sand and Seasons</a></li>
+    <li><a href="#s8">Changing the Chapter</a></li>
+    <li><a href="#s9">Scraping the Scroll</a></li>
+    <li><a href="#s10">Pilgrims at the Gate</a></li>
+    <li><a href="#s11">The Trial of the Novices</a></li>
+    <li><a href="#s12">Relevance to Computer Science</a></li>
+    <li><a href="#refs">References</a></li>
+  </ol>
+</nav>
+
+<!-- ================= PREFACE ================= -->
+<section id="preface">
+  <div class="editor-note">
+    <span class="tag">The translator's preface</span>
+    <p>This, the last volume of the series, is not a chronicle or a proof or a building report but a
+    <em>Rule</em> — the book of instructions by which a monastery lives. It was written by two monks,
+    <span class="paxon" data-real="Diego Ongaro" data-note="Stanford University. First author of the Raft paper, from his Ph.D. work.">Ὀνγκάρο</span>
+    and
+    <span class="paxon" data-real="John Ousterhout" data-note="Stanford University. Co-author of Raft.">Ὄυστερχαουτ</span>,
+    who had struggled for almost a year to understand the Paxon Parliament (Volume IV) and concluded that the
+    fault was not entirely theirs.</p>
+    <p>Their Rule keeps the geometry of every earlier volume — majorities that overlap, numbers that only grow,
+    safety that never depends on the weather. What it discards are freedoms: the freedom to carve line 7 before
+    line 5, the freedom to elect a leader who knows less than his flock, the freedom to explain one half of a
+    rite without the other. It is closer kin to the granary's own account books (Volume VI) than to the Round's
+    Parliament, and says so.</p>
+    <p>The monks are sometimes described as scribes who "never
+    debate; they blindly transcribe." That is exactly backwards, and Chapter V explains why.</p>
+    <p class="sig">— The Translator</p>
+  </div>
+
+  <div class="narr">A monastery keeps one scroll of decrees, copied by every monk. In each numbered reign there is at most one Abbot, and only he writes new lines. He sends every line with the number and reign of the line before it; a monk whose scroll disagrees there refuses, and the Abbot walks back until they agree. No monk may become Abbot unless his scroll is at least as current as a majority's. When the Abbot's bell falls silent, sand-glasses of random length decide who calls the next election.</div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER I ================= -->
+<section id="s1">
+  <div class="issue">
+    <span class="no">Chapter I</span>
+    <h2 id="the-apprentices-cross-the-strait"><a href="#the-apprentices-cross-the-strait" class="hlink">The Apprentices Cross the Strait</a></h2>
+  </div>
+
+  <!-- PANEL IX-01 -->
+  <figure class="panel" id="panel-IX-01" data-panel="IX-01" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The apprentices cross the strait: Two young apprentices in plain robes cross the strait toward a bare islet where a simple stone cloister stands above its jetty; a bundle of old Greek scrolls lies tied on the deck."><span class="ph-label">IX-01 · wide 16:9</span><span class="ph-title">The apprentices cross the strait</span><span class="ph-desc">Two young apprentices in plain robes cross the strait toward a bare islet where a simple stone cloister stands above its jetty; a bundle of old Greek scrolls lies tied on the deck.</span><span class="ph-meta">Blender: monastery (jetty, approach by boat) · Sheets: </span></div></div>
+    <figcaption>DISILLUSIONED BY THE CEREMONIES OF PAXOS, TWO APPRENTICES CROSSED THE STRAIT TO FOUND A MONASTERY OF THEIR OWN.</figcaption>
+  </figure>
+  <!-- /PANEL IX-01 -->
+
+  <div class="prose">
+    <p>Agreement rites let a collection of monks work as one body that survives the loss of some of its members,
+    and so they sit at the heart of every large and reliable institution. For a decade the Paxon rite had dominated
+    all discussion of them: most monasteries' rites were built on it or influenced by it, and it was the vehicle by
+    which novices were taught. Unfortunately, the two monks wrote, Paxos is quite difficult to understand, in spite
+    of numerous attempts to make it approachable, and its architecture needs complex changes to support practical
+    monasteries. Both builders and novices struggle with it.</p>
+    <p>After struggling themselves, they set out to find a rite that would be a better foundation for building and
+    for teaching. Their approach was unusual: their <b>primary goal was understandability</b>. It was not enough for
+    the rite to work; it had to be <em>obvious why</em> it works. The result they called the <em>Raft</em> — a humble
+    vessel, but one a novice can build and steer.</p>
+  </div>
+
+  <h3 id="1-1-the-scroll" class="sect"><a href="#1-1-the-scroll" class="hlink">1.1 · The Scroll Every Monk Keeps</a></h3>
+  <div class="prose">
+    <p>The problem is the scholar's state machine of Volume&nbsp;I. Every monk keeps a scroll of commands, and each monk's
+    state machine executes his scroll in order. If every scroll holds the same commands in the same order, every
+    deterministic state machine computes the same state and the same outputs, and the monastery appears to be a
+    single, highly reliable monk. Keeping the scrolls identical is the job of the agreement rite. Practical rites of
+    this kind:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">What a Practical Rite Must Do</span>
+    <ul>
+      <li>Never return an incorrect result under any conditions short of lying monks — delays, storms that split the monastery, lost, duplicated or reordered letters.</li>
+      <li>Remain available as long as any majority can work and talk: five monks survive the loss of any two. Monks fail by stopping, and may later recover from their strongroom.</li>
+      <li>Not depend on timing for consistency: faulty water-clocks and extreme delays can at worst harm availability.</li>
+      <li>In the common case, finish a command as soon as a majority answer a single round of requests, so a few slow monks do not slow the whole house.</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER II ================= -->
+<section id="s2">
+  <div class="issue">
+    <span class="no">Chapter II</span>
+    <h2 id="what-was-wrong-with-paxos"><a href="#what-was-wrong-with-paxos" class="hlink">What Was Wrong with Paxos</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>The monks gave Paxos its due. It ensures safety and liveness, supports changes of membership, has been proven
+    correct and is efficient in the normal case. But it has two significant drawbacks.</p>
+    <p><b>It is exceptionally difficult to understand.</b> The full account is notoriously opaque; the simpler retellings
+    cover only the single-decree Synod, and are still hard. At a gathering of scholars the monks found few who were
+    comfortable with Paxos, even among the seasoned. They themselves understood the complete protocol only after reading
+    several simplified accounts and designing their own alternative — almost a year. They blamed the choice of the
+    single-decree Synod as its foundation: dense and subtle, divided into two stages that have no simple intuitive
+    explanation and cannot be understood independently; with the rules for combining Synods into a ledger adding
+    significant further subtlety.</p>
+    <p><b>It is a poor foundation for building.</b> There is no widely agreed version of multi-decree Paxos; the original only
+    sketches it, with many details missing, and later elaborations differ from one another. Choosing ledger entries independently and
+    then melding them into a sequence adds complexity for little benefit; it is simpler to build around a ledger to which
+    entries are appended in order. And Paxos is symmetric at its core, with leadership a later optimization, whereas a
+    practical monastery making many decisions is simpler and faster if it first elects a leader who then coordinates. As a
+    result, the monks observed, each builder begins with Paxos, discovers the difficulties, and develops a significantly
+    different architecture — and the guild engineers of Volume&nbsp;VIII were quoted as typical:</p>
+  </div>
+  <div class="decree">"There are significant gaps between the description of the Paxos algorithm and the needs of a real-world system. … the final system will be based on an unproven protocol."</div>
+
+  <div class="prose">
+    <p>Over the harbour the apprentices had left, the story goes, someone later hung a sign: <em>"Paxos was devised by
+    divine geometers to torture mortal men. Raft was written for mortals who wish to understand their own laws."</em> The
+    monks themselves were never so rude.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER III ================= -->
+<section id="s3">
+  <div class="issue">
+    <span class="no">Chapter III</span>
+    <h2 id="a-rule-written-for-understanding"><a href="#a-rule-written-for-understanding" class="hlink">A Rule Written for Understanding</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>At every point where the Rule could go two ways, the monks chose by asking how hard each alternative would be to
+    explain — how large its space of states, how subtle its implications — and how easily a reader could grasp it
+    completely. They admit the judgment is subjective, but used two generally applicable techniques:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">The Two Techniques</span>
+    <ol>
+      <li><b>Decomposition.</b> Divide the problem into pieces that can be solved, explained and understood separately: <em>election of the Abbot</em>, <em>copying the scroll</em>, <em>safety</em>, and <em>changes of membership</em>.</li>
+      <li><b>Shrinking the space of states.</b> Make the monastery more coherent and remove nondeterminism where possible. In particular, <b>scrolls may not have gaps</b>, and the ways scrolls can disagree are limited. Where randomness makes things simpler — "choose any; it doesn't matter" — use it, as in elections.</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>The Rule rests on a <b>strong Abbot</b>. The monastery first elects an Abbot, then gives him complete responsibility
+    for the scroll: he accepts new lines from pilgrims, has them copied by the other monks, and tells them when a line is
+    safe to act on. Lines flow in one direction only, from the Abbot outwards. If the Abbot fails or is cut off, a new one is
+    elected.</p>
+    <p>The monks condensed the whole Rule onto a single tablet, and added a list of five properties
+    the Rule guarantees at all times:</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head">The Five Guarantees</div>
+    <p class="stmt"><b>Election Safety.</b> At most one Abbot can be elected in a given reign.</p>
+    <p class="stmt"><b>Abbot Append-Only.</b> An Abbot never overwrites or deletes lines in his own scroll; he only appends.</p>
+    <p class="stmt"><b>Scroll Matching.</b> If two scrolls contain a line with the same position and reign, the scrolls are identical in all lines up through that position.</p>
+    <p class="stmt"><b>Abbot Completeness.</b> If a line is committed in a given reign, it will be present in the scrolls of the Abbots of all higher-numbered reigns.</p>
+    <p class="stmt"><b>State Machine Safety.</b> If a monk has acted on the line at a given position, no other monk will ever act on a different line at that position.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER IV ================= -->
+<section id="s4">
+  <div class="issue">
+    <span class="no">Chapter IV</span>
+    <h2 id="reigns-and-the-election-of-abbots"><a href="#reigns-and-the-election-of-abbots" class="hlink">Reigns and the Election of Abbots</a></h2>
+  </div>
+
+  <h3 id="4-1-three-states" class="sect"><a href="#4-1-three-states" class="hlink">4.1 · Abbot, Brother and Candidate</a></h3>
+  <div class="prose">
+    <p>A typical monastery has five monks. At any time each is an <b>Abbot</b> (leader), a <b>brother</b> (follower) or a
+    <b>candidate</b>. Normally there is exactly one Abbot and the rest are brothers. Brothers are passive: they send no requests
+    of their own, only answer the Abbot and candidates. The Abbot handles every pilgrim; a brother approached by a pilgrim
+    sends him to the Abbot. Candidates exist only during elections.</p>
+    <p>Time is divided into <b>reigns</b> (the Rule says <em>terms</em>) of arbitrary length, numbered consecutively. Each reign
+    begins with an election. If a candidate wins, he is Abbot for the rest of the reign; if the vote splits, the reign ends
+    without an Abbot and a new reign begins shortly. <b>The monastery guarantees at most one Abbot per reign — not one Abbot.</b>
+    Different monks may notice the change of reign at different moments, and some may sleep through whole reigns. A deposed
+    Abbot on the far side of a storm may go on believing he rules for some time; he is harmless, because his reign number is
+    stale and no monk who knows a higher one will copy from him.</p>
+    <p>Reign numbers act as the monotonic beads of Volume&nbsp;I. Every monk keeps a current reign number that only increases,
+    and exchanges it in every letter. A monk who hears a larger number adopts it; a candidate or Abbot who learns his number is
+    out of date immediately becomes a brother; and a monk who receives a request bearing a stale number refuses it. The whole
+    basic Rule needs only two kinds of letter: <b>RequestVote</b>, sent by candidates, and <b>AppendEntries</b>, sent by the Abbot
+    to copy lines and as his heartbeat.</p>
+  </div>
+
+  <!-- PANEL IX-02 -->
+  <figure class="panel" id="panel-IX-02" data-panel="IX-02" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The heartbeat bell: In the cloister at dawn, the Abbot rings the bell; below, monks in the scriptorium glance up at the sound and keep writing."><span class="ph-label">IX-02 · wide 16:9</span><span class="ph-title">The heartbeat bell</span><span class="ph-desc">In the cloister at dawn, the Abbot rings the bell; below, monks in the scriptorium glance up at the sound and keep writing.</span><span class="ph-meta">Blender: monastery (cloister; scriptorium) · Sheets: </span></div></div>
+    <figcaption>THE HEARTBEAT BELL: AS LONG AS THE ABBOT RINGS, NO BROTHER STIRS FROM HIS DESK.</figcaption>
+  </figure>
+  <!-- /PANEL IX-02 -->
+
+  <h3 id="4-2-elections" class="sect"><a href="#4-2-elections" class="hlink">4.2 · The Interregnum</a></h3>
+  <div class="prose">
+    <p>Monks begin as brothers, and stay brothers as long as they hear valid letters from an Abbot or candidate. The Abbot rings
+    a periodic heartbeat — AppendEntries with no lines — to keep his authority. A brother who hears nothing for a span called the
+    <em>election timeout</em> assumes there is no Abbot, increments his reign number, becomes a candidate, votes for himself and
+    sends RequestVote to every other monk. Then one of three things happens:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">The Three Outcomes of an Election</span>
+    <ol>
+      <li><b>He wins</b>, with votes from a majority of the <em>whole</em> monastery for the same reign. Each monk votes for at most one candidate per reign, first come first served — so at most one can win. He becomes Abbot and rings the bell at once.</li>
+      <li><b>Someone else wins.</b> If he receives AppendEntries from a monk claiming to be Abbot with a reign at least as large as his own, he recognizes the Abbot and becomes a brother. If the claimed reign is smaller, he refuses and remains a candidate.</li>
+      <li><b>No one wins.</b> If many brothers became candidates at once, the vote may split. Each candidate times out, increments his reign and tries again — which, without some further measure, could repeat for ever.</li>
+    </ol>
+  </div>
+
+  <!-- PANEL IX-03 -->
+  <figure class="panel mid tilt-l" id="panel-IX-03" data-panel="IX-03" data-shape="half" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="The lots: In the chapter house, monks stare at sand-glasses of visibly different sizes; the smallest has run out, and its monk reaches for the voting pebbles."><span class="ph-label">IX-03 · half 4:3</span><span class="ph-title">The lots</span><span class="ph-desc">In the chapter house, monks stare at sand-glasses of visibly different sizes; the smallest has run out, and its monk reaches for the voting pebbles.</span><span class="ph-meta">Blender: monastery (chapter house) · Sheets: </span></div></div>
+    <figcaption>EVERY MONK’S SAND-GLASS IS A DIFFERENT, RANDOM SIZE — SO ONE ALMOST ALWAYS RUNS OUT FIRST.</figcaption>
+  </figure>
+  <!-- /PANEL IX-03 -->
+  <div class="prose">
+    <p>The further measure is randomness. Election timeouts are chosen at random from a fixed interval — say 150 to 300
+    milliseconds of the monks' water-clock — so that usually a single brother times out first, wins, and rings the bell before any
+    other wakes. Each candidate also draws a fresh random timeout at the start of each election, making a second split unlikely.</p>
+    <p>The monks tell how this choice was made. At first they planned to <em>rank</em> the monks, so that a lower-ranked candidate
+    would defer to a higher-ranked one. It created subtle problems of availability — a lower-ranked monk might need to try again if
+    the higher-ranked one failed, but trying too soon could undo progress — and each fix revealed new corner cases. The random
+    sand-glasses were more obvious and easier to understand.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER V ================= -->
+<section id="s5">
+  <div class="issue">
+    <span class="no">Chapter V</span>
+    <h2 id="the-obedient-but-suspicious-scribe"><a href="#the-obedient-but-suspicious-scribe" class="hlink">The Obedient but Suspicious Scribe</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>Once elected, the Abbot serves pilgrims. He appends each command to his scroll as a new line, and sends AppendEntries to
+    every brother in parallel. Each line carries the command and the <em>reign in which the Abbot received it</em>, and has a
+    numbered position. When a line is safely copied, the Abbot acts on it and answers the pilgrim; he keeps re-sending to slow or
+    unreachable brothers indefinitely, even after answering, until every scroll holds every line.</p>
+    <p>A line is <b>committed</b> — safe to act on — once the Abbot who created it has had it copied onto a <em>majority</em> of scrolls.
+    That also commits every earlier line. The Abbot keeps track of the highest committed position and includes it in every
+    AppendEntries, so brothers learn of it and act on committed lines in order.</p>
+  </div>
+
+  <h3 id="5-1-the-refusal" class="sect"><a href="#5-1-the-refusal" class="hlink">5.1 · The Refusal That Keeps Every Scroll Identical</a></h3>
+  <div class="prose">
+    <p>Here is the load-bearing rule. Brothers do not blindly copy. <b>Every dispatch from the Abbot names the position and reign of
+    the line that immediately precedes the new lines.</b> If a brother's scroll has no line at that position with that reign, <b>he
+    refuses the dispatch</b>.</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head">Why Scroll Matching Holds</div>
+    <p class="stmt"><b>(i)</b> If two lines in different scrolls have the same position and reign, they hold the same command — because an Abbot creates at most one line at a given position in a given reign, and lines never move.</p>
+    <p class="stmt"><b>(ii)</b> If two lines in different scrolls have the same position and reign, the scrolls are identical in every preceding line — because of the refusal. The empty scrolls agree at the start; the check preserves agreement every time a scroll is extended. So whenever AppendEntries succeeds, the Abbot knows the brother's scroll is identical to his own through the new lines.</p>
+  </div>
+  <div class="prose">
+    <p>A monastery of truly obedient scribes would diverge by the second storm. Abbots fall before finishing their copying, and new
+    Abbots fall in turn, so scrolls can come to differ in many ways: a brother may be missing lines, may have extra uncommitted lines,
+    or both, spanning several reigns. The Abbot's remedy is to <b>force each brother's scroll to match his own</b>. For each brother he
+    keeps a <em>nextIndex</em>, the position of the next line he will send, starting just past the end of his own scroll. When a
+    brother refuses, the Abbot decrements nextIndex and tries again, walking backward line by line until they find common ground.
+    Then AppendEntries succeeds: the brother scrapes away every conflicting line after that point and appends the Abbot's lines, and
+    the two scrolls stay identical for the rest of the reign.</p>
+  </div>
+
+  <figure class="panel" id="fig-scrolls">
+    <div class="frame" style="background:#fbf6e6; padding:12px 8px 30px">
+      <svg viewBox="0 0 640 250" role="img" aria-label="The Abbot's scroll holds lines from reigns 1,1,1,4,4,5,5,6,6,6. A brother's scroll holds 1,1,1,2,2,2,3,3,3,3,3. Dispatches naming preceding lines 10 through 4 are refused; the dispatch naming line 3 of reign 1 is accepted, and the brother's lines 4 to 11 are scraped and replaced." style="display:block; width:100%; height:auto; font-family:Georgia,serif">
+        <g font-family="Optima,'Gill Sans',sans-serif" font-size="12" fill="#5a4a33" text-anchor="middle">
+          <text x="140" y="22">1</text><text x="184" y="22">2</text><text x="228" y="22">3</text><text x="272" y="22">4</text><text x="316" y="22">5</text><text x="360" y="22">6</text><text x="404" y="22">7</text><text x="448" y="22">8</text><text x="492" y="22">9</text><text x="536" y="22">10</text><text x="580" y="22">11</text>
+        </g>
+        <text x="8" y="22" font-size="11" fill="#5a4a33" font-style="italic">position</text>
+        <g font-family="Optima,'Gill Sans',sans-serif" font-size="13" font-weight="700" fill="#1c1512">
+          <text x="8" y="62">ABBOT</text><text x="8" y="76" font-size="10" font-weight="400">(reign 8)</text>
+          <text x="8" y="152">BROTHER</text>
+        </g>
+        <g stroke="#1c1512" stroke-width="2" font-size="16" text-anchor="middle">
+          <g fill="#e6efd3"><rect x="120" y="44" width="40" height="36"/><rect x="164" y="44" width="40" height="36"/><rect x="208" y="44" width="40" height="36"/></g>
+          <g fill="#f8f5ee"><rect x="252" y="44" width="40" height="36"/><rect x="296" y="44" width="40" height="36"/><rect x="340" y="44" width="40" height="36"/><rect x="384" y="44" width="40" height="36"/><rect x="428" y="44" width="40" height="36"/><rect x="472" y="44" width="40" height="36"/><rect x="516" y="44" width="40" height="36"/></g>
+          <g fill="#e6efd3"><rect x="120" y="134" width="40" height="36"/><rect x="164" y="134" width="40" height="36"/><rect x="208" y="134" width="40" height="36"/></g>
+          <g fill="#f0cfc4"><rect x="252" y="134" width="40" height="36"/><rect x="296" y="134" width="40" height="36"/><rect x="340" y="134" width="40" height="36"/><rect x="384" y="134" width="40" height="36"/><rect x="428" y="134" width="40" height="36"/><rect x="472" y="134" width="40" height="36"/><rect x="516" y="134" width="40" height="36"/><rect x="560" y="134" width="40" height="36"/></g>
+        </g>
+        <g font-size="17" text-anchor="middle" fill="#1c1512" stroke="none">
+          <text x="140" y="68">1</text><text x="184" y="68">1</text><text x="228" y="68">1</text><text x="272" y="68">4</text><text x="316" y="68">4</text><text x="360" y="68">5</text><text x="404" y="68">5</text><text x="448" y="68">6</text><text x="492" y="68">6</text><text x="536" y="68">6</text>
+          <text x="140" y="158">1</text><text x="184" y="158">1</text><text x="228" y="158">1</text><text x="272" y="158">2</text><text x="316" y="158">2</text><text x="360" y="158">2</text><text x="404" y="158">3</text><text x="448" y="158">3</text><text x="492" y="158">3</text><text x="536" y="158">3</text><text x="580" y="158">3</text>
+        </g>
+        <g stroke="#8e2323" stroke-width="2" fill="none" stroke-dasharray="5 4"><path d="M536 84 L536 128"/></g>
+        <g stroke="#4c561e" stroke-width="3" fill="none"><path d="M228 84 L228 128"/></g>
+        <g font-size="12" text-anchor="middle" style="paint-order:stroke" stroke="#fbf6e6" stroke-width="5">
+          <text x="536" y="100" fill="#8e2323">✗ "line 10, reign 6?"</text>
+          <text x="390" y="118" fill="#8e2323">✗ refused … walking back, line by line …</text>
+          <text x="160" y="118" fill="#4c561e">✓ "line 3, reign 1?"</text>
+        </g>
+        <text x="420" y="200" font-size="13" fill="#8e2323" text-anchor="middle" font-style="italic">brother's lines 4–11 are scraped and replaced by the Abbot's</text>
+        <text x="174" y="200" font-size="13" fill="#4c561e" text-anchor="middle" font-style="italic">common ground</text>
+      </svg>
+    </div>
+    <figcaption>THE SUSPICIOUS SCRIBE. EACH NUMBER IS THE REIGN IN WHICH A LINE WAS WRITTEN. THE BROTHER REFUSES EVERY DISPATCH UNTIL THE ABBOT NAMES A PRECEDING LINE THEY BOTH HOLD — THEN THE SCROLLS AGREE.</figcaption>
+  </figure>
+
+  <!-- PANEL IX-04 -->
+  <figure class="panel" id="panel-IX-04" data-panel="IX-04" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The refusal: A messenger monk holds out a new page; the seated brother, finger on his own last line, shakes his head — the reigns don&#x27;t match."><span class="ph-label">IX-04 · wide 16:9</span><span class="ph-title">The refusal</span><span class="ph-desc">A messenger monk holds out a new page; the seated brother, finger on his own last line, shakes his head — the reigns don&#x27;t match.</span><span class="ph-meta">Blender: monastery (scriptorium) · Sheets: </span></div></div>
+    <figcaption>“YOUR PAGE SAYS IT FOLLOWS A LINE I DO NOT HAVE.” THE REFUSAL IS NOT DISOBEDIENCE — IT IS THE ONLY THING KEEPING THE SCROLLS IDENTICAL.</figcaption>
+  </figure>
+  <!-- /PANEL IX-04 -->
+
+  <div class="prose">
+    <p>The monks note an easy optimization — a refusing brother can name the reign of the conflicting line and the first position he
+    holds for that reign, letting the Abbot skip a whole reign per round trip — but doubt it is needed, since failures are rare. With
+    this mechanism a new Abbot takes no special action to restore consistency: he simply begins, and scrolls converge in response to
+    refusals. And he <b>never scrapes his own scroll</b> (Abbot Append-Only). A new line reaches a majority in a single round of letters,
+    and a single slow brother does not slow the house.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VI ================= -->
+<section id="s6">
+  <div class="issue">
+    <span class="no">Chapter VI</span>
+    <h2 id="why-no-committed-line-is-ever-lost"><a href="#why-no-committed-line-is-ever-lost" class="hlink">Why No Committed Line Is Ever Lost</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>What has been described so far is not quite enough. A brother might be away while the Abbot commits several lines, then be
+    elected Abbot himself and overwrite them. The Rule is completed by one restriction on who may become Abbot, and a precise statement of
+    when a line counts as committed.</p>
+  </div>
+
+  <h3 id="6-1-election-restriction" class="sect"><a href="#6-1-election-restriction" class="hlink">6.1 · The Election Restriction</a></h3>
+  <!-- PANEL IX-05 -->
+  <figure class="panel narrow tilt-l" id="panel-IX-05" data-panel="IX-05" data-shape="tall" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="The election restriction: By candlelight, a voting monk compares his own last line to a candidate&#x27;s — the candidate&#x27;s scroll is shorter, and the voter closes his hand over his pebble."><span class="ph-label">IX-05 · tall 3:4</span><span class="ph-title">The election restriction</span><span class="ph-desc">By candlelight, a voting monk compares his own last line to a candidate&#x27;s — the candidate&#x27;s scroll is shorter, and the voter closes his hand over his pebble.</span><span class="ph-meta">Blender: monastery (chapter house) · Sheets: </span></div></div>
+    <figcaption>NO BROTHER VOTES FOR A CANDIDATE WHOSE SCROLL IS LESS UP-TO-DATE THAN HIS OWN.</figcaption>
+  </figure>
+  <!-- /PANEL IX-05 -->
+  <div class="prose">
+    <p>In any leader-based rite, the leader must eventually hold every committed line. In some rites, such as the granary's own
+    books, a leader may be elected without them and then fetch the missing lines, which requires considerable extra mechanism. The Rule
+    is simpler: <b>no monk can be elected Abbot unless his scroll already contains every committed line.</b> So lines flow only from Abbot
+    to brothers, and an Abbot never needs to take anything back.</p>
+    <p>A candidate must win votes from a majority; every committed line is on some scroll in that majority; so if the candidate's scroll
+    is at least as up-to-date as every scroll in the majority, it holds every committed line. RequestVote carries the position and reign of
+    the candidate's last line, and <b>a monk denies his vote if his own scroll is more up-to-date</b>. "More up-to-date" is simple: compare the
+    reigns of the last lines — the later reign wins; if they end in the same reign, the longer scroll wins.</p>
+  </div>
+
+  <h3 id="6-2-older-reigns" class="sect"><a href="#6-2-older-reigns" class="hlink">6.2 · Lines from Older Reigns</a></h3>
+  <div class="prose">
+    <p>An Abbot knows a line <em>from his own reign</em> is committed once it is on a majority. But he cannot conclude the same of a line
+    from an <em>earlier</em> reign merely because it is now on a majority. The Rule gives the sequence of events. Five monks, S1 to S5. (a) S1 is
+    Abbot in reign 2 and copies the line at position 2 onto S2 only. (b) S1 falls; S5 is elected for reign 3 with votes from S3, S4 and itself,
+    and writes a different line at position 2. (c) S5 falls; S1 returns, is elected for reign 4, and continues copying its old reign-2 line, which
+    now sits on S1, S2 and S3 — a majority, <em>but not committed</em>. (d) If S1 now falls, S5 can be elected with votes from S2, S3 and S4, and
+    overwrite that line with its own reign-3 line.</p>
+  </div>
+
+  <!-- PANEL IX-06 -->
+  <figure class="panel" id="panel-IX-06" data-panel="IX-06" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The old reign&#x27;s line: Five moments side by side: a crown moves between monks&#x27; scrolls, an old line is scraped away, and a new line under the current Abbot appears on a majority."><span class="ph-label">IX-06 · wide 16:9</span><span class="ph-title">The old reign&#x27;s line</span><span class="ph-desc">Five moments side by side: a crown moves between monks&#x27; scrolls, an old line is scraped away, and a new line under the current Abbot appears on a majority.</span><span class="ph-meta">Blender: none (diagrammatic sequence) · Sheets: </span></div></div>
+    <figcaption>THE ABBOT MAY NOT COUNT COPIES OF AN OLD REIGN’S LINE. ONLY WHEN A LINE OF HIS OWN REIGN REACHES A MAJORITY IS EVERYTHING BEFORE IT SAFE.</figcaption>
+  </figure>
+  <!-- /PANEL IX-06 -->
+
+  <div class="slab">
+    <div class="slab-head">The Commitment Rule</div>
+    <p class="stmt">An Abbot commits lines <b>by counting copies only for lines from his own current reign</b>. Once such a line is committed, every earlier line is committed with it, by Scroll Matching. (e) If S1 copies a line from its current reign onto a majority before falling, that line is committed — S5 can no longer win — and so is everything before it.</p>
+  </div>
+  <div class="prose">
+    <p>The complication arises because lines keep their original reign numbers when a new Abbot re-copies them. Other rites renumber such lines
+    with the new leader's number, which requires sending redundant copies. The Rule's way keeps each line's reign fixed over time and across
+    scrolls, which the monks found easier to reason about.</p>
+  </div>
+
+  <h3 id="6-3-safety-argument" class="sect"><a href="#6-3-safety-argument" class="hlink">6.3 · The Safety Argument</a></h3>
+  <details class="proof" open>
+    <summary>Abbot Completeness, by contradiction</summary>
+    <ol class="proofsteps">
+      <li>Suppose the Abbot of reign <var>T</var> commits a line from his reign, but some later Abbot does not hold it. Let <var>U</var> &gt; <var>T</var> be the smallest reign whose Abbot, Abbot<sub><var>U</var></sub>, lacks it. The line was absent from his scroll when he was elected, since Abbots never delete.</li>
+      <li>Abbot<sub><var>T</var></sub> copied the line onto a majority, and Abbot<sub><var>U</var></sub> received votes from a majority. So at least one monk — <b>the voter</b> — both accepted the line from Abbot<sub><var>T</var></sub> and voted for Abbot<sub><var>U</var></sub>.</li>
+      <li>The voter accepted the line <em>before</em> voting; otherwise his current reign would already have been higher than <var>T</var>, and he would have refused Abbot<sub><var>T</var></sub>'s dispatch.</li>
+      <li>The voter still held the line when he voted: every Abbot in between held it (by the choice of <var>U</var>), Abbots never remove lines, and brothers remove only lines that conflict with the Abbot.</li>
+      <li>The voter voted for Abbot<sub><var>U</var></sub>, so Abbot<sub><var>U</var></sub>'s scroll was at least as up-to-date as the voter's. Two cases.</li>
+      <li>If they ended in the same reign, Abbot<sub><var>U</var></sub>'s scroll was at least as long, and so contained every line of the voter's — including the committed line. Contradiction.</li>
+      <li>Otherwise Abbot<sub><var>U</var></sub>'s last reign was later than the voter's, hence later than <var>T</var>. The Abbot who wrote that last line held the committed line (by the choice of <var>U</var>), so by Scroll Matching Abbot<sub><var>U</var></sub>'s scroll contains it too. Contradiction.</li>
+      <li>So every Abbot of a reign after <var>T</var> holds every line committed in <var>T</var>; Scroll Matching extends this to lines committed indirectly. <span class="qed">∎</span></li>
+    </ol>
+  </details>
+  <div class="prose">
+    <p><b>State Machine Safety</b> follows. When a monk acts on a line, his scroll is identical to the Abbot's up to that line, and it is committed.
+    Consider the earliest reign in which any monk acts on a given position; Abbot Completeness ensures every later Abbot holds that same line, so
+    monks acting on the position later act on the same line. Since monks act in position order, all act on exactly the same lines in the same
+    order.</p>
+    <p>Brothers and candidates who fall are simpler still: letters to them fail and are retried for ever; and since every letter of the Rule is
+    <em>idempotent</em>, a monk who falls after doing what a letter asked but before answering can safely receive it again.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VII ================= -->
+<section id="s7">
+  <div class="issue">
+    <span class="no">Chapter VII</span>
+    <h2 id="bells-sand-and-seasons"><a href="#bells-sand-and-seasons" class="hlink">Bells, Sand and Seasons</a></h2>
+  </div>
+  <div class="prose">
+    <p>Safety must never depend on timing. Availability, inevitably, does: if letters take longer than the usual time between monks falling
+    ill, no candidate stays healthy long enough to win. The monks gave a single timing requirement:</p>
+  </div>
+  <div class="mathblock">broadcastTime ≪ electionTimeout ≪ MTBF</div>
+  <div class="prose">
+    <p><em>broadcastTime</em> is the time for the Abbot to send letters to every monk in parallel and hear back; <em>MTBF</em> is the average time
+    between failures of a single monk. The broadcast should be an order of magnitude shorter than the election timeout, so heartbeats reliably keep
+    brothers from starting elections (and so split votes stay unlikely); the timeout should be a few orders of magnitude shorter than the MTBF, since
+    the monastery is without an Abbot for roughly a timeout after each Abbot falls. Since letters usually require writing to the strongroom, broadcast
+    times range from 0.5 to 20 ms; so election timeouts fall between about 10 and 500 ms; and monks typically fall ill only every several months.
+    These are the navigators' passable seasons of Volume&nbsp;III, expressed as three numbers.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VIII ================= -->
+<section id="s8">
+  <div class="issue">
+    <span class="no">Chapter VIII</span>
+    <h2 id="changing-the-chapter"><a href="#changing-the-chapter" class="hlink">Changing the Chapter</a></h2>
+  </div>
+
+  <!-- PANEL IX-07 -->
+  <figure class="panel" id="panel-IX-07" data-panel="IX-07" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="Joint consensus: Two overlapping circles painted on the chapter-house floor: the old chapter and the new. Hands rise in both while a scribe tallies each separately."><span class="ph-label">IX-07 · wide 16:9</span><span class="ph-title">Joint consensus</span><span class="ph-desc">Two overlapping circles painted on the chapter-house floor: the old chapter and the new. Hands rise in both while a scribe tallies each separately.</span><span class="ph-meta">Blender: monastery (chapter house) · Sheets: </span></div></div>
+    <figcaption>WHILE THE CHAPTER CHANGES, EVERY DECISION NEEDS A MAJORITY OF THE OLD CHAPTER AND A MAJORITY OF THE NEW.</figcaption>
+  </figure>
+  <!-- /PANEL IX-07 -->
+  <div class="prose">
+    <p>Monasteries must sometimes change their members — to replace a monk who has died, or change how many copies are kept. Closing the monastery to
+    rewrite its roll would leave pilgrims unserved and invite mistakes, so the Rule automates it. The difficulty is that monks cannot all switch rolls at
+    the same instant; if they switched directly, there would be a moment when a majority of the old chapter and a separate majority of the new could each
+    elect an Abbot in the same reign.</p>
+    <p>So the Rule passes through an intermediate chapter, <b>joint consensus</b> (<var>C</var><sub>old,new</sub>): lines are copied to all monks of both chapters;
+    any monk of either may be Abbot; and every election and every commitment requires <em>separate majorities of both</em>. Chapter rolls are carried as
+    special lines in the scroll, and a monk uses the latest roll in his scroll <em>whether or not it is committed</em>. The Abbot first appends
+    <var>C</var><sub>old,new</sub> and commits it under its own rules; only then appends <var>C</var><sub>new</sub> and commits it under <var>C</var><sub>new</sub>. At no
+    moment can the old and new chapters decide independently — and pilgrims are served throughout.<sup>1</sup></p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">Three Further Matters</span>
+    <ol>
+      <li><b>New monks with empty scrolls</b> first join as non-voting members, receiving lines but not counted in majorities, until they have caught up.</li>
+      <li><b>An Abbot not in the new chapter</b> steps down once <var>C</var><sub>new</sub> is committed, having meanwhile managed a chapter that does not include himself.</li>
+      <li><b>Removed monks</b> hear no more bells, time out, and call elections with higher reign numbers, deposing the Abbot again and again. So a monk ignores RequestVote if it arrives within the minimum election timeout of hearing from a current Abbot. An Abbot who can reach his chapter is not deposed by a larger number.</li>
+    </ol>
+  </div>
+  <aside class="fn"><b>1.</b> The monks compare their method with the granary, which stops serving pilgrims while its chapter changes, and with
+  another monastery's, which limits the number of outstanding requests; both, they say, need more mechanism.</aside>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER IX ================= -->
+<section id="s9">
+  <div class="issue">
+    <span class="no">Chapter IX</span>
+    <h2 id="scraping-the-scroll"><a href="#scraping-the-scroll" class="hlink">Scraping the Scroll</a></h2>
+  </div>
+
+  <!-- PANEL IX-08 -->
+  <figure class="panel narrow tilt-r" id="panel-IX-08" data-panel="IX-08" data-shape="tall" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="Scraping the scroll: A monk rolls up a heavy old scroll and ties it off beside a single freshly illuminated summary page; a novice outside receives a copy of it in sections."><span class="ph-label">IX-08 · tall 3:4</span><span class="ph-title">Scraping the scroll</span><span class="ph-desc">A monk rolls up a heavy old scroll and ties it off beside a single freshly illuminated summary page; a novice outside receives a copy of it in sections.</span><span class="ph-meta">Blender: monastery (scriptorium) · Sheets: </span></div></div>
+    <figcaption>EACH MONK REPLACES HIS OLD LINES WITH ONE ILLUMINATED PAGE — AND A SLOW NOVICE MAY BE SENT THE PAGE ITSELF, A SECTION AT A TIME.</figcaption>
+  </figure>
+  <!-- /PANEL IX-08 -->
+  <div class="prose">
+    <p>A scroll cannot grow for ever; it takes up space and time to replay. The simplest remedy is a <b>snapshot</b>: write the whole current state to
+    the strongroom and discard the scroll up to that point. Each monk snapshots independently, covering only committed lines, and records with it the
+    <em>last included position</em> and <em>last included reign</em> — so the refusal check still works for the first line after it — and the latest chapter roll.</p>
+    <p>Occasionally the Abbot has already discarded the lines a lagging brother needs, and must send the snapshot itself with a third letter,
+    <b>InstallSnapshot</b>, in chunks, each of which also serves as a sign of life. A brother whose scroll is superseded discards it entirely; one whose scroll
+    extends beyond the snapshot keeps the lines after it.</p>
+    <p>This departs from the strong-Abbot principle, since brothers snapshot without the Abbot's knowledge. The monks judged it justified: agreement has
+    already been reached on what is snapshotted, so nothing can conflict, and having only the Abbot make and send snapshots would waste bandwidth and
+    complicate the Abbot. Monks snapshot when the scroll reaches a fixed size well above a snapshot's, and use copy-on-write — in their implementation,
+    the operating system's <em>fork</em> — so pilgrims are not kept waiting.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER X ================= -->
+<section id="s10">
+  <div class="issue">
+    <span class="no">Chapter X</span>
+    <h2 id="pilgrims-at-the-gate"><a href="#pilgrims-at-the-gate" class="hlink">Pilgrims at the Gate</a></h2>
+  </div>
+  <div class="prose">
+    <p>Pilgrims send every request to the Abbot, first trying a random monk, who redirects them. The goal is that each operation appears to take effect
+    instantly and exactly once. But an Abbot may fall after committing a command and before answering, and the pilgrim will retry with a new Abbot,
+    executing it twice. So pilgrims number every command, and the state machine remembers the latest number and answer for each pilgrim, answering a
+    repeat without re-executing it.</p>
+    <p>Read-only requests need not be written to the scroll, but an Abbot who has been superseded without knowing might answer from stale records. Two
+    precautions prevent it. First, an Abbot must know which lines are committed; at the start of his reign he may not, so <b>each new Abbot commits a blank
+    no-op line</b>. Second, before answering a read he <b>exchanges heartbeats with a majority</b> to confirm he has not been deposed. (He could instead rely
+    on a lease, as the guild engineers did, but that would make safety depend on bounded clock skew.)</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER XI ================= -->
+<section id="s11">
+  <div class="issue">
+    <span class="no">Chapter XI</span>
+    <h2 id="the-trial-of-the-novices"><a href="#the-trial-of-the-novices" class="hlink">The Trial of the Novices</a></h2>
+  </div>
+
+  <!-- PANEL IX-09 -->
+  <figure class="panel" id="panel-IX-09" data-panel="IX-09" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The trial of the novices: A refectory table of young novices bent over two examinations, one marked with a raft token, the other with a Greek-temple token; an elder plays two recorded lessons."><span class="ph-label">IX-09 · wide 16:9</span><span class="ph-title">The trial of the novices</span><span class="ph-desc">A refectory table of young novices bent over two examinations, one marked with a raft token, the other with a Greek-temple token; an elder plays two recorded lessons.</span><span class="ph-meta">Blender: none (illustrative: the trial) · Sheets: </span></div></div>
+    <figcaption>43 STUDENTS, TWO LESSONS, TWO QUIZZES. 33 SCORED HIGHER ON RAFT.</figcaption>
+  </figure>
+  <!-- /PANEL IX-09 -->
+  <div class="prose">
+    <p>The Rule was put into practice in a monastery that kept configuration for a larger house — about 2,000 lines of C++, not counting tests — and some
+    twenty-five other houses had built their own from drafts of the Rule. The monks judged it by three measures.</p>
+    <p><b>Understandability.</b> Novices from two schools, at Stanford and Berkeley, watched a video lesson on Raft and one on Paxos (the Paxos lesson 14%
+    longer, and covering enough to build an equivalent monastery), taking a quiz after each, with half learning each rite first. Fifteen of the 43 had some
+    prior experience of Paxos. The same lecturer gave both lessons; questions were paired by difficulty; grading used a rubric, in random order.</p>
+  </div>
+  <div class="table-wrap">
+    <table class="chron">
+      <thead><tr><th>Measure</th><th class="c">Result</th></tr></thead>
+      <tbody>
+        <tr><td>Mean quiz score (out of 60)</td><td class="c">Raft 25.7 · Paxos 20.8</td></tr>
+        <tr><td>Participants scoring higher on Raft</td><td class="c">33 of 43</td></tr>
+        <tr><td>Paired t-test (95% confidence)</td><td class="c">true Raft mean at least 2.5 points higher</td></tr>
+        <tr><td>Said Raft would be easier to implement / to explain</td><td class="c">33 of 41 for each question</td></tr>
+      </tbody>
+      <caption>A regression model accounting for quiz order and prior Paxos experience predicted a 12.5-point difference in favour of Raft — larger than the observed 4.9, since prior Paxos experience helped the Paxos quiz considerably. The self-reported preferences, the monks caution, may be less reliable than the scores.</caption>
+    </table>
+  </div>
+  <div class="prose">
+    <p><b>Correctness.</b> The monks wrote a formal specification of the Rule in TLA+, about 400 lines, mechanically proved Abbot (Log) Completeness in the TLA
+    proof system — relying on some invariants not mechanically checked — and wrote a complete informal proof of State Machine Safety of about 3,500 words.</p>
+    <p><b>Performance.</b> A line reaches a majority in a single round trip, the fewest possible. To test elections, the monks repeatedly killed the Abbot of a
+    five-monk house with deliberately unequal scrolls and synchronized heartbeats, to provoke split votes:</p>
+  </div>
+  <div class="table-wrap">
+    <table class="chron">
+      <thead><tr><th>Election timeouts</th><th>Time to detect and replace a fallen Abbot</th></tr></thead>
+      <tbody>
+        <tr><td>150–150 ms (no randomness)</td><td>consistently longer than 10 seconds, from repeated split votes</td></tr>
+        <tr><td>150–155 ms (5 ms of randomness)</td><td>median 287 ms</td></tr>
+        <tr><td>150–200 ms (50 ms of randomness)</td><td>worst case over 1,000 trials: 513 ms</td></tr>
+        <tr><td>12–24 ms</td><td>35 ms on average, longest 152 ms — but below this, heartbeats cannot keep up</td></tr>
+      </tbody>
+      <caption>Broadcast time about 15 ms. The monks recommend a conservative 150–300 ms.</caption>
+    </table>
+  </div>
+  <div class="prose">
+    <p>Finally the monks state plainly what distinguishes their Rule. Raft is similar in many ways to Viewstamped Replication — the granary of Volume&nbsp;VI,
+    also leader-based. Its greatest difference from Paxos is strong leadership: in Paxos, electing a leader is orthogonal to agreement, a mere optimization,
+    so Paxos needs both a two-phase agreement protocol and a separate election mechanism; the Rule makes election the <em>first of its two phases</em>, and
+    so has less mechanism overall.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER XII ================= -->
+<section id="s12">
+  <div class="issue">
+    <span class="no">Chapter XII</span>
+    <h2 id="relevance-to-computer-science"><a href="#relevance-to-computer-science" class="hlink">Relevance to Computer Science</a></h2>
+  </div>
+  <div class="table-wrap">
+    <table class="chron">
+      <thead><tr><th>In the monastery</th><th>In the paper</th></tr></thead>
+      <tbody>
+        <tr><td>Abbot / brother / candidate</td><td>Leader / follower / candidate</td></tr>
+        <tr><td>Reign</td><td>Term</td></tr>
+        <tr><td>Scroll, line, position</td><td>Log, log entry, index</td></tr>
+        <tr><td>Heartbeat bell</td><td>Empty AppendEntries RPC</td></tr>
+        <tr><td>Random sand-glasses</td><td>Randomized election timeouts</td></tr>
+        <tr><td>The suspicious scribe's refusal</td><td>AppendEntries consistency check on prevLogIndex / prevLogTerm</td></tr>
+        <tr><td>Walking back line by line</td><td>Decrementing nextIndex</td></tr>
+        <tr><td>No vote for a less up-to-date scroll</td><td>Election restriction (lastLogTerm, lastLogIndex)</td></tr>
+        <tr><td>Overlapping chapters</td><td>Joint consensus <var>C</var><sub>old,new</sub></td></tr>
+        <tr><td>Illuminated summary page</td><td>Snapshot; InstallSnapshot RPC</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>Raft became the most widely implemented consensus algorithm of its era, largely because it is specified completely enough to build from — election,
+    replication, commitment, membership changes, compaction and client interaction are all part of the algorithm rather than exercises left to the implementer,
+    the gap the guild engineers of Volume&nbsp;VIII had complained of. It produces a result equivalent to Multi-Paxos with 2<var>f</var> + 1 servers, is safe under
+    asynchrony, and is live under the partial synchrony of Volume&nbsp;III. It rests, like every volume in this series, on overlapping majorities and on numbers that
+    only grow.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= REFERENCES ================= -->
+<section id="refs">
+  <div class="issue">
+    <span class="no">The Library</span>
+    <h2 id="references"><a href="#references" class="hlink">References</a></h2>
+  </div>
+  <ol class="refs prose">
+    <li>Burrows, M. 2006. The Chubby lock service for loosely-coupled distributed systems. In <em>Proceedings of OSDI 2006</em>.</li>
+    <li>Chandra, T. D., Griesemer, R., and Redstone, J. 2007. Paxos made live — An engineering perspective. In <em>Proceedings of PODC 2007</em>.</li>
+    <li>Gray, C. and Cheriton, D. 1989. Leases: An efficient fault-tolerant mechanism for distributed file cache consistency. In <em>Proceedings of SOSP 1989</em>.</li>
+    <li>Lamport, L. 1978. Time, clocks, and the ordering of events in a distributed system. <em>Communications of the ACM 21</em>, 7.</li>
+    <li>Lamport, L. 1998. The part-time parliament. <em>ACM Transactions on Computer Systems 16</em>, 2.</li>
+    <li>Lamport, L. 2001. Paxos made simple. <em>ACM SIGACT News 32</em>, 4.</li>
+    <li>Liskov, B. and Cowling, J. 2012. Viewstamped replication revisited. MIT CSAIL technical report.</li>
+    <li>Oki, B. M. and Liskov, B. H. 1988. Viewstamped replication. In <em>Proceedings of PODC 1988</em>.</li>
+    <li>Ongaro, D. and Ousterhout, J. 2014. In search of an understandable consensus algorithm. In <em>Proceedings of the USENIX Annual Technical Conference</em>, 305–319. (Extended version, May 2014.)</li>
+  </ol>
+</section>
+
+<div>
+  <hr class="meander">
+  <div class="paper-card">
+      <h4>🏛️ Foundational Research Papers</h4>
+      <p style="font-size:.9rem; margin-top:0; color:#5c4e3b">The original paper this volume retells:</p>
+      <div class="paper-item">
+          <div style="font-weight:700">In Search of an Understandable Consensus Algorithm</div>
+          <div style="font-size:.88rem; color:#5c4e3b; margin:2px 0">Diego Ongaro, John Ousterhout (2014) · <em>2014 USENIX Annual Technical Conference, pp. 305–319</em></div>
+          <a href="https://raft.github.io/raft.pdf" class="paper-btn" target="_blank" rel="noopener">📄 Read the Paper (PDF)</a>
+        </div>
+    </div>
+</div>
+
+<footer class="colophon">
+  <hr class="meander">
+  <p>An allegorical retelling of Ongaro &amp; Ousterhout (2014, extended version). The five guarantees, the RPC rules, the safety argument and the reported
+  measurements are those of the paper. The sign over the harbour is not. The panels are placeholders for now, each describing the image to come. For the
+  original algorithm, always consult the original paper.</p>
+  <nav class="bottom-nav">
+    <a href="../art-direction-grand-island-shape.html" class="bottom-btn all">🏛️ Art direction</a>
+  </nav>
+</footer>
+
+</div><!--/page-->
+<script>
+"use strict";
+/* ================= hidden-name tooltips ================= */
+(function(){
+  const tip = document.getElementById('tip');
+  function show(el){
+    tip.innerHTML = '<span class="who">' + el.dataset.real + '</span>' + (el.dataset.note || '');
+    tip.style.display = 'block';
+    const r = el.getBoundingClientRect();
+    const tw = tip.offsetWidth;
+    let x = window.scrollX + r.left + r.width/2 - tw/2;
+    x = Math.max(8, Math.min(x, window.scrollX + document.documentElement.clientWidth - tw - 8));
+    tip.style.left = x + 'px';
+    tip.style.top = (window.scrollY + r.bottom + 8) + 'px';
+  }
+  document.querySelectorAll('.paxon').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>show(el));
+    el.addEventListener('mouseleave', ()=>{ tip.style.display='none'; });
+    el.addEventListener('click', (e)=>{ e.stopPropagation(); show(el); });
+  });
+  document.addEventListener('click', ()=>{ tip.style.display='none'; });
+})();
+</script>
+</body>
+</html>

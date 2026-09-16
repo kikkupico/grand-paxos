@@ -1,0 +1,117 @@
+{
+ "volume": "I",
+ "page": "volumes/I-disordered-sundials.html",
+ "shapes": {
+  "splash": "splash 3:2",
+  "strip": "strip 12:5",
+  "wide": "wide 16:9",
+  "half": "half 4:3",
+  "tall": "tall 3:4"
+ },
+ "panels": [
+  {
+   "id": "I-00",
+   "shape": "splash",
+   "title": "Three hamlets, hidden from one another",
+   "desc": "Bird's-eye over the first lobe: three stone hamlets, each screened by its own ridge, with the olive press on its hill between them and unlit beacons on the headland beyond.",
+   "scene": "High view over Paxos's north-western lobe at first light. Three small stone hamlets sit on separate hillside shoulders, each hidden from the other two by a ridge or shoulder of rock; terraces of olives step down between them, threaded by a single winding hill track. On its own hilltop between the hamlets stands the great stone olive press. Further out, on twin headlands above a bay, two unlit beacon frames wait. A lone runner is already on the track, a stamped slate in his belt.",
+   "sites": ["hamA", "hamK", "hamM", "press", "beacons"],
+   "cast": "shepherds, small; one runner",
+   "refs": ["I-characters", "I-props"],
+   "caption": ""
+  },
+  {
+   "id": "I-01",
+   "shape": "wide",
+   "title": "The hamlets at dawn",
+   "desc": "Establishing panorama: the three hamlets on their separate hillsides, none able to see the others, a track and terraces of olives between them.",
+   "scene": "Wide dawn panorama across the first lobe, a bird's-eye view no shepherd on the ground shares. Hamlet A sits on its own shoulder of hillside at left, screened by a spur of rock; Hamlet K is tucked into a fold of hill in the middle distance, fully hidden from A's yard; Hamlet M sits furthest along, behind a second ridge, hidden from both. Each has its own small sundial pillar in its yard. Low mist sits in the folds between them. A runner's path zigzags along the contour connecting all three, past the olive press on its own knoll.",
+   "sites": ["hamA", "hamK", "hamM"],
+   "cast": "shepherds, distant, tiny",
+   "refs": ["I-props"],
+   "caption": "PAXOS'S FIRST HAMLETS SPOKE TO ONE ANOTHER ONLY BY RUNNER ON THE HILL TRACK — AND NO TWO SUNDIALS AGREED."
+  },
+  {
+   "id": "I-02",
+   "shape": "half",
+   "tilt": "r",
+   "title": "The quarrel at the press",
+   "desc": "At the olive press yard: Aristides with a shorn goat and Leonidas with a freshly branded ram shout at each other, while the wandering scholar arrives up the track behind them.",
+   "scene": "The yard of the olive press, the one place all three hamlets share. Aristides, a shepherd of Hamlet A, holds up a shorn goat; Leonidas, a shepherd of Hamlet M, holds up a freshly branded ram. Both shout, faces close, while other shepherds queuing for the press back away. Behind them, coming up the last bend of the track on foot, the wandering scholar in a green himation, a satchel of scrolls over one shoulder, an abacus hanging at his belt.",
+   "sites": ["press"],
+   "cast": "Aristides, Leonidas, the wandering scholar, shepherds queuing",
+   "refs": ["I-characters"],
+   "caption": "“I SHEARED MY GOAT FIRST!” “YOU LIE — I BRANDED MY RAM BEFORE THE SHADOW MOVED!” ENTER THE WANDERING SCHOLAR."
+  },
+  {
+   "id": "I-03",
+   "shape": "tall",
+   "tilt": "l",
+   "title": "Flicking the bead",
+   "desc": "Close-up at a hamlet gate: a weathered shepherd flicks his abacus forward as a runner hands him a stamped clay slate.",
+   "scene": "Tight close-up at the gate of Hamlet K. A weathered shepherd's hand flicks a bead of his abacus forward with a thumb. A runner, sandals dusty from the track, holds out a clay slate stamped with a number. The shepherd's other hand is already pushing his own beads past the stamped count. Terraced hillside falls away behind the gate.",
+   "sites": ["hamK"],
+   "cast": "one shepherd, one runner",
+   "refs": ["I-props"],
+   "caption": "THE LAW OF THE MONOTONIC BEAD: FLICK A BEAD FOR EVERY DEED, AND PUSH PAST THE COUNT ON EVERY SLATE YOU RECEIVE."
+  },
+  {
+   "id": "I-04",
+   "shape": "half",
+   "tilt": "r",
+   "title": "Paxos's one olive press",
+   "desc": "At the press: one shepherd works it while others wait with baskets, each holding a wax tablet queue and a stamped slate.",
+   "scene": "The great stone olive press on its hill, overlooking the three hamlets below. One shepherd turns the press beam while others wait in line with baskets of olives, each holding a personal wax tablet listing a queue of names and bead counts. A runner arrives along the track with a fresh slate, and heads turn to see whose request it carries.",
+   "sites": ["press"],
+   "cast": "shepherds queuing, a runner",
+   "refs": ["I-props"],
+   "caption": "PAXOS HAD ONE OLIVE PRESS. ONLY ONE SHEPHERD COULD USE IT AT A TIME — AND NO ONE WAS IN CHARGE OF THE QUEUE."
+  },
+  {
+   "id": "I-05",
+   "shape": "wide",
+   "title": "Beacon across the bay",
+   "desc": "Night scene at the beacon headlands: a shepherd hands a slate to a runner and lights a beacon fire; on the far headland, his friend sees the flame and sends a faster runner of his own.",
+   "scene": "Night across a narrow bay between two headlands. On the near headland, a shepherd has just handed a request slate to a runner setting off along the coastal track, and is now lighting a tall beacon fire. On the far headland, his friend sees the flame flare up and hurries to hand his own slate to a different runner, who is already pulling ahead along the shorter path around the bay.",
+   "sites": ["beacons"],
+   "cast": "two shepherds, two runners",
+   "refs": ["I-props"],
+   "caption": "A BEACON FIRE CROSSES THE BAY FASTER THAN ANY RUNNER — AND THE BEADS KNOW NOTHING OF IT."
+  },
+  {
+   "id": "I-06",
+   "shape": "tall",
+   "tilt": "l",
+   "title": "The water-clock reform",
+   "desc": "In the counting shed by the press: a row of bronze water-clocks, each dripping at a slightly different rate; a clerk nudges one forward on a fresh slate, never back.",
+   "scene": "The counting shed built onto the olive press, open on one side to the hillside. A shelf holds a row of bronze water-clocks (clepsydrae), each dripping at a slightly different rate. A clerk reads a stamped slate just off the track and nudges one clock's float forward with a rod. A painted sign with a crossed-out backward arrow hangs on the wall behind him.",
+   "sites": ["press (counting shed)"],
+   "cast": "a clerk",
+   "refs": ["I-props"],
+   "caption": "THE WATER-CLOCK REFORM: A CLOCK MAY BE PUSHED FORWARD WHEN A SLATE ARRIVES — NEVER BACK."
+  },
+  {
+   "id": "I-07",
+   "shape": "tall",
+   "tilt": "r",
+   "title": "The many-rowed abacus",
+   "desc": "A scribe at a lamp-lit desk with an abacus that has one row of beads per hamlet, copying the greater of each row from a received slate onto his own.",
+   "scene": "Interior close-up, no site. A scribe at a lamp-lit desk with an enlarged abacus: one row of beads for each of the three hamlets, each row labelled with a small painted emblem (a goat, an olive branch, a ram). He copies the greater of each row from a received slate onto his own abacus, row by row.",
+   "sites": ["none (interior close-up)"],
+   "cast": "one scribe",
+   "refs": ["I-characters"],
+   "caption": "THE LATER HAND: CARRY ONE ROW OF BEADS PER HAMLET, NOT ONE IN TOTAL — AND CONCURRENCY BECOMES VISIBLE."
+  },
+  {
+   "id": "I-08",
+   "shape": "wide",
+   "title": "The census",
+   "desc": "Across the three hamlets at once: clerks count flocks and families, runners carry slates sealed white or red, and a clerk switches his own seal the instant a red slate arrives.",
+   "scene": "Split panorama across the three hamlets. In each, a clerk counts families and flocks. Runners on the connecting tracks carry slates sealed with either white or red wax. In the foreground, at Hamlet K, a clerk receiving a red-sealed slate is dramatically switching his own seal-stamp from white to red, the count at his hamlet only now beginning.",
+   "sites": ["hamA", "hamK", "hamM"],
+   "cast": "clerks, runners",
+   "refs": ["I-characters", "I-props"],
+   "caption": "WHITE SEALS BEFORE, RED SEALS AFTER. THE FIRST RED SLATE A SHEPHERD SEES, HE COUNTS HIS FLOCK."
+  }
+ ]
+}

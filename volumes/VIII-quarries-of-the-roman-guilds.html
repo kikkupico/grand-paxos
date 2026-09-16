@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volume VIII: The Quarries of the Roman Guilds — Distributed Algorithms of Ancient Greece</title>
+<link rel="stylesheet" href="volume.css">
+</head>
+<body>
+<nav class="series-nav">
+  <div class="series-nav-inner">
+    <a href="../art-direction-grand-island-shape.html" class="nav-back">← Art direction</a>
+    <span class="nav-current">Volume VIII</span>
+  </div>
+</nav>
+<div id="tip" role="tooltip"></div>
+<div class="page">
+
+<!-- ================= COVER ================= -->
+<header class="cover">
+  <div class="kicker">Distributed Algorithms of Ancient Greece · Volume VIII</div><br>
+  <!-- PANEL VIII-00 -->
+  <div class="frame-cover" id="panel-VIII-00" data-panel="VIII-00" data-shape="splash" data-refs=""><div class="img-placeholder ph-splash" role="img" aria-label="The guild&#x27;s quarter: The Italian guild&#x27;s hall, its five lock-houses in a row along the ridge, and the ledger cliffs beyond, oldest strata crumbling into the sea."><span class="ph-label">VIII-00 · splash 3:2</span><span class="ph-title">The guild&#x27;s quarter</span><span class="ph-desc">The Italian guild&#x27;s hall, its five lock-houses in a row along the ridge, and the ledger cliffs beyond, oldest strata crumbling into the sea.</span><span class="ph-meta">Blender: hall; locks; cliffs · Sheets: </span></div></div>
+  <!-- /PANEL VIII-00 -->
+  <p class="sub display">An illustrated chronicle of the resident Italian guild's own lock-house,
+  and everything that went wrong between a one-page protocol and a building that stood up.</p>
+  <p class="pub">After T.&nbsp;D. Chandra, R. Griesemer &amp; J. Redstone, "Paxos Made Live — An
+  Engineering Perspective," <em>PODC '07</em>, 398–407. Retold as the report of the guild's own
+  building commission.</p>
+</header>
+
+<nav class="toc">
+  <h6 id="table-of-contents"><a href="#table-of-contents" class="hlink">Table of Contents</a></h6>
+  <ol>
+    <li><a href="#preface">The Translator's Preface</a></li>
+    <li><a href="#s1">The Lock-House of the Guild</a></li>
+    <li><a href="#s2">The Plan of the Building</a></li>
+    <li><a href="#s3">The Guild's Reading of Paxos</a></li>
+    <li><a href="#s4">Chipped Chisels and Mad Kings</a></li>
+    <li><a href="#s5">The Crumbling Cliffs</a></li>
+    <li><a href="#s6">The Craft of the Masons</a></li>
+    <li><a href="#s7">Deliberate Sabotage</a></li>
+    <li><a href="#s8">What Actually Went Wrong</a></li>
+    <li><a href="#s9">The Commission's Verdict</a></li>
+    <li><a href="#s10">Relevance to Computer Science</a></li>
+    <li><a href="#refs">References</a></li>
+  </ol>
+</nav>
+
+<!-- ================= PREFACE ================= -->
+<section id="preface">
+  <div class="editor-note">
+    <span class="tag">The translator's preface</span>
+    <p>Late in this same generation, the resident Italian guild — traders long settled beside the
+    quarry cliffs at the island's far end — needed a lock-house of their own: a place that decided,
+    for their hall and their outposts elsewhere, who held which key, and that would not fail. Rather
+    than invent a rite from scratch, the guild's engineers built on the Paxon protocol, which by then
+    had a page or two of circulation among the island's clerks.</p>
+    <p>Their report, translated here, was written by three engineers:
+    <span class="paxon" data-real="Tushar D. Chandra" data-note="Google. First author of “Paxos Made Live — An Engineering Perspective” (2007).">Candra</span>,
+    <span class="paxon" data-real="Robert Griesemer" data-note="Google. Later one of the three designers of the Go programming language.">Griesemerus</span>
+    and
+    <span class="paxon" data-real="Joshua Redstone" data-note="Google. “Redstone” rendered in Latin: lapis rubeus.">Lapis Rubeus</span>.
+    Unlike the geometers' treatises of the earlier volumes, it contains no theorem. It contains, instead, a list of
+    everything that went wrong between the one-page Greek description of the protocol and a building that stood
+    up.</p>
+    <p>The guild's report is candid, occasionally rueful, and more useful to a working builder than anything else in
+    these nine volumes.</p>
+    <p class="sig">— The Translator</p>
+  </div>
+
+  <div class="narr">The Greek parable fits on a page. The guild's lock-house took several thousand courses of masonry. Between the two lay broken chisels, consuls who did not know they had been deposed, cliffs of old records, a rite that could not be inspected by watching it work — and operators who restored the wrong scroll.</div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER I ================= -->
+<section id="s1">
+  <div class="issue">
+    <span class="no">Chapter I</span>
+    <h2 id="the-lock-house-of-the-guild"><a href="#the-lock-house-of-the-guild" class="hlink">The Lock-House of the Guild</a></h2>
+  </div>
+
+  <!-- PANEL VIII-01 -->
+  <figure class="panel" id="panel-VIII-01" data-panel="VIII-01" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The guild&#x27;s plans: Italian guild engineers with surveying instruments at their half-built hall; one unrolls a single short Greek scroll, another staggers under a mountain of the guild&#x27;s own plans."><span class="ph-label">VIII-01 · wide 16:9</span><span class="ph-title">The guild&#x27;s plans</span><span class="ph-desc">Italian guild engineers with surveying instruments at their half-built hall; one unrolls a single short Greek scroll, another staggers under a mountain of the guild&#x27;s own plans.</span><span class="ph-meta">Blender: hall · Sheets: </span></div></div>
+    <figcaption>THE GREEK PROTOCOL FITTED ON ONE PAGE. THE GUILD’S PLANS DID NOT.</figcaption>
+  </figure>
+  <!-- /PANEL VIII-01 -->
+
+  <div class="prose">
+    <p>It is well known, the engineers begin, that a building of ordinary bricks can be made to stand through
+    replication: keep several identical copies and have them agree. Apply an agreement rite over and over to a
+    sequence of values and every copy ends with an identical ledger; if the values are operations on some
+    record, every copy ends with identical records. The Paxon rite had been discussed by scholars and builders
+    alike for over a decade.</p>
+    <p>The guild's <b>Lock-House</b> provided locks and stored small scrolls for its sister offices — the
+    Great Scroll-Store and the Tabularium among them — which used it to coordinate and to keep a little of their
+    own records. There was one such Lock-House for the guild's dealings on Paxos, and others like it at their
+    outposts elsewhere; each was a <em>cell</em>. A cell had five copies, each in
+    its own building, one of which was the <b>master</b>. Clients asked any copy; a copy that was not the master
+    replied with the master's address. If the master fell, a new one was chosen automatically and carried on from
+    its own copy of the records.<sup>1</sup></p>
+    <p>The first Lock-House had been built on a foreign contractor's replicated record-keeping, which the report
+    calls simply "3DB". It had a history of replication faults, and so far as the engineers knew its replication
+    was not based on any proven rite. Given the Lock-House's importance, they decided to replace it with their
+    own, built on Paxos.</p>
+  </div>
+  <aside class="fn"><b>1.</b> The Lock-House itself was designed by the engineer
+  <span class="paxon" data-real="Mike Burrows" data-note="Google. Designer of the Chubby lock service, who suggested replacing 3DB with a Paxos-based system. A burrow, in Latin, is a cuniculus.">Cuniculus</span>,
+  who suggested the replacement, and reviewed with
+  <span class="paxon" data-real="Sharon Perl" data-note="Google. Reviewed the design and, with Mike Burrows, suggested the disk-corruption mechanism and master leases. Margarita is Latin for pearl.">Margarita</span>
+  the engineers' designs. The report calls the Lock-House <em>Chubby</em>, a name I have been unable to
+  translate with dignity.</aside>
+
+  <h3 id="1-1-why-it-was-hard" class="sect"><a href="#1-1-why-it-was-hard" class="hlink">1.1 · Why It Was Harder Than a Page</a></h3>
+  <div class="decree rules">
+    <span class="rhead">The Four Difficulties</span>
+    <ul>
+      <li><b>The page and the building.</b> Paxos can be described in a page of pseudo-code; the engineers' implementation ran to several thousand lines. The blow-up was not the language or a verbose style, but the many features and optimizations — some published, some not — that a production building requires.</li>
+      <li><b>Proofs do not scale.</b> The scholars were used to proving one-page rites correct. That does not work for thousands of lines; other ways of gaining confidence were needed.</li>
+      <li><b>The real world breaks more than the rite allows.</b> A rite tolerates carefully chosen faults. Real buildings also suffer errors in the rite, bugs in the masonry and mistakes by operators.</li>
+      <li><b>Specifications move.</b> A real building is rarely specified precisely, the specification changes during construction, and a building may "fail" because of a misunderstanding in the specification itself.</li>
+    </ul>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER II ================= -->
+<section id="s2">
+  <div class="issue">
+    <span class="no">Chapter II</span>
+    <h2 id="the-plan-of-the-building"><a href="#the-plan-of-the-building" class="hlink">The Plan of the Building</a></h2>
+  </div>
+
+  <!-- PANEL VIII-02 -->
+  <figure class="panel" id="panel-VIII-02" data-panel="VIII-02" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The plan of the building: A cutaway of one lock-house: a foundation of numbered stone tablets, a vault above holding a mosaic and recent tablets, and the counter on top."><span class="ph-label">VIII-02 · wide 16:9</span><span class="ph-title">The plan of the building</span><span class="ph-desc">A cutaway of one lock-house: a foundation of numbered stone tablets, a vault above holding a mosaic and recent tablets, and the counter on top.</span><span class="ph-meta">Blender: locks · Sheets: </span></div></div>
+    <figcaption>THE PLAN: A LEDGER FOR A FOUNDATION, A VAULT OF RECORDS ABOVE IT, AND THE LOCK-HOUSE COUNTER ON TOP.</figcaption>
+  </figure>
+  <!-- /PANEL VIII-02 -->
+
+  <div class="prose">
+    <p>Each copy of the Lock-House was three storeys. At the bottom, the <b>replicated ledger</b>, built on Paxos,
+    with each copy keeping its own ledger and the rite run repeatedly so all ledgers hold identical entries in
+    identical order. In the middle, a <b>replicated record-vault</b>: a <em>snapshot</em> of the records plus a
+    replay-ledger of operations since. New operations are submitted to the ledger below, and applied to each copy's
+    vault as they appear. At the top, the Lock-House, which keeps its state in the vault.</p>
+    <p>The engineers took care over the walls between storeys — for clarity, and because they expected their sister
+    offices to want a fault-tolerant ledger, which they considered a powerful foundation. The ledger's interface
+    had a call to <em>submit</em> a value; once the value entered the ledger, each copy received a callback with it.
+    Notably, the ledger created none of its own workers; it could be called by any number of the building's workers
+    at once. That decision, as Chapter&nbsp;VII shows, made it testable.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER III ================= -->
+<section id="s3">
+  <div class="issue">
+    <span class="no">Chapter III</span>
+    <h2 id="the-guilds-reading-of-paxos"><a href="#the-guilds-reading-of-paxos" class="hlink">The Guild's Reading of Paxos</a></h2>
+  </div>
+  <div class="prose">
+    <p>The engineers summarized the Greek rite for their fellow builders in practical terms. Copies may crash and
+    recover; messages may be dropped; each copy has a strongroom that survives crashes. If a majority run long
+    enough without failures, all running copies agree on one of the submitted values. The rite has three steps,
+    repeated when things go wrong:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">Paxos, as the Guild Read It</span>
+    <ol>
+      <li><b>Elect a coordinator.</b> A copy that wishes to coordinate picks a sequence number higher than any it has seen — unique, because copy <var>r</var> with id <var>i</var><sub><var>r</var></sub> among <var>n</var> picks the smallest such <var>s</var> with <var>s</var> mod <var>n</var> = <var>i</var><sub><var>r</var></sub> — and sends a <em>propose</em>. If a majority reply that they have seen no higher number, it coordinates. Their replies are <em>promises</em> to reject older coordinators, and each carries the most recent value the copy has heard and the number of the coordinator it heard it from.</li>
+      <li><b>Accept.</b> The coordinator chooses the value from the <em>most recent</em> coordinator among the promises — or, if there is none, any submitted value — and sends an <em>accept</em>. Copies acknowledge or reject.</li>
+      <li><b>Commit.</b> Once a majority acknowledge, consensus is reached, and the coordinator broadcasts a <em>commit</em>.</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>The reason it works is subtle but short: a new coordinator hears from a majority, so if a previous coordinator
+    reached consensus, at least one reply carries that value, and by induction it has the highest number among the
+    replies.</p>
+    <p>To build a ledger, run one <em>instance</em> of the rite per entry (<b>Multi-Paxos</b>). Copies that fall behind use a
+    <em>catch-up</em> mechanism. Each copy records every Paxos action in a strongroom ledger and replays it after a
+    crash — which, as described, means five flushed writes to disk per instance (propose, promise, accept,
+    acknowledgment, commit), and in a building whose copies stand close together, disk flushes dominate the delay.
+    The well-known remedy: if the coordinator does not change, omit the propose. Any copy may still try to take over
+    with a higher number, so safety is untouched. A Multi-Paxos building therefore tries to keep one coordinator — the
+    <b>master</b> — for long periods, and then needs only one disk write per instance on each copy, in parallel: the
+    master writes just after sending accept, the others just before acknowledging. Values submitted by different
+    workers can also be batched into one instance.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER IV ================= -->
+<section id="s4">
+  <div class="issue">
+    <span class="no">Chapter IV</span>
+    <h2 id="chipped-chisels-and-mad-kings"><a href="#chipped-chisels-and-mad-kings" class="hlink">Chipped Chisels and Mad Kings</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>The core rite is well described. A fault-tolerant ledger built from it is not. Some complications come from the
+    imperfect world — broken disks, finite storerooms — and some from additional requirements. Many have solutions
+    intimately tied to the rite itself.</p>
+  </div>
+
+  <h3 id="4-1-disk-corruption" class="sect"><a href="#4-1-disk-corruption" class="hlink">4.1 · Chipped Chisels: When the Strongroom Lies</a></h3>
+  <!-- PANEL VIII-03 -->
+  <figure class="panel narrow tilt-l" id="panel-VIII-03" data-panel="VIII-03" data-shape="tall" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="The chipped chisel: A scribe&#x27;s chisel silently shears a corner off an inscription; its checksum tally no longer matches. A second scribe, disk lost, sits benched, listening only."><span class="ph-label">VIII-03 · tall 3:4</span><span class="ph-title">The chipped chisel</span><span class="ph-desc">A scribe&#x27;s chisel silently shears a corner off an inscription; its checksum tally no longer matches. A second scribe, disk lost, sits benched, listening only.</span><span class="ph-meta">Blender: locks · Sheets: </span></div></div>
+    <figcaption>CHIPPED CHISELS: A COPY THAT CANNOT VOUCH FOR ITS STRONGROOM MUST LISTEN, WITHOUT VOTING, UNTIL IT HAS SEEN ONE WHOLE ROUND BEGIN AND END.</figcaption>
+  </figure>
+  <!-- /PANEL VIII-03 -->
+  <div class="prose">
+    <p>Disks go bad — through media failure, or because an operator erases something critical. A copy that loses its
+    strongroom may <em>renege on promises it made</em>, which violates a key assumption of Paxos. Corruption shows
+    itself two ways. File contents may change: each file therefore stores a checksum of its contents. Or files may
+    vanish — indistinguishable from a brand-new copy with an empty disk. To detect that, a new copy leaves a marker in
+    the Great Scroll-Store when it first starts; if it ever starts again with an empty disk, it finds its own marker
+    and knows its disk was lost.</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head">Rebuilding a Corrupted Copy</div>
+    <p class="stmt">The copy takes part in Paxos as a <b>non-voting member</b>: it catches up, but sends no promises and no acknowledgments. It stays so until it has observed <b>one complete instance of Paxos that began after it started rebuilding</b>. That extra instance ensures it cannot renege on any earlier promise.</p>
+  </div>
+  <div class="prose">
+    <p>The engineers note that, since the building can now tolerate occasional corruption, one might under some
+    circumstances skip flushing writes altogether — something they considered but had not yet built.<sup>2</sup></p>
+  </div>
+  <aside class="fn"><b>2.</b> The checksum does not catch a file that rolls back to an older valid state; the
+  engineers judged that unlikely, and hoped their distributed consistency checks (Chapter VI) would notice it.</aside>
+
+  <h3 id="4-2-master-leases" class="sect"><a href="#4-2-master-leases" class="hlink">4.2 · Mad Kings: Master Leases</a></h3>
+  <!-- PANEL VIII-04 -->
+  <figure class="panel" id="panel-VIII-04" data-panel="VIII-04" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The master lease: A guild consul wears a signet on a chain to an hourglass, its sand running low; magistrates turn away a rival claimant at the door."><span class="ph-label">VIII-04 · wide 16:9</span><span class="ph-title">The master lease</span><span class="ph-desc">A guild consul wears a signet on a chain to an hourglass, its sand running low; magistrates turn away a rival claimant at the door.</span><span class="ph-meta">Blender: hall · Sheets: </span></div></div>
+    <figcaption>MASTER LEASES: WHILE THE SAND RUNS, NO RIVAL MAY BE HEARD. WHEN IT RUNS OUT, THE RING TURNS TO LEAD.</figcaption>
+  </figure>
+  <!-- /PANEL VIII-04 -->
+  <div class="prose">
+    <p>With plain Paxos, even a <em>read</em> of the records must go through an instance of the rite, to be sure it sees
+    the current state; the master cannot answer from its own copy, because the others might have elected a new master
+    and changed the records without telling it. Reads are the bulk of all requests, so this is expensive. The remedy is
+    a <b>master lease</b>: while the master holds the lease, it is guaranteed that no other copy can successfully submit
+    values — so it may answer reads alone.</p>
+    <p>In the engineers' building, all copies implicitly grant a lease to the master of the previous instance and refuse
+    Paxos messages from anyone else while it lasts. The master uses a <em>shorter</em> lease timeout than the other copies,
+    to guard against drifting water-clocks, and periodically submits a dummy "heartbeat" value to renew. In practice
+    masters held their leases for days at a time.</p>
+    <p>Leases exposed a stability problem. A master briefly cut off is replaced; the new master keeps a fixed sequence
+    number across instances; meanwhile the cut-off old master, if it reaches even one other copy, may raise its own number
+    — and on reconnecting, displace the new master; then disconnect again; and so on. Frequent master changes hurt the
+    Lock-House's clients. So the master periodically <em>boosts</em> its sequence number by running a full round of Paxos,
+    propose and all. In a loaded system, under one percent of instances ran the full rite.</p>
+  </div>
+
+  <h3 id="4-3-epochs" class="sect"><a href="#4-3-epochs" class="hlink">4.3 · Epoch Numbers</a></h3>
+  <div class="prose">
+    <p>Between receiving a request and the request updating the records, a master may lose its status — or lose it and
+    regain it. The Lock-House required such requests to be aborted. The engineers introduced a global <b>epoch number</b>:
+    two requests for it at the master receive the same value if and only if that copy was master continuously between
+    them. It is stored in the records, and every operation is made conditional on it.</p>
+  </div>
+
+  <h3 id="4-4-membership" class="sect"><a href="#4-4-membership" class="hlink">4.4 · Changing the Garrison</a></h3>
+  <div class="prose">
+    <p>A real building must change which copies belong to it. Some Paxos papers point out that the rite itself can
+    manage membership. With the core rite that is straightforward; with Multi-Paxos, corrupted disks and the rest, the
+    engineers found that the literature neither spelled out the details nor proved them correct. They had to fill the
+    gaps themselves, and describe the details — "relatively minor" but subtle — as beyond the scope of their report.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER V ================= -->
+<section id="s5">
+  <div class="issue">
+    <span class="no">Chapter V</span>
+    <h2 id="the-crumbling-cliffs"><a href="#the-crumbling-cliffs" class="hlink">The Crumbling Cliffs</a></h2>
+  </div>
+
+  <!-- PANEL VIII-05 -->
+  <figure class="panel" id="panel-VIII-05" data-panel="VIII-05" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The crumbling cliffs: A cliff of stacked, weathered ledger tablets slides into the sea; workmen crush the oldest into gravel for the foundation of a single new summary stele."><span class="ph-label">VIII-05 · wide 16:9</span><span class="ph-title">The crumbling cliffs</span><span class="ph-desc">A cliff of stacked, weathered ledger tablets slides into the sea; workmen crush the oldest into gravel for the foundation of a single new summary stele.</span><span class="ph-meta">Blender: cliffs · Sheets: </span></div></div>
+    <figcaption>THOUSANDS OF OLD LEDGER LINES CRUSHED TO GRAVEL, REPLACED BY ONE SUMMARY STELE — WITH A TAG SAYING EXACTLY WHICH LINE IT SUMMARIZES.</figcaption>
+  </figure>
+  <!-- /PANEL VIII-05 -->
+
+  <div class="prose">
+    <p>A ledger built by repeated agreement grows for ever. That needs unbounded storerooms and, worse, unbounded recovery
+    time, since a recovering copy must replay it all. The obvious remedy is a <b>snapshot</b> of the records, after which
+    the ledger leading up to it is no longer needed. The Paxos foundation knows nothing about the records, so the
+    application must take the snapshots; the foundation, when told, truncates its ledger. On recovery a copy installs its
+    latest snapshot and replays the rest. Snapshots are not synchronized; each copy chooses its own moments.</p>
+    <p>The literature mentions this briefly. In practice it made a copy's persistent state a ledger <em>and</em> a snapshot
+    that had to be kept mutually consistent, one under the foundation's control and one in the application's format.</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">What the Snapshot Machinery Required</span>
+    <ul>
+      <li><b>A snapshot handle.</b> Each snapshot carries a handle supplied by the foundation — itself a snapshot of the Paxos state, holding the instance number the snapshot corresponds to and the group membership at that point. The application stores it with the snapshot and returns it on recovery.</li>
+      <li><b>Three phases, so the building need not freeze.</b> The application requests a handle; takes its snapshot (perhaps in a separate worker while the copy keeps participating, which requires care, since the records are changing); then informs the foundation, which truncates.</li>
+      <li><b>Snapshots may fail.</b> Until informed, the foundation assumes no snapshot exists — so the application can verify a snapshot and discard it, or even attempt several at once.</li>
+      <li><b>Catching up by snapshot.</b> A lagging copy that cannot get old enough ledger entries is told to fetch a snapshot, then the remaining entries. But the leader may take a newer snapshot meanwhile, or fail after sending — so the lagging copy may need a newer snapshot, or another leader.</li>
+      <li><b>Finding snapshots.</b> A general mechanism passes snapshot locations between copies, whether transferred directly or stored in the Great Scroll-Store.</li>
+    </ul>
+  </div>
+
+  <h3 id="5-1-multiop" class="sect"><a href="#5-1-multiop" class="hlink">5.1 · The MultiOp</a></h3>
+  <div class="prose">
+    <p>The Lock-House needed only a simple store of name–value pairs, with insert, delete, lookup, iteration, and an atomic
+    <em>compare-and-swap</em>. Atomicity was easy: submit everything the operation needs as a single value to Paxos. The
+    engineers then generalized this into transactions without true transactions, a primitive they called
+    <b>MultiOp</b>, applied atomically, through which every operation but iteration was implemented:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">MultiOp</span>
+    <ol>
+      <li><b>guard</b> — a list of tests, each checking one entry for presence, absence, or a given value.</li>
+      <li><b>t_op</b> — a list of inserts, deletes and lookups, executed if every test in the guard is true.</li>
+      <li><b>f_op</b> — a list executed otherwise.</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>When, late in construction, the epoch numbers of §4.3 turned out to be required, MultiOp paid for itself: with the
+    epoch stored as an entry, every earlier call simply gained one more guard.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VI ================= -->
+<section id="s6">
+  <div class="issue">
+    <span class="no">Chapter VI</span>
+    <h2 id="the-craft-of-the-masons"><a href="#the-craft-of-the-masons" class="hlink">The Craft of the Masons</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>A building that must stand for years is judged harshly. A crooked line in a letter-carver's inscription can be read
+    around; a fault of similar gravity in a fault-tolerant building may make it unusable.</p>
+  </div>
+
+  <h3 id="6-1-state-machines" class="sect"><a href="#6-1-state-machines" class="hlink">6.1 · Writing the Rite Plainly</a></h3>
+  <div class="prose">
+    <p>Fault-tolerant rites are notoriously hard to express correctly even in pseudo-code, and worse when mixed into the
+    rest of a building. The engineers wrote the core as <b>two explicit state machines</b>, in a small specification language
+    of their own design, terse enough that a whole rite fits on one screen, with a compiler that translated it into their
+    building language and automatically added logging of every transition and measurement of test coverage.</p>
+    <p>They tell a story in its favour. Near the end, they had to change their group membership rite fundamentally. A copy had
+    gone through three states — waiting to join, joined, left — and a copy that left could never rejoin, so an intermittently
+    failing copy could not disrupt the group for long. But intermittent failure proved far more common than expected, even in
+    healthy copies. The rite had to become two states, in and out, freely alternating. The change took about <b>one hour</b>; the
+    tests took <b>three days</b>.</p>
+  </div>
+
+  <h3 id="6-2-consistency" class="sect"><a href="#6-2-consistency" class="hlink">6.2 · Checking Itself While Running</a></h3>
+  <div class="prose">
+    <p>Besides liberal assertions, the master periodically submits a <em>checksum request</em> to the ledger. Each copy computes a
+    checksum of its records; since the ledger orders operations identically everywhere, all should agree; the master then sends
+    its own for comparison. This found <b>three inconsistencies</b>: one from an operator error; one never explained — replaying the
+    copy's ledger showed it correct, so perhaps a random memory corruption; and one suspected illegal memory access by errant code
+    elsewhere in the (considerable) code base, after which the engineers kept a second store of checksums and double-checked every
+    access against it. All three were resolved by hand before the Lock-House's clients noticed.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VII ================= -->
+<section id="s7">
+  <div class="issue">
+    <span class="no">Chapter VII</span>
+    <h2 id="deliberate-sabotage"><a href="#deliberate-sabotage" class="hlink">Deliberate Sabotage</a></h2>
+  </div>
+
+  <!-- PANEL VIII-06 -->
+  <figure class="panel" id="panel-VIII-06" data-panel="VIII-06" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="Deliberate sabotage: In the guild workshop, engineers roll dice against a miniature model of the lock-houses, breaking whatever the roll says and writing down every throw."><span class="ph-label">VIII-06 · wide 16:9</span><span class="ph-title">Deliberate sabotage</span><span class="ph-desc">In the guild workshop, engineers roll dice against a miniature model of the lock-houses, breaking whatever the roll says and writing down every throw.</span><span class="ph-meta">Blender: hall · Sheets: </span></div></div>
+    <figcaption>ROLL THE DICE, BREAK WHAT THEY SAY — AND WRITE DOWN EVERY ROLL, SO THE SAME DISASTER CAN BE REPLAYED.</figcaption>
+  </figure>
+  <!-- /PANEL VIII-06 -->
+
+  <div class="prose">
+    <p>It is unrealistic, the engineers write, to prove a building such as theirs correct. Beyond meticulous masonry, the best
+    practical path is to test thoroughly, and the building was designed to be testable from the start. They describe two tests
+    that drive the system through long sequences of random failures, each of which runs in two modes:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">The Two Modes</span>
+    <ol>
+      <li><b>Safety mode.</b> The test checks that the building stays consistent, but requires no progress — operations may fail or report unavailability.</li>
+      <li><b>Liveness mode.</b> The test checks that the building stays consistent <em>and</em> makes progress.</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>A test begins in safety mode, injecting random failures; then stops injecting, lets the building recover, and switches to
+    liveness mode, to check that no sequence of failures has left it deadlocked.</p>
+    <p>The first test simulates a random number of copies and drives the ledger through a random sequence of network outages,
+    delays, timeouts, crashes and recoveries, file corruptions and schedule interleavings. The failures are chosen by a random
+    number generator from a seed given at the start, and the test runs in a single worker to remove all other nondeterminism —
+    possible precisely because the ledger creates no workers of its own. Two runs with the same seed are identical; a failing seed
+    is simply rerun with detailed logging in a debugger. To measure the test's strength, the engineers <em>deliberately left</em>
+    known protocol bugs found in design reviews and confirmed the test caught them. When it grew stable they ran it on a farm of
+    several hundred machines, and found more bugs — some taking <b>weeks of simulated time</b>, at extremely high failure rates, to
+    appear.</p>
+    <p>The second test adds hooks to crash a copy, cut it off for a while, or make it pretend it is no longer master, and checks that
+    the higher storeys cope. It found <b>five subtle bugs in master failover</b> in its first two weeks. A filesystem with failure hooks
+    extended the method further.</p>
+  </div>
+
+  <h3 id="7-1-masked" class="sect"><a href="#7-1-masked" class="hlink">7.1 · A Building That Hides Its Own Cracks</a></h3>
+  <!-- PANEL VIII-07 -->
+  <figure class="panel mid tilt-r" id="panel-VIII-07" data-panel="VIII-07" data-shape="half" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="The misspelled name: Five bronze nameplates at the lock-houses&#x27; doorway; one is visibly misspelled. Four scribes work at full speed; the fifth, outside, copies frantically but is never let in."><span class="ph-label">VIII-07 · half 4:3</span><span class="ph-title">The misspelled name</span><span class="ph-desc">Five bronze nameplates at the lock-houses&#x27; doorway; one is visibly misspelled. Four scribes work at full speed; the fifth, outside, copies frantically but is never let in.</span><span class="ph-meta">Blender: locks · Sheets: </span></div></div>
+    <figcaption>FOUR COPIES KEPT WORKING, THE FIFTH KEPT CATCHING UP — AND NO ONE NOTICED THE HOUSE COULD NOW SURVIVE ONE FAILURE INSTEAD OF TWO.</figcaption>
+  </figure>
+  <!-- /PANEL VIII-07 -->
+  <div class="prose">
+    <p>One challenge the engineers had no systematic answer for: fault-tolerant buildings are designed to mask problems, and so they
+    mask bugs and misconfigurations too, quietly lowering their own tolerance. They once started a five-copy system with one copy's
+    name misspelled in the initial group. The four correct copies made progress. The fifth, outside the group, ran continually in
+    catch-up mode and also appeared healthy. The building tolerated one fault instead of two. They added procedures to detect that
+    particular mistake, and had no way to know what else fault tolerance might be hiding.</p>
+    <p>They also record the fate of their hopes for repeatability. The ledger stayed single-worker at its core, but the Lock-House was
+    multi-worker at its core, the record-vault had to become multi-worker to take snapshots and checksums while serving requests, and
+    eventually even the local ledger code had to. They believe they set the right goal; the needs of the product would not let them
+    keep it.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VIII ================= -->
+<section id="s8">
+  <div class="issue">
+    <span class="no">Chapter VIII</span>
+    <h2 id="what-actually-went-wrong"><a href="#what-actually-went-wrong" class="hlink">What Actually Went Wrong</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>At the time of the report, the building had logged well over <b>100 machine-years</b> in production. The engineers list the
+    unexpected failures:</p>
+  </div>
+  <!-- PANEL VIII-08 -->
+  <figure class="panel" id="panel-VIII-08" data-panel="VIII-08" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The rollback: Night in the guild&#x27;s records office: an uncertain operator unrolls an old, dusty scroll onto the master desk while fresh scrolls stand untouched behind him."><span class="ph-label">VIII-08 · wide 16:9</span><span class="ph-title">The rollback</span><span class="ph-desc">Night in the guild&#x27;s records office: an uncertain operator unrolls an old, dusty scroll onto the master desk while fresh scrolls stand untouched behind him.</span><span class="ph-meta">Blender: hall · Sheets: </span></div></div>
+    <figcaption>AN UNDOCUMENTED PROCEDURE, AN OPERATOR WHO HAD NEVER USED IT, NO ENGINEER PRESENT — AND AN OLD SNAPSHOT. FIFTEEN HOURS OF RECORDS WERE LOST.</figcaption>
+  </figure>
+  <!-- /PANEL VIII-08 -->
+  <div class="table-wrap">
+    <table class="chron">
+      <thead><tr><th>What happened</th><th>Consequence and remedy</th></tr></thead>
+      <tbody>
+        <tr><td>The first release had ten times as many worker threads as the old Lock-House. Under load they starved other key threads, causing timeouts, rapid master failover, mass migration of clients to the new master, which was overwhelmed — and more failovers.</td><td>With the cause unknown, the team rolled one cell back to the old 3DB-based Lock-House. The rollback was undocumented and unintuitive, the operator had never used it, and no developer was present. An old snapshot was used: <b>15 hours of data lost</b>; several key datasets had to be rebuilt.</td></tr>
+        <tr><td>Months later, the upgrade script for that cell failed because files from the failed upgrade had not been deleted.</td><td>The cell ran for a few minutes on a months-old snapshot: <b>about 30 minutes of data lost</b>. All clients recovered.</td></tr>
+        <tr><td>The record-vault's semantics differed from what the Lock-House expected: an operation could succeed even if the copy lost and regained mastership during it.</td><td>Substantial rework of the integration layer; the epoch numbers of §4.3, made easy by MultiOp.</td></tr>
+        <tr><td>Three copies found inconsistent with their cells.</td><td>Found by the periodic checksums of §6.2.</td></tr>
+        <tr><td>The migration script from 3DB failed several times — once because a basic program was not installed on one cell.</td><td>Script updated after each failure.</td></tr>
+        <tr><td>In their Linux 2.4 kernel, flushing a small file could hang for seconds if many writes to other files were buffered — as right after writing a snapshot.</td><td>Large files are written in small chunks, each flushed, protecting the critical ledger writes.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>A small number of failures in 100 machine-years would be excellent for most production buildings. The engineers judged it
+    <em>too high</em> for the Lock-House. Three failures occurred during upgrade or rollback; two came from bugs since fixed; two
+    were operator errors during rollout that lost data. The operators were very competent, but were not the builders and did not know
+    the building's intricacies. The engineers moved to carefully written, well-tested rollout scripts that minimized operator
+    involvement — and their most recent major release rolled out across hundreds of machines, serving live traffic, without
+    incident.</p>
+  </div>
+
+  <h3 id="8-1-measurements" class="sect"><a href="#8-1-measurements" class="hlink">8.1 · Measurements</a></h3>
+  <div class="prose">
+    <p>The goal was to equal or beat 3DB. The engineers ran two Lock-Houses on the same five servers, one on each foundation, and
+    measured whole-system throughput with clients on workstations — Lock-House client, network, server and record-vault together.
+    The tests were write-heavy, since reads are served by the master under its lease and never touch Paxos. Each worker repeatedly
+    created a file and waited for completion.</p>
+  </div>
+  <div class="table-wrap">
+    <table class="chron">
+      <thead><tr><th>Test</th><th class="c">Workers</th><th class="c">File size</th><th class="c">Paxos Lock-House (100 MB records)</th><th class="c">3DB Lock-House (small records)</th><th class="c">Ratio</th></tr></thead>
+      <tbody>
+        <tr><td>Operations/s</td><td class="c">1</td><td class="c">5 B</td><td class="c">91</td><td class="c">75</td><td class="c">1.2×</td></tr>
+        <tr><td>Operations/s</td><td class="c">10</td><td class="c">5 B</td><td class="c">490</td><td class="c">134</td><td class="c">3.7×</td></tr>
+        <tr><td>Operations/s</td><td class="c">20</td><td class="c">5 B</td><td class="c">640</td><td class="c">178</td><td class="c">3.6×</td></tr>
+        <tr><td>Throughput</td><td class="c">1</td><td class="c">8 KB</td><td class="c">345 KB/s</td><td class="c">172 KB/s</td><td class="c">2×</td></tr>
+        <tr><td>Throughput</td><td class="c">4</td><td class="c">8 KB</td><td class="c">777–949 KB/s</td><td class="c">217 KB/s</td><td class="c">3.6–4.4×</td></tr>
+        <tr><td>Throughput</td><td class="c">1</td><td class="c">32 KB</td><td class="c">672–822 KB/s</td><td class="c">338 KB/s</td><td class="c">2.0–2.4×</td></tr>
+      </tbody>
+      <caption>Table 1 of the report. Multi-worker tests benefit from batching. The ranges in the last two rows reflect snapshots taken roughly every 100 seconds, whenever the ledger exceeded 100 MB, during which throughput temporarily drops.</caption>
+    </table>
+  </div>
+  <div class="prose">
+    <p>The building was by no means tuned for speed, the engineers note; but given the improvement over 3DB, further optimization was
+    not a priority.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER IX ================= -->
+<section id="s9">
+  <div class="issue">
+    <span class="no">Chapter IX</span>
+    <h2 id="the-commissions-verdict"><a href="#the-commissions-verdict" class="hlink">The Commission's Verdict</a></h2>
+  </div>
+  <div class="prose">
+    <p>Despite a large literature, rites more than fifteen years old, and an experienced team — one of whom had built a similar
+    system before — the building was significantly harder to raise than expected. The commission blamed three shortcomings of the
+    scholars' field:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">Three Shortcomings</span>
+    <ol>
+      <li>There are significant gaps between the description of Paxos and the needs of a real building. An expert must gather ideas scattered through the literature and make several small extensions of their own — and the final building rests on an <em>unproven</em> protocol.</li>
+      <li>The field has not developed the tools that make its rites easy to build.</li>
+      <li>The field has not paid enough attention to testing, a key ingredient of fault-tolerant building.</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>They contrasted the builders of translating-machines for languages. That field's ideas are just as difficult, yet industrial
+    parsing tools appeared soon after the theory was understood, followed by whole families of tools for every stage; parsing, once
+    at the cutting edge, is now taught to undergraduates as "solved". The fault-tolerance community, they concluded, had not closed
+    its gap between theory and practice with the same vigour, and the gap merited the attention of researchers.</p>
+    <p>The later copyists summarized the verdict more bluntly than the commission ever did: the Greek parable is the first few paces
+    of the journey; the rest is quarry management, stone sanitation, and mortar.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER X ================= -->
+<section id="s10">
+  <div class="issue">
+    <span class="no">Chapter X</span>
+    <h2 id="relevance-to-computer-science"><a href="#relevance-to-computer-science" class="hlink">Relevance to Computer Science</a></h2>
+  </div>
+  <div class="table-wrap">
+    <table class="chron">
+      <thead><tr><th>In the guild's report</th><th>In the paper</th></tr></thead>
+      <tbody>
+        <tr><td>The Lock-House; a cell per outpost</td><td>Chubby lock service; a Chubby cell per data center</td></tr>
+        <tr><td>Great Scroll-Store; Tabularium</td><td>Google File System (GFS); Bigtable</td></tr>
+        <tr><td>The foreign contractor's foundation</td><td>“3DB”, a commercial replicated database</td></tr>
+        <tr><td>Strongroom; chipped chisel</td><td>Persistent disk; disk corruption</td></tr>
+        <tr><td>Non-voting member</td><td>Replica rebuilding state after corruption</td></tr>
+        <tr><td>Signet ring on an hourglass</td><td>Master lease</td></tr>
+        <tr><td>Summary stele and its tag</td><td>Snapshot and snapshot handle</td></tr>
+        <tr><td>Deliberate sabotage with dice</td><td>Randomized, seeded, repeatable fault-injection testing</td></tr>
+        <tr><td>Translating-machines for languages</td><td>Compiler construction (yacc, ANTLR, Coco/R)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>"Paxos Made Live" is one of the most cited descriptions of the gap between a consensus algorithm and a production system. Its
+    catalogue — disk corruption breaking the persistence assumption, leases for local reads, leader stability, snapshots and log
+    truncation, membership changes, and above all seeded fault-injection testing — became a checklist for later implementers. Its
+    complaint that Paxos was hard to understand and to turn into a complete system was one of the direct motivations for Raft
+    (Volume&nbsp;IX), whose authors set out to make exactly these missing pieces part of the algorithm's specification.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= REFERENCES ================= -->
+<section id="refs">
+  <div class="issue">
+    <span class="no">The Library</span>
+    <h2 id="references"><a href="#references" class="hlink">References</a></h2>
+  </div>
+  <ol class="refs prose">
+    <li>Burrows, M. 2006. The Chubby lock service for loosely-coupled distributed systems. In <em>Proceedings of the 7th USENIX Symposium on Operating Systems Design and Implementation</em>, 335–350.</li>
+    <li>Chandra, T. D., Griesemer, R., and Redstone, J. 2007. Paxos made live — An engineering perspective. In <em>Proceedings of the 26th ACM Symposium on Principles of Distributed Computing</em>, 398–407.</li>
+    <li>Chang, F., et al. 2006. Bigtable: A distributed storage system for structured data. In <em>Proceedings of the 7th USENIX Symposium on Operating Systems Design and Implementation</em>, 205–218.</li>
+    <li>Ghemawat, S., Gobioff, H., and Leung, S.-T. 2003. The Google file system. In <em>Proceedings of the 19th ACM Symposium on Operating Systems Principles</em>, 29–43.</li>
+    <li>Gray, C. and Cheriton, D. 1989. Leases: An efficient fault-tolerant mechanism for distributed file cache consistency. In <em>Proceedings of the 12th ACM Symposium on Operating Systems Principles</em>, 202–210.</li>
+    <li>Lamport, L. 1998. The part-time parliament. <em>ACM Transactions on Computer Systems 16</em>, 2, 133–169.</li>
+    <li>Lamport, L. 2001. Paxos made simple. <em>ACM SIGACT News 32</em>, 4 (Dec.), 18–25.</li>
+    <li>Oki, B. M. and Liskov, B. H. 1988. Viewstamped replication. In <em>Proceedings of the 7th ACM Symposium on Principles of Distributed Computing</em>, 8–17.</li>
+  </ol>
+</section>
+
+<div>
+  <hr class="meander">
+  <div class="paper-card">
+      <h4>🏛️ Foundational Research Papers</h4>
+      <p style="font-size:.9rem; margin-top:0; color:#5c4e3b">The original paper this volume retells:</p>
+      <div class="paper-item">
+          <div style="font-weight:700">Paxos Made Live – An Engineering Perspective</div>
+          <div style="font-size:.88rem; color:#5c4e3b; margin:2px 0">Tushar D. Chandra, Robert Griesemer, Joshua Redstone (2007) · <em>Proceedings of the 26th ACM PODC, pp. 398–407</em></div>
+          <a href="https://static.googleusercontent.com/media/research.google.com/en//archive/paxos_made_live.pdf" class="paper-btn" target="_blank" rel="noopener">📄 Read the Paper (PDF)</a>
+        </div>
+    </div>
+</div>
+
+<footer class="colophon">
+  <hr class="meander">
+  <p>An allegorical retelling of Chandra, Griesemer &amp; Redstone (2007). The failure list and measurements are those reported in the
+  paper; the guild's dress is the translator's. The panels are placeholders for now, each describing the image to come. For the
+  original report, always consult the original paper.</p>
+  <nav class="bottom-nav">
+    <a href="../art-direction-grand-island-shape.html" class="bottom-btn all">🏛️ Art direction</a>
+  </nav>
+</footer>
+
+</div><!--/page-->
+<script>
+"use strict";
+/* ================= hidden-name tooltips ================= */
+(function(){
+  const tip = document.getElementById('tip');
+  function show(el){
+    tip.innerHTML = '<span class="who">' + el.dataset.real + '</span>' + (el.dataset.note || '');
+    tip.style.display = 'block';
+    const r = el.getBoundingClientRect();
+    const tw = tip.offsetWidth;
+    let x = window.scrollX + r.left + r.width/2 - tw/2;
+    x = Math.max(8, Math.min(x, window.scrollX + document.documentElement.clientWidth - tw - 8));
+    tip.style.left = x + 'px';
+    tip.style.top = (window.scrollY + r.bottom + 8) + 'px';
+  }
+  document.querySelectorAll('.paxon').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>show(el));
+    el.addEventListener('mouseleave', ()=>{ tip.style.display='none'; });
+    el.addEventListener('click', (e)=>{ e.stopPropagation(); show(el); });
+  });
+  document.addEventListener('click', ()=>{ tip.style.display='none'; });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+{
+ "volume": "VIII",
+ "page": "volumes/VIII-quarries-of-the-roman-guilds.html",
+ "shapes": {
+  "splash": "splash 3:2",
+  "strip": "strip 12:5",
+  "wide": "wide 16:9",
+  "half": "half 4:3",
+  "tall": "tall 3:4"
+ },
+ "panels": [
+  {
+   "id": "VIII-00",
+   "shape": "splash",
+   "title": "The guild's quarter",
+   "desc": "The Italian guild's hall, its five lock-houses in a row along the ridge, and the ledger cliffs beyond, oldest strata crumbling into the sea.",
+   "scene": "High view over the guild's quarter: the guild hall with its engineering workshop, five identical lock-houses in a row across the ridge with bronze nameplates (one, on close inspection, misspelled), and quarry benches cut as terraced steps. Beyond them, the ledger cliffs of layered strata drop to the sea, their oldest layers crumbling away. A loading quay and crane stand below.",
+   "sites": ["hall", "locks", "cliffs"],
+   "cast": "guild engineers, small",
+   "refs": [],
+   "caption": ""
+  },
+  {
+   "id": "VIII-01",
+   "shape": "wide",
+   "title": "The guild's plans",
+   "desc": "Italian guild engineers with surveying instruments at their half-built hall; one unrolls a single short Greek scroll, another staggers under a mountain of the guild's own plans.",
+   "scene": "Italian guild engineers in red tunics with a groma surveying instrument and measuring rods stand at their own half-built hall, quarry cliffs behind them. One unrolls a single short, faded Greek scroll; beside him a colleague staggers under a teetering mountain of the guild's own construction plans, wax tablets and specifications.",
+   "sites": ["hall"],
+   "cast": "guild engineers",
+   "refs": [],
+   "caption": "THE GREEK PROTOCOL FITTED ON ONE PAGE. THE GUILD’S PLANS DID NOT."
+  },
+  {
+   "id": "VIII-02",
+   "shape": "wide",
+   "title": "The plan of the building",
+   "desc": "A cutaway of one lock-house: a foundation of numbered stone tablets, a vault above holding a mosaic and recent tablets, and the counter on top.",
+   "scene": "A cutaway drawing of one of the guild's three-storey lock-houses. The foundation is built of neatly stacked, numbered stone tablets (the replicated log); the middle storey is a vault holding a large floor mosaic plus a short stack of recent tablets (the database: snapshot and replay-log); the top storey is a public counter where clerks hand keys to messengers wearing badges of the guild's sister offices.",
+   "sites": ["locks"],
+   "cast": "clerks",
+   "refs": [],
+   "caption": "THE PLAN: A LEDGER FOR A FOUNDATION, A VAULT OF RECORDS ABOVE IT, AND THE LOCK-HOUSE COUNTER ON TOP."
+  },
+  {
+   "id": "VIII-03",
+   "shape": "tall",
+   "tilt": "l",
+   "title": "The chipped chisel",
+   "desc": "A scribe's chisel silently shears a corner off an inscription; its checksum tally no longer matches. A second scribe, disk lost, sits benched, listening only.",
+   "scene": "A guild scribe strikes a stone tablet with a chisel at one of the lock-houses; a hairline crack silently shears off a corner of the inscription without his noticing. On the tablet's edge a small line of gold-leaf tally marks (a checksum) no longer matches. In the background, a second scribe with an empty strongroom chest has been moved to a bench labelled only by a symbol of a closed mouth, where he may listen but not vote.",
+   "sites": ["locks"],
+   "cast": "two scribes",
+   "refs": [],
+   "caption": "CHIPPED CHISELS: A COPY THAT CANNOT VOUCH FOR ITS STRONGROOM MUST LISTEN, WITHOUT VOTING, UNTIL IT HAS SEEN ONE WHOLE ROUND BEGIN AND END."
+  },
+  {
+   "id": "VIII-04",
+   "shape": "wide",
+   "title": "The master lease",
+   "desc": "A guild consul wears a signet on a chain to an hourglass, its sand running low; magistrates turn away a rival claimant at the door.",
+   "scene": "A guild consul on a curule chair at the hall wears a heavy signet ring attached by a fine chain to a small hourglass hanging from his wrist; the part of the ring nearest the chain has turned a dull lead-grey as the sand runs low. Around him, four magistrates hold up their hands, palms out, turning away a rival claimant at the door.",
+   "sites": ["hall"],
+   "cast": "the consul, four magistrates, a rival claimant",
+   "refs": [],
+   "caption": "MASTER LEASES: WHILE THE SAND RUNS, NO RIVAL MAY BE HEARD. WHEN IT RUNS OUT, THE RING TURNS TO LEAD."
+  },
+  {
+   "id": "VIII-05",
+   "shape": "wide",
+   "title": "The crumbling cliffs",
+   "desc": "A cliff of stacked, weathered ledger tablets slides into the sea; workmen crush the oldest into gravel for the foundation of a single new summary stele.",
+   "scene": "The ledger cliffs, a seaside face made entirely of stacked, weathered stone ledger tablets, visibly crumbling and sliding into the sea. Guild workmen with hammers crush the oldest tablets into gravel, which they pour into the foundation of a single tall polished stele being raised beside the cliff; a surveyor checks a bronze tag hanging on the stele.",
+   "sites": ["cliffs"],
+   "cast": "guild workmen, a surveyor",
+   "refs": [],
+   "caption": "THOUSANDS OF OLD LEDGER LINES CRUSHED TO GRAVEL, REPLACED BY ONE SUMMARY STELE — WITH A TAG SAYING EXACTLY WHICH LINE IT SUMMARIZES."
+  },
+  {
+   "id": "VIII-06",
+   "shape": "wide",
+   "title": "Deliberate sabotage",
+   "desc": "In the guild workshop, engineers roll dice against a miniature model of the lock-houses, breaking whatever the roll says and writing down every throw.",
+   "scene": "The guild's engineering workshop, with a detailed miniature model of the five lock-houses connected by tiny roads. An engineer rolls a pair of dice and, according to the roll, a second engineer cuts a model road with shears, knocks over a miniature building, or holds back a toy messenger; a third engineer writes each dice roll carefully on a long wax tablet.",
+   "sites": ["hall"],
+   "cast": "three guild engineers",
+   "refs": [],
+   "caption": "ROLL THE DICE, BREAK WHAT THEY SAY — AND WRITE DOWN EVERY ROLL, SO THE SAME DISASTER CAN BE REPLAYED."
+  },
+  {
+   "id": "VIII-07",
+   "shape": "half",
+   "tilt": "r",
+   "title": "The misspelled name",
+   "desc": "Five bronze nameplates at the lock-houses' doorway; one is visibly misspelled. Four scribes work at full speed; the fifth, outside, copies frantically but is never let in.",
+   "scene": "The doorway of the guild's lock-houses with five bronze nameplates for its five copies; one plate is visibly misspelled, its letters scrambled (CVSTOS IIII). Four scribes work inside at full speed; a fifth scribe stands outside in the street, copying frantically from a window, looking busy but never allowed in.",
+   "sites": ["locks"],
+   "cast": "five scribes",
+   "refs": [],
+   "caption": "FOUR COPIES KEPT WORKING, THE FIFTH KEPT CATCHING UP — AND NO ONE NOTICED THE HOUSE COULD NOW SURVIVE ONE FAILURE INSTEAD OF TWO."
+  },
+  {
+   "id": "VIII-08",
+   "shape": "wide",
+   "title": "The rollback",
+   "desc": "Night in the guild's records office: an uncertain operator unrolls an old, dusty scroll onto the master desk while fresh scrolls stand untouched behind him.",
+   "scene": "Night in the guild's records office at the hall. A lone, uncertain operator with a lamp consults a dusty, barely legible instruction tablet and unrolls an old, yellowed scroll onto the master desk, while shelves of fresh scrolls stand untouched behind him. Through the window, the engineers' quarters are dark and empty. A large water-clock on the wall shows many hours elapsed.",
+   "sites": ["hall"],
+   "cast": "one operator",
+   "refs": [],
+   "caption": "AN UNDOCUMENTED PROCEDURE, AN OPERATOR WHO HAD NEVER USED IT, NO ENGINEER PRESENT — AND AN OLD SNAPSHOT. FIFTEEN HOURS OF RECORDS WERE LOST."
+  }
+ ]
+}

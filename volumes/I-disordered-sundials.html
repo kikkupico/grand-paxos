@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volume I: The Disordered Sundials — Distributed Algorithms of Ancient Greece</title>
+<link rel="stylesheet" href="volume.css">
+</head>
+<body>
+<nav class="series-nav">
+  <div class="series-nav-inner">
+    <a href="../art-direction-grand-island-shape.html" class="nav-back">← Art direction</a>
+    <span class="nav-current">Volume I</span>
+  </div>
+</nav>
+<div id="tip" role="tooltip"></div>
+<div class="page">
+
+<!-- ================= COVER ================= -->
+<header class="cover">
+  <div class="kicker">Distributed Algorithms of Ancient Greece · Volume I</div><br>
+  <!-- PANEL I-00 -->
+  <div class="frame-cover" id="panel-I-00" data-panel="I-00" data-shape="splash" data-refs="I-characters I-props"><div class="img-placeholder ph-splash" role="img" aria-label="Three hamlets, hidden from one another: Bird&#x27;s-eye over the first lobe: three stone hamlets, each screened by its own ridge, with the olive press on its hill between them and unlit beacons on the headland beyond."><span class="ph-label">I-00 · splash 3:2</span><span class="ph-title">Three hamlets, hidden from one another</span><span class="ph-desc">Bird&#x27;s-eye over the first lobe: three stone hamlets, each screened by its own ridge, with the olive press on its hill between them and unlit beacons on the headland beyond.</span><span class="ph-meta">Blender: hamA; hamK; hamM; press; beacons · Sheets: I-characters, I-props</span></div></div>
+  <!-- /PANEL I-00 -->
+  <p class="sub display">An illustrated chronicle of Paxos's first hamlets — hidden from one
+  another by their own ridges — and the beads, beacons and water-clocks that let them agree
+  on an order of events without ever agreeing on the time.</p>
+  <p class="pub">After Leslie Lamport, "Time, Clocks, and the Ordering of Events in a Distributed
+  System," <em>Communications of the ACM</em> 21, 7 (July 1978), 558–565; with the marginal glosses
+  of C.&nbsp;J. Fidge and F. Mattern (1988). The complete paper, retold.</p>
+</header>
+
+<nav class="toc">
+  <h6 id="table-of-contents"><a href="#table-of-contents" class="hlink">Table of Contents</a></h6>
+  <ol>
+    <li><a href="#preface">The Translator's Preface</a></li>
+    <li><a href="#s1">The Quarrel of the Shepherds</a></li>
+    <li><a href="#s2">Happened-Before</a></li>
+    <li><a href="#s3">The Law of the Monotonic Bead</a></li>
+    <li><a href="#s4">The Order of the Hamlets &amp; the Olive Press</a></li>
+    <li><a href="#s5">The Beacon Fires</a></li>
+    <li><a href="#s6">The Water-Clocks</a></li>
+    <li><a href="#s7">Glosses in a Later Hand</a></li>
+    <li><a href="#s8">Relevance to Computer Science</a></li>
+    <li><a href="#refs">References</a></li>
+  </ol>
+</nav>
+
+<!-- ================= PREFACE ================= -->
+<section id="preface">
+  <div class="editor-note">
+    <span class="tag">The translator's preface</span>
+    <p>The scroll translated here was recovered from a hillside cache above the old olive press, in
+    a jar that also held three bronze sundials, none of which agree. It predates the Paxon
+    Parliament by several centuries; indeed, the Paxon mathematicians of Volume&nbsp;IV cite it,
+    though they seem to have read only the first half.</p>
+    <p>The author is a wandering scholar the hamlets called
+    <span class="paxon" data-real="Leslie Lamport" data-note="Author of “Time, Clocks, and the Ordering of Events in a Distributed System” (1978), the paper this volume retells.">Leslie</span>.
+    He was summoned to settle a shepherds' feud and left behind, instead, a treatise on what it
+    means for one thing to happen before another. Readers who want only the algorithm may skip
+    to Chapter&nbsp;III. Readers who want to know why it is <em>not</em> an algorithm for telling
+    which thing truly happened first should begin at Chapter&nbsp;I and read slowly.</p>
+    <p>The second half of the scroll, on the regulation of water-clocks, has been neglected by
+    later copyists. I have restored it. A set of marginal notes added some ten generations later
+    by two unrelated scribes appears in Chapter&nbsp;VII.</p>
+    <p class="sig">— The Translator</p>
+  </div>
+
+  <div class="narr">Among the first hamlets of Paxos, the notion of "before" had always been taken for granted — until the hillfolk tried to use it in court. What follows is the scholar's account of why "before" is only a partial ordering of the deeds of men who live in hamlets hidden from one another, how an agreed total ordering may nonetheless be built from simple beads, how that ordering governs a shared olive press, and how closely a set of water-clocks can be kept in step.</div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER I ================= -->
+<section id="s1">
+  <div class="issue">
+    <span class="no">Chapter I</span>
+    <h2 id="the-quarrel-of-the-shepherds"><a href="#the-quarrel-of-the-shepherds" class="hlink">The Quarrel of the Shepherds</a></h2>
+  </div>
+
+  <h3 id="1-1-the-three-hamlets" class="sect"><a href="#1-1-the-three-hamlets" class="hlink">1.1 · The Three Hamlets</a></h3>
+  <!-- PANEL I-01 -->
+  <figure class="panel" id="panel-I-01" data-panel="I-01" data-shape="wide" data-refs="I-props">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The hamlets at dawn: Establishing panorama: the three hamlets on their separate hillsides, none able to see the others, a track and terraces of olives between them."><span class="ph-label">I-01 · wide 16:9</span><span class="ph-title">The hamlets at dawn</span><span class="ph-desc">Establishing panorama: the three hamlets on their separate hillsides, none able to see the others, a track and terraces of olives between them.</span><span class="ph-meta">Blender: hamA; hamK; hamM · Sheets: I-props</span></div></div>
+    <figcaption>PAXOS&#x27;S FIRST HAMLETS SPOKE TO ONE ANOTHER ONLY BY RUNNER ON THE HILL TRACK — AND NO TWO SUNDIALS AGREED.</figcaption>
+  </figure>
+  <!-- /PANEL I-01 -->
+  <div class="prose">
+    <p>Paxos's first hamlets were three distinct settlements, each screened from the others by a
+    fold of hillside, whose people communicated only by sending one another messages by runner
+    on the hill track. The scholar observed at the outset that a single household can be regarded
+    in the same way — the kitchen, the storeroom and the goat-pen are separate places between
+    which the servants run — but it was the hamlets that concerned him. Paxos, he wrote, is
+    <em>distributed</em> wherever the time a runner takes between two hamlets is not negligible
+    compared with the time between the deeds of a single shepherd. A shepherd who does twenty
+    things while one message crosses the ridge track lives among distributed hamlets whether he
+    likes it or not.</p>
+    <p>The concept of time is fundamental to our way of thinking, and it is derived from a more
+    basic concept: the order in which things happen. We say a sheep was shorn at the third hour if
+    the shearing happened after the sundial showed the third hour and before it showed the fourth.
+    The hamlets built their commerce on such orderings. Whoever tended the shared olive press, for
+    example, had been told that a request to use it must be granted <em>if it was made before the
+    press was freed</em>. The scholar's first lesson was that this rule, which sounds perfectly
+    definite, must be carefully reexamined when the requests are made from different hamlets.</p>
+  </div>
+
+  <h3 id="1-2-the-feud" class="sect"><a href="#1-2-the-feud" class="hlink">1.2 · The Feud of Aristides and Leonidas</a></h3>
+  <!-- PANEL I-02 -->
+  <figure class="panel mid tilt-r" id="panel-I-02" data-panel="I-02" data-shape="half" data-refs="I-characters">
+    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="The quarrel at the press: At the olive press yard: Aristides with a shorn goat and Leonidas with a freshly branded ram shout at each other, while the wandering scholar arrives up the track behind them."><span class="ph-label">I-02 · half 4:3</span><span class="ph-title">The quarrel at the press</span><span class="ph-desc">At the olive press yard: Aristides with a shorn goat and Leonidas with a freshly branded ram shout at each other, while the wandering scholar arrives up the track behind them.</span><span class="ph-meta">Blender: press · Sheets: I-characters</span></div></div>
+    <figcaption>“I SHEARED MY GOAT FIRST!” “YOU LIE — I BRANDED MY RAM BEFORE THE SHADOW MOVED!” ENTER THE WANDERING SCHOLAR.</figcaption>
+  </figure>
+  <!-- /PANEL I-02 -->
+  <div class="prose">
+    <p>The occasion of the treatise was a feud. Aristides of Hamlet A claimed he had sheared his
+    goat before Leonidas of Hamlet M had branded his ram, and the precedence mattered for reasons
+    of a wager that the scroll does not record in full. Each man produced a sundial reading. The
+    readings disagreed with each other, and the sundials disagreed with the sun, because the fog
+    and mountain shadows of the hillside made every sundial a matter of opinion.</p>
+    <p>Leslie listened to both men and gave a verdict neither expected:</p>
+  </div>
+  <div class="decree bad">"Neither of you can be answered. You live in hamlets hidden from one another and no runner passed between you. There is no fact of the matter here that any assembly of mortals could recover."</div>
+  <div class="prose">
+    <p>He did not claim that the shearing and the branding happened at the same moment. He claimed
+    something more unsettling: that if a specification — a wager, a law, a press-keeper's rule — is
+    to be judged correct, it must be stated in terms of things observable <em>within</em> the
+    hamlets. A rule stated in terms of the sun's true position requires true sundials, and even the
+    best bronze sundial is not perfectly accurate. He therefore set out to define "happened before"
+    without using sundials at all.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER II ================= -->
+<section id="s2">
+  <div class="issue">
+    <span class="no">Chapter II</span>
+    <h2 id="happened-before"><a href="#happened-before" class="hlink">Happened-Before</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>The scholar began by describing the hamlets more precisely. Each is a collection of
+    shepherds — the scroll uses a word better rendered <em>households</em>, but I have kept to
+    shepherds. Each shepherd's life is a sequence of deeds. What counts as a single deed depends
+    on the purpose: an entire day at market may be one deed, or a single stroke of the shears may
+    be one. The essential assumption is that the deeds of one shepherd form a sequence, so that for
+    any two of them it is known which came first. That, Leslie remarks, is simply what is meant by
+    a shepherd.</p>
+    <p>Dispatching a runner is a deed of the sender. Receiving him is a deed of the receiver. With
+    these two facts he defined the relation he wrote with an arrow, "→", and read aloud as
+    <em>happened before</em>.</p>
+  </div>
+
+  <div class="slab">
+    <div class="slab-head">Definition · Happened-Before</div>
+    <p class="stmt">The relation → on the deeds of the hamlets is the smallest relation satisfying
+    the following three conditions:</p>
+    <ol class="stmt">
+      <li>If <var>a</var> and <var>b</var> are deeds of the same shepherd, and <var>a</var> comes before <var>b</var>, then <var>a</var> → <var>b</var>.</li>
+      <li>If <var>a</var> is the dispatch of a runner by one shepherd and <var>b</var> is the receipt of that same runner by another, then <var>a</var> → <var>b</var>.</li>
+      <li>If <var>a</var> → <var>b</var> and <var>b</var> → <var>c</var>, then <var>a</var> → <var>c</var>.</li>
+    </ol>
+    <p class="stmt">Two distinct deeds <var>a</var> and <var>b</var> are said to be <b>concurrent</b> if neither <var>a</var> → <var>b</var> nor <var>b</var> → <var>a</var>.</p>
+  </div>
+
+  <div class="prose">
+    <p>He further assumed that no deed happens before itself — "hamlets in which a deed can
+    precede itself do not seem to be physically meaningful" — which makes → an irreflexive
+    partial ordering. It is <em>partial</em> because concurrent deeds exist. The shearing and the
+    branding were concurrent. That was the whole of his verdict.</p>
+    <p>He found it helpful to draw the relation on what the press-keepers called a
+    <em>crossing chart</em>, reproduced below. Each hamlet is a vertical line, with later times
+    higher on the page. Each deed is a dot on its hamlet's line. Each dispatch is a line slanting
+    upward from the dot of its sending to the dot of its receipt. Then <var>a</var> → <var>b</var>
+    means precisely that one can travel from <var>a</var> to <var>b</var> on the chart by moving
+    only upward along a hamlet's line and along dispatch lines.</p>
+  </div>
+
+  <figure class="panel mid" id="fig-chart">
+    <div class="frame" style="background:#fbf6e6; padding:8px 6px 26px">
+      <svg viewBox="0 0 560 330" role="img" aria-label="Crossing chart: three hamlets, Andros, Kea and Milos, drawn as vertical lines with deeds as dots and dispatches as slanted arrows. Bead counts appear beside each deed." style="display:block; width:100%; height:auto; font-family:Georgia,serif">
+        <defs>
+          <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#136f9e"/></marker>
+        </defs>
+        <g stroke="#1c1512" stroke-width="3">
+          <line x1="110" y1="300" x2="110" y2="30"/><line x1="280" y1="300" x2="280" y2="30"/><line x1="450" y1="300" x2="450" y2="30"/>
+        </g>
+        <g font-family="Optima,'Gill Sans',sans-serif" font-size="14" font-weight="700" fill="#1c1512" text-anchor="middle">
+          <text x="110" y="322">HAMLET A · ANDROS</text><text x="280" y="322">HAMLET K · KEA</text><text x="450" y="322">HAMLET M · MILOS</text>
+        </g>
+        <text x="22" y="40" font-size="12" fill="#5a4a33" font-style="italic">later ↑</text>
+        <g stroke="#136f9e" stroke-width="2.2" fill="none" stroke-dasharray="6 4" marker-end="url(#arr)">
+          <path d="M110 265 Q195 250 276 222"/>
+          <path d="M280 172 Q195 150 114 132"/>
+          <path d="M280 275 Q365 265 446 242"/>
+          <path d="M450 152 Q365 132 284 112"/>
+        </g>
+        <g fill="#1c1512">
+          <circle cx="110" cy="265" r="7"/><circle cx="110" cy="200" r="7" fill="#bf4a26"/><circle cx="110" cy="132" r="7"/><circle cx="110" cy="62" r="7"/>
+          <circle cx="280" cy="275" r="7"/><circle cx="280" cy="222" r="7"/><circle cx="280" cy="172" r="7" fill="#bf4a26"/><circle cx="280" cy="112" r="7"/><circle cx="280" cy="52" r="7"/>
+          <circle cx="450" cy="242" r="7"/><circle cx="450" cy="152" r="7"/><circle cx="450" cy="82" r="7"/>
+        </g>
+        <g font-size="13" fill="#1c1512">
+          <text x="84" y="270" text-anchor="end"><tspan font-style="italic">a</tspan>₁ · 1</text>
+          <text x="84" y="205" text-anchor="end"><tspan font-style="italic">a</tspan>₂ · 2</text>
+          <text x="84" y="137" text-anchor="end"><tspan font-style="italic">a</tspan>₃ · 4</text>
+          <text x="84" y="67" text-anchor="end"><tspan font-style="italic">a</tspan>₄ · 5</text>
+          <text x="296" y="290"><tspan font-style="italic">k</tspan>₁ · 1</text>
+          <text x="296" y="238"><tspan font-style="italic">k</tspan>₂ · 2</text>
+          <text x="296" y="190"><tspan font-style="italic">k</tspan>₃ · 3</text>
+          <text x="296" y="104"><tspan font-style="italic">k</tspan>₄ · 4</text>
+          <text x="296" y="48"><tspan font-style="italic">k</tspan>₅ · 5</text>
+          <text x="466" y="247"><tspan font-style="italic">m</tspan>₁ · 2</text>
+          <text x="466" y="157"><tspan font-style="italic">m</tspan>₂ · 3</text>
+          <text x="466" y="87"><tspan font-style="italic">m</tspan>₃ · 4</text>
+        </g>
+      </svg>
+    </div>
+    <figcaption>THE CROSSING CHART. <i>a</i>₁ → <i>k</i>₂ → <i>k</i>₃, SO A DEED IN HAMLET A HAPPENED BEFORE ONE IN HAMLET K. BUT <i>a</i>₂ AND <i>k</i>₃ (RED) ARE CONCURRENT — AND SO ARE <i>a</i>₁ AND <i>m</i>₃, HOWEVER FAR APART THEY ARE DRAWN.</figcaption>
+  </figure>
+
+  <div class="prose">
+    <p>Another way of reading the definition, the scholar wrote, is that <var>a</var> → <var>b</var>
+    means it was <em>possible</em> for <var>a</var> to causally affect <var>b</var>. Two deeds are
+    concurrent if neither could have affected the other. On the chart, <var>a</var><sub>2</sub>
+    and <var>k</var><sub>3</sub> are concurrent even though the chart has been drawn to suggest that
+    <var>a</var><sub>2</sub> happened earlier by the sun. The shepherd of Hamlet A cannot know what
+    was done in Hamlet K at <var>k</var><sub>3</sub> until the runner arrives at
+    <var>a</var><sub>3</sub>; before that, he could at most know what the man of Hamlet K had been
+    <em>planning</em> to do.</p>
+    <p>The scholar noted that this definition would seem natural to the astronomers of Alexandria
+    who had described the ordering of events in terms of the light signals that <em>could</em>
+    be sent between them.<sup>1</sup> He took a more pragmatic path, considering only the dispatches
+    that <em>actually were</em> sent. One ought to be able to judge whether the hamlets behaved
+    correctly by knowing only the deeds that did occur, without knowing which deeds could have
+    occurred.</p>
+  </div>
+  <aside class="fn"><b>1.</b> The scroll cites two treatises of the Alexandrian school,
+  <em>Relativity in Illustrations</em> by
+  <span class="paxon" data-real="J. T. Schwartz" data-note="Author of Relativity in Illustrations (1962), cited as reference 1.">Σβάρτς</span>
+  and <em>Space-Time Physics</em> by
+  <span class="paxon" data-real="E. F. Taylor &amp; J. A. Wheeler" data-note="Authors of Space-Time Physics (1966), cited as reference 2.">Τέιλορ and Γουίλερ</span>.
+  That the Alexandrians were already drawing light cones is not otherwise attested, and I have
+  been unable to verify it.</aside>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER III ================= -->
+<section id="s3">
+  <div class="issue">
+    <span class="no">Chapter III</span>
+    <h2 id="the-law-of-the-monotonic-bead"><a href="#the-law-of-the-monotonic-bead" class="hlink">The Law of the Monotonic Bead</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>Having set the sundials aside, Leslie introduced clocks of a humbler kind. A clock, for his
+    purposes, is only a way of assigning a number to each deed, the number being thought of as the
+    time at which the deed occurred. Each shepherd <var>P</var><sub><var>i</var></sub> keeps a clock
+    <var>C</var><sub><var>i</var></sub> that assigns a number
+    <var>C</var><sub><var>i</var></sub>(<var>a</var>) to each of his own deeds <var>a</var>. Nothing
+    whatever is assumed about the relation of these numbers to the sun. They may be kept on an
+    abacus with no timing mechanism at all.</p>
+    <p>What does it mean for such a system of clocks to be <em>correct</em>? It cannot mean that
+    they agree with the sun, since that would require true sundials. It must be based on the order
+    in which deeds occur, and the strongest reasonable requirement is this:</p>
+  </div>
+
+  <div class="slab">
+    <div class="slab-head">The Clock Condition</div>
+    <div class="mathblock">For any deeds <var>a</var>, <var>b</var>: &nbsp; if <var>a</var> → <var>b</var> then <var>C</var>(<var>a</var>) &lt; <var>C</var>(<var>b</var>).</div>
+  </div>
+
+  <div class="prose">
+    <p>The converse cannot be required as well. If it were, any two concurrent deeds would have to
+    carry the same number. On the crossing chart of Chapter&nbsp;II, <var>a</var><sub>1</sub> and
+    <var>a</var><sub>2</sub> are both concurrent with <var>m</var><sub>3</sub>, so both would need the
+    same number as <var>m</var><sub>3</sub> — and hence as each other — which contradicts the Clock
+    Condition, because <var>a</var><sub>1</sub> → <var>a</var><sub>2</sub>.</p>
+    <p>The Clock Condition follows from two simpler conditions:</p>
+  </div>
+
+  <div class="decree rules">
+    <span class="rhead">Conditions C1 &amp; C2</span>
+    <ol>
+      <li><b>C1.</b> If <var>a</var> and <var>b</var> are deeds of shepherd <var>P</var><sub><var>i</var></sub>, and <var>a</var> comes before <var>b</var>, then <var>C</var><sub><var>i</var></sub>(<var>a</var>) &lt; <var>C</var><sub><var>i</var></sub>(<var>b</var>).</li>
+      <li><b>C2.</b> If <var>a</var> is the dispatch of a runner by <var>P</var><sub><var>i</var></sub> and <var>b</var> is its receipt by <var>P</var><sub><var>j</var></sub>, then <var>C</var><sub><var>i</var></sub>(<var>a</var>) &lt; <var>C</var><sub><var>j</var></sub>(<var>b</var>).</li>
+    </ol>
+  </div>
+
+  <div class="prose">
+    <p>On the crossing chart one may picture each shepherd's abacus "ticking" through every number,
+    the ticks falling between his deeds, and draw a dashed <em>tick line</em> through all the
+    like-numbered ticks of the different hamlets. C1 says there must be a tick line between any two
+    deeds on a hamlet's line. C2 says every dispatch line must cross a tick line. The tick lines
+    can be taken as the time coordinates of the chart and straightened — and the straightened
+    chart is an equally valid picture of the same hamlets. Without sundials, the scholar
+    insisted, there is no way to decide which picture is the better one.</p>
+    <p>To guarantee C1 and C2, he gave the shepherds two rules, which the later copyists called the
+    Law of the Monotonic Bead:</p>
+  </div>
+
+  <!-- PANEL I-03 -->
+  <figure class="panel narrow tilt-l" id="panel-I-03" data-panel="I-03" data-shape="tall" data-refs="I-props">
+    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="Flicking the bead: Close-up at a hamlet gate: a weathered shepherd flicks his abacus forward as a runner hands him a stamped clay slate."><span class="ph-label">I-03 · tall 3:4</span><span class="ph-title">Flicking the bead</span><span class="ph-desc">Close-up at a hamlet gate: a weathered shepherd flicks his abacus forward as a runner hands him a stamped clay slate.</span><span class="ph-meta">Blender: hamK · Sheets: I-props</span></div></div>
+    <figcaption>THE LAW OF THE MONOTONIC BEAD: FLICK A BEAD FOR EVERY DEED, AND PUSH PAST THE COUNT ON EVERY SLATE YOU RECEIVE.</figcaption>
+  </figure>
+  <!-- /PANEL I-03 -->
+
+  <div class="decree rules">
+    <span class="rhead">The Law of the Monotonic Bead</span>
+    <ol>
+      <li><b>IR1.</b> Each shepherd <var>P</var><sub><var>i</var></sub> flicks his abacus <var>C</var><sub><var>i</var></sub> forward between any two successive deeds.</li>
+      <li><b>IR2.</b> (a) If deed <var>a</var> is the dispatch of runner <var>m</var> by <var>P</var><sub><var>i</var></sub>, he carries a slate stamped <var>T</var><sub><var>m</var></sub> = <var>C</var><sub><var>i</var></sub>(<var>a</var>). (b) Upon receiving runner <var>m</var>, shepherd <var>P</var><sub><var>j</var></sub> sets <var>C</var><sub><var>j</var></sub> greater than or equal to its present value <em>and</em> greater than <var>T</var><sub><var>m</var></sub>.</li>
+    </ol>
+  </div>
+
+  <div class="prose">
+    <p>IR1 obviously ensures C1 and IR2 ensures C2; together they guarantee a correct system of
+    logical clocks. The numbers beside each dot on the crossing chart were obtained this way,
+    flicking one bead per deed. Notice that <var>a</var><sub>2</sub> bears 2 and
+    <var>k</var><sub>3</sub> bears 3. The lower count in Hamlet A does not mean Hamlet A acted
+    first. It means nothing at all. <b>The abacus can prove ancestry; it cannot detect
+    concurrency.</b></p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER IV ================= -->
+<section id="s4">
+  <div class="issue">
+    <span class="no">Chapter IV</span>
+    <h2 id="the-order-of-the-hamlets"><a href="#the-order-of-the-hamlets" class="hlink">The Order of the Hamlets</a></h2>
+  </div>
+
+  <h3 id="4-1-a-total-order" class="sect"><a href="#4-1-a-total-order" class="hlink">4.1 · An Agreed Fiction</a></h3>
+  <div class="prose">
+    <p>For the feuding shepherds, Leslie prescribed a second, cruder remedy. Order all deeds by their
+    bead counts, and where two deeds bear the same count, break the tie by some arbitrary but fixed
+    ranking ≺ of the hamlets — alphabetical by their letter, A before K before M, which suited
+    everyone except the herders of Milos. He wrote the resulting relation with a double arrow, ⇒:</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head">The Total Ordering ⇒</div>
+    <p class="stmt">If <var>a</var> is a deed of <var>P</var><sub><var>i</var></sub> and <var>b</var> a deed of <var>P</var><sub><var>j</var></sub>, then <var>a</var> ⇒ <var>b</var> if and only if either</p>
+    <div class="mathblock">(i) &nbsp;<var>C</var><sub><var>i</var></sub>(<var>a</var>) &lt; <var>C</var><sub><var>j</var></sub>(<var>b</var>) &nbsp;&nbsp;<span class="rm">or</span>&nbsp;&nbsp; (ii) &nbsp;<var>C</var><sub><var>i</var></sub>(<var>a</var>) = <var>C</var><sub><var>j</var></sub>(<var>b</var>) <span class="rm">and</span> <var>P</var><sub><var>i</var></sub> ≺ <var>P</var><sub><var>j</var></sub>.</div>
+  </div>
+  <div class="prose">
+    <p>This is a total ordering, and by the Clock Condition, <var>a</var> → <var>b</var> implies
+    <var>a</var> ⇒ <var>b</var>: it completes the partial order "happened before" into a total one.
+    But it is not unique. Different clocks satisfying the Clock Condition give different orderings
+    ⇒, and any total ordering that extends → can be produced by <em>some</em> system of clocks. Only
+    the partial ordering → is uniquely determined by what actually happened. The total order is
+    arbitrary — but it is <em>identically</em> arbitrary in every hamlet, and an agreed fiction
+    serves a court better than an irrecoverable truth.<sup>3</sup></p>
+  </div>
+  <aside class="fn"><b>3.</b> The herders of Milos proposed that the ranking should rotate
+  with the bead count, so that each hamlet took its turn at the head of ties. The scroll records
+  that this "fairer" method is equally correct, and gives the formula, which I omit out of respect
+  for the herders of Milos, who still lost most ties.</aside>
+
+  <h3 id="4-2-the-olive-press" class="sect"><a href="#4-2-the-olive-press" class="hlink">4.2 · The Olive Press</a></h3>
+  <!-- PANEL I-04 -->
+  <figure class="panel mid tilt-r" id="panel-I-04" data-panel="I-04" data-shape="half" data-refs="I-props">
+    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="Paxos&#x27;s one olive press: At the press: one shepherd works it while others wait with baskets, each holding a wax tablet queue and a stamped slate."><span class="ph-label">I-04 · half 4:3</span><span class="ph-title">Paxos&#x27;s one olive press</span><span class="ph-desc">At the press: one shepherd works it while others wait with baskets, each holding a wax tablet queue and a stamped slate.</span><span class="ph-meta">Blender: press · Sheets: I-props</span></div></div>
+    <figcaption>PAXOS HAD ONE OLIVE PRESS. ONLY ONE SHEPHERD COULD USE IT AT A TIME — AND NO ONE WAS IN CHARGE OF THE QUEUE.</figcaption>
+  </figure>
+  <!-- /PANEL I-04 -->
+  <div class="prose">
+    <p>The usefulness of the fiction was demonstrated on Paxos's single olive press, which could be
+    used by only one shepherd at a time. Leslie asked for a method of granting the press that
+    satisfied three conditions:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">Requirements for the Press</span>
+    <ol type="I">
+      <li>A shepherd who has been granted the press must release it before it can be granted to another.</li>
+      <li>Different requests for the press must be granted in the order in which they are made.</li>
+      <li>If every shepherd granted the press eventually releases it, then every request is eventually granted.</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>The press was initially granted to exactly one shepherd. Observe, the scholar wrote, how the
+    conditions involve the ordering of deeds — and that condition II says nothing about which of two
+    <em>concurrently</em> made requests should be granted first.</p>
+    <p>The obvious solution — appoint a keeper at the press itself to grant requests in the order
+    his runners arrive — does not work. Suppose the shepherd of Hamlet A sends a request to the
+    keeper and then sends a runner to Hamlet K. Upon receiving that runner, the shepherd of Hamlet K
+    sends his own request to the keeper. The Hamlet K request can easily reach the press first,
+    since runners are not all equally fast. Granting it first violates condition II, for the
+    Hamlet A request happened before the Hamlet K request.</p>
+    <p>Instead, every shepherd keeps the Law of the Monotonic Bead and uses ⇒ to order all requests
+    and releases. To avoid distracting detail, Leslie assumed that runners between any two hamlets
+    arrive in the order sent, that every runner eventually arrives, and that any shepherd can send
+    directly to any other. (Numbered dispatches and acknowledgments would remove these assumptions.)
+    Each shepherd keeps his own <em>request tablet</em>, which no one else ever sees. Initially
+    every tablet holds the single entry "<var>T</var><sub>0</sub>:<var>P</var><sub>0</sub> requests
+    the press", where <var>P</var><sub>0</sub> is the shepherd first granted it and
+    <var>T</var><sub>0</sub> is less than any bead count. Then there are five rules, each carried out
+    as a single deed:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">The Five Rules of the Press</span>
+    <ol>
+      <li>To request the press, <var>P</var><sub><var>i</var></sub> sends the slate "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests the press" to every other shepherd, and writes it on his own tablet, where <var>T</var><sub><var>m</var></sub> is the slate's stamp.</li>
+      <li>When <var>P</var><sub><var>j</var></sub> receives "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests the press", he writes it on his tablet and sends a (stamped) acknowledgment to <var>P</var><sub><var>i</var></sub>.</li>
+      <li>To release the press, <var>P</var><sub><var>i</var></sub> erases any "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests" entry from his tablet and sends a (stamped) "<var>P</var><sub><var>i</var></sub> releases the press" slate to every other shepherd.</li>
+      <li>When <var>P</var><sub><var>j</var></sub> receives "<var>P</var><sub><var>i</var></sub> releases the press", he erases any "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests" entry from his tablet.</li>
+      <li><var>P</var><sub><var>i</var></sub> is granted the press when both (i) his own "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests" entry precedes every other request on his tablet in the ordering ⇒, and (ii) he has received a slate from every other shepherd stamped later than <var>T</var><sub><var>m</var></sub>.</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>Both parts of rule 5 are tested by <var>P</var><sub><var>i</var></sub> alone, in his own
+    hamlet, looking at his own tablet. The proof is short. Part (ii), with runners arriving in
+    order, ensures that <var>P</var><sub><var>i</var></sub> has learned of every request that
+    preceded his; since only rules 3 and 4 erase entries, condition I follows. Condition II follows
+    because ⇒ extends →. Rule 2 guarantees that part (ii) of rule 5 eventually holds, and rules 3
+    and 4 guarantee that part (i) eventually holds if every holder eventually releases — which is
+    condition III.</p>
+    <p>There is no press-keeper and no central tablet. And the method generalizes. Any form of
+    coordination among the hamlets can be described as a <em>state machine</em>: a set of possible
+    commands, a set of possible states, and a function telling how each command changes the state.
+    For the press, the commands are the requests and releases, and the state is a queue of waiting
+    requests, with the request at the head being the one granted. If every shepherd simulates the
+    machine, executing all commands in the order ⇒, then every shepherd executes the same sequence
+    of commands and arrives at the same state. A shepherd may execute a command stamped
+    <var>T</var> once he has learned of all commands from all hamlets stamped <var>T</var> or
+    less.</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head">The Scholar's Warning</div>
+    <p class="stmt">The method requires the active participation of every shepherd. Each must learn
+    every command issued by the others, so the failure of a single shepherd halts every hamlet.</p>
+  </div>
+  <div class="prose">
+    <p>Leslie declined to treat failure in this scroll. He made one observation, which the later
+    volumes of this series spend a great deal of parchment rediscovering: <em>the entire concept of
+    failure is only meaningful in the context of physical time.</em> Without a sundial, there is no
+    way to distinguish a shepherd who has fallen from a cliff from one who is merely resting between
+    deeds. A shepherd can tell that his neighbour has "crashed" only because he has been waiting too
+    long for a reply.<sup>4</sup></p>
+  </div>
+  <aside class="fn"><b>4.</b> The priestesses of the summit oracle, one volume hence, will turn this
+  remark into a curse.</aside>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER V ================= -->
+<section id="s5">
+  <div class="issue">
+    <span class="no">Chapter V</span>
+    <h2 id="the-beacon-fires"><a href="#the-beacon-fires" class="hlink">The Beacon Fires</a></h2>
+  </div>
+
+  <!-- PANEL I-05 -->
+  <figure class="panel" id="panel-I-05" data-panel="I-05" data-shape="wide" data-refs="I-props">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="Beacon across the bay: Night scene at the beacon headlands: a shepherd hands a slate to a runner and lights a beacon fire; on the far headland, his friend sees the flame and sends a faster runner of his own."><span class="ph-label">I-05 · wide 16:9</span><span class="ph-title">Beacon across the bay</span><span class="ph-desc">Night scene at the beacon headlands: a shepherd hands a slate to a runner and lights a beacon fire; on the far headland, his friend sees the flame and sends a faster runner of his own.</span><span class="ph-meta">Blender: beacons · Sheets: I-props</span></div></div>
+    <figcaption>A BEACON FIRE CROSSES THE BAY FASTER THAN ANY RUNNER — AND THE BEADS KNOW NOTHING OF IT.</figcaption>
+  </figure>
+  <!-- /PANEL I-05 -->
+  <div class="prose">
+    <p>The press was granted in the order ⇒, and this permitted a kind of behaviour the scholar called
+    <em>anomalous</em>. A shepherd on the near beacon headland makes request <var>A</var> by runner,
+    and then lights a beacon fire to signal a friend on the far headland to make request
+    <var>B</var>. It is quite possible for <var>B</var> to receive the lower bead count and be
+    granted first. The beads cannot know that <var>A</var> preceded <var>B</var>, because the
+    precedence was carried by fire, and fire is not part of the system.<sup>5</sup></p>
+    <p>Let <var>S</var> be the set of all deeds of the hamlets, and let <b><var>S</var></b> be the larger set that also
+    contains every relevant deed outside it — beacon fires, shouts across the bay. Let <b>⟶</b> be the happened-before relation on the larger set. In the example, <var>A</var> <b>⟶</b> <var>B</var>
+    but not <var>A</var> → <var>B</var>. No method based entirely on the deeds of <var>S</var>, and unrelated
+    to the other deeds of <b><var>S</var></b>, can guarantee that <var>A</var> is ordered before <var>B</var>.</p>
+    <p>There are two ways out. The first is to put the missing information into the system: the
+    shepherd of the near headland could shout his request's bead count along with the beacon, and
+    his friend could insist on a later one. This hands the shepherds the responsibility of avoiding
+    anomalies. The second is to build clocks that satisfy a stronger condition:</p>
+  </div>
+  <aside class="fn"><b>5.</b> The use of stamps to order requests, and the very notion of anomalous
+  behaviour, the scholar credits to two press clerks,
+  <span class="paxon" data-real="Paul Johnson" data-note="Credited in the 1978 paper’s acknowledgment for the use of timestamps to order operations.">Τζόνσον</span>
+  and
+  <span class="paxon" data-real="Robert Thomas" data-note="Credited alongside Paul Johnson for timestamps and the concept of anomalous behavior.">Τόμας</span>.</aside>
+  <div class="slab">
+    <div class="slab-head">The Strong Clock Condition</div>
+    <div class="mathblock">For any deeds <var>a</var>, <var>b</var> in <var>S</var>: &nbsp; if <var>a</var> <b>⟶</b> <var>b</var> then <var>C</var>(<var>a</var>) &lt; <var>C</var>(<var>b</var>).</div>
+  </div>
+  <div class="prose">
+    <p>Beads do not in general satisfy this. But, the scholar wrote, it is one of the mysteries of
+    the universe that it is possible to construct physical clocks which, running quite
+    independently of one another, will satisfy the Strong Clock Condition. So after half a scroll
+    spent setting sundials aside, he returned to them.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VI ================= -->
+<section id="s6">
+  <div class="issue">
+    <span class="no">Chapter VI</span>
+    <h2 id="the-water-clocks"><a href="#the-water-clocks" class="hlink">The Water-Clocks</a></h2>
+  </div>
+
+  <!-- PANEL I-06 -->
+  <figure class="panel narrow tilt-l" id="panel-I-06" data-panel="I-06" data-shape="tall" data-refs="I-props">
+    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="The water-clock reform: In the counting shed by the press: a row of bronze water-clocks, each dripping at a slightly different rate; a clerk nudges one forward on a fresh slate, never back."><span class="ph-label">I-06 · tall 3:4</span><span class="ph-title">The water-clock reform</span><span class="ph-desc">In the counting shed by the press: a row of bronze water-clocks, each dripping at a slightly different rate; a clerk nudges one forward on a fresh slate, never back.</span><span class="ph-meta">Blender: press (counting shed) · Sheets: I-props</span></div></div>
+    <figcaption>THE WATER-CLOCK REFORM: A CLOCK MAY BE PUSHED FORWARD WHEN A SLATE ARRIVES — NEVER BACK.</figcaption>
+  </figure>
+  <!-- /PANEL I-06 -->
+  <div class="prose">
+    <p>The bronze sundials were replaced, in the reform, by water-clocks, which run continuously
+    rather than in beads. Let <var>C</var><sub><var>i</var></sub>(<var>t</var>) be the reading of
+    shepherd <var>i</var>'s clock at true time <var>t</var>, running smoothly except for isolated
+    jumps where it is reset. For it to be a true clock, it must run at approximately the correct
+    rate, and all the clocks must approximately agree:</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head">Conditions PC1 &amp; PC2</div>
+    <p class="stmt"><b>PC1.</b> There exists a constant κ ≪ 1 such that for all <var>i</var>:</p>
+    <div class="mathblock">| <var>dC</var><sub><var>i</var></sub>(<var>t</var>)/<var>dt</var> − 1 | &lt; κ</div>
+    <p class="stmt"><b>PC2.</b> For all <var>i</var>, <var>j</var>:</p>
+    <div class="mathblock">| <var>C</var><sub><var>i</var></sub>(<var>t</var>) − <var>C</var><sub><var>j</var></sub>(<var>t</var>) | &lt; ε</div>
+  </div>
+  <div class="prose">
+    <p>For the finest water-clocks of the reform, the scroll gives κ ≤ 10<sup>−6</sup>.<sup>6</sup>
+    How small must κ and ε be to prevent anomalous behaviour? Let μ be a number such that if deed
+    <var>a</var> happens at true time <var>t</var> and deed <var>b</var> in another hamlet satisfies
+    <var>a</var> <b>⟶</b> <var>b</var>, then <var>b</var> happens later than <var>t</var> + μ. In other words,
+    μ is less than the shortest crossing time — the shortest distance between hamlets divided by the
+    speed of the fastest possible signal, which, for beacon fires, is very small indeed. To prevent
+    anomalies we need <var>C</var><sub><var>i</var></sub>(<var>t</var> + μ) −
+    <var>C</var><sub><var>j</var></sub>(<var>t</var>) &gt; 0. Assuming clocks are only ever set
+    forward, PC1 and PC2 give this whenever</p>
+  </div>
+  <div class="mathblock">ε / (1 − κ) ≤ μ.</div>
+  <aside class="fn"><b>6.</b> The original gives this figure for "typical crystal controlled clocks".
+  I have no explanation for the phrase, and have rendered it as water-clocks, which seems the
+  likeliest sense.</aside>
+
+  <div class="prose">
+    <p>Now suppose runner <var>m</var> is dispatched at true time <var>t</var> and received at
+    <var>t′</var>. His total delay ν<sub><var>m</var></sub> = <var>t′</var> − <var>t</var> is unknown to
+    the receiver, but he knows some minimum delay μ<sub><var>m</var></sub> ≥ 0 — no runner from Hamlet A
+    ever reached Hamlet K in less than an hour. The difference ξ<sub><var>m</var></sub> =
+    ν<sub><var>m</var></sub> − μ<sub><var>m</var></sub> is the <em>unpredictable</em> delay. The Law of
+    the Monotonic Bead becomes:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">The Law, for Water-Clocks</span>
+    <ol>
+      <li><b>IR1′.</b> For each <var>i</var>, if <var>P</var><sub><var>i</var></sub> receives no runner at time <var>t</var>, then <var>C</var><sub><var>i</var></sub> is differentiable at <var>t</var> and <var>dC</var><sub><var>i</var></sub>(<var>t</var>)/<var>dt</var> &gt; 0.</li>
+      <li><b>IR2′.</b> (a) If <var>P</var><sub><var>i</var></sub> dispatches runner <var>m</var> at time <var>t</var>, he carries the stamp <var>T</var><sub><var>m</var></sub> = <var>C</var><sub><var>i</var></sub>(<var>t</var>). (b) Upon receiving <var>m</var> at time <var>t′</var>, <var>P</var><sub><var>j</var></sub> sets <var>C</var><sub><var>j</var></sub>(<var>t′</var>) equal to maximum(<var>C</var><sub><var>j</var></sub>(<var>t′</var> − 0), <var>T</var><sub><var>m</var></sub> + μ<sub><var>m</var></sub>).</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>A shepherd needs to know only his own clock reading and the stamps on the slates he receives.
+    Suppose the hamlets are joined by a web of tracks, and say a runner is sent over a route
+    "every τ hours" if for any <var>t</var> at least one runner leaves between <var>t</var> and
+    <var>t</var> + τ. The <em>diameter</em> of the web is the smallest <var>d</var> such that any
+    hamlet can be reached from any other in at most <var>d</var> crossings. Then:</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head">The Theorem of the Water-Clocks</div>
+    <p class="stmt">Assume a strongly connected web of hamlets with diameter <var>d</var> that always
+    obeys IR1′ and IR2′. Assume that for every runner μ<sub><var>m</var></sub> ≤ μ for some constant μ,
+    and that for all <var>t</var> ≥ <var>t</var><sub>0</sub>: (a) PC1 holds; (b) there are constants τ
+    and ξ such that every τ hours a runner with unpredictable delay less than ξ is sent over every route.
+    Then PC2 is satisfied with</p>
+    <div class="mathblock">ε ≈ <var>d</var> (2κτ + ξ)</div>
+    <p class="stmt">for all <var>t</var> ≳ <var>t</var><sub>0</sub> + τ<var>d</var>, where the approximations assume μ + ξ ≪ τ.</p>
+  </div>
+  <details class="proof">
+    <summary>Sketch of the proof, which the scholar called "surprisingly difficult"</summary>
+    <ol class="proofsteps">
+      <li>For any <var>i</var> and <var>t</var>, imagine a clock <var>C</var><sub><var>i</var></sub><sup><var>t</var></sup> set equal to <var>C</var><sub><var>i</var></sub> at time <var>t</var> and then left running at the same rate but never reset. Since resets only push forward, <var>C</var><sub><var>i</var></sub>(<var>t′</var>) ≥ <var>C</var><sub><var>i</var></sub><sup><var>t</var></sup>(<var>t′</var>).</li>
+      <li>If <var>P</var><sub>1</sub> dispatches at <var>t</var><sub>1</sub> a runner received by <var>P</var><sub>2</sub> at <var>t</var><sub>2</sub> with unpredictable delay ≤ ξ, then IR2′(b) and PC1 give, for all <var>t</var> ≥ <var>t</var><sub>2</sub>: <var>C</var><sub>2</sub>(<var>t</var>) ≥ <var>C</var><sub>1</sub>(<var>t</var><sub>1</sub>) + (1 − κ)(<var>t</var> − <var>t</var><sub>1</sub>) − ξ.</li>
+      <li>Chaining this along a path of at most <var>d</var> routes — possible within <var>d</var>(τ + ν) hours, ν = μ + ξ — shows that <em>every</em> clock is bounded below by any clock's earlier reading, less <var>d</var>ξ: <var>C</var><sub><var>i</var></sub>(<var>t</var>) ≥ <var>C</var><sub><var>j</var></sub>(<var>t</var><sub>1</sub>) + (1 − κ)(<var>t</var> − <var>t</var><sub>1</sub>) − <var>d</var>ξ.</li>
+      <li>From above: clocks are reset only by being set equal to the clock carried by a slate, which runs no faster than true time; so no clock can exceed the fastest clock at some slightly earlier time plus (1 + κ) times the elapsed interval.</li>
+      <li>Squeezing each <var>C</var><sub><var>i</var></sub>(<var>t</var>) between these bounds relative to a common reference clock, and using κ ≪ 1 and μ ≤ ν ≪ τ, gives |<var>C</var><sub><var>i</var></sub>(<var>t</var>) − <var>C</var><sub><var>j</var></sub>(<var>t</var>)| ≲ <var>d</var>(2κτ + ξ). <span class="qed">∎</span></li>
+    </ol>
+  </details>
+  <div class="prose">
+    <p>The scroll notes that the requirement that clocks are <em>never set back</em> distinguishes
+    this problem from those studied by earlier press-keepers, and claims the theorem as new. It
+    also observes, almost in passing, a quick way of initializing the clocks or resynchronizing them
+    if they should drift apart for any reason: any shepherd sends a slate that is relayed to every
+    other, and synchronization is achieved in less than 2<var>d</var>(τ + ν) hours.</p>
+    <p>Leslie, then, never claimed physical time was an illusion. He claimed it was expensive — and
+    showed exactly what it costs.</p>
+  </div>
+
+  <h3 id="6-1-conclusion" class="sect"><a href="#6-1-conclusion" class="hlink">6.1 · The Scholar's Conclusion</a></h3>
+  <div class="prose">
+    <p>The concept of "happening before" defines an invariant partial ordering of the deeds of the
+    hamlets. It can be extended to a somewhat arbitrary total ordering, which is enough to share
+    an olive press without a press-keeper. The arbitrariness can produce anomalous behaviour when
+    it disagrees with what the shepherds perceive, and that can be prevented by properly regulated
+    water-clocks, whose possible agreement the theorem bounds. But above all, he wrote, it is
+    important to realize that the order in which things happen among the hamlets is <em>only a
+    partial ordering</em> — an idea useful for understanding the basic problems of the hamlets
+    independently of whatever mechanism is used to solve them.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VII ================= -->
+<section id="s7">
+  <div class="issue">
+    <span class="no">Chapter VII</span>
+    <h2 id="glosses-in-a-later-hand"><a href="#glosses-in-a-later-hand" class="hlink">Glosses in a Later Hand</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>Some ten generations after the scroll was written, two scribes who never met — one from an
+    island at the southern edge of the known world, the other from a mainland forest to the north —
+    independently wrote the same correction in its margins. I translate the southern scribe,
+    <span class="paxon" data-real="Colin J. Fidge" data-note="Australian National University. “Timestamps in Message-Passing Systems That Preserve the Partial Ordering” (1988).">Φιτζ</span>,
+    and the northern scribe,
+    <span class="paxon" data-real="Friedemann Mattern" data-note="University of Kaiserslautern. “Virtual Time and Global States of Distributed Systems” (1988).">Μάττερν</span>,
+    together, noting where they differ.</p>
+  </div>
+
+  <h3 id="7-1-one-bead-per-hamlet" class="sect"><a href="#7-1-one-bead-per-hamlet" class="hlink">7.1 · One Row of Beads per Hamlet</a></h3>
+  <!-- PANEL I-07 -->
+  <figure class="panel narrow tilt-r" id="panel-I-07" data-panel="I-07" data-shape="tall" data-refs="I-characters">
+    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="The many-rowed abacus: A scribe at a lamp-lit desk with an abacus that has one row of beads per hamlet, copying the greater of each row from a received slate onto his own."><span class="ph-label">I-07 · tall 3:4</span><span class="ph-title">The many-rowed abacus</span><span class="ph-desc">A scribe at a lamp-lit desk with an abacus that has one row of beads per hamlet, copying the greater of each row from a received slate onto his own.</span><span class="ph-meta">Blender: none (interior close-up) · Sheets: I-characters</span></div></div>
+    <figcaption>THE LATER HAND: CARRY ONE ROW OF BEADS PER HAMLET, NOT ONE IN TOTAL — AND CONCURRENCY BECOMES VISIBLE.</figcaption>
+  </figure>
+  <!-- /PANEL I-07 -->
+  <div class="prose">
+    <p>Both scribes begin from the same complaint. The scholar's beads map a partially ordered set
+    of deeds onto a single row of numbers, and in doing so they lose information: deeds that could
+    have happened in either order receive different counts, as though they happened in a definite
+    order. For sharing an olive press this does not matter. For the hill judges who must ask
+    "could this deed have caused that one?", it matters a great deal.</p>
+    <p>Their remedy is to carry not one count but a row of counts, one for every hamlet — a vector of
+    beads. Each shepherd's abacus holds his best knowledge of how far every other shepherd has
+    counted:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">The Rules of the Many-Rowed Abacus</span>
+    <ol>
+      <li>Initially every row reads zero.</li>
+      <li>Before each deed, shepherd <var>i</var> flicks forward his <em>own</em> row: <var>C</var><sub><var>i</var></sub>[<var>i</var>] := <var>C</var><sub><var>i</var></sub>[<var>i</var>] + 1.</li>
+      <li>Every runner carries a copy of the sender's entire abacus.</li>
+      <li>Upon receipt, the shepherd sets each row to the larger of his own and the one received: <var>C</var><sub><var>i</var></sub> := sup(<var>C</var><sub><var>i</var></sub>, <var>t</var>).</li>
+      <li>No row is ever moved back.</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>Because of the transitivity of the scheme, a shepherd learns of the counts of hamlets he has
+    never traded with. Rows are compared as follows: <var>u</var> ≤ <var>v</var> if every row of
+    <var>u</var> is at most the same row of <var>v</var>; <var>u</var> &lt; <var>v</var> if also
+    <var>u</var> ≠ <var>v</var>; and <var>u</var> ∥ <var>v</var> if neither <var>u</var> &lt; <var>v</var>
+    nor <var>v</var> &lt; <var>u</var>. The northern scribe's central theorem is that this comparison
+    is <em>exact</em>:</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head">The Northern Scribe's Theorem</div>
+    <div class="mathblock"><var>e</var> → <var>e′</var> &nbsp;<span class="rm">if and only if</span>&nbsp; <var>C</var>(<var>e</var>) &lt; <var>C</var>(<var>e′</var>), &nbsp;&nbsp;<span class="rm">and</span>&nbsp;&nbsp; <var>e</var> ∥ <var>e′</var> &nbsp;<span class="rm">if and only if</span>&nbsp; <var>C</var>(<var>e</var>) ∥ <var>C</var>(<var>e′</var>).</div>
+    <p class="stmt">Moreover, if <var>e</var> is a deed of shepherd <var>i</var>, the test needs only one row: for <var>e′</var> ≠ <var>e</var>, <var>e</var> → <var>e′</var> iff <var>C</var>(<var>e</var>)[<var>i</var>] ≤ <var>C</var>(<var>e′</var>)[<var>i</var>].</p>
+  </div>
+  <div class="table-wrap">
+    <table class="chron">
+      <thead><tr><th>Deed</th><th class="c">One bead (Chapter III)</th><th class="c">Many rows [Andros, Kea, Milos]</th></tr></thead>
+      <tbody>
+        <tr><td><var>a</var><sub>1</sub></td><td class="c">1</td><td class="c">[1, 0, 0]</td></tr>
+        <tr><td><var>a</var><sub>2</sub></td><td class="c">2</td><td class="c">[2, 0, 0]</td></tr>
+        <tr><td><var>k</var><sub>3</sub></td><td class="c">3</td><td class="c">[1, 3, 0]</td></tr>
+        <tr><td><var>a</var><sub>3</sub></td><td class="c">4</td><td class="c">[3, 3, 0]</td></tr>
+        <tr><td><var>m</var><sub>3</sub></td><td class="c">4</td><td class="c">[0, 1, 3]</td></tr>
+        <tr><td><var>k</var><sub>4</sub></td><td class="c">4</td><td class="c">[1, 4, 2]</td></tr>
+      </tbody>
+      <caption>Deeds from the crossing chart of Chapter II. With one bead, 2 &lt; 3 suggests <var>a</var>₂ came first. With many rows, [2,0,0] and [1,3,0] are incomparable: <var>a</var>₂ ∥ <var>k</var>₃. And [1,3,0] &lt; [3,3,0] proves <var>k</var>₃ → <var>a</var>₃.</caption>
+    </table>
+  </div>
+  <div class="prose">
+    <p>The southern scribe adds two refinements. For runners who may overtake one another on the
+    track, the receiver must take care in updating the sender's own row, lest a late slate falsely
+    suggest ancestry. And for shepherds who meet face to face — a handshake at the olive press
+    rather than a slate carried by a runner — both parties exchange abaci and both take the larger
+    rows, since a meeting is a single shared deed. Both scribes admit the cost. The abacus grows
+    with the empire: one row for every hamlet, whether or not you ever trade with it.</p>
+  </div>
+
+  <h3 id="7-2-the-census" class="sect"><a href="#7-2-the-census" class="hlink">7.2 · The Census and the Colour of Seals</a></h3>
+  <!-- PANEL I-08 -->
+  <figure class="panel" id="panel-I-08" data-panel="I-08" data-shape="wide" data-refs="I-characters I-props">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The census: Across the three hamlets at once: clerks count flocks and families, runners carry slates sealed white or red, and a clerk switches his own seal the instant a red slate arrives."><span class="ph-label">I-08 · wide 16:9</span><span class="ph-title">The census</span><span class="ph-desc">Across the three hamlets at once: clerks count flocks and families, runners carry slates sealed white or red, and a clerk switches his own seal the instant a red slate arrives.</span><span class="ph-meta">Blender: hamA; hamK; hamM · Sheets: I-characters, I-props</span></div></div>
+    <figcaption>WHITE SEALS BEFORE, RED SEALS AFTER. THE FIRST RED SLATE A SHEPHERD SEES, HE COUNTS HIS FLOCK.</figcaption>
+  </figure>
+  <!-- /PANEL I-08 -->
+  <div class="prose">
+    <p>The northern scribe pressed further. In an ordinary village all in one place, a consistent
+    census is easy: everyone agrees upon a moment far enough in the future and is counted at that
+    moment. Among hamlets hidden from one another there is no such moment. What can be had is a
+    <em>cut</em> — a zigzag line across the crossing chart, separating each hamlet's past from its
+    future. A cut is <b>consistent</b> if every runner received on the past side was also dispatched
+    on the past side (though not necessarily vice versa). An inconsistent cut counts a sheep as
+    arrived that was never sent.</p>
+    <p>His "rubber band test" is memorable: imagine the cut line is elastic, and stretch it until it
+    stands straight up. If any dispatch line then crosses it from future to past, the cut is
+    inconsistent. Otherwise, there is an equally valid chart on which all the cut's deeds happened at
+    the same instant — a census that <em>could have</em> been taken at a single moment, which is as
+    good as any census can be. The consistent cuts form a lattice under union and intersection, and
+    that lattice, he proved, is <em>isomorphic</em> to the lattice of possible rows of beads.</p>
+    <p>From this he derived a census that works even when runners overtake one another. Every
+    shepherd and every slate is either <em>white</em> (before the census) or <em>red</em> (after).
+    The initiator turns red and ensures, by relaying red slates, that eventually everyone does. A
+    shepherd counts his flock and turns red the first time he receives a red slate — <em>before</em>
+    reading it — so no red slate is ever received in a white hamlet, and the white deeds form a
+    consistent cut. A white slate arriving in a red hamlet was in transit across the cut; the
+    receiver sends a copy to the initiator. To know when the last such copy has arrived, each
+    shepherd keeps a tally of slates sent minus slates received, counted along with his flock. When
+    the tallies are in, the initiator knows exactly how many copies to wait for.<sup>7</sup></p>
+  </div>
+  <aside class="fn"><b>7.</b> The northern scribe acknowledges a closely related census devised
+  earlier by
+  <span class="paxon" data-real="K. Mani Chandy &amp; Leslie Lamport" data-note="“Distributed Snapshots: Determining Global States of Distributed Systems” (1985), which assumes FIFO channels.">Τσάντι and the scholar himself</span>,
+  which required that runners never overtake one another. He also mentions the judges' doctrine of
+  the <em>alibi</em>: a man far enough from the scene of a crime at a moment close enough to it
+  cannot be the culprit — the same light cone the Alexandrians drew, and the same partial order.</aside>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VIII ================= -->
+<section id="s8">
+  <div class="issue">
+    <span class="no">Chapter VIII</span>
+    <h2 id="relevance-to-computer-science"><a href="#relevance-to-computer-science" class="hlink">Relevance to Computer Science</a></h2>
+  </div>
+  <div class="prose">
+    <p>Stripped of its goats, the scroll is Leslie Lamport's 1978 paper, and its key terms translate
+    directly:</p>
+  </div>
+  <div class="table-wrap">
+    <table class="chron">
+      <thead><tr><th>In the hamlets</th><th>In the paper</th></tr></thead>
+      <tbody>
+        <tr><td>Hamlet / shepherd</td><td>Process <var>P</var><sub><var>i</var></sub></td></tr>
+        <tr><td>Deed</td><td>Event</td></tr>
+        <tr><td>Runner carrying a stamped slate</td><td>Message carrying timestamp <var>T</var><sub><var>m</var></sub></td></tr>
+        <tr><td>Crossing chart</td><td>Space-time diagram</td></tr>
+        <tr><td>Happened-before, →</td><td>Causal partial order ("happened before")</td></tr>
+        <tr><td>Law of the Monotonic Bead</td><td>Logical (Lamport) clocks, rules IR1 and IR2</td></tr>
+        <tr><td>Alphabetical rank of hamlets</td><td>Arbitrary total order ≺ on processes used to break ties</td></tr>
+        <tr><td>Olive press</td><td>Distributed mutual exclusion over a single shared resource</td></tr>
+        <tr><td>Every shepherd simulating the press queue</td><td>The state machine approach (replicated state machine)</td></tr>
+        <tr><td>Beacon fire</td><td>Causal channel external to the system (the paper's telephone call)</td></tr>
+        <tr><td>Water-clocks, κ, ε, μ, ξ</td><td>Physical clock synchronization with bounded drift and unpredictable delay</td></tr>
+        <tr><td>Many-rowed abacus</td><td>Vector clocks (Fidge 1988; Mattern 1988)</td></tr>
+        <tr><td>White and red seals</td><td>Mattern's snapshot algorithm for non-FIFO channels</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>Three observations from the paper echo through every later volume of this series. First, the
+    replicated state machine — every process executing the same commands in the same order — is
+    exactly the object that Paxos, Viewstamped Replication, PBFT and Raft exist to maintain in the
+    face of failures. Second, Lamport's algorithm has no fault tolerance at all: one crashed process
+    halts it. Third, the remark that <em>failure is only meaningful in the context of physical
+    time</em> is the seed of the FLP impossibility result (Volume&nbsp;II) and of the timing
+    assumptions of partial synchrony (Volume&nbsp;III) that every practical consensus protocol
+    relies on.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= REFERENCES ================= -->
+<section id="refs">
+  <div class="issue">
+    <span class="no">The Library</span>
+    <h2 id="references"><a href="#references" class="hlink">References</a></h2>
+  </div>
+  <ol class="refs prose">
+    <li>Chandy, K. M. and Lamport, L. 1985. Distributed snapshots: Determining global states of distributed systems. <em>ACM Transactions on Computer Systems 3</em>, 1 (Feb.), 63–75.</li>
+    <li>Ellingson, C. and Kulpinski, R. J. 1973. Dissemination of system-time. <em>IEEE Transactions on Communications COM-23</em>, 5 (May), 605–624.</li>
+    <li>Fidge, C. J. 1988. Timestamps in message-passing systems that preserve the partial ordering. In <em>Proceedings of the 11th Australian Computer Science Conference</em>, 56–66.</li>
+    <li>Lamport, L. 1978. Time, clocks, and the ordering of events in a distributed system. <em>Communications of the ACM 21</em>, 7 (July), 558–565.</li>
+    <li>Mattern, F. 1989. Virtual time and global states of distributed systems. In <em>Parallel and Distributed Algorithms</em> (Proc. Workshop, Chateau de Bonas, Oct. 1988), North-Holland, 1989.</li>
+    <li>Schwartz, J. T. 1962. <em>Relativity in Illustrations.</em> New York University Press.</li>
+    <li>Taylor, E. F. and Wheeler, J. A. 1966. <em>Space-Time Physics.</em> W. H. Freeman, San Francisco.</li>
+  </ol>
+</section>
+
+<div>
+  <hr class="meander">
+  <div class="paper-card">
+      <h4>🏛️ Foundational Research Papers</h4>
+      <p style="font-size:.9rem; margin-top:0; color:#5c4e3b">The original papers this volume retells:</p>
+      <div class="paper-item">
+          <div style="font-weight:700">Time, Clocks, and the Ordering of Events in a Distributed System</div>
+          <div style="font-size:.88rem; color:#5c4e3b; margin:2px 0">Leslie Lamport (1978) · <em>Communications of the ACM, 21(7):558–565</em></div>
+          <a href="https://lamport.azurewebsites.net/pubs/time-clocks.pdf" class="paper-btn" target="_blank" rel="noopener">📄 Read the Paper (PDF)</a>
+        </div>
+        <div class="paper-item">
+          <div style="font-weight:700">Timestamps in Message-Passing Systems That Preserve the Partial Ordering</div>
+          <div style="font-size:.88rem; color:#5c4e3b; margin:2px 0">Colin J. Fidge (1988) · <em>Proc. 11th Australian Computer Science Conf., pp. 56–66</em></div>
+          <a href="https://web.archive.org/web/20120217185703/http://sky.scitech.qut.edu.au/~fidgec/Publications/fidge88a.pdf" class="paper-btn" target="_blank" rel="noopener">📄 Read the Paper (archived PDF)</a>
+        </div>
+        <div class="paper-item">
+          <div style="font-weight:700">Virtual Time and Global States of Distributed Systems</div>
+          <div style="font-size:.88rem; color:#5c4e3b; margin:2px 0">Friedemann Mattern (1988) · <em>Workshop on Parallel and Distributed Algorithms</em></div>
+          <a href="https://www.vs.inf.ethz.ch/publ/papers/VirtTimeGlobStates.pdf" class="paper-btn" target="_blank" rel="noopener">📄 Read the Paper (PDF)</a>
+        </div>
+    </div>
+</div>
+
+<footer class="colophon">
+  <hr class="meander">
+  <p>An allegorical retelling of Lamport (1978), with glosses from Fidge (1988) and Mattern (1988),
+  in the manner of "The Part-Time Parliament." The crossing chart's bead counts and vector rows are
+  computed by the rules stated in the text. The panels are placeholders for now, each describing the
+  image to come. For the original mathematics, always consult the original papers.</p>
+  <nav class="bottom-nav">
+    <a href="../art-direction-grand-island-shape.html" class="bottom-btn all">🏛️ Art direction</a>
+  </nav>
+</footer>
+
+</div><!--/page-->
+<script>
+"use strict";
+/* ================= hidden-name tooltips ================= */
+(function(){
+  const tip = document.getElementById('tip');
+  function show(el){
+    tip.innerHTML = '<span class="who">' + el.dataset.real + '</span>' + (el.dataset.note || '');
+    tip.style.display = 'block';
+    const r = el.getBoundingClientRect();
+    const tw = tip.offsetWidth;
+    let x = window.scrollX + r.left + r.width/2 - tw/2;
+    x = Math.max(8, Math.min(x, window.scrollX + document.documentElement.clientWidth - tw - 8));
+    tip.style.left = x + 'px';
+    tip.style.top = (window.scrollY + r.bottom + 8) + 'px';
+  }
+  document.querySelectorAll('.paxon').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>show(el));
+    el.addEventListener('mouseleave', ()=>{ tip.style.display='none'; });
+    el.addEventListener('click', (e)=>{ e.stopPropagation(); show(el); });
+  });
+  document.addEventListener('click', ()=>{ tip.style.display='none'; });
+})();
+</script>
+</body>
+</html>

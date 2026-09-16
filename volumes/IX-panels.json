@@ -1,0 +1,127 @@
+{
+ "volume": "IX",
+ "page": "volumes/IX-reformation-of-the-raft-monks.html",
+ "shapes": {
+  "splash": "splash 3:2",
+  "strip": "strip 12:5",
+  "wide": "wide 16:9",
+  "half": "half 4:3",
+  "tall": "tall 3:4"
+ },
+ "panels": [
+  {
+   "id": "IX-00",
+   "shape": "splash",
+   "title": "The monastery on its islet",
+   "desc": "A bare islet across the strait: a cloister and scriptorium above a jetty, the Raft moored alongside.",
+   "scene": "High view of the monastery's islet, cut off from the main island. A plain stone cloister and scriptorium stand above a small jetty; the Raft — logs, battens, a reed shelter, mast and sweep — is moored alongside. A handful of monks cross the courtyard between buildings, scrolls under their arms.",
+   "sites": ["monastery"],
+   "cast": "monks, small",
+   "refs": [],
+   "caption": ""
+  },
+  {
+   "id": "IX-01",
+   "shape": "wide",
+   "title": "The apprentices cross the strait",
+   "desc": "Two young apprentices in plain robes cross the strait toward a bare islet where a simple stone cloister stands above its jetty; a bundle of old Greek scrolls lies tied on the deck.",
+   "scene": "A small sailing boat carrying two young apprentices in plain travelling robes crosses the strait from a sunny quay toward a bare islet, where a simple stone cloister stands above its jetty and the Raft waits moored. On the boat's deck lies a thick, tangled bundle of old Greek scrolls tied with string.",
+   "sites": ["monastery (jetty, approach by boat)"],
+   "cast": "two apprentices",
+   "refs": [],
+   "caption": "DISILLUSIONED BY THE CEREMONIES OF PAXOS, TWO APPRENTICES CROSSED THE STRAIT TO FOUND A MONASTERY OF THEIR OWN."
+  },
+  {
+   "id": "IX-02",
+   "shape": "wide",
+   "title": "The heartbeat bell",
+   "desc": "In the cloister at dawn, the Abbot rings the bell; below, monks in the scriptorium glance up at the sound and keep writing.",
+   "scene": "The monastery's stone cloister at dawn. In the bell tower, the Abbot pulls a rope to ring a bronze bell; below, four monks in simple habits sit at writing desks in the scriptorium, each with an identical long scroll unrolled, glancing up at the sound and continuing to write.",
+   "sites": ["monastery (cloister; scriptorium)"],
+   "cast": "the Abbot, four monks",
+   "refs": [],
+   "caption": "THE HEARTBEAT BELL: AS LONG AS THE ABBOT RINGS, NO BROTHER STIRS FROM HIS DESK."
+  },
+  {
+   "id": "IX-03",
+   "shape": "half",
+   "tilt": "l",
+   "title": "The lots",
+   "desc": "In the chapter house, monks stare at sand-glasses of visibly different sizes; the smallest has run out, and its monk reaches for the voting pebbles.",
+   "scene": "Several monks in the monastery's silent chapter house each stare at their own sand-glass, and the glasses are all of visibly different sizes. The smallest has just run out; its monk is rising from his bench and reaching for a bundle of voting pebbles, while the others still wait.",
+   "sites": ["monastery (chapter house)"],
+   "cast": "several monks",
+   "refs": [],
+   "caption": "EVERY MONK’S SAND-GLASS IS A DIFFERENT, RANDOM SIZE — SO ONE ALMOST ALWAYS RUNS OUT FIRST."
+  },
+  {
+   "id": "IX-04",
+   "shape": "wide",
+   "title": "The refusal",
+   "desc": "A messenger monk holds out a new page; the seated brother, finger on his own last line, shakes his head — the reigns don't match.",
+   "scene": "In the scriptorium, a messenger monk from the Abbot holds out a new page; the seated brother has his finger on the previous line of his own scroll, where the reign-seal clearly differs from the seal the messenger's page names. The brother shakes his head firmly; in the background the messenger is already turning to walk back toward the Abbot's study, holding an earlier page ready.",
+   "sites": ["monastery (scriptorium)"],
+   "cast": "a messenger monk, a brother",
+   "refs": [],
+   "caption": "“YOUR PAGE SAYS IT FOLLOWS A LINE I DO NOT HAVE.” THE REFUSAL IS NOT DISOBEDIENCE — IT IS THE ONLY THING KEEPING THE SCROLLS IDENTICAL."
+  },
+  {
+   "id": "IX-05",
+   "shape": "tall",
+   "tilt": "l",
+   "title": "The election restriction",
+   "desc": "By candlelight, a voting monk compares his own last line to a candidate's — the candidate's scroll is shorter, and the voter closes his hand over his pebble.",
+   "scene": "In the monastery's candlelit chapter house, a voting monk holds his own scroll unrolled beside a candidate's scroll, comparing the reign-seal on the very last line of each; the candidate's last seal is older and his scroll shorter, and the voter is closing his hand over his voting pebble rather than dropping it into the urn.",
+   "sites": ["monastery (chapter house)"],
+   "cast": "a voting monk, a candidate"
+,
+   "refs": [],
+   "caption": "NO BROTHER VOTES FOR A CANDIDATE WHOSE SCROLL IS LESS UP-TO-DATE THAN HIS OWN."
+  },
+  {
+   "id": "IX-06",
+   "shape": "wide",
+   "title": "The old reign's line",
+   "desc": "Five moments side by side: a crown moves between monks' scrolls, an old line is scraped away, and a new line under the current Abbot appears on a majority.",
+   "scene": "A diagrammatic five-part sequence, not a single scene. Five monks' scrolls shown side by side as small unrolled parchments at each moment (a) to (e), with one line on each scroll coloured by the reign that wrote it; a small crown hovers over whichever monk is Abbot in each moment, and in moment (d) one coloured line is being scraped away with a knife, while in moment (e) a new line in the current Abbot's colour appears on three scrolls and a laurel appears above it.",
+   "sites": ["none (diagrammatic sequence)"],
+   "cast": "five monks, schematic",
+   "refs": [],
+   "caption": "THE ABBOT MAY NOT COUNT COPIES OF AN OLD REIGN’S LINE. ONLY WHEN A LINE OF HIS OWN REIGN REACHES A MAJORITY IS EVERYTHING BEFORE IT SAFE."
+  },
+  {
+   "id": "IX-07",
+   "shape": "wide",
+   "title": "Joint consensus",
+   "desc": "Two overlapping circles painted on the chapter-house floor: the old chapter and the new. Hands rise in both while a scribe tallies each separately.",
+   "scene": "The monastery chapter house floor with two large painted circles that overlap in the middle. Three older monks stand in the left circle, five monks (some new, some old) in the right circle, with some monks standing in the overlap. The Abbot holds up a proposal page; hands are raised in both circles, and a scribe counts each circle's raised hands separately on two tally boards.",
+   "sites": ["monastery (chapter house)"],
+   "cast": "the Abbot, monks of both chapters, a scribe",
+   "refs": [],
+   "caption": "WHILE THE CHAPTER CHANGES, EVERY DECISION NEEDS A MAJORITY OF THE OLD CHAPTER AND A MAJORITY OF THE NEW."
+  },
+  {
+   "id": "IX-08",
+   "shape": "tall",
+   "tilt": "r",
+   "title": "Scraping the scroll",
+   "desc": "A monk rolls up a heavy old scroll and ties it off beside a single freshly illuminated summary page; a novice outside receives a copy of it in sections.",
+   "scene": "A monk at a sloped desk in the scriptorium rolls up a very long, heavy scroll and ties it off, while beside him lies a single freshly illuminated page summarizing its contents, with a small wax tag noting the last line and reign it covers. A novice outside the window is receiving another copy of such a page in several numbered sections carried by a runner.",
+   "sites": ["monastery (scriptorium)"],
+   "cast": "one monk, a novice, a runner",
+   "refs": [],
+   "caption": "EACH MONK REPLACES HIS OLD LINES WITH ONE ILLUMINATED PAGE — AND A SLOW NOVICE MAY BE SENT THE PAGE ITSELF, A SECTION AT A TIME."
+  },
+  {
+   "id": "IX-09",
+   "shape": "wide",
+   "title": "The trial of the novices",
+   "desc": "A refectory table of young novices bent over two examinations, one marked with a raft token, the other with a Greek-temple token; an elder plays two recorded lessons.",
+   "scene": "An illustrative scene of the Rule's real trial, not a place on the island. A long refectory table where many young novices in habits bend over two different wax-tablet examinations; one pile of tablets is tied with a simple raft-shaped token, the other with an ornate Greek-temple token. An elder monk at a lectern plays two recorded lessons on a pair of scrolls, and a scribe at the end of the table marks scores on a large tally board.",
+   "sites": ["none (illustrative: the trial)"],
+   "cast": "novices, an elder monk, a scribe",
+   "refs": [],
+   "caption": "43 STUDENTS, TWO LESSONS, TWO QUIZZES. 33 SCORED HIGHER ON RAFT."
+  }
+ ]
+}

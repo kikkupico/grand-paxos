@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volume III: The Passable Season — Distributed Algorithms of Ancient Greece</title>
+<link rel="stylesheet" href="volume.css">
+</head>
+<body>
+<nav class="series-nav">
+  <div class="series-nav-inner">
+    <a href="../art-direction-grand-island-shape.html" class="nav-back">← Art direction</a>
+    <span class="nav-current">Volume III</span>
+  </div>
+</nav>
+<div id="tip" role="tooltip"></div>
+<div class="page">
+
+<!-- ================= COVER ================= -->
+<header class="cover">
+  <div class="kicker">Distributed Algorithms of Ancient Greece · Volume III</div><br>
+  <!-- PANEL III-00 -->
+  <div class="frame-cover" id="panel-III-00" data-panel="III-00" data-shape="splash" data-refs="III-characters III-props"><div class="img-placeholder ph-splash" role="img" aria-label="The lantern harbour in the calm: The round cothon with its seven quays and lantern islet; beyond it, the causeway crest and the twin drummers&#x27; headlands across the strait."><span class="ph-label">III-00 · splash 3:2</span><span class="ph-title">The lantern harbour in the calm</span><span class="ph-desc">The round cothon with its seven quays and lantern islet; beyond it, the causeway crest and the twin drummers&#x27; headlands across the strait.</span><span class="ph-meta">Blender: cothon; drummers; strait · Sheets: III-characters, III-props</span></div></div>
+  <!-- /PANEL III-00 -->
+  <p class="sub display">An illustrated chronicle of the navigators' guild, who out-waited the
+  oracle's curse instead of defeating it, and the table of bounds they left behind.</p>
+  <p class="pub">After C. Dwork, N. Lynch &amp; L. Stockmeyer, "Consensus in the Presence of Partial
+  Synchrony," <em>JACM</em> 35, 2 (April 1988), 288–323. The complete bounds, retold.</p>
+</header>
+
+<nav class="toc">
+  <h6 id="table-of-contents"><a href="#table-of-contents" class="hlink">Table of Contents</a></h6>
+  <ol>
+    <li><a href="#preface">The Translator's Preface</a></li>
+    <li><a href="#s1">Between Calm and Storm</a></li>
+    <li><a href="#s2">The Navigators' Table</a></li>
+    <li><a href="#s3">The Rounds of the Harbour</a></li>
+    <li><a href="#s4">Moorings and Releases</a></li>
+    <li><a href="#s5">Sailing Without a Chart</a></li>
+    <li><a href="#s6">Where the Bounds Come From</a></li>
+    <li><a href="#s7">The Drummers of the Headlands</a></li>
+    <li><a href="#s8">Relevance to Computer Science</a></li>
+    <li><a href="#refs">References</a></li>
+  </ol>
+</nav>
+
+<!-- ================= PREFACE ================= -->
+<section id="preface">
+  <div class="editor-note">
+    <span class="tag">The translator's preface</span>
+    <p>After the curse of the summit oracle (Volume II), the assembly was in despair: no rite could
+    be sure of reaching a verdict if the sea might delay a boat without limit. This volume is the
+    logbook of the navigators' guild that ended the despair — not by lifting the curse, which cannot
+    be lifted, but by pointing out that the Aegean is not, in fact, an infinitely capricious sea.</p>
+    <p>The logbook was kept by three navigators,
+    <span class="paxon" data-real="Cynthia Dwork" data-note="Then at IBM Almaden. Later co-inventor of differential privacy.">Ντουόρκ</span>,
+    <span class="paxon" data-real="Nancy Lynch" data-note="MIT. Also one of the three priestesses of Volume II — she helped cast the curse and then helped find the way around it.">Λίντς</span>
+    and
+    <span class="paxon" data-real="Larry Stockmeyer" data-note="IBM Almaden Research Center.">Στόκμαγιερ</span>.
+    Readers may notice that one of the navigators was also one of the priestesses. The guild records
+    do not comment on this.</p>
+    <p>The logbook is long, technical and thirty-six columns in length. I have kept its central table,
+    its rites, and its lower-bound arguments; its clock constructions I have summarized.</p>
+    <p class="sig">— The Translator</p>
+  </div>
+
+  <div class="narr">The priestesses assumed a sea of infinite caprice. The navigators observed that the winter storms, however long, do end — and that thereafter a skiff crosses in some bounded time. A rite can be built that never contradicts itself in any weather and reaches a verdict once the calm arrives. The curse is not defeated. It is out-waited.</div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER I ================= -->
+<section id="s1">
+  <div class="issue">
+    <span class="no">Chapter I</span>
+    <h2 id="between-calm-and-storm"><a href="#between-calm-and-storm" class="hlink">Between Calm and Storm</a></h2>
+  </div>
+
+  <!-- PANEL III-01 -->
+  <figure class="panel" id="panel-III-01" data-panel="III-01" data-shape="wide" data-refs="III-characters III-props">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The navigators arrive: A grey, rain-lashed hall where the assembly sits slumped beneath the oracle&#x27;s carved curse; the doors open and weather-beaten navigators stride in with charts, sounding ropes and an astrolabe."><span class="ph-label">III-01 · wide 16:9</span><span class="ph-title">The navigators arrive</span><span class="ph-desc">A grey, rain-lashed hall where the assembly sits slumped beneath the oracle&#x27;s carved curse; the doors open and weather-beaten navigators stride in with charts, sounding ropes and an astrolabe.</span><span class="ph-meta">Blender: cothon (captains&#x27; hall) · Sheets: III-characters, III-props</span></div></div>
+    <figcaption>THE ASSEMBLY WEPT FOR THREE YEARS. THEN THE NAVIGATORS ARRIVED WITH THEIR CHARTS.</figcaption>
+  </figure>
+  <!-- /PANEL III-01 -->
+
+  <h3 id="1-1-two-bounds" class="sect"><a href="#1-1-two-bounds" class="hlink">1.1 · The Two Bounds of the Sea</a></h3>
+  <div class="prose">
+    <p>The navigators studied agreement among <var>N</var> delegates, each starting with a value and all
+    required to decide on the same value — and, if they all start with the same value <var>v</var>, to decide
+    <var>v</var>. Some delegates may be faulty, and the navigators distinguished four kinds of fault, from
+    mildest to worst:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">The Four Kinds of Faulty Delegate</span>
+    <ul>
+      <li><b>The Sleeper</b> (fail-stop): follows the rite correctly, but may stop at any time and never restart.</li>
+      <li><b>The Forgetful</b> (omission): follows the rite, but some letters he sends are never placed in the harbour, and some he receives he ignores.</li>
+      <li><b>The Liar with a Seal</b> (authenticated Byzantine): behaves arbitrarily, but his letters can be sealed so that no one can forge another's seal.</li>
+      <li><b>The Liar</b> (Byzantine): behaves arbitrarily, with no seals — though a receiver always knows who handed him a letter.</li>
+    </ul>
+  </div>
+  <div class="prose">
+    <p>The weather was described by two bounds. <b>Δ</b> is the longest time a boat takes to deliver a
+    letter. <b>Φ</b> is the most by which one delegate can be slower than another: in any span of Φ
+    moments, every sound delegate takes at least one step. If both bounds exist and are known in
+    advance, the sea is <em>synchronous</em>, and the older rites apply: with seals, any number of faults
+    can be tolerated; without them, the generals of Volume&nbsp;V showed <var>N</var> ≥ 3<var>t</var> + 1
+    is needed. If either bound does not exist at all, the sea is <em>asynchronous</em>, and the oracle's
+    curse, as extended by
+    <span class="paxon" data-real="Dolev, Dwork &amp; Stockmeyer" data-note="“On the Minimal Synchronism Needed for Distributed Consensus” (1987), which extended FLP to show both bounds are needed.">later soothsayers</span>,
+    says no rite tolerates even one sleeper.</p>
+    <p>The navigators studied the seas in between.</p>
+  </div>
+
+  <h3 id="1-2-two-kinds-of-partial" class="sect"><a href="#1-2-two-kinds-of-partial" class="hlink">1.2 · Two Kinds of In-Between</a></h3>
+  <!-- PANEL III-02 -->
+  <figure class="panel" id="panel-III-02" data-panel="III-02" data-shape="wide" data-refs="III-characters III-props">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="Two kinds of in-between sea: A split panel: a navigator lowers a sounding rope into fog with no visible bottom, and a sailor traces a stone almanac where storm symbols give way to calm ones at an unmarked point."><span class="ph-label">III-02 · wide 16:9</span><span class="ph-title">Two kinds of in-between sea</span><span class="ph-desc">A split panel: a navigator lowers a sounding rope into fog with no visible bottom, and a sailor traces a stone almanac where storm symbols give way to calm ones at an unmarked point.</span><span class="ph-meta">Blender: none (illustrative) · Sheets: III-characters, III-props</span></div></div>
+    <figcaption>TWO KINDS OF IN-BETWEEN SEA: A BOUND THAT EXISTS BUT NO ONE KNOWS — OR A KNOWN BOUND THAT HOLDS ONLY FROM AN UNKNOWN DAY.</figcaption>
+  </figure>
+  <!-- /PANEL III-02 -->
+  <div class="prose">
+    <p>The first natural in-between sea is one where a bound Δ <em>exists</em>, but no one knows what it is.
+    The curse does not apply, since the sea is in fact bounded. But every known rite needs Δ in order to
+    know how long to wait each round. One could guess some Δ and declare anyone whose letter takes longer
+    to be faulty — but guess too small and soon every delegate is "faulty", and the verdicts of faulty
+    delegates need not agree with anyone's. What is wanted is a rite with no Δ built in, correct whenever
+    <em>some</em> fixed Δ holds.</p>
+    <p>The second is one where Δ is known, but the harbour is sometimes unreliable, delivering letters late
+    or not at all. A late letter must not make its sender faulty. Without further constraint this is as
+    bad as a fully asynchronous sea. So the navigators imposed one: for each voyage there is a
+    <b>Global Stabilization Time</b> — the start of the Passable Season, GST — unknown to the delegates,
+    from which point on the harbour respects Δ.<sup>1</sup></p>
+  </div>
+  <aside class="fn"><b>1.</b> The navigators anticipated the objection that no calm lasts for ever. Any
+  good rite reaches its verdict within some span <var>L</var> after GST, so the calm need only last until
+  GST + <var>L</var>; they preferred to state the time bounds for each rite rather than burden the
+  definition.</aside>
+  <div class="slab">
+    <div class="slab-head">Safety in Every Weather</div>
+    <p class="stmt">Separate the requirements into <em>safety</em> — no two sound delegates ever disagree, and
+    none decides an improper value — and <em>termination</em> — every sound delegate eventually decides. A rite
+    that solves consensus whenever Δ holds from some GST onward <b>cannot violate safety even if the sea is
+    completely asynchronous</b>. For a safety violation happens at some finite moment, and there is a
+    continuation of that very voyage in which Δ holds afterwards.</p>
+  </div>
+  <div class="prose">
+    <p>This short observation is the whole bargain of the later volumes: <b>safe always, live
+    eventually</b>. The navigators framed each version as a game between a rite-maker and an adversary. If
+    Δ is known, the adversary names Δ and the rite-maker then supplies a rite. If Δ is unknown, the
+    rite-maker supplies the rite first and the adversary then names Δ. If Δ holds eventually, the adversary
+    names Δ, the rite-maker (knowing it) supplies the rite, and the adversary then picks the day the calm
+    begins. Replacing Δ by Φ gives the same three kinds of weather for the delegates' own speeds.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER II ================= -->
+<section id="s2">
+  <div class="issue">
+    <span class="no">Chapter II</span>
+    <h2 id="the-navigators-table"><a href="#the-navigators-table" class="hlink">The Navigators' Table</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>The heart of the logbook is a single table. For each kind of fault and each kind of weather, it
+    gives <var>N</var><sub>min</sub>, the smallest number of delegates for which a rite tolerating
+    <var>t</var> faults exists.</p>
+  </div>
+  <div class="table-wrap">
+    <table class="chron">
+      <thead>
+        <tr>
+          <th>Kind of fault</th>
+          <th class="c">Synchronous</th>
+          <th class="c">Asynchronous</th>
+          <th class="c">Partially synchronous boats, steady rowers</th>
+          <th class="c">Partially synchronous boats and rowers</th>
+          <th class="c">Steady boats, partially synchronous rowers</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Sleeper (fail-stop)</td><td class="c"><var>t</var></td><td class="c">∞</td><td class="c">2<var>t</var> + 1</td><td class="c">2<var>t</var> + 1</td><td class="c"><var>t</var></td></tr>
+        <tr><td>Forgetful (omission)</td><td class="c"><var>t</var></td><td class="c">∞</td><td class="c">2<var>t</var> + 1</td><td class="c">2<var>t</var> + 1</td><td class="c">[2<var>t</var>, 2<var>t</var> + 1]</td></tr>
+        <tr><td>Liar with a seal</td><td class="c"><var>t</var></td><td class="c">∞</td><td class="c">3<var>t</var> + 1</td><td class="c">3<var>t</var> + 1</td><td class="c">2<var>t</var> + 1</td></tr>
+        <tr><td>Liar (Byzantine)</td><td class="c">3<var>t</var> + 1</td><td class="c">∞</td><td class="c">3<var>t</var> + 1</td><td class="c">3<var>t</var> + 1</td><td class="c">3<var>t</var> + 1</td></tr>
+      </tbody>
+      <caption>Table I of the logbook: smallest <var>N</var> for which a <var>t</var>-resilient consensus rite exists (<var>t</var> ≥ 1). "∞" means no rite exists at all (the oracle's curse). The interval [2<var>t</var>, 2<var>t</var> + 1] means 2<var>t</var> ≤ <var>N</var><sub>min</sub> ≤ 2<var>t</var> + 1.</caption>
+    </table>
+  </div>
+  <div class="prose">
+    <p>Two lessons are drawn from it. First, for sleepers, the forgetful and liars with seals, the
+    resilience in a partially synchronous sea lies <em>strictly between</em> the synchronous and asynchronous
+    cases: a majority of sound delegates (2<var>t</var> + 1) is exactly what is needed to tolerate
+    <var>t</var> sleepers. Second, when boats are partially synchronous, <b>seals do not help</b>: liars need
+    3<var>t</var> + 1 delegates with or without them. Surprisingly, making the rowers partially synchronous
+    as well changes nothing in the table, only the time the rites take. In every case the time to reach a
+    verdict is polynomial in <var>N</var> and Δ (and Φ) when the bounds are unknown, and GST plus such a
+    polynomial when they hold eventually.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER III ================= -->
+<section id="s3">
+  <div class="issue">
+    <span class="no">Chapter III</span>
+    <h2 id="the-rounds-of-the-harbour"><a href="#the-rounds-of-the-harbour" class="hlink">The Rounds of the Harbour</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>The navigators first designed their rites in an idealized harbour, the <em>basic round model</em>, and
+    later showed how real seas can imitate it. In the basic model, time passes in numbered rounds that all
+    delegates share. Each round has a sending part, a receiving part and a thinking part. Letters may be
+    lost — but from some round GST onward, every letter from a sound delegate to a sound delegate arrives in
+    the round it was sent. The delegates do not know which round is GST.</p>
+    <p>All the rites share a common method. A delegate <var>p</var> tries to get the others to switch to some
+    value <var>v</var> he has found acceptable, and decides <var>v</var> once enough of them acknowledge the
+    switch that no different value can ever be found acceptable later.</p>
+  </div>
+
+  <!-- PANEL III-03 -->
+  <figure class="panel" id="panel-III-03" data-panel="III-03" data-shape="wide" data-refs="III-characters">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The lantern goes round: At the cothon: the captain whose turn it is holds up a bright lantern while the others row toward him with lists; faint lanterns show where the turn passes next."><span class="ph-label">III-03 · wide 16:9</span><span class="ph-title">The lantern goes round</span><span class="ph-desc">At the cothon: the captain whose turn it is holds up a bright lantern while the others row toward him with lists; faint lanterns show where the turn passes next.</span><span class="ph-meta">Blender: cothon · Sheets: III-characters</span></div></div>
+    <figcaption>EACH PHASE BELONGS TO ONE CAPTAIN IN TURN. THE LANTERN GOES ROUND THE HARBOUR FOR EVER.</figcaption>
+  </figure>
+  <!-- /PANEL III-03 -->
+
+  <h3 id="3-1-rite-one" class="sect"><a href="#3-1-rite-one" class="hlink">3.1 · Rite One: Sleepers and the Forgetful (<var>N</var> ≥ 2<var>t</var> + 1)</a></h3>
+  <div class="prose">
+    <p>Each delegate keeps a set PROPER of values he knows to be <em>proper</em>: if all delegates started
+    with the same <var>v</var>, only <var>v</var> is proper; otherwise every value is. PROPER starts as his own
+    starting value, is attached to every letter, and grows with every value he sees in others' PROPER
+    sets.</p>
+    <p>Rounds are grouped into <em>phases</em>, numbered 1, 2, 3, …, each a three-round <em>trying phase</em>
+    followed by a one-round <em>lock-release phase</em>. Phase <var>k</var> <em>belongs</em> to delegate
+    <var>p</var><sub><var>i</var></sub> where <var>k</var> ≡ <var>i</var> (mod <var>N</var>) — the lantern passes round
+    the harbour. A delegate may <em>moor</em> (the logbook says <em>lock</em>) to a value <var>v</var> at phase
+    <var>k</var>; the mooring means "I think the owner of phase <var>k</var> might decide <var>v</var>", and he casts
+    it off only when he learns he was wrong. A value is <em>acceptable</em> to a delegate if he is moored to no
+    other value.</p>
+  </div>
+  <!-- PANEL III-04 -->
+  <figure class="panel narrow tilt-l" id="panel-III-04" data-panel="III-04" data-shape="tall" data-refs="III-props">
+    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="The mooring: On a cothon quay, a captain ties a new mooring rope with a numbered tag to a bollard, while casting off an older, lower-numbered rope with his other hand."><span class="ph-label">III-04 · tall 3:4</span><span class="ph-title">The mooring</span><span class="ph-desc">On a cothon quay, a captain ties a new mooring rope with a numbered tag to a bollard, while casting off an older, lower-numbered rope with his other hand.</span><span class="ph-meta">Blender: cothon (quay) · Sheets: III-props</span></div></div>
+    <figcaption>A MOORING IS A PROMISE WITH A PHASE NUMBER ON IT. YOU CAST IT OFF ONLY FOR ANOTHER VALUE WITH AN EQUAL OR HIGHER NUMBER.</figcaption>
+  </figure>
+  <!-- /PANEL III-04 -->
+  <div class="decree rules">
+    <span class="rhead">Trying Phase <var>k</var> (owner <var>p</var><sub><var>i</var></sub>), first round <var>s</var> = 4<var>k</var> − 3</span>
+    <ol>
+      <li><b>Round <var>s</var>.</b> Every delegate sends <var>p</var><sub><var>i</var></sub> the list of values that are both acceptable to him and in his PROPER set.</li>
+      <li><b>Round <var>s</var> + 1.</b> If at least <var>N</var> − <var>t</var> delegates found some <var>v</var> acceptable and proper, <var>p</var><sub><var>i</var></sub> picks such a <var>v</var> and broadcasts (lock <var>v</var>, <var>k</var>).</li>
+      <li><b>Round <var>s</var> + 2.</b> Anyone receiving (lock <var>v</var>, <var>k</var>) moors to <var>v</var> at phase <var>k</var> (casting off any older mooring to <var>v</var>) and sends an acknowledgment. If <var>p</var><sub><var>i</var></sub> receives at least <var>t</var> + 1 acknowledgments, he decides <var>v</var> — and keeps taking part.</li>
+      <li><b>Lock-release, round <var>s</var> + 3.</b> Every delegate broadcasts all his moorings (<var>v</var>, <var>h</var>). A delegate moored to <var>v</var> at phase <var>h</var> who hears of a mooring (<var>w</var>, <var>h′</var>) with <var>w</var> ≠ <var>v</var> and <var>h′</var> ≥ <var>h</var> casts off his mooring to <var>v</var>.</li>
+    </ol>
+  </div>
+  <div class="slab">
+    <div class="slab-head">Lemmas 3.1–3.3</div>
+    <p class="stmt"><b>3.1.</b> No two distinct values acquire moorings with the same phase number — the phase's owner would have to send two conflicting lock letters, which a sleeper or forgetful delegate never does.</p>
+    <p class="stmt"><b>3.2.</b> If some delegate decides <var>v</var> at phase <var>k</var>, the first phase with any decision, then at least <var>t</var> + 1 delegates moor to <var>v</var> at phase <var>k</var>, and each of them stays moored to <var>v</var> at phase ≥ <var>k</var> for ever after.</p>
+    <p class="stmt"><b>3.3.</b> Immediately after any lock-release phase at or after GST, the sound delegates are moored to at most one value.</p>
+  </div>
+  <details class="proof">
+    <summary>Why a mooring to the decided value is never cast off (Lemma 3.2)</summary>
+    <ol class="proofsteps">
+      <li>Suppose some mooring to <var>v</var> made at phase <var>k</var> is first cast off, without being replaced by a higher one, at lock-release phase <var>l</var>. Then someone was moored to <var>w</var> ≠ <var>v</var> at some phase <var>h</var> with <var>k</var> ≤ <var>h</var> ≤ <var>l</var>.</li>
+      <li>By Lemma 3.1, <var>h</var> ≠ <var>k</var>, so <var>k</var> &lt; <var>h</var> ≤ <var>l</var>. For <var>w</var> to be moored at phase <var>h</var>, it must have been acceptable to at least <var>N</var> − <var>t</var> delegates at the start of phase <var>h</var> — so at least <var>N</var> − <var>t</var> delegates were not moored to <var>v</var>.</li>
+      <li>But <var>t</var> + 1 delegates were moored to <var>v</var> through the start of phase <var>l</var>, and (<var>N</var> − <var>t</var>) + (<var>t</var> + 1) &gt; <var>N</var>. Impossible. <span class="qed">∎</span></li>
+    </ol>
+  </details>
+  <div class="slab">
+    <div class="slab-head">Theorem 3.1</div>
+    <p class="stmt">In the basic model with sleepers or forgetful delegates and <var>N</var> ≥ 2<var>t</var> + 1, Rite One achieves consistency, strong unanimity and termination for any set of values.</p>
+  </div>
+  <div class="prose">
+    <p><b>Consistency:</b> after the first decision, <var>t</var> + 1 delegates stay moored to <var>v</var>, so no other
+    value can ever again be acceptable to <var>N</var> − <var>t</var>, and none is decided. <b>Unanimity:</b> if all
+    start with <var>v</var>, only <var>v</var> is ever proper. <b>Termination:</b> take any trying phase owned by a
+    sound delegate that follows a lock-release phase at or after GST. At most one value is moored (Lemma 3.3),
+    it has had time to become proper to everyone, and there are at least <var>t</var> + 1 sound delegates — so a
+    proper, acceptable value is found, locked and acknowledged, and the owner decides. All sound delegates
+    decide by round GST + 4(<var>N</var> + 1).</p>
+  </div>
+
+  <h3 id="3-2-rite-two" class="sect"><a href="#3-2-rite-two" class="hlink">3.2 · Rite Two: Liars with Seals (<var>N</var> ≥ 3<var>t</var> + 1)</a></h3>
+  <div class="prose">
+    <p>Against liars, the owner of a phase may send conflicting lock letters, so the mooring must carry
+    evidence. Rite Two is Rite One with three changes. Each lock letter carries a <em>proof of
+    acceptability</em>: the <var>N</var> − <var>t</var> sealed lists showing <var>v</var> acceptable and proper. The
+    owner decides only on <var>2t</var> + 1 acknowledgments, of which at least <var>t</var> + 1 come from sound
+    delegates. And PROPER grows more cautiously: a value is added only when <var>t</var> + 1 delegates vouch for
+    it, and all values become proper once a delegate has seen 2<var>t</var> + 1 starting values among which no
+    <var>t</var> + 1 agree. Lock-release broadcasts the sealed lock letters themselves. The same lemmas hold
+    for moorings of sound delegates, and all decide by GST + 4(<var>N</var> + 1).</p>
+  </div>
+
+  <h3 id="3-3-rite-three" class="sect"><a href="#3-3-rite-three" class="hlink">3.3 · Rite Three: Liars Without Seals (<var>N</var> ≥ 3<var>t</var> + 1)</a></h3>
+  <div class="prose">
+    <p>Without seals, the navigators imitated them with a relay borrowed from
+    <span class="paxon" data-real="T. K. Srikanth &amp; Sam Toueg" data-note="“Simulating Authenticated Broadcasts to Derive Simple Fault-Tolerant Algorithms” (1987) — the echo broadcast.">Σρικάντ and Τωυεγ</span>:
+    the <em>echo</em>. Time is grouped in superrounds of two rounds. To BROADCAST <var>m</var>, <var>p</var> sends
+    (init, <var>p</var>, <var>m</var>, <var>k</var>). Anyone who received exactly one such init from <var>p</var> echoes it to
+    all. Anyone who has heard an echo from <var>N</var> − 2<var>t</var> delegates keeps echoing it every round
+    thereafter; anyone who has heard it from <var>N</var> − <var>t</var> <em>accepts</em> <var>m</var> from <var>p</var>. This
+    gives three properties that stand in for seals:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">The Echo's Guarantees</span>
+    <ol>
+      <li><b>Correctness.</b> If a sound <var>p</var> broadcasts <var>m</var> in superround <var>k</var> ≥ GST, every sound delegate accepts it in superround <var>k</var>.</li>
+      <li><b>Unforgeability.</b> If a sound <var>p</var> does not broadcast <var>m</var>, no sound delegate ever accepts <var>m</var> from <var>p</var>.</li>
+      <li><b>Relay.</b> If a sound delegate accepts <var>m</var> from <var>p</var> in superround <var>r</var>, every sound delegate accepts it by superround max(<var>r</var> + 1, GST).</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>The navigators' one change to the original echo — re-sending it every round rather than once — is
+    needed because letters may be lost before the calm. Rite Three runs Rite Two over echoes instead of seals,
+    with trying phases of three superrounds, and all decide by GST + 6(<var>N</var> + 1). The logbook adds
+    that the time after GST can be cut to <var>O</var>(<var>t</var>) rounds — optimal, since <var>t</var> + 1 rounds
+    are needed even in a synchronous sea — by having deciders repeatedly announce "Decide <var>v</var>".</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER IV ================= -->
+<section id="s4">
+  <div class="issue">
+    <span class="no">Chapter IV</span>
+    <h2 id="moorings-and-releases"><a href="#moorings-and-releases" class="hlink">Moorings and Releases</a></h2>
+  </div>
+  <div class="prose">
+    <p>It is worth pausing on the shape of Rite One, for the reader of Volume IV will recognize it. A
+    rotating leader asks a quorum what values it may safely propose; it proposes only a value acceptable
+    to <var>N</var> − <var>t</var> delegates; the delegates attach a phase number to the promise they make; they
+    abandon a promise only for one with an equal or higher phase number; and a decision requires enough
+    acknowledgments that any later quorum must contain someone still bound by it. Two different
+    majorities of 2<var>t</var> + 1 delegates must share a member.</p>
+    <p>The part-time parliament of Paxos, whose account was first submitted a few years after
+    this logbook, arrives at the same geometry by a different road — its own Relevance section notes
+    that its theorems are similar to results of the navigators, though their rites run ballots in
+    separate rounds and seem unrelated to the Synod's.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER V ================= -->
+<section id="s5">
+  <div class="issue">
+    <span class="no">Chapter V</span>
+    <h2 id="sailing-without-a-chart"><a href="#sailing-without-a-chart" class="hlink">Sailing Without a Chart</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>Real seas have no shared round numbers. The navigators showed how delegates with steady rowing
+    (Φ = 1, so every delegate can count his own strokes and all counts agree) can imitate the basic round
+    model.</p>
+  </div>
+  <h3 id="5-1-calm-eventually" class="sect"><a href="#5-1-calm-eventually" class="hlink">5.1 · When the Calm Comes Eventually</a></h3>
+  <div class="prose">
+    <p>If Δ is known and holds from GST, let <var>R</var> = <var>N</var> + Δ. Each delegate groups his strokes in
+    <var>R</var>s. In the <var>r</var>-th group he spends the first <var>N</var> strokes sending his round-<var>r</var>
+    letters, one delegate at a time, and the last Δ strokes receiving; his round-<var>r</var> thinking happens at
+    the last stroke. Every letter is tagged with its round, and a letter that arrives in a later round is
+    ignored. Once the calm has come, a group of <var>R</var> strokes is long enough for every letter of the
+    round to arrive, so the voyage imitates a basic-model voyage with the same sound delegates and the same
+    faults. The three rites become Rites 1′–3′, deciding within 4(<var>N</var> + 1)(<var>N</var> + Δ) strokes after
+    GST (6(<var>N</var> + 1)(<var>N</var> + Δ) for Rite 3′).</p>
+  </div>
+  <h3 id="5-2-bound-unknown" class="sect"><a href="#5-2-bound-unknown" class="hlink">5.2 · When the Bound Is Unknown</a></h3>
+  <!-- PANEL III-05 -->
+  <figure class="panel narrow tilt-r" id="panel-III-05" data-panel="III-05" data-shape="tall" data-refs="III-props">
+    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="The growing hourglass: At a captain&#x27;s post by the cothon, a row of hourglasses stands left to right, each taller than the last; he turns over the newest as boats approach."><span class="ph-label">III-05 · tall 3:4</span><span class="ph-title">The growing hourglass</span><span class="ph-desc">At a captain&#x27;s post by the cothon, a row of hourglasses stands left to right, each taller than the last; he turns over the newest as boats approach.</span><span class="ph-meta">Blender: cothon (captain&#x27;s post) · Sheets: III-props</span></div></div>
+    <figcaption>NO ONE KNOWS HOW LONG A CROSSING CAN TAKE. SO WAIT A LITTLE LONGER EACH ROUND — SOONER OR LATER, IT IS LONG ENOUGH.</figcaption>
+  </figure>
+  <!-- /PANEL III-05 -->
+  <div class="prose">
+    <p>If Δ exists but is unknown, the navigators' trick is charmingly simple: <em>wait a little longer each
+    round</em>. Let the <var>r</var>-th group contain <var>R</var><sub><var>r</var></sub> = <var>N</var> + <var>r</var> strokes. Whatever
+    Δ the sea actually has, every round <var>r</var> ≥ Δ allows enough time for all its letters to arrive — so the
+    voyage imitates a basic-model voyage with GST = Δ. Rites 1″–3″ decide within
+    Δ(<var>N</var> + Δ) + 4(<var>N</var> + 1)(<var>N</var> + Δ + 4(<var>N</var> + 1)) strokes, which is <var>O</var>(<var>N</var>² + Δ²).</p>
+    <p>If, further, no letter is ever lost but letters before GST may arrive late, delegates can even
+    stop: a decider sends a single untagged "Decide <var>v</var>", and others decide on receiving one (or
+    <var>t</var> + 1, against liars). But if letters may be lost before GST, then in any rite tolerating one
+    sleeper, some sound delegate must go on sending letters for ever.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VI ================= -->
+<section id="s6">
+  <div class="issue">
+    <span class="no">Chapter VI</span>
+    <h2 id="where-the-bounds-come-from"><a href="#where-the-bounds-come-from" class="hlink">Where the Bounds Come From</a></h2>
+  </div>
+  <div class="prose">
+    <p>The navigators proved that their rites could not be improved. The arguments are storm stories.</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head">Theorem 4.3</div>
+    <p class="stmt">With sleepers or the forgetful, steady rowers and partially synchronous boats (either kind), if 2 ≤ <var>N</var> ≤ 2<var>t</var>, no <var>t</var>-resilient rite achieves even weak unanimity for two values.</p>
+  </div>
+  <!-- PANEL III-06 -->
+  <figure class="panel" id="panel-III-06" data-panel="III-06" data-shape="wide" data-refs="III-props">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="Each shore thinks the other dead: The causeway strait in a violent storm: on one shore an assembly holds up white pebbles, on the other black; between them, messenger boats are tossed about, unable to cross."><span class="ph-label">III-06 · wide 16:9</span><span class="ph-title">Each shore thinks the other dead</span><span class="ph-desc">The causeway strait in a violent storm: on one shore an assembly holds up white pebbles, on the other black; between them, messenger boats are tossed about, unable to cross.</span><span class="ph-meta">Blender: strait · Sheets: III-props</span></div></div>
+    <figcaption>EACH SHORE THINKS THE OTHER IS DEAD — AND DECIDES ACCORDINGLY. THE LETTERS ARRIVE ONLY AFTERWARDS.</figcaption>
+  </figure>
+  <!-- /PANEL III-06 -->
+  <details class="proof" open>
+    <summary>The storm story</summary>
+    <ol class="proofsteps">
+      <li>Split the delegates into two groups <var>P</var> and <var>Q</var>, each of at least 1 and at most <var>t</var>.</li>
+      <li><b>Scenario A:</b> all start with 0, <var>Q</var> is dead from the start, letters within <var>P</var> take exactly one moment. <var>P</var> must decide, within some time <var>T</var><sub><var>A</var></sub>. The decision must be 0 — otherwise let <var>Q</var> be alive but its letters to <var>P</var> take longer than <var>T</var><sub><var>A</var></sub>; <var>P</var> still decides 1 while everyone started with 0.</li>
+      <li><b>Scenario B:</b> all start with 1, <var>P</var> is dead, letters within <var>Q</var> take one moment. <var>Q</var> decides 1 within some <var>T</var><sub><var>B</var></sub>.</li>
+      <li><b>Scenario C:</b> <var>P</var> starts with 0, <var>Q</var> with 1, everyone is alive, letters within each group take one moment, and letters between the groups take longer than max(<var>T</var><sub><var>A</var></sub>, <var>T</var><sub><var>B</var></sub>) — a storm before the calm. <var>P</var> behaves exactly as in A and decides 0; <var>Q</var> exactly as in B and decides 1. <span class="qed">∎</span></li>
+    </ol>
+  </details>
+  <div class="slab">
+    <div class="slab-head">Theorem 4.4</div>
+    <p class="stmt">With liars with seals, steady rowers and partially synchronous boats, if 2 ≤ <var>N</var> ≤ 3<var>t</var>, no <var>t</var>-resilient rite achieves weak unanimity for two values.</p>
+  </div>
+  <div class="prose">
+    <p>The proof splits the delegates into three groups <var>P</var>, <var>Q</var>, <var>R</var>, each of at most
+    <var>t</var>. In scenario A, <var>R</var> is dead and everyone starts with 0; in B, <var>P</var> is dead and everyone
+    starts with 1. In C, <var>P</var> starts with 0, <var>R</var> with 1, and <var>Q</var> is faulty and plays scenario A
+    toward <var>P</var> and scenario B toward <var>R</var> — seals notwithstanding, since it is only ever sealing its own
+    letters — while a storm holds all letters between <var>P</var> and <var>R</var>. The same bound for liars without
+    seals is already known from the synchronous case of Volume&nbsp;V, so Rite Three is optimal too.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VII ================= -->
+<section id="s7">
+  <div class="issue">
+    <span class="no">Chapter VII</span>
+    <h2 id="the-drummers-of-the-headlands"><a href="#the-drummers-of-the-headlands" class="hlink">The Drummers of the Headlands</a></h2>
+  </div>
+
+  <!-- PANEL III-07 -->
+  <figure class="panel" id="panel-III-07" data-panel="III-07" data-shape="wide" data-refs="III-characters">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The drummers: On the twin headlands across the strait, drummers beat out ticks and claims; on each, a second figure shouts the count across the water."><span class="ph-label">III-07 · wide 16:9</span><span class="ph-title">The drummers</span><span class="ph-desc">On the twin headlands across the strait, drummers beat out ticks and claims; on each, a second figure shouts the count across the water.</span><span class="ph-meta">Blender: drummers · Sheets: III-characters</span></div></div>
+    <figcaption>A “TICK” SAYS “IT IS NOW HOUR j.” A “CLAIM” SAYS “I HAVE DRUMMED HOUR j TO EVERYONE.”</figcaption>
+  </figure>
+  <!-- /PANEL III-07 -->
+  <div class="prose">
+    <p>When the rowers too are only partially synchronous, no delegate can count strokes and trust that
+    others' counts agree. The navigators therefore built <em>distributed clocks</em> — fault-tolerant
+    descendants of the monotonic bead of Volume&nbsp;I — out of two kinds of drumbeat. An <em>i-tick</em> is the
+    message "<var>i</var>". An <em>i-claim</em> is "I have broadcast an <var>i</var>-tick." Each delegate cycles through all
+    <var>N</var> delegates, drumming ticks, then claims, and advancing whenever his own clock has advanced.</p>
+    <p>For liars without seals (<var>N</var> ≥ 3<var>t</var> + 1), the <em>master clock</em> <var>C</var>(<var>s</var>) at real time
+    <var>s</var> is the largest <var>j</var> such that <var>t</var> + 1 sound delegates have broadcast a <var>j</var>-tick; delegate
+    <var>i</var>'s <em>private clock</em> <var>c</var><sub><var>i</var></sub>(<var>s</var>) is the largest <var>j</var> such that he has received either
+    <var>j</var>-or-higher claims from 2<var>t</var> + 1 delegates, or (<var>j</var> + 1)-or-higher ticks or claims from
+    <var>t</var> + 1. Each delegate drums the tick <var>c</var><sub><var>i</var></sub> + 1. The navigators prove that private clocks never
+    run ahead of the master (<var>c</var><sub><var>i</var></sub>(<var>s</var>) ≤ <var>C</var>(<var>s</var>)), that the master advances at most one
+    per moment, and that soon after GST the private clocks trail the master by at most a constant and the
+    master advances at a rate no slower than a constant fraction of real time. A version with seals needs only
+    <var>N</var> ≥ 2<var>t</var> + 1 and serves for sleepers and the forgetful as well.</p>
+    <p>Each delegate then uses two of every three steps to keep the clock and the third to imitate the basic
+    round model, reading the current round from his private clock in groups of <var>R</var> = 3<var>N</var>Φ + 2<var>D</var> + 2
+    ticks, where <var>D</var> = Δ + 3Φ — or <var>R</var><sub><var>r</var></sub> = 3<var>Nr</var> + 8<var>r</var> + 2, growing, when the bounds are
+    unknown. Once again the resiliencies of the table are achieved, with polynomial time.</p>
+    <p>Finally, for steady boats but partially synchronous rowers, the logbook uses a basic model with
+    <em>signals</em> — a signal to a delegate in round <var>r</var> guarantees that every sound delegate received his
+    round-<var>r</var> letters — and obtains the last column of the table: a simple rotating rite tolerating any number
+    of sleepers, and <var>N</var> ≥ 2<var>t</var> + 1 for liars with seals.</p>
+  </div>
+
+  <!-- PANEL III-08 -->
+  <figure class="panel" id="panel-III-08" data-panel="III-08" data-shape="wide" data-refs="III-characters III-props">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The passable season: A bright, calm morning over the cothon: skiffs glide between quays on a glassy basin; the captains stand around a bronze urn as the last token drops in."><span class="ph-label">III-08 · wide 16:9</span><span class="ph-title">The passable season</span><span class="ph-desc">A bright, calm morning over the cothon: skiffs glide between quays on a glassy basin; the captains stand around a bronze urn as the last token drops in.</span><span class="ph-meta">Blender: cothon · Sheets: III-characters, III-props</span></div></div>
+    <figcaption>THE STORM ENDS ON NO ONE’S SCHEDULE — BUT IT ENDS, AND THE COUNCIL DECIDES.</figcaption>
+  </figure>
+  <!-- /PANEL III-08 -->
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VIII ================= -->
+<section id="s8">
+  <div class="issue">
+    <span class="no">Chapter VIII</span>
+    <h2 id="relevance-to-computer-science"><a href="#relevance-to-computer-science" class="hlink">Relevance to Computer Science</a></h2>
+  </div>
+  <div class="table-wrap">
+    <table class="chron">
+      <thead><tr><th>In the logbook</th><th>In the paper</th></tr></thead>
+      <tbody>
+        <tr><td>Δ, the longest crossing</td><td>Upper bound on message delivery time</td></tr>
+        <tr><td>Φ, the slowest rower</td><td>Upper bound on relative processor speed</td></tr>
+        <tr><td>The Passable Season begins</td><td>Global Stabilization Time (GST)</td></tr>
+        <tr><td>Sleeper, forgetful, liar with a seal, liar</td><td>Fail-stop, omission, authenticated Byzantine, Byzantine faults</td></tr>
+        <tr><td>Phases belonging to captains in turn</td><td>Rotating coordinator</td></tr>
+        <tr><td>Mooring with a phase number</td><td>Lock on a value with an associated phase</td></tr>
+        <tr><td>The echo</td><td>Srikanth–Toueg authenticated-broadcast simulation</td></tr>
+        <tr><td>Waiting longer each round</td><td>Simulation with round length <var>N</var> + <var>r</var> for unknown Δ</td></tr>
+        <tr><td>Drummers' ticks and claims</td><td>Fault-tolerant distributed clocks</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>"Partial synchrony" — in particular the GST formulation — is the standard system model for practical
+    consensus. It explains the design pattern shared by Paxos, Viewstamped Replication, PBFT and Raft: never
+    violate safety, no matter how messages are delayed, and guarantee progress only once the network behaves
+    for long enough, typically by retrying leader elections with increasing timeouts — the same idea as the
+    navigators' growing hourglasses. The table's <var>2t</var> + 1 for crash faults and 3<var>t</var> + 1 for Byzantine
+    faults are precisely the replica counts used by Raft and PBFT.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= REFERENCES ================= -->
+<section id="refs">
+  <div class="issue">
+    <span class="no">The Library</span>
+    <h2 id="references"><a href="#references" class="hlink">References</a></h2>
+  </div>
+  <ol class="refs prose">
+    <li>Dolev, D., Dwork, C., and Stockmeyer, L. 1987. On the minimal synchronism needed for distributed consensus. <em>Journal of the ACM 34</em>, 1, 77–97.</li>
+    <li>Dwork, C., Lynch, N., and Stockmeyer, L. 1988. Consensus in the presence of partial synchrony. <em>Journal of the ACM 35</em>, 2 (April), 288–323.</li>
+    <li>Fischer, M. J., Lynch, N. A., and Paterson, M. S. 1985. Impossibility of distributed consensus with one faulty process. <em>Journal of the ACM 32</em>, 2 (April), 374–382.</li>
+    <li>Lamport, L. 1978. Time, clocks, and the ordering of events in a distributed system. <em>Communications of the ACM 21</em>, 7 (July), 558–565.</li>
+    <li>Pease, M., Shostak, R., and Lamport, L. 1980. Reaching agreement in the presence of faults. <em>Journal of the ACM 27</em>, 2 (April), 228–234.</li>
+    <li>Srikanth, T. K. and Toueg, S. 1987. Simulating authenticated broadcasts to derive simple fault-tolerant algorithms. <em>Distributed Computing 2</em>, 2, 80–94.</li>
+  </ol>
+</section>
+
+<div>
+  <hr class="meander">
+  <div class="paper-card">
+      <h4>🏛️ Foundational Research Papers</h4>
+      <p style="font-size:.9rem; margin-top:0; color:#5c4e3b">The original paper this volume retells:</p>
+      <div class="paper-item">
+          <div style="font-weight:700">Consensus in the Presence of Partial Synchrony</div>
+          <div style="font-size:.88rem; color:#5c4e3b; margin:2px 0">Cynthia Dwork, Nancy Lynch, Larry Stockmeyer (1988) · <em>Journal of the ACM, 35(2):288–323</em></div>
+          <a href="https://groups.csail.mit.edu/tds/papers/Lynch/jacm88.pdf" class="paper-btn" target="_blank" rel="noopener">📄 Read the Paper (PDF)</a>
+        </div>
+    </div>
+</div>
+
+<footer class="colophon">
+  <hr class="meander">
+  <p>An allegorical retelling of Dwork, Lynch &amp; Stockmeyer (1988). Table I, Rite One and the
+  lower-bound scenarios are given in full; the distributed clocks and the signal model are
+  summarized. The panels are placeholders for now, each describing the image to come. For the
+  original mathematics, always consult the original paper.</p>
+  <nav class="bottom-nav">
+    <a href="../art-direction-grand-island-shape.html" class="bottom-btn all">🏛️ Art direction</a>
+  </nav>
+</footer>
+
+</div><!--/page-->
+<script>
+"use strict";
+/* ================= hidden-name tooltips ================= */
+(function(){
+  const tip = document.getElementById('tip');
+  function show(el){
+    tip.innerHTML = '<span class="who">' + el.dataset.real + '</span>' + (el.dataset.note || '');
+    tip.style.display = 'block';
+    const r = el.getBoundingClientRect();
+    const tw = tip.offsetWidth;
+    let x = window.scrollX + r.left + r.width/2 - tw/2;
+    x = Math.max(8, Math.min(x, window.scrollX + document.documentElement.clientWidth - tw - 8));
+    tip.style.left = x + 'px';
+    tip.style.top = (window.scrollY + r.bottom + 8) + 'px';
+  }
+  document.querySelectorAll('.paxon').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>show(el));
+    el.addEventListener('mouseleave', ()=>{ tip.style.display='none'; });
+    el.addEventListener('click', (e)=>{ e.stopPropagation(); show(el); });
+  });
+  document.addEventListener('click', ()=>{ tip.style.display='none'; });
+})();
+</script>
+</body>
+</html>

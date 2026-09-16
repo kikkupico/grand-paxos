@@ -1,0 +1,114 @@
+{
+ "volume": "III",
+ "page": "volumes/III-passable-season.html",
+ "shapes": {
+  "splash": "splash 3:2",
+  "strip": "strip 12:5",
+  "wide": "wide 16:9",
+  "half": "half 4:3",
+  "tall": "tall 3:4"
+ },
+ "panels": [
+  {
+   "id": "III-00",
+   "shape": "splash",
+   "title": "The lantern harbour in the calm",
+   "desc": "The round cothon with its seven quays and lantern islet; beyond it, the causeway crest and the twin drummers' headlands across the strait.",
+   "scene": "High view over the lantern harbour: the round cothon with its seven stone quays and the lantern tower on its islet at the centre, channel open to deep water. Navigators' ships lie at each quay. Beyond the harbour, the causeway crest runs out across the strait, and on the twin headlands past it stand the drummers' platforms, unlit in the calm.",
+   "sites": ["cothon", "drummers", "strait"],
+   "cast": "navigators, small",
+   "refs": ["III-characters", "III-props"],
+   "caption": ""
+  },
+  {
+   "id": "III-01",
+   "shape": "wide",
+   "title": "The navigators arrive",
+   "desc": "A grey, rain-lashed hall where the assembly sits slumped beneath the oracle's carved curse; the doors open and weather-beaten navigators stride in with charts, sounding ropes and an astrolabe.",
+   "scene": "A grey, rain-lashed captains' hall at the cothon, where a despairing assembly sits slumped beneath a carved inscription of the oracle's curse. The doors are thrown open and a delegation of weather-beaten navigators strides in carrying rolled sea charts, knotted sounding ropes and a brass astrolabe, with the storm visibly breaking into sunlight behind them.",
+   "sites": ["cothon (captains' hall)"],
+   "cast": "the assembly, three navigators",
+   "refs": ["III-characters", "III-props"],
+   "caption": "THE ASSEMBLY WEPT FOR THREE YEARS. THEN THE NAVIGATORS ARRIVED WITH THEIR CHARTS."
+  },
+  {
+   "id": "III-02",
+   "shape": "wide",
+   "title": "Two kinds of in-between sea",
+   "desc": "A split panel: a navigator lowers a sounding rope into fog with no visible bottom, and a sailor traces a stone almanac where storm symbols give way to calm ones at an unmarked point.",
+   "scene": "An illustrative split panel, not a place on the island. Left: a navigator on a cliff lowers a very long knotted sounding rope into a fog-covered sea; the rope clearly ends somewhere below, but its last knots vanish into the fog. Right: a stone almanac carved with a row of storm-cloud symbols that give way, at an unmarked position, to a row of calm-sun symbols; a puzzled sailor runs his finger along it trying to find where the change happens.",
+   "sites": ["none (illustrative)"],
+   "cast": "a navigator, a sailor",
+   "refs": ["III-characters", "III-props"],
+   "caption": "TWO KINDS OF IN-BETWEEN SEA: A BOUND THAT EXISTS BUT NO ONE KNOWS — OR A KNOWN BOUND THAT HOLDS ONLY FROM AN UNKNOWN DAY."
+  },
+  {
+   "id": "III-03",
+   "shape": "wide",
+   "title": "The lantern goes round",
+   "desc": "At the cothon: the captain whose turn it is holds up a bright lantern while the others row toward him with lists; faint lanterns show where the turn passes next.",
+   "scene": "The round cothon, seven stone quays each with a captain standing at it; the captain at one quay holds up a bright lantern (it is his turn), and the others row small boats toward him carrying lists on wax tablets. Faint lanterns at the other quays show where the turn will pass next, clockwise round the basin.",
+   "sites": ["cothon"],
+   "cast": "seven captains",
+   "refs": ["III-characters"],
+   "caption": "EACH PHASE BELONGS TO ONE CAPTAIN IN TURN. THE LANTERN GOES ROUND THE HARBOUR FOR EVER."
+  },
+  {
+   "id": "III-04",
+   "shape": "tall",
+   "tilt": "l",
+   "title": "The mooring",
+   "desc": "On a cothon quay, a captain ties a new mooring rope with a numbered tag to a bollard, while casting off an older, lower-numbered rope with his other hand.",
+   "scene": "On one of the cothon's quays, a delegate-captain ties a thick mooring rope to a bollard carved with an olive-branch emblem; a numbered bronze tag hangs on the rope. With his other hand he is casting off an older rope, with a lower-numbered tag, from a neighbouring bollard carved with a fish emblem.",
+   "sites": ["cothon (quay)"],
+   "cast": "one captain",
+   "refs": ["III-props"],
+   "caption": "A MOORING IS A PROMISE WITH A PHASE NUMBER ON IT. YOU CAST IT OFF ONLY FOR ANOTHER VALUE WITH AN EQUAL OR HIGHER NUMBER."
+  },
+  {
+   "id": "III-05",
+   "shape": "tall",
+   "tilt": "r",
+   "title": "The growing hourglass",
+   "desc": "At a captain's post by the cothon, a row of hourglasses stands left to right, each taller than the last; he turns over the newest as boats approach.",
+   "scene": "A captain's writing desk at his post beside the cothon, with a row of sand-timers lined up left to right, each one noticeably taller than the one before; he is turning over the newest and tallest one while boats approach outside.",
+   "sites": ["cothon (captain's post)"],
+   "cast": "one captain",
+   "refs": ["III-props"],
+   "caption": "NO ONE KNOWS HOW LONG A CROSSING CAN TAKE. SO WAIT A LITTLE LONGER EACH ROUND — SOONER OR LATER, IT IS LONG ENOUGH."
+  },
+  {
+   "id": "III-06",
+   "shape": "wide",
+   "title": "Each shore thinks the other dead",
+   "desc": "The causeway strait in a violent storm: on one shore an assembly holds up white pebbles, on the other black; between them, messenger boats are tossed about, unable to cross.",
+   "scene": "The causeway strait in a violent storm, the crest awash. On the near shore a small assembly all hold up white pebbles and cheer; across the strait, on the far shore, another small assembly all hold up black pebbles and cheer. Between them in the storm, several messenger boats are tossed about, unable to reach either shore.",
+   "sites": ["strait"],
+   "cast": "two assemblies, small; messengers in boats",
+   "refs": ["III-props"],
+   "caption": "EACH SHORE THINKS THE OTHER IS DEAD — AND DECIDES ACCORDINGLY. THE LETTERS ARRIVE ONLY AFTERWARDS."
+  },
+  {
+   "id": "III-07",
+   "shape": "wide",
+   "title": "The drummers",
+   "desc": "On the twin headlands across the strait, drummers beat out ticks and claims; on each, a second figure shouts the count across the water.",
+   "scene": "At dusk on the twin drummers' headlands across the causeway strait, drummers stand on their platforms beating large drums; on each headland a second figure cups his hands and shouts across the water toward the other. Numbers are suggested only by the count of drumsticks raised, no written numerals.",
+   "sites": ["drummers"],
+   "cast": "two drummers, two callers",
+   "refs": ["III-characters"],
+   "caption": "A “TICK” SAYS “IT IS NOW HOUR j.” A “CLAIM” SAYS “I HAVE DRUMMED HOUR j TO EVERYONE.”"
+  },
+  {
+   "id": "III-08",
+   "shape": "wide",
+   "title": "The passable season",
+   "desc": "A bright, calm morning over the cothon: skiffs glide between quays on a glassy basin; the captains stand around a bronze urn as the last token drops in.",
+   "scene": "A bright, calm summer morning over the lantern harbour: a fleet of messenger skiffs glides in orderly lines between the seven quays on a glassy basin; at the nearest quay, the captains stand around a bronze urn as the last token is dropped in, while a navigator checks a sundial and nods.",
+   "sites": ["cothon"],
+   "cast": "captains, a navigator",
+   "refs": ["III-characters", "III-props"],
+   "caption": "THE STORM ENDS ON NO ONE’S SCHEDULE — BUT IT ENDS, AND THE COUNCIL DECIDES."
+  }
+ ]
+}

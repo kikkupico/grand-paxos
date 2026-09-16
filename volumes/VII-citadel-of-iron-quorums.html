@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volume VII: The Citadel of Iron Quorums — Distributed Algorithms of Ancient Greece</title>
+<link rel="stylesheet" href="volume.css">
+</head>
+<body>
+<nav class="series-nav">
+  <div class="series-nav-inner">
+    <a href="../art-direction-grand-island-shape.html" class="nav-back">← Art direction</a>
+    <span class="nav-current">Volume VII</span>
+  </div>
+</nav>
+<div id="tip" role="tooltip"></div>
+<div class="page">
+
+<!-- ================= COVER ================= -->
+<header class="cover">
+  <div class="kicker">Distributed Algorithms of Ancient Greece · Volume VII</div><br>
+  <!-- PANEL VII-00 -->
+  <div class="frame-cover" id="panel-VII-00" data-panel="VII-00" data-shape="splash" data-refs=""><div class="img-placeholder ph-splash" role="img" aria-label="The citadel above its harbour: The Citadel of Iron Quorums on its height, the sea wall with its tide marks below, ships at the harbour under the walls."><span class="ph-label">VII-00 · splash 3:2</span><span class="ph-title">The citadel above its harbour</span><span class="ph-desc">The Citadel of Iron Quorums on its height, the sea wall with its tide marks below, ships at the harbour under the walls.</span><span class="ph-meta">Blender: citadel; seawall · Sheets: </span></div></div>
+  <!-- /PANEL VII-00 -->
+  <p class="sub display">An illustrated chronicle of the first Byzantine citadel a working city
+  could afford — not a new theorem, but a budget.</p>
+  <p class="pub">After M. Castro &amp; B. Liskov, "Practical Byzantine Fault Tolerance," <em>OSDI
+  '99</em>, 173–186. The complete protocol, retold.</p>
+</header>
+
+<nav class="toc">
+  <h6 id="table-of-contents"><a href="#table-of-contents" class="hlink">Table of Contents</a></h6>
+  <ol>
+    <li><a href="#preface">The Translator's Preface</a></li>
+    <li><a href="#s1">Why a Citadel</a></li>
+    <li><a href="#s2">The Laws of the Citadel</a></li>
+    <li><a href="#s3">The Watch and the Warden</a></li>
+    <li><a href="#s4">The Three-Phase Gauntlet</a></li>
+    <li><a href="#s5">Tide-Marks on the Harbour Wall</a></li>
+    <li><a href="#s6">Deposing the Warden</a></li>
+    <li><a href="#s7">Why Nothing Is Lost</a></li>
+    <li><a href="#s8">The Budget</a></li>
+    <li><a href="#s9">The Working Library</a></li>
+    <li><a href="#s10">Rival Fortifications</a></li>
+    <li><a href="#s11">Relevance to Computer Science</a></li>
+    <li><a href="#refs">References</a></li>
+  </ol>
+</nav>
+
+<!-- ================= PREFACE ================= -->
+<section id="preface">
+  <div class="editor-note">
+    <span class="tag">The translator's preface</span>
+    <p>For centuries the law of the generals (Volume V) had been correct, celebrated and unusable. It
+    told a city how many honest keepers it needed to survive traitors — more than three for every
+    traitor — but the rites that achieved it either assumed the messengers ran on a fixed timetable,
+    or demanded so many sealed letters that the sealing wax cost more than the war.</p>
+    <p>This volume is the building record of the first Byzantine citadel a working city could afford. Its
+    builders were two inquisitors,
+    <span class="paxon" data-real="Miguel Castro" data-note="MIT Laboratory for Computer Science. First author of PBFT (1999). His name is, appropriately, the Greek and Portuguese word for a castle.">Κάστρο</span>
+    and
+    <span class="paxon" data-real="Barbara Liskov" data-note="MIT. The granary clerk of Volume VI.">Λίσκοφ</span>
+    — the latter the granary clerk of Volume VI, now building in stone. They did not bring a new theorem.
+    They brought a budget.</p>
+    <p>The three-for-every-traitor law is not
+    the inquisitors' invention, and they never claimed it was. Their contribution was to make a citadel
+    obeying it <em>cheap</em> — above all by taking the costly seals <em>off</em> the ordinary business of the
+    citadel.</p>
+    <p class="sig">— The Translator</p>
+  </div>
+
+  <div class="narr">A treasury is kept by 3<var>f</var> + 1 keepers, of whom up to <var>f</var> may be bribed. One keeper, the warden, proposes the order of business; the rest check him in three rounds before anything is done. If the warden stalls or lies, the keepers depose him and the next in rotation takes the keys — without ever forgetting what was done. Messengers may be delayed as long as the enemy likes; the treasury will never be robbed, only slowed.</div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER I ================= -->
+<section id="s1">
+  <div class="issue">
+    <span class="no">Chapter I</span>
+    <h2 id="why-a-citadel"><a href="#why-a-citadel" class="hlink">Why a Citadel</a></h2>
+  </div>
+
+  <!-- PANEL VII-01 -->
+  <figure class="panel" id="panel-VII-01" data-panel="VII-01" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The inquisitors arrive: Two stern inquisitors step off a ship at the harbour below the citadel, one with an abacus and ledger, the other with builder&#x27;s plans; the half-built citadel rises on the hill above."><span class="ph-label">VII-01 · wide 16:9</span><span class="ph-title">The inquisitors arrive</span><span class="ph-desc">Two stern inquisitors step off a ship at the harbour below the citadel, one with an abacus and ledger, the other with builder&#x27;s plans; the half-built citadel rises on the hill above.</span><span class="ph-meta">Blender: seawall · Sheets: </span></div></div>
+    <figcaption>THE INQUISITORS SAILED IN NOT WITH A NEW THEOREM, BUT WITH A BUDGET.</figcaption>
+  </figure>
+  <!-- /PANEL VII-01 -->
+
+  <div class="prose">
+    <p>Pirate raids and the honest mistakes of careless clerks were growing more common, the inquisitors
+    wrote, and the city relied more each year on its treasuries and archives, which made raids more attractive
+    and their success more serious. Both a bribed keeper and a keeper who has simply blundered can do
+    <em>anything</em> — lie, destroy records, contradict himself — and a treasury that survives only honest
+    failures is not enough.</p>
+    <p>There had been a great deal of work on agreement among keepers who might lie. But most of it was either
+    designed to show that agreement was possible in principle and too slow to use, or it assumed
+    <em>synchrony</em> — known bounds on how long messengers and keepers take. The two practical fortifications
+    of the day, the Rampart and the Secure Ring, relied on synchrony for their very correctness. And that, the
+    inquisitors pointed out, is dangerous against an intelligent enemy.</p>
+  </div>
+
+  <!-- PANEL VII-02 -->
+  <figure class="panel" id="panel-VII-02" data-panel="VII-02" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The siege by delay: At night outside the citadel gate, saboteurs quietly obstruct honest messengers while keepers inside cross an absent keeper&#x27;s name off a roster."><span class="ph-label">VII-02 · wide 16:9</span><span class="ph-title">The siege by delay</span><span class="ph-desc">At night outside the citadel gate, saboteurs quietly obstruct honest messengers while keepers inside cross an absent keeper&#x27;s name off a roster.</span><span class="ph-meta">Blender: citadel (gate, night) · Sheets: </span></div></div>
+    <figcaption>THE SIEGE BY DELAY: IF A FORTRESS EXPELS WHOEVER IS SLOW, THE ENEMY NEED NOT BRIBE THE HONEST — ONLY SLOW THEM DOWN.</figcaption>
+  </figure>
+  <!-- /PANEL VII-02 -->
+
+  <div class="prose">
+    <p>A fortress that must expel keepers it believes faulty, and decides who is faulty by timing them, can be
+    attacked without bribing anyone honest. The enemy slows the honest keepers' messengers until they are
+    declared dead and expelled, and keeps doing it until the bribed keepers are no longer a minority. Such a
+    siege by delay is far easier than corrupting an honest keeper. The inquisitors' citadel <b>does not rely on
+    synchrony for safety</b>, and it never expels anyone. It also runs more than ten times faster than the
+    Rampart.<sup>1</sup></p>
+  </div>
+  <aside class="fn"><b>1.</b> The Rampart was the work of
+  <span class="paxon" data-real="Michael Reiter" data-note="Rampart toolkit for high-integrity services (1994–1996).">Ράιτερ</span>;
+  the Secure Ring of
+  <span class="paxon" data-real="Kihlstrom, Moser &amp; Melliar-Smith" data-note="The SecureRing protocols (1998).">Κίλστρομ, Μόζερ and Μέλιαρ-Σμιθ</span>.
+  Both are described in Chapter X.</aside>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER II ================= -->
+<section id="s2">
+  <div class="issue">
+    <span class="no">Chapter II</span>
+    <h2 id="the-laws-of-the-citadel"><a href="#the-laws-of-the-citadel" class="hlink">The Laws of the Citadel</a></h2>
+  </div>
+
+  <h3 id="2-1-the-sea-and-the-enemy" class="sect"><a href="#2-1-the-sea-and-the-enemy" class="hlink">2.1 · The Sea and the Enemy</a></h3>
+  <div class="prose">
+    <p>The citadel stands in an asynchronous sea: messengers may fail to arrive, be delayed, arrive twice or out
+    of order. Faulty keepers may behave arbitrarily. The inquisitors assumed keepers fail
+    <em>independently</em> — and noted that against a real enemy this takes deliberate effort: each keeper should
+    follow a differently written copy of the rules, keep a different password and answer to a different
+    master, so that one trick does not corrupt them all.</p>
+    <p>Three kinds of mark protect the letters. A <em>signet seal</em> (a public-key signature) proves who wrote
+    a letter to anyone. A <em>split tally</em> (a message authentication code) proves authorship only to the
+    one other keeper who holds the matching half. A <em>wax impression</em> (a digest) is a small, unforgeable
+    likeness of a long scroll. The enemy is very strong — it may coordinate bribed keepers, delay messengers,
+    even delay honest keepers — but it cannot delay honest keepers for ever, and it cannot forge an honest
+    keeper's seal, recover a scroll from its impression, or find two scrolls with the same impression.</p>
+  </div>
+
+  <h3 id="2-2-what-it-promises" class="sect"><a href="#2-2-what-it-promises" class="hlink">2.2 · What the Citadel Promises</a></h3>
+  <div class="slab">
+    <div class="slab-head">Safety</div>
+    <p class="stmt">Provided no more than ⌊(<var>n</var> − 1)/3⌋ of the <var>n</var> keepers are faulty, the citadel behaves like a single honest keeper executing one request at a time (linearizability) — however many citizens are dishonest, and however the messengers are delayed.</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head">Liveness</div>
+    <p class="stmt">Under the same bound, citizens eventually receive replies, provided the delay of a message does not grow faster than time itself, indefinitely.</p>
+  </div>
+  <div class="prose">
+    <p>The inquisitors are clear about why liveness must lean on some synchrony: otherwise the citadel would solve
+    consensus in a fully asynchronous sea, which the priestesses of Volume&nbsp;II proved impossible. Their
+    requirement is weak — likely to hold in any real sea whose storms are eventually repaired — and it is needed
+    only for progress. A dishonest citizen cannot break the treasury's own rules, because every operation, his
+    included, is observed the same way by all; and since changes to who may use the treasury are observed the
+    same way too, a city can recover from a dishonest citizen by revoking his access.</p>
+    <p>Why 3<var>f</var> + 1 keepers? The citadel must be able to act after hearing from <var>n</var> − <var>f</var>
+    keepers, since <var>f</var> may be faulty and silent. But the <var>f</var> it did not hear from may merely be
+    slow, and <var>f</var> of those it <em>did</em> hear from may be liars. The honest replies must still outnumber
+    the lies: <var>n</var> − 2<var>f</var> &gt; <var>f</var>, so <var>n</var> &gt; 3<var>f</var>. The bound is the
+    generals' law of Volume&nbsp;V; the inquisitors cite a later proof that it is also the best possible in an
+    asynchronous sea.<sup>2</sup></p>
+  </div>
+  <aside class="fn"><b>2.</b> The proof they cite is by
+  <span class="paxon" data-real="Gabriel Bracha &amp; Sam Toueg" data-note="“Asynchronous Consensus and Broadcast Protocols” (JACM, 1985).">Μπράχα and Τωυεγ</span>.
+  The inquisitors also concede that their citadel keeps no secrets: a bribed keeper can tell the enemy what is in
+  the treasury. Sharing secrets among keepers so that no <var>f</var> of them can reveal them is left for another
+  campaign.</aside>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER III ================= -->
+<section id="s3">
+  <div class="issue">
+    <span class="no">Chapter III</span>
+    <h2 id="the-watch-and-the-warden"><a href="#the-watch-and-the-warden" class="hlink">The Watch and the Warden</a></h2>
+  </div>
+
+  <!-- PANEL VII-03 -->
+  <figure class="panel mid tilt-l" id="panel-VII-03" data-panel="VII-03" data-shape="half" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="Four keepers, one warden: In a torch-lit vault, four keepers stand around a great iron-bound chest, each with a key; in the shadows, a pirate&#x27;s hand slips a bribe to one of them."><span class="ph-label">VII-03 · half 4:3</span><span class="ph-title">Four keepers, one warden</span><span class="ph-desc">In a torch-lit vault, four keepers stand around a great iron-bound chest, each with a key; in the shadows, a pirate&#x27;s hand slips a bribe to one of them.</span><span class="ph-meta">Blender: citadel (vault) · Sheets: </span></div></div>
+    <figcaption>FOUR KEEPERS, ONE WARDEN — AND ANY ONE OF THEM MIGHT BE IN THE PIRATES’ PAY.</figcaption>
+  </figure>
+  <!-- /PANEL VII-03 -->
+
+  <div class="prose">
+    <p>The citadel is a form of the scholar's state machine of Volume&nbsp;I: every honest keeper holds a copy of
+    the treasury and carries out the same requests in the same order. Keepers must be deterministic and start
+    alike. The inquisitors assume exactly <var>n</var> = 3<var>f</var> + 1 keepers, numbered 0 to <var>n</var> − 1;
+    more keepers only add messages without adding resilience.</p>
+    <p>The keepers pass through a succession of <em>watches</em> (the inquisitors say <em>views</em>). In each watch
+    one keeper is the <b>warden</b> (primary) and the rest are <b>backups</b>. The warden of watch <var>v</var> is
+    keeper <var>p</var> = <var>v</var> mod <var>n</var>: the keys pass round in a fixed rotation. The watch changes when
+    the warden appears to have failed.</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">The Citizen's Part</span>
+    <ol>
+      <li>A citizen <var>c</var> sends ⟨REQUEST, <var>o</var>, <var>t</var>, <var>c</var>⟩ to the warden, where <var>o</var> is the operation and <var>t</var> a timestamp that grows with each of his requests (his own water-clock will do). This ensures each request is carried out exactly once.</li>
+      <li>Each keeper replies directly with ⟨REPLY, <var>v</var>, <var>t</var>, <var>c</var>, <var>i</var>, <var>r</var>⟩: watch, timestamp, keeper number and result.</li>
+      <li>The citizen waits for <b><var>f</var> + 1</b> replies from different keepers with the same <var>t</var> and <var>r</var>. At most <var>f</var> keepers lie, so one of them is honest.</li>
+      <li>If the replies are slow, the citizen sends the request to <em>all</em> keepers. Those who have already carried it out re-send the reply; others relay it to the warden — and a warden who ignores it will be suspected by enough keepers to be deposed.</li>
+    </ol>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER IV ================= -->
+<section id="s4">
+  <div class="issue">
+    <span class="no">Chapter IV</span>
+    <h2 id="the-three-phase-gauntlet"><a href="#the-three-phase-gauntlet" class="hlink">The Three-Phase Gauntlet</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>Each keeper keeps the treasury, a log of the letters it has accepted, and the number of its current
+    watch. When the warden receives a request, it runs it through three phases — <em>pre-prepare</em>,
+    <em>prepare</em> and <em>commit</em>. The first two order requests within a watch even if the warden is lying.
+    The last two ensure that requests which commit keep their order across watches. (Chapter&nbsp;VIII explains how
+    the seals are replaced by tallies; this chapter, like the inquisitors', describes them with seals.)</p>
+  </div>
+
+  <!-- PANEL VII-04 -->
+  <figure class="panel" id="panel-VII-04" data-panel="VII-04" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The three-phase gauntlet: Along the citadel&#x27;s inner wall: the warden nails up a proposal, the keepers each nail a matching token, and at last all ring their bells and the chest is unlocked."><span class="ph-label">VII-04 · wide 16:9</span><span class="ph-title">The three-phase gauntlet</span><span class="ph-desc">Along the citadel&#x27;s inner wall: the warden nails up a proposal, the keepers each nail a matching token, and at last all ring their bells and the chest is unlocked.</span><span class="ph-meta">Blender: citadel (inner wall) · Sheets: </span></div></div>
+    <figcaption>THE THREE-PHASE GAUNTLET: THE WARDEN PROPOSES, THE KEEPERS CONFIRM THEY ALL HEARD THE SAME THING — AND THEN CONFIRM THAT ENOUGH OF THEM KNOW IT.</figcaption>
+  </figure>
+  <!-- /PANEL VII-04 -->
+
+  <h3 id="4-1-pre-prepare" class="sect"><a href="#4-1-pre-prepare" class="hlink">4.1 · Pre-Prepare: The Warden Proposes</a></h3>
+  <div class="prose">
+    <p>The warden assigns the request <var>m</var> a sequence number <var>n</var> and sends
+    ⟨⟨PRE-PREPARE, <var>v</var>, <var>n</var>, <var>d</var>⟩, <var>m</var>⟩ to the backups, where <var>d</var> is the wax
+    impression of <var>m</var>. The request itself travels alongside rather than inside, so that the pre-prepare is
+    small; this matters, because pre-prepares serve as <em>proof</em> in watch changes that a request was given a
+    number. A backup accepts it only if:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">Accepting a Pre-Prepare</span>
+    <ul>
+      <li>the seals on the request and the pre-prepare are correct, and <var>d</var> is the impression of <var>m</var>;</li>
+      <li>it is in watch <var>v</var>;</li>
+      <li>it has not accepted a pre-prepare for watch <var>v</var> and number <var>n</var> with a <em>different</em> impression;</li>
+      <li><var>n</var> lies between a low tide-mark <var>h</var> and a high tide-mark <var>H</var> — so a lying warden cannot exhaust the numbers by choosing an enormous one.</li>
+    </ul>
+  </div>
+
+  <h3 id="4-2-prepare" class="sect"><a href="#4-2-prepare" class="hlink">4.2 · Prepare: Did Everyone Hear the Same Thing?</a></h3>
+  <div class="prose">
+    <p>A backup that accepts the pre-prepare sends ⟨PREPARE, <var>v</var>, <var>n</var>, <var>d</var>, <var>i</var>⟩ to all
+    and logs both letters. Keepers accept prepares with correct seals, the current watch, and <var>n</var> between the
+    tide-marks.</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head">The Predicate <em>prepared</em>(<var>m</var>, <var>v</var>, <var>n</var>, <var>i</var>)</div>
+    <p class="stmt">True if and only if keeper <var>i</var> has logged the request <var>m</var>, a pre-prepare for <var>m</var> in watch <var>v</var> with number <var>n</var>, and <b>2<var>f</var></b> prepares from different backups that match it (same watch, number and impression).</p>
+    <p class="stmt"><b>Invariant.</b> If <em>prepared</em>(<var>m</var>, <var>v</var>, <var>n</var>, <var>i</var>) is true, then <em>prepared</em>(<var>m′</var>, <var>v</var>, <var>n</var>, <var>j</var>) is false for any honest <var>j</var> (including <var>i</var>) and any <var>m′</var> with a different impression.</p>
+  </div>
+  <details class="proof" open>
+    <summary>Why two different requests cannot both prepare with the same number</summary>
+    <ol class="proofsteps">
+      <li><em>prepared</em>(<var>m</var>, <var>v</var>, <var>n</var>, <var>i</var>) means 2<var>f</var> + 1 keepers (the warden's pre-prepare plus 2<var>f</var> prepares) vouched for <var>m</var> at (<var>v</var>, <var>n</var>). With <var>n</var> = 3<var>f</var> + 1 keepers, at least <var>f</var> + 1 of them are honest.</li>
+      <li>Likewise for <var>m′</var>. Two sets of 2<var>f</var> + 1 among 3<var>f</var> + 1 keepers share at least <var>f</var> + 1 keepers, so they share at least one <em>honest</em> keeper.</li>
+      <li>That honest keeper would have sent two conflicting prepares (or pre-prepares) for the same watch and number. Honest keepers never do. And the chance that two different requests share an impression is negligible. <span class="qed">∎</span></li>
+    </ol>
+  </details>
+  <div class="prose">
+    <p>This is why the gauntlet has one more round than the Synod of Volume&nbsp;IV. There, the ballot leader was
+    trusted not to propose two different decrees under one ballot. Here, the warden may be the liar, and the prepare
+    round is how the keepers establish that a quorum heard the <em>identical</em> proposal.</p>
+  </div>
+
+  <h3 id="4-3-commit" class="sect"><a href="#4-3-commit" class="hlink">4.3 · Commit: Do Enough of Us Know It?</a></h3>
+  <div class="prose">
+    <p>When <em>prepared</em> becomes true, keeper <var>i</var> sends ⟨COMMIT, <var>v</var>, <var>n</var>, <var>D</var>(<var>m</var>),
+    <var>i</var>⟩ to all. Keepers accept properly sealed commits in their current watch with <var>n</var> in range.</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head"><em>committed</em> and <em>committed-local</em></div>
+    <p class="stmt"><em>committed</em>(<var>m</var>, <var>v</var>, <var>n</var>) is true iff <em>prepared</em>(<var>m</var>, <var>v</var>, <var>n</var>, <var>i</var>) is true for every <var>i</var> in some set of <var>f</var> + 1 honest keepers.</p>
+    <p class="stmt"><em>committed-local</em>(<var>m</var>, <var>v</var>, <var>n</var>, <var>i</var>) is true iff <em>prepared</em>(<var>m</var>, <var>v</var>, <var>n</var>, <var>i</var>) is true and <var>i</var> has accepted <b>2<var>f</var> + 1</b> matching commits (possibly including its own).</p>
+    <p class="stmt"><b>Invariant.</b> If <em>committed-local</em>(<var>m</var>, <var>v</var>, <var>n</var>, <var>i</var>) is true for some honest <var>i</var>, then <em>committed</em>(<var>m</var>, <var>v</var>, <var>n</var>) is true.</p>
+  </div>
+  <div class="prose">
+    <p>A keeper carries out request <var>m</var> once it is <em>committed-local</em> and all requests with lower
+    numbers have been carried out, and then replies to the citizen. It discards requests whose timestamp is lower than
+    the last reply it sent that citizen. Because messengers may arrive out of order, a keeper may commit requests out
+    of order — this does not matter, since it keeps their letters logged until they can be carried out in order.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER V ================= -->
+<section id="s5">
+  <div class="issue">
+    <span class="no">Chapter V</span>
+    <h2 id="tide-marks-on-the-harbour-wall"><a href="#tide-marks-on-the-harbour-wall" class="hlink">Tide-Marks on the Harbour Wall</a></h2>
+  </div>
+
+  <!-- PANEL VII-05 -->
+  <figure class="panel" id="panel-VII-05" data-panel="VII-05" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The census of the vault: On the sea wall below the citadel: keepers pull down numbered tablets below the low-tide line and toss them to the sea once enough seals agree."><span class="ph-label">VII-05 · wide 16:9</span><span class="ph-title">The census of the vault</span><span class="ph-desc">On the sea wall below the citadel: keepers pull down numbered tablets below the low-tide line and toss them to the sea once enough seals agree.</span><span class="ph-meta">Blender: seawall · Sheets: </span></div></div>
+    <figcaption>ONCE 2F + 1 KEEPERS SEAL THE SAME COUNT, EVERYTHING BELOW THE LOW-TIDE MARK MAY BE THROWN INTO THE SEA.</figcaption>
+  </figure>
+  <!-- /PANEL VII-05 -->
+
+  <div class="prose">
+    <p>Letters cannot be kept for ever, but a keeper may discard them only when it knows the requests they
+    concern have been carried out by at least <var>f</var> + 1 honest keepers — and can prove it to others during a watch
+    change. A keeper who has missed letters that everyone else has discarded must be brought up to date by copying the
+    treasury itself, and needs proof that the copy is honest.</p>
+    <p>Proofs after every request would be expensive, so keepers make them periodically: whenever a request with a number
+    divisible by some constant (say 100) is carried out, the resulting state is a <em>checkpoint</em>. The keeper sends
+    ⟨CHECKPOINT, <var>n</var>, <var>d</var>, <var>i</var>⟩, with <var>d</var> the impression of the whole treasury. Once a keeper
+    holds <b>2<var>f</var> + 1</b> such letters from different keepers with the same <var>n</var> and <var>d</var>, the checkpoint is
+    <b>stable</b>, and the keeper discards all pre-prepares, prepares and commits numbered <var>n</var> or less, and all
+    earlier checkpoints.</p>
+    <p>The stable checkpoint sets the tide-marks. The low mark <var>h</var> is its number; the high mark is
+    <var>H</var> = <var>h</var> + <var>k</var>, with <var>k</var> large enough that keepers do not stall waiting for the next
+    checkpoint — if checkpoints come every 100 requests, <var>k</var> might be 200.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VI ================= -->
+<section id="s6">
+  <div class="issue">
+    <span class="no">Chapter VI</span>
+    <h2 id="deposing-the-warden"><a href="#deposing-the-warden" class="hlink">Deposing the Warden</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>The gauntlet secures honest decisions. It does nothing about a lying warden who simply proposes nothing. The
+    watch change is what makes the citadel <em>live</em> rather than merely refuse to lie. A backup starts a timer when
+    it receives a valid request it has not yet carried out, and stops it when it is no longer waiting.</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">The Watch Change</span>
+    <ol>
+      <li>If backup <var>i</var>'s timer expires in watch <var>v</var>, it stops accepting letters other than checkpoints and watch-change letters, and sends ⟨VIEW-CHANGE, <var>v</var> + 1, <var>n</var>, 𝒞, 𝒫, <var>i</var>⟩: <var>n</var> is its last stable checkpoint, 𝒞 the 2<var>f</var> + 1 checkpoint letters proving it, and 𝒫 a set containing, for each request that prepared at <var>i</var> above <var>n</var>, its pre-prepare and 2<var>f</var> matching prepares.</li>
+      <li>When the warden of watch <var>v</var> + 1 has <b>2<var>f</var></b> valid VIEW-CHANGE letters from other keepers, it sends ⟨NEW-VIEW, <var>v</var> + 1, 𝒱, 𝒪⟩, where 𝒱 holds those letters and its own, and 𝒪 is a set of new pre-prepares computed as follows.</li>
+      <li>Let <em>min-s</em> be the latest stable checkpoint in 𝒱 and <em>max-s</em> the highest number in any prepare in 𝒱. For each number between them: if some VIEW-CHANGE shows a request prepared with that number, re-propose ⟨PRE-PREPARE, <var>v</var> + 1, <var>n</var>, <var>d</var>⟩ with the impression from the <em>highest watch</em> in which it prepared; otherwise, propose a <b>null request</b><sup>3</sup> — a blank tablet that goes through the gauntlet and does nothing.</li>
+      <li>A backup accepts the NEW-VIEW if it is properly sealed, its VIEW-CHANGE letters are valid, and 𝒪 is what it would itself compute from them. It then sends prepares for everything in 𝒪 and enters watch <var>v</var> + 1. Keepers redo the gauntlet for these numbers but do not re-execute requests they already carried out.</li>
+    </ol>
+  </div>
+
+  <!-- PANEL VII-06 -->
+  <figure class="panel" id="panel-VII-06" data-panel="VII-06" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The new warden: At dawn in the citadel courtyard, keepers lift the chain of office from a silent warden; the next in rotation receives it and stamps a blank tablet where nothing was prepared."><span class="ph-label">VII-06 · wide 16:9</span><span class="ph-title">The new warden</span><span class="ph-desc">At dawn in the citadel courtyard, keepers lift the chain of office from a silent warden; the next in rotation receives it and stamps a blank tablet where nothing was prepared.</span><span class="ph-meta">Blender: citadel (courtyard) · Sheets: </span></div></div>
+    <figcaption>THE NEW WARDEN MAY NOT FORGET WHAT HIS PREDECESSOR’S KEEPERS PREPARED. WHERE NOTHING WAS PREPARED, HE WRITES A BLANK.</figcaption>
+  </figure>
+  <!-- /PANEL VII-06 -->
+  <aside class="fn"><b>3.</b> The null request, the inquisitors note, is a technique the Paxon Parliament
+  also used to fill gaps in its ledger (Volume IV, §3). A missing request body or checkpoint is fetched
+  from another keeper; since <var>f</var> + 1 of the keepers who certified a checkpoint are honest, a keeper always
+  obtains it or a later certified one.</aside>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VII ================= -->
+<section id="s7">
+  <div class="issue">
+    <span class="no">Chapter VII</span>
+    <h2 id="why-nothing-is-lost"><a href="#why-nothing-is-lost" class="hlink">Why Nothing Is Lost</a></h2>
+  </div>
+
+  <h3 id="7-1-safety" class="sect"><a href="#7-1-safety" class="hlink">7.1 · Safety</a></h3>
+  <div class="prose">
+    <p>The citadel is safe if all honest keepers agree on the numbers of requests that commit locally. Within one
+    watch, the prepare invariant ensures it. Across watches, the watch change ensures it.</p>
+  </div>
+  <details class="proof" open>
+    <summary>Sketch: a request committed in an earlier watch survives</summary>
+    <ol class="proofsteps">
+      <li>If <var>m</var> commits locally at an honest keeper with number <var>n</var> in watch <var>v</var>, then <em>committed</em>(<var>m</var>, <var>v</var>, <var>n</var>) holds: some set <var>R</var><sub>1</sub> of <var>f</var> + 1 honest keepers has <em>prepared</em> it.</li>
+      <li>An honest keeper will not accept a pre-prepare for a later watch <var>v′</var> without a NEW-VIEW for <var>v′</var>, and any correct NEW-VIEW contains valid VIEW-CHANGE letters from a set <var>R</var><sub>2</sub> of 2<var>f</var> + 1 keepers.</li>
+      <li>With 3<var>f</var> + 1 keepers, <var>R</var><sub>1</sub> and <var>R</var><sub>2</sub> share at least one keeper <var>k</var>, and <var>k</var> is honest.</li>
+      <li><var>k</var>'s VIEW-CHANGE carries the proof that <var>m</var> prepared at <var>n</var> — unless it reports a stable checkpoint beyond <var>n</var>. In the first case the new warden must re-propose <var>m</var> at <var>n</var>, preventing any other request from ever committing there. In the second, no keeper in the new watch will accept anything numbered <var>n</var> or lower. Either way, the keepers agree on what commits at <var>n</var>. <span class="qed">∎</span></li>
+    </ol>
+  </details>
+
+  <h3 id="7-2-liveness" class="sect"><a href="#7-2-liveness" class="hlink">7.2 · Liveness</a></h3>
+  <div class="prose">
+    <p>To be live, keepers must change watches when they cannot make progress, but must keep 2<var>f</var> + 1 honest
+    keepers in the same watch long enough — and ever longer — for a request to get through. The inquisitors use three
+    means:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">Three Means of Progress</span>
+    <ol>
+      <li><b>Patience that doubles.</b> A keeper that sent VIEW-CHANGE for <var>v</var> + 1 waits for 2<var>f</var> + 1 such letters, then starts a timer of length <var>T</var>. If no NEW-VIEW arrives or no new request executes before it expires, it moves to <var>v</var> + 2 and this time waits 2<var>T</var>; then 4<var>T</var>; and so on.</li>
+      <li><b>Not too late.</b> A keeper that receives <var>f</var> + 1 valid VIEW-CHANGE letters for higher watches joins the smallest of them, even if its own timer has not expired.</li>
+      <li><b>Liars cannot force chaos.</b> A lying keeper cannot cause a watch change by itself, since one needs <var>f</var> + 1 keepers; it can stall only while it is warden. Because the warden's office rotates, the warden can be faulty for at most <var>f</var> consecutive watches.</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>These guarantee progress unless messengers' delays grow faster than the timeouts indefinitely — the navigators'
+    passable season of Volume&nbsp;III, in the inquisitors' own terms.</p>
+  </div>
+
+  <h3 id="7-3-nondeterminism" class="sect"><a href="#7-3-nondeterminism" class="hlink">7.3 · Uncertain Values</a></h3>
+  <div class="prose">
+    <p>Some operations need a value that is not determined by the request — the library records "when this scroll was
+    last amended", and each keeper's water-clock differs. The citizen cannot choose it, since he does not know how his
+    request will be ordered. So the warden chooses, and the value travels through the gauntlet with the request, so
+    that a lying warden cannot give different keepers different values. But a lying warden could give everyone the
+    same <em>bad</em> value, so keepers must be able to judge it from the treasury alone. Where keepers must share in
+    the choice, the warden gathers 2<var>f</var> + 1 sealed proposals and they take, say, the median.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VIII ================= -->
+<section id="s8">
+  <div class="issue">
+    <span class="no">Chapter VIII</span>
+    <h2 id="the-budget"><a href="#the-budget" class="hlink">The Budget</a></h2>
+  </div>
+
+  <h3 id="8-1-tallies" class="sect"><a href="#8-1-tallies" class="hlink">8.1 · Split Tallies Instead of Signets</a></h3>
+  <!-- PANEL VII-07 -->
+  <figure class="panel mid tilt-r" id="panel-VII-07" data-panel="VII-07" data-shape="half" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="The budget: A still-life comparison: a heavy signet ring and bubbling wax beside a nearly-spent hourglass, against a bundle of split tally sticks beside one barely started."><span class="ph-label">VII-07 · half 4:3</span><span class="ph-title">The budget</span><span class="ph-desc">A still-life comparison: a heavy signet ring and bubbling wax beside a nearly-spent hourglass, against a bundle of split tally sticks beside one barely started.</span><span class="ph-meta">Blender: none (illustrative) · Sheets: </span></div></div>
+    <figcaption>THE BUDGET: A SIGNET SEAL PROVES YOUR WORD TO ANYONE, SLOWLY. A SPLIT TALLY PROVES IT TO ONE PARTNER, A THOUSAND TIMES FASTER.</figcaption>
+  </figure>
+  <!-- /PANEL VII-07 -->
+  <div class="prose">
+    <p>Chapter IV described the gauntlet with signet seals on every letter. In fact the citadel uses signets <b>only for
+    VIEW-CHANGE and NEW-VIEW letters</b>, which are rare, and authenticates all other letters with split tallies. That
+    single change removes what the inquisitors identify as the main bottleneck of earlier fortifications.</p>
+    <p>The saving is enormous. On the inquisitors' machines, making a 1024-bit RSA signature of an MD5 digest took
+    43&nbsp;ms and verifying it 0.6&nbsp;ms; computing a tally over a 64-byte message took 10.3&nbsp;µs — three orders of
+    magnitude less. Each pair of keepers (and each active citizen) shares a 16-byte secret key; a tally is MD5 over the
+    message and the key, keeping only the 10 least significant bytes. A reply needs one tally, for its one recipient.
+    Every other letter carries an <em>authenticator</em>: a bundle with one tally for each other keeper. An authenticator
+    is smaller than a 1024-bit RSA signature for systems of up to 13 keepers (tolerating 4 faults).</p>
+    <p>But a tally has a fundamental limit: it cannot prove a letter's authenticity to a <em>third</em> keeper. The
+    gauntlet as written, and every earlier Byzantine fortification, relied on that power of signets. The inquisitors
+    modified the protocol to do without it, using specific invariants — such as that no two different requests prepare
+    with the same watch and number at two honest keepers — and give the full modification in a separate report.</p>
+  </div>
+
+  <h3 id="8-2-fewer-messages" class="sect"><a href="#8-2-fewer-messages" class="hlink">8.2 · Fewer and Smaller Letters</a></h3>
+  <div class="decree rules">
+    <span class="rhead">Three Economies of Communication</span>
+    <ol>
+      <li><b>Impressions instead of large replies.</b> A citizen names one keeper to send the full result; the others send only its impression. If the full reply is wrong, the citizen asks again for full replies from everyone.</li>
+      <li><b>Tentative execution.</b> Keepers carry out a request as soon as it is <em>prepared</em> and all earlier requests are committed, and send a tentative reply. A citizen with 2<var>f</var> + 1 matching tentative replies knows the request will commit. This cuts the message delays from 5 to 4. A tentative execution replaced by a null request in a watch change is rolled back to a checkpoint.</li>
+      <li><b>Read-only requests.</b> A citizen sends a read-only request to all keepers, who carry it out at once on their tentative state but reply only once that state is committed. The citizen needs 2<var>f</var> + 1 matching replies; if concurrent writes prevent that, he retries as an ordinary request. One round trip.</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>Under heavy load, the warden also gathers requests into batches and runs the gauntlet once for the batch.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER IX ================= -->
+<section id="s9">
+  <div class="issue">
+    <span class="no">Chapter IX</span>
+    <h2 id="the-working-library"><a href="#the-working-library" class="hlink">The Working Library</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>The inquisitors then did what no geometer had: they built a working library on the citadel and let the city
+    use it. Their <em>library of scrolls</em> — a replicated version of the city's ordinary shared scroll-store — was
+    reached by citizens exactly like the ordinary one, through a small relay that passed each request into the
+    citadel. Behind the relay ran a library of their protocol and, in each of four keepers' houses, a simple
+    scroll-keeper working on a single memory-mapped file.</p>
+    <p>Checkpoints were made cheap by <em>copy-on-write</em>: at each checkpoint every 512-byte page is marked, and a
+    page is copied aside only when first changed. At most two checkpoints are kept; in their trials a checkpoint
+    record averaged only 182 pages. The treasury's impression is computed incrementally with AdHash: the impression is
+    the sum of the MD5 impressions of each page with its index, modulo a large number, so only changed pages need
+    rehashing. The uncertain "last-modified" times were chosen by the warden, and keepers took the larger of that and
+    one more than any earlier choice.<sup>4</sup></p>
+  </div>
+  <aside class="fn"><b>4.</b> The inquisitors report candidly that their library did not yet implement watch
+  changes or retransmissions, and argue this does not affect their measurements, which were of the ordinary case,
+  since the full algorithm had been formalized and proved correct.</aside>
+
+  <!-- PANEL VII-08 -->
+  <figure class="panel" id="panel-VII-08" data-panel="VII-08" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The trial of the five labours: Two libraries race side by side: an ordinary open one, and a fortified one guarded by four keepers, an identical scribe working in each while a judge watches."><span class="ph-label">VII-08 · wide 16:9</span><span class="ph-title">The trial of the five labours</span><span class="ph-desc">Two libraries race side by side: an ordinary open one, and a fortified one guarded by four keepers, an identical scribe working in each while a judge watches.</span><span class="ph-meta">Blender: none (illustrative) · Sheets: </span></div></div>
+    <figcaption>THE TRIAL OF THE FIVE LABOURS: WITH FOUR KEEPERS AND ONE POSSIBLE TRAITOR, THE GUARDED LIBRARY FINISHED ONLY 3% BEHIND THE CITY’S ORDINARY ONE.</figcaption>
+  </figure>
+  <!-- /PANEL VII-08 -->
+
+  <h3 id="9-1-the-trials" class="sect"><a href="#9-1-the-trials" class="hlink">9.1 · The Trials</a></h3>
+  <div class="prose">
+    <p>All trials used four keepers — enough to survive one traitor, which the inquisitors expected to suffice for most
+    purposes — on identical workstations joined by a 10&nbsp;Mbit/s switched network, with checkpoints every 128
+    requests.</p>
+    <p>In the <em>small trial</em>, a request that does nothing:</p>
+  </div>
+  <div class="table-wrap">
+    <table class="chron">
+      <thead><tr><th>Argument/result (KB)</th><th class="c">Replicated, read-write</th><th class="c">Replicated, read-only</th><th class="c">Unreplicated</th></tr></thead>
+      <tbody>
+        <tr><td>0/0</td><td class="c">3.35 ms (309%)</td><td class="c">1.62 ms (98%)</td><td class="c">0.82 ms</td></tr>
+        <tr><td>4/0</td><td class="c">14.19 ms (207%)</td><td class="c">6.98 ms (51%)</td><td class="c">4.62 ms</td></tr>
+        <tr><td>0/4</td><td class="c">8.01 ms (72%)</td><td class="c">5.94 ms (27%)</td><td class="c">4.66 ms</td></tr>
+      </tbody>
+      <caption>Micro-benchmark latencies; percentages are overhead relative to the unreplicated service. This is the worst case — the operations do no work and the unreplicated service offers no authentication at all.</caption>
+    </table>
+  </div>
+  <div class="prose">
+    <p>Even so, by a conservative estimate the citadel reduced latency relative to the Rampart by factors of more than 10
+    for read-write and 20 for read-only requests. In the <em>trial of the five labours</em> (the Andrew benchmark) — make
+    the shelves, copy a tree of scrolls, check every label, read every word, bind the codices — the guarded library took
+    64.48 seconds against 51.07 for the same library without replication (26% more), and against 62.52 for the city's
+    everyday scroll-store, which writes to its strongroom before replying: <b>only 3% slower</b>. With lookups treated as
+    read-only, it was 2% <em>faster</em> than the everyday store. The guarded library replied faster in the labours with
+    many writes, because it achieved durability by keeping copies instead of waiting on disk.</p>
+    <p>And then there is the bug. While running their trials, the inquisitors encountered a software error that struck
+    their keepers independently — and the citadel continued running correctly in spite of it.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER X ================= -->
+<section id="s10">
+  <div class="issue">
+    <span class="no">Chapter X</span>
+    <h2 id="rival-fortifications"><a href="#rival-fortifications" class="hlink">Rival Fortifications</a></h2>
+  </div>
+  <div class="prose">
+    <p>The granary of Paxos (Volume&nbsp;VI) and the Paxon Parliament (Volume&nbsp;IV) already used watches with a
+    warden and backups — but only against honest failures. Tolerating liars, the inquisitors observe, requires
+    authentication, an extra pre-prepare phase, and a different way of triggering watch changes and choosing wardens.
+    And the citadel uses watch changes only to choose a new warden, never to choose a different set of keepers.</p>
+    <p>The <b>Rampart</b> and the <b>Secure Ring</b> must expel faulty keepers to make progress and to tidy their logs, and
+    decide who is faulty with failure detectors — which cannot be accurate in an asynchronous sea. A single
+    misclassification can remove an honest keeper, which opens exactly the siege by delay of Chapter I. Calibrating the
+    detectors to be patient enough for that risk to be negligible would leave the city waiting a very long time whenever
+    the warden really does fall.</p>
+    <p>The <b>Phalanx</b> of
+    <span class="paxon" data-real="Dahlia Malkhi &amp; Michael Reiter" data-note="Byzantine quorum systems; the Phalanx secure replication system (1998).">Μάλκι and Ράιτερ</span>
+    — an appropriately Greek name — uses Byzantine quorums instead of a replicated state machine. It offers only reads,
+    writes and locks on individual variables, needs 4<var>f</var> + 1 keepers, and a full copy of the treasury at each; its
+    promise of scalability is real but expensive.</p>
+    <p>The inquisitors close with future work: fewer keepers, by using <em>witnesses</em> that join only when a full keeper
+    fails — the same economy the granary had proposed — and fewer full copies of the treasury.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER XI ================= -->
+<section id="s11">
+  <div class="issue">
+    <span class="no">Chapter XI</span>
+    <h2 id="relevance-to-computer-science"><a href="#relevance-to-computer-science" class="hlink">Relevance to Computer Science</a></h2>
+  </div>
+  <div class="table-wrap">
+    <table class="chron">
+      <thead><tr><th>At the citadel</th><th>In the paper</th></tr></thead>
+      <tbody>
+        <tr><td>Keeper / warden / backup</td><td>Replica / primary / backup</td></tr>
+        <tr><td>Watch, <var>v</var> mod <var>n</var></td><td>View; primary <var>p</var> = <var>v</var> mod |<var>R</var>|</td></tr>
+        <tr><td>Signet seal / split tally / wax impression</td><td>Public-key signature / MAC / cryptographic digest</td></tr>
+        <tr><td>Bundle of tallies</td><td>Authenticator (vector of MACs)</td></tr>
+        <tr><td>The three-phase gauntlet</td><td>PRE-PREPARE, PREPARE, COMMIT</td></tr>
+        <tr><td>Census of the vault; tide-marks</td><td>Stable checkpoint (2<var>f</var> + 1 CHECKPOINT messages); low and high water marks <var>h</var>, <var>H</var></td></tr>
+        <tr><td>Deposing the warden</td><td>VIEW-CHANGE and NEW-VIEW</td></tr>
+        <tr><td>Blank tablet</td><td>Null request</td></tr>
+        <tr><td>The library of scrolls; the five labours</td><td>BFS (Byzantine-fault-tolerant NFS); the Andrew benchmark</td></tr>
+        <tr><td>The siege by delay</td><td>Denial-of-service attacks on synchrony-dependent safety</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>PBFT is the ancestor of essentially every practical Byzantine fault-tolerant replication protocol, including the
+    many consensus protocols later built for permissioned blockchains. Its lasting design lessons are that safety must not
+    depend on timing; that <var>n</var> = 3<var>f</var> + 1 replicas with quorums of 2<var>f</var> + 1 guarantee that any two quorums
+    share an honest replica; that a view change must carry certificates proving what may have committed; and that
+    cryptography is a budget item — signatures where proof to third parties is essential, MACs everywhere else.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= REFERENCES ================= -->
+<section id="refs">
+  <div class="issue">
+    <span class="no">The Library</span>
+    <h2 id="references"><a href="#references" class="hlink">References</a></h2>
+  </div>
+  <ol class="refs prose">
+    <li>Bellare, M. and Micciancio, D. 1997. A new paradigm for collision-free hashing: Incrementality at reduced cost. In <em>Advances in Cryptology — Eurocrypt 97</em>.</li>
+    <li>Bracha, G. and Toueg, S. 1985. Asynchronous consensus and broadcast protocols. <em>Journal of the ACM 32</em>, 4.</li>
+    <li>Castro, M. and Liskov, B. 1999. Practical Byzantine fault tolerance. In <em>Proceedings of the 3rd Symposium on Operating Systems Design and Implementation</em>, 173–186.</li>
+    <li>Castro, M. and Liskov, B. 1999. Authenticated Byzantine fault tolerance without public-key cryptography. Technical Memo MIT/LCS/TM-589.</li>
+    <li>Kihlstrom, K., Moser, L., and Melliar-Smith, P. 1998. The SecureRing protocols for securing group communication. In <em>Hawaii International Conference on System Sciences</em>.</li>
+    <li>Lamport, L., Shostak, R., and Pease, M. 1982. The Byzantine generals problem. <em>ACM Transactions on Programming Languages and Systems 4</em>, 3.</li>
+    <li>Malkhi, D. and Reiter, M. 1998. Secure and scalable replication in Phalanx. In <em>IEEE Symposium on Reliable Distributed Systems</em>.</li>
+    <li>Oki, B. and Liskov, B. 1988. Viewstamped replication. In <em>Proceedings of the 7th ACM Symposium on Principles of Distributed Computing</em>.</li>
+    <li>Reiter, M. 1995. The Rampart toolkit for building high-integrity services. In <em>Theory and Practice in Distributed Systems</em>, LNCS 938.</li>
+  </ol>
+</section>
+
+<div>
+  <hr class="meander">
+  <div class="paper-card">
+      <h4>🏛️ Foundational Research Papers</h4>
+      <p style="font-size:.9rem; margin-top:0; color:#5c4e3b">The original paper this volume retells:</p>
+      <div class="paper-item">
+          <div style="font-weight:700">Practical Byzantine Fault Tolerance</div>
+          <div style="font-size:.88rem; color:#5c4e3b; margin:2px 0">Miguel Castro, Barbara Liskov (1999) · <em>Proceedings of the 3rd USENIX OSDI, pp. 173–186</em></div>
+          <a href="https://pdos.csail.mit.edu/6.824/papers/castro-practicalbft.pdf" class="paper-btn" target="_blank" rel="noopener">📄 Read the Paper (PDF)</a>
+        </div>
+    </div>
+</div>
+
+<footer class="colophon">
+  <hr class="meander">
+  <p>An allegorical retelling of Castro &amp; Liskov (1999). Message formats, predicates, quorum sizes and the reported
+  measurements are those of the paper. The panels are placeholders for now, each describing the image to come. For
+  the original protocol, always consult the original paper.</p>
+  <nav class="bottom-nav">
+    <a href="../art-direction-grand-island-shape.html" class="bottom-btn all">🏛️ Art direction</a>
+  </nav>
+</footer>
+
+</div><!--/page-->
+<script>
+"use strict";
+/* ================= hidden-name tooltips ================= */
+(function(){
+  const tip = document.getElementById('tip');
+  function show(el){
+    tip.innerHTML = '<span class="who">' + el.dataset.real + '</span>' + (el.dataset.note || '');
+    tip.style.display = 'block';
+    const r = el.getBoundingClientRect();
+    const tw = tip.offsetWidth;
+    let x = window.scrollX + r.left + r.width/2 - tw/2;
+    x = Math.max(8, Math.min(x, window.scrollX + document.documentElement.clientWidth - tw - 8));
+    tip.style.left = x + 'px';
+    tip.style.top = (window.scrollY + r.bottom + 8) + 'px';
+  }
+  document.querySelectorAll('.paxon').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>show(el));
+    el.addEventListener('mouseleave', ()=>{ tip.style.display='none'; });
+    el.addEventListener('click', (e)=>{ e.stopPropagation(); show(el); });
+  });
+  document.addEventListener('click', ()=>{ tip.style.display='none'; });
+})();
+</script>
+</body>
+</html>

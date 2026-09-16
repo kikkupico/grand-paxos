@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volume II: The Curse of the Sleeping Shepherd — Distributed Algorithms of Ancient Greece</title>
+<link rel="stylesheet" href="volume.css">
+</head>
+<body>
+<nav class="series-nav">
+  <div class="series-nav-inner">
+    <a href="../art-direction-grand-island-shape.html" class="nav-back">← Art direction</a>
+    <span class="nav-current">Volume II</span>
+  </div>
+</nav>
+<div id="tip" role="tooltip"></div>
+<div class="page">
+
+<!-- ================= COVER ================= -->
+<header class="cover">
+  <div class="kicker">Distributed Algorithms of Ancient Greece · Volume II</div><br>
+  <!-- PANEL II-00 -->
+  <div class="frame-cover" id="panel-II-00" data-panel="II-00" data-shape="splash" data-refs="I-characters I-props"><div class="img-placeholder ph-splash" role="img" aria-label="The council climbs to the oracle: The summit temple above Paxos&#x27;s first hamlets: shepherd-delegates wait on the steps while three priestesses descend from the cave mouth with a burnt parchment."><span class="ph-label">II-00 · splash 3:2</span><span class="ph-title">The council climbs to the oracle</span><span class="ph-desc">The summit temple above Paxos&#x27;s first hamlets: shepherd-delegates wait on the steps while three priestesses descend from the cave mouth with a burnt parchment.</span><span class="ph-meta">Blender: oracle (temple steps; cave mouth) · Sheets: I-characters, I-props</span></div></div>
+  <!-- /PANEL II-00 -->
+  <p class="sub display">An illustrated chronicle of the council at the summit oracle — and the
+  proof, nine columns long, that no rite can promise both to never contradict itself and to
+  always finish.</p>
+  <p class="pub">After M.&nbsp;J. Fischer, N.&nbsp;A. Lynch &amp; M.&nbsp;S. Paterson, "Impossibility of
+  Distributed Consensus with One Faulty Process," <em>JACM</em> 32, 2 (April 1985), 374–382. The
+  complete proof, retold.</p>
+</header>
+
+<nav class="toc">
+  <h6 id="table-of-contents"><a href="#table-of-contents" class="hlink">Table of Contents</a></h6>
+  <ol>
+    <li><a href="#preface">The Translator's Preface</a></li>
+    <li><a href="#s1">The Council at the Summit Oracle</a></li>
+    <li><a href="#s2">The Rules of the Rite</a></li>
+    <li><a href="#s3">The Oracle's Curse</a></li>
+    <li><a href="#s4">The Bivalent Trap</a></li>
+    <li><a href="#s5">The Endless Rite</a></li>
+    <li><a href="#s6">The Shepherds Who Never Came</a></li>
+    <li><a href="#s7">What the Curse Does Not Say</a></li>
+    <li><a href="#s8">Relevance to Computer Science</a></li>
+    <li><a href="#refs">References</a></li>
+  </ol>
+</nav>
+
+<!-- ================= PREFACE ================= -->
+<section id="preface">
+  <div class="editor-note">
+    <span class="tag">The translator's preface</span>
+    <p>Most prophecies are famous for their ambiguity. This one is famous for having none. It was
+    delivered by three priestesses —
+    <span class="paxon" data-real="Michael J. Fischer" data-note="Yale University. The F of FLP.">Φίσερ</span>,
+    <span class="paxon" data-real="Nancy A. Lynch" data-note="MIT. The L of FLP; also a legislator in Volume IV’s Paxon Parliament.">Λίντς</span>
+    and
+    <span class="paxon" data-real="Michael S. Paterson" data-note="University of Warwick. The P of FLP.">Πάτερσον</span>
+    — in the form of a proof, nine columns long, which the delegates at first refused to believe,
+    and later carved into the rock beside the oracle's own gate.</p>
+    <p>I have translated the proof in full. It is one of the shortest documents in this series and the
+    one that governs all the others. Readers of Volumes&nbsp;IV through&nbsp;IX who wonder why each
+    parliament is so careful to promise only that it will <em>eventually</em> decide, and only when
+    the weather is fair, will find the reason here.</p>
+    <p class="sig">— The Translator</p>
+  </div>
+
+  <div class="narr">Delegates from Paxos's first hamlets asked the oracle for a rite by which a council could always reach a verdict, even if one delegate might fall asleep and never wake. The priestesses answered that no such rite exists — not if the wind may delay a word for as long as it pleases, and not even if every word eventually arrives. What follows is their proof.</div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER I ================= -->
+<section id="s1">
+  <div class="issue">
+    <span class="no">Chapter I</span>
+    <h2 id="the-council-at-the-summit-oracle"><a href="#the-council-at-the-summit-oracle" class="hlink">The Council at the Summit Oracle</a></h2>
+  </div>
+
+  <!-- PANEL II-01 -->
+  <figure class="panel mid tilt-l" id="panel-II-01" data-panel="II-01" data-shape="half" data-refs="I-characters">
+    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="The sleeping shepherd: Inside the temple: one delegate has slumped face-down asleep at his writing desk, a stylus still in hand; two others lean over him with lamps, unable to tell if he is resting or gone for good."><span class="ph-label">II-01 · half 4:3</span><span class="ph-title">The sleeping shepherd</span><span class="ph-desc">Inside the temple: one delegate has slumped face-down asleep at his writing desk, a stylus still in hand; two others lean over him with lamps, unable to tell if he is resting or gone for good.</span><span class="ph-meta">Blender: oracle (temple interior) · Sheets: I-characters</span></div></div>
+    <figcaption>THE SLEEPING SHEPHERD: ASLEEP FOR AN HOUR, OR FOR EVER? NO ONE IN THE TEMPLE CAN TELL.</figcaption>
+  </figure>
+  <!-- /PANEL II-01 -->
+
+  <div class="prose">
+    <p>Reaching agreement among delegates from hamlets that cannot see one another is one of the
+    most fundamental problems of the young island. It lies at the core of every common treasury,
+    every shared ledger, and every guild that must act as one. In its best-known form, it is the
+    problem of the <em>cargo guild</em>: all the warehouse-keepers who have handled part of a
+    merchant's cargo must agree whether to <em>commit</em> it — record the sale in every warehouse
+    — or to discard it, as they must if any keeper was unable to do his part. Whatever is decided,
+    all must decide the same, or the guild's books will no longer agree.</p>
+    <p>With perfectly reliable keepers and perfectly reliable messengers this is straightforward.
+    But real keepers fall ill, storms close the passes, and letters are lost, garbled or delivered
+    twice. One may even consider keepers who go completely mad, sending letters according to some
+    malevolent plan, as the generals of Volume&nbsp;V did. Any rite can be overwhelmed by faults
+    that are too frequent or too severe, so the best one can hope for is a rite that tolerates a
+    prescribed number of them.</p>
+    <p>The priestesses' result was that no such rite, if it is completely <em>asynchronous</em>, can
+    tolerate even a <b>single unannounced sleeper</b>. They did not consider mad keepers. They
+    assumed the letters were perfectly reliable — every one delivered correctly and exactly once.
+    And still, the falling asleep of one keeper at an inopportune moment can prevent any cargo
+    guild from ever reaching a verdict.</p>
+  </div>
+
+  <h3 id="1-1-what-asynchronous-means" class="sect"><a href="#1-1-what-asynchronous-means" class="hlink">1.1 · What the Priestesses Took Away</a></h3>
+  <div class="prose">
+    <p>Crucial to the proof is that the council is completely asynchronous. Nothing is assumed
+    about how fast the delegates think or how long a letter takes to cross from one to another. The
+    delegates have no synchronized water-clocks, so no rite may say "if no letter has come by noon,
+    assume the sender is asleep."<sup>1</sup> And no delegate can detect that another has fallen
+    asleep, so it is impossible for one to tell whether another has stopped entirely or is merely
+    very, very slow.</p>
+  </div>
+  <aside class="fn"><b>1.</b> In particular, the priestesses note, the commit rites of
+  <span class="paxon" data-real="Danny Dolev &amp; H. Raymond Strong" data-note="“Distributed Commit with Bounded Waiting” (1982), which relies on timeouts.">Ντόλεβ and Στρονγκ</span>,
+  which rely on such timeouts, cannot be used here. The reader of Volume I will recall the wandering
+  scholar's remark that the concept of failure is only meaningful in the context of physical time.
+  The priestesses have removed physical time.</aside>
+
+  <div class="prose">
+    <p>The result applies even to a very weak form of agreement. Every delegate begins with a pebble,
+    white or black. A delegate who is awake decides by dropping a white or black token into his own
+    bronze urn, and the urn, once filled, can never be emptied. All delegates who decide must choose
+    the same colour. For the purpose of the proof, the priestesses required only that <em>some</em>
+    delegate eventually decide — of course, any rite worth having would require that every waking
+    delegate decide. The trivial rite in which everyone always drops a white token is excluded by
+    requiring that both colours be possible verdicts, perhaps from different starting pebbles.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER II ================= -->
+<section id="s2">
+  <div class="issue">
+    <span class="no">Chapter II</span>
+    <h2 id="the-rules-of-the-rite"><a href="#the-rules-of-the-rite" class="hlink">The Rules of the Rite</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>The priestesses described the council in terms deliberately generous to it, so that their curse
+    would bind as many rites as possible. A delegate may be as clever as he likes and keep as many
+    notes as he likes. He may broadcast the same letter to everyone at once, with the guarantee that if
+    any waking delegate receives it, all will. Letters are never lost. The only thing the wind is
+    permitted to do is to take its time.</p>
+  </div>
+
+  <h3 id="2-1-delegates-and-letters" class="sect"><a href="#2-1-delegates-and-letters" class="hlink">2.1 · Delegates, Letters and the Cleft</a></h3>
+  <div class="prose">
+    <p>A <em>council</em> is an asynchronous system of <var>N</var> ≥ 2 delegates. Each delegate
+    <var>p</var> has a pebble <var>x</var><sub><var>p</var></sub> ∈ {0, 1} (white or black), an urn
+    <var>y</var><sub><var>p</var></sub> with values in {<var>b</var>, 0, 1} starting empty (<var>b</var>), and
+    unbounded notes. Together these make up his <em>state</em>. States in which the urn holds 0 or 1 are
+    <em>decision states</em>. A delegate acts <b>deterministically</b>, according to a fixed rule, and the
+    rule cannot empty an urn once it is filled.</p>
+    <p>Letters are pairs (<var>p</var>, <var>m</var>): a destination delegate and a message. All letters sent
+    but not yet delivered wait in <em>the Cleft</em> — the smoking fissure beside the oracle's cave, a jumble
+    (a multiset) of undelivered letters. The Cleft supports two operations:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">The Cleft</span>
+    <ul>
+      <li><b>send</b>(<var>p</var>, <var>m</var>): places (<var>p</var>, <var>m</var>) in the Cleft.</li>
+      <li><b>receive</b>(<var>p</var>): removes <em>some</em> letter (<var>p</var>, <var>m</var>) and returns <var>m</var> — or returns the empty-handed marker ∅ and leaves the Cleft unchanged.</li>
+    </ul>
+  </div>
+  <div class="prose">
+    <p>The Cleft acts nondeterministically, subject to one condition: if <b>receive</b>(<var>p</var>) is
+    performed infinitely often, every letter for <var>p</var> is eventually delivered. In particular, the
+    wind may hand <var>p</var> nothing a finite number of times even though a letter for him is
+    sitting in the smoke.<sup>2</sup></p>
+    <p>A <em>configuration</em> is the state of every delegate together with the contents of the Cleft.
+    A <em>step</em> is taken by one delegate <var>p</var>: he performs <b>receive</b>(<var>p</var>), obtaining some
+    <var>m</var> or ∅, and then, depending on his state and <var>m</var>, enters a new state and sends a finite
+    set of letters. Because delegates are deterministic, the step is fully determined by the
+    <em>event</em> <var>e</var> = (<var>p</var>, <var>m</var>) — the receipt of <var>m</var> by <var>p</var> — and we write
+    <var>e</var>(<var>C</var>) for the resulting configuration. The event (<var>p</var>, ∅) can always be applied,
+    so a delegate can always take another step. A <em>schedule</em> is a sequence of events applied in
+    turn; its steps form a <em>run</em>; a configuration reachable from an initial one is
+    <em>accessible</em>.</p>
+  </div>
+  <aside class="fn"><b>2.</b> Later copyists personified the keeper of the Cleft as Aeolus, keeper of
+  the winds, who can still any gust he chooses for as long as he likes, but is bound by oath to let
+  every word through in the end. The priestesses themselves call him only "the message system". I
+  have kept Aeolus, since he is about to become the villain.</aside>
+
+  <h3 id="2-2-commuting" class="sect"><a href="#2-2-commuting" class="hlink">2.2 · Deeds of Different Delegates Commute</a></h3>
+  <div class="slab">
+    <div class="slab-head">Lemma 1 · Commutativity</div>
+    <p class="stmt">Suppose that from a configuration <var>C</var> the schedules σ<sub>1</sub>, σ<sub>2</sub> lead to configurations <var>C</var><sub>1</sub>, <var>C</var><sub>2</sub>. If the sets of delegates taking steps in σ<sub>1</sub> and σ<sub>2</sub> are disjoint, then σ<sub>2</sub> can be applied to <var>C</var><sub>1</sub> and σ<sub>1</sub> to <var>C</var><sub>2</sub>, and both lead to the same configuration <var>C</var><sub>3</sub>.</p>
+  </div>
+  <figure class="panel narrow" id="fig-diamond">
+    <div class="frame" style="background:#fbf6e6; padding:10px 8px 28px">
+      <svg viewBox="0 0 360 250" role="img" aria-label="Commutativity diamond: from C, schedule sigma-1 leads to C1 and sigma-2 leads to C2; applying the other schedule to each leads to the same C3." style="display:block; width:100%; height:auto; font-family:Georgia,serif">
+        <defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1c1512"/></marker></defs>
+        <g stroke="#1c1512" stroke-width="2.4" fill="none" marker-end="url(#ar3)">
+          <line x1="165" y1="42" x2="88" y2="108"/><line x1="195" y1="42" x2="272" y2="108"/>
+          <line x1="88" y1="142" x2="165" y2="208"/><line x1="272" y1="142" x2="195" y2="208"/>
+        </g>
+        <g font-size="20" font-style="italic" text-anchor="middle" fill="#1c1512">
+          <text x="180" y="34">C</text><text x="70" y="132">C<tspan font-size="13" dy="4">1</tspan></text>
+          <text x="290" y="132">C<tspan font-size="13" dy="4">2</tspan></text><text x="180" y="232">C<tspan font-size="13" dy="4">3</tspan></text>
+        </g>
+        <g font-size="15" font-style="italic" fill="#136f9e" text-anchor="middle">
+          <text x="108" y="68">σ<tspan font-size="11" dy="3">1</tspan></text><text x="252" y="68">σ<tspan font-size="11" dy="3">2</tspan></text>
+          <text x="108" y="192">σ<tspan font-size="11" dy="3">2</tspan></text><text x="252" y="192">σ<tspan font-size="11" dy="3">1</tspan></text>
+        </g>
+      </svg>
+    </div>
+    <figcaption>LEMMA 1: WHAT A DELEGATE FROM HAMLET A DOES AND WHAT ONE FROM HAMLET K DOES CAN BE DONE IN EITHER ORDER.</figcaption>
+  </figure>
+  <div class="prose">
+    <p>The proof is immediate: σ<sub>1</sub> and σ<sub>2</sub> involve different delegates and do not
+    interact. It is the scholar's partial order of Volume&nbsp;I in disguise.</p>
+  </div>
+
+  <h3 id="2-3-correctness" class="sect"><a href="#2-3-correctness" class="hlink">2.3 · What Counts as a Good Rite</a></h3>
+  <div class="prose">
+    <p>A configuration has <em>decision value</em> <var>v</var> if some delegate's urn holds <var>v</var>.</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">Partial Correctness</span>
+    <ol>
+      <li>No accessible configuration has more than one decision value.</li>
+      <li>For each <var>v</var> ∈ {0, 1}, some accessible configuration has decision value <var>v</var>.</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>A delegate is <em>awake</em> (nonfaulty) in a run if he takes infinitely many steps, and
+    <em>asleep</em> (faulty) otherwise. A run is <em>admissible</em> if at most one delegate is asleep and
+    every letter sent to a waking delegate is eventually received. A run is <em>deciding</em> if some
+    delegate reaches a decision state. A rite is <em>totally correct in spite of one fault</em> if it is
+    partially correct and every admissible run is deciding.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER III ================= -->
+<section id="s3">
+  <div class="issue">
+    <span class="no">Chapter III</span>
+    <h2 id="the-oracles-curse"><a href="#the-oracles-curse" class="hlink">The Oracle's Curse</a></h2>
+  </div>
+
+  <div class="slab">
+    <div class="slab-head">Theorem 1 · The Curse</div>
+    <p class="stmt" style="font-size:1.12rem">No consensus rite is totally correct in spite of one fault.</p>
+  </div>
+
+  <div class="prose">
+    <p>Assume, to the contrary, that some rite <var>P</var> is totally correct in spite of one fault. The
+    priestesses' plan has two steps. First, show that there is some starting arrangement of pebbles
+    from which the verdict is not already fated. Second, show how Aeolus can build an admissible run
+    that never takes the one step that would fix the verdict.</p>
+    <p>Let <var>C</var> be a configuration and <var>V</var> the set of decision values of configurations
+    reachable from <var>C</var>. <var>C</var> is <b>bivalent</b> if |<var>V</var>| = 2 — both verdicts are still
+    possible. <var>C</var> is <b>univalent</b> if |<var>V</var>| = 1, and then <em>0-valent</em> or
+    <em>1-valent</em> accordingly. (By total correctness, <var>V</var> is never empty.)</p>
+  </div>
+
+  <!-- PANEL II-02 -->
+  <figure class="panel" id="panel-II-02" data-panel="II-02" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="Both verdicts still on the loom: The three Fates at a loom: the council&#x27;s verdict hangs taut between white wool and black, unresolved, while Aeolus cups a swirl of wind above the cave mouth."><span class="ph-label">II-02 · wide 16:9</span><span class="ph-title">Both verdicts still on the loom</span><span class="ph-desc">The three Fates at a loom: the council&#x27;s verdict hangs taut between white wool and black, unresolved, while Aeolus cups a swirl of wind above the cave mouth.</span><span class="ph-meta">Blender: none (allegorical: the Fates and Aeolus) · Sheets: </span></div></div>
+    <figcaption>A BIVALENT COUNCIL: BOTH VERDICTS STILL SPUN ON THE LOOM. THE WHOLE CURSE IS ABOUT KEEPING IT THAT WAY.</figcaption>
+  </figure>
+  <!-- /PANEL II-02 -->
+
+  <h3 id="3-1-an-undecided-beginning" class="sect"><a href="#3-1-an-undecided-beginning" class="hlink">3.1 · An Undecided Beginning</a></h3>
+  <div class="slab">
+    <div class="slab-head">Lemma 2</div>
+    <p class="stmt"><var>P</var> has a bivalent initial configuration.</p>
+  </div>
+  <details class="proof" open>
+    <summary>Proof</summary>
+    <ol class="proofsteps">
+      <li>Suppose not. By partial correctness, <var>P</var> has both 0-valent and 1-valent initial configurations.</li>
+      <li>Call two initial configurations <em>adjacent</em> if they differ only in the pebble of a single delegate. Any two initial configurations are joined by a chain of adjacent ones — change one pebble at a time. So somewhere along the chain a 0-valent initial configuration <var>C</var><sub>0</sub> is adjacent to a 1-valent one <var>C</var><sub>1</sub>. Let <var>p</var> be the delegate whose pebble differs.</li>
+      <li>Take an admissible deciding run from <var>C</var><sub>0</sub> in which <var>p</var> <em>takes no steps</em> — he falls asleep at once, which is allowed, since one sleeper is permitted. Its schedule σ can also be applied to <var>C</var><sub>1</sub>, and corresponding configurations in the two runs are identical except for <var>p</var>'s state, which no one ever consults.</li>
+      <li>Both runs therefore reach the same verdict. If it is 1, <var>C</var><sub>0</sub> was bivalent; if 0, <var>C</var><sub>1</sub> was. Either way, a contradiction. <span class="qed">∎</span></li>
+    </ol>
+  </details>
+
+  <!-- PANEL II-03 -->
+  <figure class="panel" id="panel-II-03" data-panel="II-03" data-shape="wide" data-refs="I-characters">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The pebble chain: Five identical councils seen from above; from left to right, one more pebble changes from white to black at each, and at the table where it flips, one delegate has fallen asleep."><span class="ph-label">II-03 · wide 16:9</span><span class="ph-title">The pebble chain</span><span class="ph-desc">Five identical councils seen from above; from left to right, one more pebble changes from white to black at each, and at the table where it flips, one delegate has fallen asleep.</span><span class="ph-meta">Blender: oracle (temenos courtyard) · Sheets: I-characters</span></div></div>
+    <figcaption>CHANGE ONE PEBBLE AT A TIME FROM ALL-WHITE TO ALL-BLACK. SOMEWHERE THE FATE FLIPS — AND THE DELEGATE WHOSE PEBBLE FLIPPED IT MIGHT SIMPLY SLEEP.</figcaption>
+  </figure>
+  <!-- /PANEL II-03 -->
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER IV ================= -->
+<section id="s4">
+  <div class="issue">
+    <span class="no">Chapter IV</span>
+    <h2 id="the-bivalent-trap"><a href="#the-bivalent-trap" class="hlink">The Bivalent Trap</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>The second lemma is the heart of the curse. It says that from any undecided configuration, no
+    single letter can be forced to settle the verdict: Aeolus can always hold that letter back until
+    a moment when delivering it leaves the council still undecided.</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head">Lemma 3</div>
+    <p class="stmt">Let <var>C</var> be a bivalent configuration of <var>P</var>, and let <var>e</var> = (<var>p</var>, <var>m</var>) be an event applicable to <var>C</var>. Let 𝒞 be the set of configurations reachable from <var>C</var> <em>without</em> applying <var>e</var>, and let 𝒟 = <var>e</var>(𝒞) = {<var>e</var>(<var>E</var>) | <var>E</var> ∈ 𝒞}. Then 𝒟 contains a bivalent configuration.</p>
+  </div>
+  <details class="proof" open>
+    <summary>Proof</summary>
+    <ol class="proofsteps">
+      <li>Because letters may be delayed arbitrarily, <var>e</var> is applicable to every <var>E</var> ∈ 𝒞. Assume, for contradiction, that every configuration in 𝒟 is univalent.</li>
+      <li><b>𝒟 contains both kinds.</b> Since <var>C</var> is bivalent, for <var>i</var> = 0, 1 there is an <var>i</var>-valent <var>E</var><sub><var>i</var></sub> reachable from <var>C</var>. If <var>E</var><sub><var>i</var></sub> ∈ 𝒞, let <var>F</var><sub><var>i</var></sub> = <var>e</var>(<var>E</var><sub><var>i</var></sub>) ∈ 𝒟. Otherwise <var>e</var> was applied on the way to <var>E</var><sub><var>i</var></sub>, so some <var>F</var><sub><var>i</var></sub> ∈ 𝒟 precedes <var>E</var><sub><var>i</var></sub>. Either way one of <var>E</var><sub><var>i</var></sub>, <var>F</var><sub><var>i</var></sub> is reachable from the other, and <var>F</var><sub><var>i</var></sub> is univalent, so <var>F</var><sub><var>i</var></sub> is <var>i</var>-valent.</li>
+      <li><b>A pair of neighbours.</b> Call two configurations <em>neighbours</em> if one follows from the other in a single step. By an easy induction there are neighbours <var>C</var><sub>0</sub>, <var>C</var><sub>1</sub> ∈ 𝒞 with <var>D</var><sub><var>i</var></sub> = <var>e</var>(<var>C</var><sub><var>i</var></sub>) <var>i</var>-valent. Say <var>C</var><sub>1</sub> = <var>e′</var>(<var>C</var><sub>0</sub>), with <var>e′</var> = (<var>p′</var>, <var>m′</var>).</li>
+      <li><b>Case 1: <var>p′</var> ≠ <var>p</var>.</b> Then by Lemma 1, <var>D</var><sub>1</sub> = <var>e′</var>(<var>D</var><sub>0</sub>). But every successor of a 0-valent configuration is 0-valent, and <var>D</var><sub>1</sub> is 1-valent. Impossible.</li>
+      <li><b>Case 2: <var>p′</var> = <var>p</var></b> — the same delegate receives, in one order or the other, both letters. Take a finite deciding run from <var>C</var><sub>0</sub> in which <var>p</var> takes <em>no steps</em>, with schedule σ, and let <var>A</var> = σ(<var>C</var><sub>0</sub>). By Lemma 1, σ applies to both <var>D</var><sub>0</sub> and <var>D</var><sub>1</sub>, giving <var>E</var><sub>0</sub> = σ(<var>D</var><sub>0</sub>) (0-valent) and <var>E</var><sub>1</sub> = σ(<var>D</var><sub>1</sub>) (1-valent); and also <var>e</var>(<var>A</var>) = <var>E</var><sub>0</sub> and <var>e</var>(<var>e′</var>(<var>A</var>)) = <var>E</var><sub>1</sub>. So <var>A</var> can still reach both verdicts: <var>A</var> is bivalent. But the run to <var>A</var> is deciding, so <var>A</var> is univalent. Impossible.</li>
+      <li>Both cases are contradictions, so 𝒟 contains a bivalent configuration. <span class="qed">∎</span></li>
+    </ol>
+  </details>
+  <!-- PANEL II-04 -->
+  <figure class="panel narrow tilt-r" id="panel-II-04" data-panel="II-04" data-shape="tall" data-refs="I-characters">
+    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="The crossroads of two letters: A delegate stands with two sealed letters, one in each hand, unsure which to open first, while the rest of the council carries on without him."><span class="ph-label">II-04 · tall 3:4</span><span class="ph-title">The crossroads of two letters</span><span class="ph-desc">A delegate stands with two sealed letters, one in each hand, unsure which to open first, while the rest of the council carries on without him.</span><span class="ph-meta">Blender: oracle (temenos, courtyard path) · Sheets: I-characters</span></div></div>
+    <figcaption>CASE 2: IF THE VERDICT HANGS ON WHICH OF TWO LETTERS ONE MAN READS FIRST, THE OTHERS CAN DECIDE WITHOUT HIM — AND THEN IT HANGS ON NOTHING.</figcaption>
+  </figure>
+  <!-- /PANEL II-04 -->
+  <div class="prose">
+    <p>Case 2 deserves a moment. The only way a single letter could fix the verdict is if the
+    difference between two nearly identical futures lies entirely in the order in which one delegate,
+    <var>p</var>, reads two of his letters. But then the rest of the council must be able to reach a
+    decision while <var>p</var> is asleep — that is the one fault the rite promises to tolerate — and that
+    decision cannot depend on what <var>p</var> has not yet read. The council would have decided on
+    something that, a moment later, could still go either way.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER V ================= -->
+<section id="s5">
+  <div class="issue">
+    <span class="no">Chapter V</span>
+    <h2 id="the-endless-rite"><a href="#the-endless-rite" class="hlink">The Endless Rite</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>Any deciding run from a bivalent start must at some step pass from a bivalent configuration to a
+    univalent one; that single step fixes the verdict. The priestesses now showed that Aeolus can
+    always run the council so as to avoid every such step, while keeping the run perfectly
+    admissible.</p>
+    <p>Aeolus builds the run in stages, from a bivalent initial configuration given by Lemma 2. He keeps
+    a queue of delegates, in any order, and considers each delegate's letters in the order they were
+    sent, earliest first. Each stage ends with the delegate at the head of the queue taking a step in
+    which — if he had any letter waiting at the start of the stage — he receives his earliest one; that
+    delegate then goes to the back of the queue. In any infinite sequence of such stages, every
+    delegate takes infinitely many steps and receives every letter sent to him. The run is admissible:
+    <em>no one is even asleep</em>.</p>
+    <p>Suppose a stage begins at a bivalent configuration <var>C</var>, with delegate <var>p</var> at the head
+    of the queue and <var>m</var> his earliest letter (or ∅). Let <var>e</var> = (<var>p</var>, <var>m</var>). By Lemma 3,
+    some bivalent <var>C′</var> is reachable from <var>C</var> by a schedule whose last event is <var>e</var>. Those
+    steps are the stage. Every stage begins and ends bivalent, every stage succeeds, and no decision is
+    ever reached. <span class="qed">∎</span></p>
+  </div>
+
+  <!-- PANEL II-05 -->
+  <figure class="panel" id="panel-II-05" data-panel="II-05" data-shape="wide" data-refs="III-props">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="No word is lost: Aeolus leans over the cleft in the cave mouth, gently shuffling sealed letters on the wind, delivering each in turn; inside, the council talks on, wide awake, the verdict urn still empty."><span class="ph-label">II-05 · wide 16:9</span><span class="ph-title">No word is lost</span><span class="ph-desc">Aeolus leans over the cleft in the cave mouth, gently shuffling sealed letters on the wind, delivering each in turn; inside, the council talks on, wide awake, the verdict urn still empty.</span><span class="ph-meta">Blender: oracle (cave mouth; temple interior, cutaway) · Sheets: III-props</span></div></div>
+    <figcaption>NO WORD IS LOST. NO DELEGATE SLEEPS. EVERY LETTER ARRIVES. AND THE COUNCIL NEVER FINISHES.</figcaption>
+  </figure>
+  <!-- /PANEL II-05 -->
+
+  <div class="prose">
+    <p>Note the precise shape of the curse, since the later volumes are all built in its shadow. The
+    run Aeolus constructs is not one in which a delegate fails. The mere <em>possibility</em> that one
+    might fail forces the rite to be willing to decide without him, and that willingness is what Aeolus
+    exploits. No letter is lost; every letter eventually arrives. Nor is the rite made to contradict
+    itself: a council may keep <b>safety</b> — never two verdicts — unconditionally. It is
+    <b>liveness</b>, the promise to eventually decide, that cannot also be guaranteed.<sup>3</sup></p>
+  </div>
+  <aside class="fn"><b>3.</b> The priestesses observe that every commit rite then in use among the
+  cargo guilds seemed to have a "window of vulnerability" — an interval in which the delay of a single
+  keeper could make the whole guild wait indefinitely — and that their result confirms a widely held
+  belief of the hamlets: <em>every</em> such rite has one.</aside>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VI ================= -->
+<section id="s6">
+  <div class="issue">
+    <span class="no">Chapter VI</span>
+    <h2 id="the-shepherds-who-never-came"><a href="#the-shepherds-who-never-came" class="hlink">The Shepherds Who Never Came</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>Lest the shepherds despair completely, the priestesses showed what <em>can</em> be done if the
+    sleeper is restricted to having been asleep from the very beginning. Suppose a strict majority of
+    delegates are awake at the start and no one falls asleep during the rite, though no one knows in
+    advance which delegates never arrived. Let <var>L</var> = ⌈(<var>N</var> + 1)/2⌉.</p>
+  </div>
+  <!-- PANEL II-06 -->
+  <figure class="panel mid tilt-r" id="panel-II-06" data-panel="II-06" data-shape="half" data-refs="I-characters">
+    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="The shepherds who never came: Empty chairs gather dust at the council table; the delegates who did arrive have joined hands in a closed ring, passing lists of names."><span class="ph-label">II-06 · half 4:3</span><span class="ph-title">The shepherds who never came</span><span class="ph-desc">Empty chairs gather dust at the council table; the delegates who did arrive have joined hands in a closed ring, passing lists of names.</span><span class="ph-meta">Blender: oracle (temple interior) · Sheets: I-characters</span></div></div>
+    <figcaption>THE SHEPHERDS WHO NEVER CAME: IF NO ONE FALLS ASLEEP DURING THE RITE, THE ONES WHO ARRIVED CAN FIND EACH OTHER.</figcaption>
+  </figure>
+  <!-- /PANEL II-06 -->
+  <div class="decree rules">
+    <span class="rhead">The Two-Stage Rite</span>
+    <ol>
+      <li><b>First stage.</b> Every delegate broadcasts his name and waits to hear from <var>L</var> − 1 others. Draw a graph <var>G</var> with an arrow from <var>i</var> to <var>j</var> if <var>j</var> heard from <var>i</var>. Every node of <var>G</var> has <var>L</var> − 1 incoming arrows.</li>
+      <li><b>Second stage.</b> Every delegate broadcasts his name, his pebble, and the names of the <var>L</var> − 1 delegates he heard from. He then waits until he has heard a second-stage letter from every <em>ancestor</em> in <var>G</var> he knows of — learning of more ancestors as the letters arrive — until all known ancestors have been heard from. He now knows the arrows of the transitive closure <var>G</var><sup>+</sup> among all his ancestors.</li>
+      <li><b>Verdict.</b> Each delegate finds the <em>initial clique</em> of <var>G</var><sup>+</sup> — a clique with no arrows coming in from outside it. (<var>k</var> is in it iff <var>k</var> is an ancestor of every ancestor of <var>k</var>.) Since every node has at least <var>L</var> − 1 predecessors, there is only one initial clique, of size at least <var>L</var>, and every delegate who finishes knows exactly who is in it and their pebbles. All apply the same agreed rule to those pebbles.</li>
+    </ol>
+  </div>
+  <div class="slab">
+    <div class="slab-head">Theorem 2</div>
+    <p class="stmt">There is a partially correct consensus rite in which all waking delegates always reach a decision, provided no delegate falls asleep during its execution and a strict majority are awake initially.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VII ================= -->
+<section id="s7">
+  <div class="issue">
+    <span class="no">Chapter VII</span>
+    <h2 id="what-the-curse-does-not-say"><a href="#what-the-curse-does-not-say" class="hlink">What the Curse Does Not Say</a></h2>
+  </div>
+  <div class="prose">
+    <p>The priestesses were careful about what they had shown. A natural and important problem of
+    cooperative government cannot be solved by a <em>totally</em> asynchronous council. This does
+    not mean such problems cannot be "solved" in practice. It means the hamlets need more refined
+    descriptions of their winds — descriptions that better reflect how long a gust and a delegate
+    really take — and less stringent requirements on a rite, such as requiring it to finish only
+    with probability one.</p>
+    <p>Between the first announcement of the curse and its final carving, progress was made along both paths. Some
+    councils cast lots, so that no deterministic Aeolus could predict their next move;<sup>4</sup> others
+    asked what could be promised if the wind, however fitful, eventually settled. The second path is the
+    subject of Volume&nbsp;III.</p>
+  </div>
+  <aside class="fn"><b>4.</b> Among them
+  <span class="paxon" data-real="Michael Ben-Or" data-note="“Another Advantage of Free Choice: Completely Asynchronous Agreement Protocols” (1983) — randomized consensus.">Μπεν-Ορ</span>,
+  <span class="paxon" data-real="Michael Rabin" data-note="“Randomized Byzantine Generals” (1983).">Ράμπιν</span>,
+  and
+  <span class="paxon" data-real="Gabriel Bracha &amp; Sam Toueg" data-note="“Resilient Consensus Protocols” (1983) and related randomized work.">Μπράχα and Τωυεγ</span>.
+  The casting of lots is a story for another volume.</aside>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VIII ================= -->
+<section id="s8">
+  <div class="issue">
+    <span class="no">Chapter VIII</span>
+    <h2 id="relevance-to-computer-science"><a href="#relevance-to-computer-science" class="hlink">Relevance to Computer Science</a></h2>
+  </div>
+  <div class="table-wrap">
+    <table class="chron">
+      <thead><tr><th>At the summit oracle</th><th>In the paper</th></tr></thead>
+      <tbody>
+        <tr><td>Delegate</td><td>Deterministic process (automaton)</td></tr>
+        <tr><td>Pebble / bronze urn</td><td>Input register <var>x</var><sub><var>p</var></sub> / write-once output register <var>y</var><sub><var>p</var></sub></td></tr>
+        <tr><td>The Cleft, Aeolus</td><td>Message buffer; the adversarial scheduler</td></tr>
+        <tr><td>Sleeping shepherd</td><td>Crash-stop (fail-stop) process that is never detected</td></tr>
+        <tr><td>No water-clocks</td><td>Fully asynchronous model: no bounds on delay, no clocks, no failure detection</td></tr>
+        <tr><td>Both verdicts still on the loom</td><td>Bivalent configuration</td></tr>
+        <tr><td>Aeolus's endless stages</td><td>The admissible non-deciding run constructed from Lemma 3</td></tr>
+        <tr><td>Cargo guild</td><td>Distributed transaction commit</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>The FLP result is why every practical consensus protocol relaxes one of its assumptions. Paxos
+    (Volume&nbsp;IV), Viewstamped Replication (VI), PBFT (VII) and Raft (IX) are all
+    <em>always safe</em> and <em>live only under partial synchrony</em> (Volume&nbsp;III): they use timeouts
+    to suspect failures and elect leaders, and they may fail to make progress while the network
+    misbehaves. Randomized protocols instead guarantee termination with probability 1. Neither
+    "defeats" FLP; both decline a promise that FLP shows cannot be kept.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= REFERENCES ================= -->
+<section id="refs">
+  <div class="issue">
+    <span class="no">The Library</span>
+    <h2 id="references"><a href="#references" class="hlink">References</a></h2>
+  </div>
+  <ol class="refs prose">
+    <li>Ben-Or, M. 1983. Another advantage of free choice: Completely asynchronous agreement protocols. In <em>Proceedings of the 2nd ACM Symposium on Principles of Distributed Computing</em>, 27–30.</li>
+    <li>Bracha, G. and Toueg, S. 1983. Resilient consensus protocols. In <em>Proceedings of the 2nd ACM Symposium on Principles of Distributed Computing</em>, 12–26.</li>
+    <li>Dolev, D. and Strong, H. R. 1982. Distributed commit with bounded waiting. In <em>Proceedings of the 2nd IEEE Symposium on Reliability in Distributed Software and Database Systems</em>, 53–60.</li>
+    <li>Dwork, C., Lynch, N., and Stockmeyer, L. 1984. Consensus in the presence of partial synchrony. In <em>Proceedings of the 3rd ACM Symposium on Principles of Distributed Computing</em>, 103–118.</li>
+    <li>Fischer, M. J., Lynch, N. A., and Paterson, M. S. 1985. Impossibility of distributed consensus with one faulty process. <em>Journal of the ACM 32</em>, 2 (April), 374–382.</li>
+    <li>Lamport, L., Shostak, R., and Pease, M. 1982. The Byzantine generals problem. <em>ACM Transactions on Programming Languages and Systems 4</em>, 3 (July), 382–401.</li>
+    <li>Rabin, M. 1983. Randomized Byzantine generals. In <em>Proceedings of the 24th IEEE Symposium on Foundations of Computer Science</em>, 403–409.</li>
+  </ol>
+</section>
+
+<div>
+  <hr class="meander">
+  <div class="paper-card">
+      <h4>🏛️ Foundational Research Papers</h4>
+      <p style="font-size:.9rem; margin-top:0; color:#5c4e3b">The original paper this volume retells:</p>
+      <div class="paper-item">
+          <div style="font-weight:700">Impossibility of Distributed Consensus with One Faulty Process</div>
+          <div style="font-size:.88rem; color:#5c4e3b; margin:2px 0">Michael J. Fischer, Nancy A. Lynch, Michael S. Paterson (1985) · <em>Journal of the ACM, 32(2):374–382</em></div>
+          <a href="https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf" class="paper-btn" target="_blank" rel="noopener">📄 Read the Paper (PDF)</a>
+        </div>
+    </div>
+</div>
+
+<footer class="colophon">
+  <hr class="meander">
+  <p>An allegorical retelling of Fischer, Lynch &amp; Paterson (1985), with the proof of Lemmas 1–3 and
+  the non-deciding run preserved step for step. Aeolus and the Cleft are an interpolation. The panels
+  are placeholders for now, each describing the image to come. For the original mathematics, always
+  consult the original paper.</p>
+  <nav class="bottom-nav">
+    <a href="../art-direction-grand-island-shape.html" class="bottom-btn all">🏛️ Art direction</a>
+  </nav>
+</footer>
+
+</div><!--/page-->
+<script>
+"use strict";
+/* ================= hidden-name tooltips ================= */
+(function(){
+  const tip = document.getElementById('tip');
+  function show(el){
+    tip.innerHTML = '<span class="who">' + el.dataset.real + '</span>' + (el.dataset.note || '');
+    tip.style.display = 'block';
+    const r = el.getBoundingClientRect();
+    const tw = tip.offsetWidth;
+    let x = window.scrollX + r.left + r.width/2 - tw/2;
+    x = Math.max(8, Math.min(x, window.scrollX + document.documentElement.clientWidth - tw - 8));
+    tip.style.left = x + 'px';
+    tip.style.top = (window.scrollY + r.bottom + 8) + 'px';
+  }
+  document.querySelectorAll('.paxon').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>show(el));
+    el.addEventListener('mouseleave', ()=>{ tip.style.display='none'; });
+    el.addEventListener('click', (e)=>{ e.stopPropagation(); show(el); });
+  });
+  document.addEventListener('click', ()=>{ tip.style.display='none'; });
+})();
+</script>
+</body>
+</html>

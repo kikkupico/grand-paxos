@@ -1,0 +1,93 @@
+{
+ "volume": "II",
+ "page": "volumes/II-sleeping-shepherd.html",
+ "shapes": {
+  "splash": "splash 3:2",
+  "strip": "strip 12:5",
+  "wide": "wide 16:9",
+  "half": "half 4:3",
+  "tall": "tall 3:4"
+ },
+ "panels": [
+  {
+   "id": "II-00",
+   "shape": "splash",
+   "title": "The council climbs to the oracle",
+   "desc": "The summit temple above Paxos's first hamlets: shepherd-delegates wait on the steps while three priestesses descend from the cave mouth with a burnt parchment.",
+   "scene": "The temple of the summit oracle, on its temenos pad at the island's highest point. A crowd of shepherd-delegates, with scrolls and wax tablets, waits eagerly on the temple steps. To one side, on the steepest face of the crag 70 m out, three austere robed priestesses descend from the dark mouth of the cave, carrying a single half-burnt parchment between them. A shepherd's hut stands apart, smoke rising from its roof-hole. Far below, the hillside falls away toward hamlets hidden from one another and from here.",
+   "sites": ["oracle (temple steps; cave mouth)"],
+   "cast": "shepherd-delegates, three priestesses",
+   "refs": ["I-characters", "I-props"],
+   "caption": ""
+  },
+  {
+   "id": "II-01",
+   "shape": "half",
+   "tilt": "l",
+   "title": "The sleeping shepherd",
+   "desc": "Inside the temple: one delegate has slumped face-down asleep at his writing desk, a stylus still in hand; two others lean over him with lamps, unable to tell if he is resting or gone for good.",
+   "scene": "Inside the temple of the oracle, among the councillors' low writing desks. One delegate has slumped face-down asleep, snoring, a stylus still in his hand and his wax tablet half-marked. Two other delegates lean over him with oil lamps, one prodding him cautiously, both with puzzled expressions — is he dead, or merely resting?",
+   "sites": ["oracle (temple interior)"],
+   "cast": "the sleeping delegate, two delegates with lamps",
+   "refs": ["I-characters"],
+   "caption": "THE SLEEPING SHEPHERD: ASLEEP FOR AN HOUR, OR FOR EVER? NO ONE IN THE TEMPLE CAN TELL."
+  },
+  {
+   "id": "II-02",
+   "shape": "wide",
+   "title": "Both verdicts still on the loom",
+   "desc": "The three Fates at a loom: the council's verdict hangs taut between white wool and black, unresolved, while Aeolus cups a swirl of wind above the cave mouth.",
+   "scene": "An allegorical scene, not a literal place on the island. The three Fates at a loom in a dim hall: the thread of the council's verdict is held taut between a spindle of white wool and a spindle of black wool, unresolved; a pair of shears hovers but has not cut. Behind them, through an opening, the wind god Aeolus cups a small whirl of grey smoke and air above the mouth of the oracle's cave, holding it still.",
+   "sites": ["none (allegorical: the Fates and Aeolus)"],
+   "cast": "the three Fates, Aeolus",
+   "refs": [],
+   "caption": "A BIVALENT COUNCIL: BOTH VERDICTS STILL SPUN ON THE LOOM. THE WHOLE CURSE IS ABOUT KEEPING IT THAT WAY."
+  },
+  {
+   "id": "II-03",
+   "shape": "wide",
+   "title": "The pebble chain",
+   "desc": "Five identical councils seen from above; from left to right, one more pebble changes from white to black at each, and at the table where it flips, one delegate has fallen asleep.",
+   "scene": "A long row of five identical small council tables in the temple courtyard, seen from above. Each has five seated delegates holding pebbles; from left to right, one more pebble changes from white to black at each table, so the first table has all white and the last all black. One delegate at a middle table, the one whose pebble just changed, has fallen asleep on the table.",
+   "sites": ["oracle (temenos courtyard)"],
+   "cast": "twenty-five delegates across five tables",
+   "refs": ["I-characters"],
+   "caption": "CHANGE ONE PEBBLE AT A TIME FROM ALL-WHITE TO ALL-BLACK. SOMEWHERE THE FATE FLIPS — AND THE DELEGATE WHOSE PEBBLE FLIPPED IT MIGHT SIMPLY SLEEP."
+  },
+  {
+   "id": "II-04",
+   "shape": "tall",
+   "tilt": "r",
+   "title": "The crossroads of two letters",
+   "desc": "A delegate stands with two sealed letters, one in each hand, unsure which to open first, while the rest of the council carries on without him.",
+   "scene": "Just outside the temple, at a fork in the courtyard path. A single delegate stands holding two sealed letters, one in each hand, unsure which to open first. Behind him, through the temple doorway, the rest of the council carries on deliberating without him, as if he were the sleeper.",
+   "sites": ["oracle (temenos, courtyard path)"],
+   "cast": "one delegate, the council beyond",
+   "refs": ["I-characters"],
+   "caption": "CASE 2: IF THE VERDICT HANGS ON WHICH OF TWO LETTERS ONE MAN READS FIRST, THE OTHERS CAN DECIDE WITHOUT HIM — AND THEN IT HANGS ON NOTHING."
+  },
+  {
+   "id": "II-05",
+   "shape": "wide",
+   "title": "No word is lost",
+   "desc": "Aeolus leans over the cleft in the cave mouth, gently shuffling sealed letters on the wind, delivering each in turn; inside, the council talks on, wide awake, the verdict urn still empty.",
+   "scene": "Wide scene at the oracle's crag. Aeolus, huge and cloud-bearded, leans over the smoking cleft at the cave mouth and gently shuffles a flight of small sealed letters on the wind, passing each to a waiting delegate in turn, none lost. In the temple below, visible in cutaway, delegates are wide awake and talking earnestly, with a tall stack of emptied hourglasses beside them and the bronze verdict urn still empty. Far below and beyond, the sea is just visible from the height.",
+   "sites": ["oracle (cave mouth; temple interior, cutaway)"],
+   "cast": "Aeolus, the council",
+   "refs": ["III-props"],
+   "caption": "NO WORD IS LOST. NO DELEGATE SLEEPS. EVERY LETTER ARRIVES. AND THE COUNCIL NEVER FINISHES."
+  },
+  {
+   "id": "II-06",
+   "shape": "half",
+   "tilt": "r",
+   "title": "The shepherds who never came",
+   "desc": "Empty chairs gather dust at the council table; the delegates who did arrive have joined hands in a closed ring, passing lists of names.",
+   "scene": "Inside the temple, a round council arrangement of low stools, several empty and dusted with cobwebs. The delegates who did arrive have joined hands in a closed ring around the remaining stools, passing wax lists of names from one to the next.",
+   "sites": ["oracle (temple interior)"],
+   "cast": "the delegates who arrived",
+   "refs": ["I-characters"],
+   "caption": "THE SHEPHERDS WHO NEVER CAME: IF NO ONE FALLS ASLEEP DURING THE RITE, THE ONES WHO ARRIVED CAN FIND EACH OTHER."
+  }
+ ]
+}
