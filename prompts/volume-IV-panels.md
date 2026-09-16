@@ -99,7 +99,7 @@ On the merchant quays. The outbound merchantman casts off from the pier, its squ
 - **Cast:** priests A, B, Γ, Δ, E and others
 - **Sheets:** `references/IV-legislators.jpg`
 - **Caption:** EVERY 19 YEARS THE SYNOD CHOSE ONE SYMBOLIC DECREE. THEN THE PRIESTS TOOK UP WANDERING, AND ONE YEAR NO DECREE WAS CHOSEN AT ALL.
-- **Notes:** There is no priest sheet: dress the legislators from IV-legislators in ceremonial robes. Timeline: the Synod is centuries older than Parliament, but ERAS has the Round built for IV. Staging it in the Round treats the Round as older than the Parliament that later used it; decide before generating.
+- **Notes:** There is no priest sheet: dress the legislators from IV-legislators in ceremonial robes. Canon: the Round predates both the Synod and Parliament, so the Synod meets in the same building Parliament uses later.
 
 Night inside the Round. Torches ring the sand orchestra with its marble kerb. Five priests in ceremonial robes and wreaths sit on the lowest seat rows, with more priests up the tiers. Through a gate passage, two priests are quietly slipping out. The verandah colonnade is dark overhead.
 
@@ -211,9 +211,9 @@ On the verandah. Ωκι, sunburnt and still in his travelling hat, wears the pre
 - **Cast:** a legislator
 - **Sheets:** `references/I-props.jpg`, `references/IV-symbols.jpg`, `references/IV-ledger.jpg`
 - **Caption:** IN TIME, LEDGERS BECAME LAW BOOKS: ONLY THE CURRENT LAW, AND THE NUMBER OF THE LAST DECREE IT REFLECTS.
-- **Notes:** Canon: the law book is a capsa of subject scrolls, not a codex.
+- **Notes:** Canon: the law book is a set of scrolls, one per area of law, not a codex.
 
-A legislator's law book: a leather scroll case (capsa) holding one two-rod scroll per area of law, each marked with a hanging pictogram tag (olive for taxes, goat for mercantile law, anchor for tariffs) and a small token for the last decree it reflects. He has the taxes scroll open and is amending the olive-tax entry. His ledger lies unrolled to its far end, where the week's decrees are listed.
+A legislator's law book: a set of two-rod scrolls, one per area of law, stood together in a leather case, each marked with a hanging pictogram tag (olive for taxes, goat for mercantile law, anchor for tariffs) and a small token for the last decree it reflects. He has the taxes scroll open and is amending the olive-tax entry. His ledger lies unrolled to its far end, where the week's decrees are listed.
 
 ## IV-21 · Two cheese inspectors
 

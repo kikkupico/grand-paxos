@@ -27,13 +27,13 @@ _Last updated 16 Sep 2026._
 - **World:** 11 × 8 km, about 18.5 km² of land.
 - **Time:** one terrain and one generation in five phases, one per graph band and island zone, with buildings only added. See `ERAS.md`.
 - **Every site belongs to one volume.** Kinds of place several volumes need are built per volume: III's cothon (the lantern harbour), IV's merchant quays and town, VII's walled harbour, VIII's guild hall, I's beacons and III's drummers.
+- **The Great Round predates the story (user, 16 Sep 2026).** Like a real Greek theatre, it is a multi-purpose building, older than both the Synod and the Parliament and used differently in different eras. The Synod (IV-09) met there; Parliament later took it over. See `ERAS.md`.
 - **3D files:** `.blend`, `.glb` and renders are gitignored, and renders go to R2.
-- **The ledger is a parchment scroll on two rods (16 Sep 2026)**, replacing the codex. It is one continuous strip, written in order and wound from rod to rod, and it is the same object in every volume: IV's legislators' ledgers, VI's granary ledger, and the statues' scroll pose. The gazetteer's ledger cliffs are now "layered strata", not "stacked tablets", so they don't suggest a different ledger form. A law book (IV §3.3.2) is a capsa of two-rod subject scrolls, each tagged with the last decree it reflects.
+- **The ledger is a parchment scroll on two rods (16 Sep 2026)**, replacing the codex. It is one continuous strip, written in order and wound from rod to rod, and it is the same object in every volume: IV's legislators' ledgers, VI's granary ledger, and the statues' scroll pose. The gazetteer's ledger cliffs are now "layered strata", not "stacked tablets", so they don't suggest a different ledger form. A law book (IV §3.3.2) is a set of scrolls, one per area of law, each tagged with the last decree it reflects (user, 16 Sep 2026).
 
 Canon for the period, the Great Round and the Parliament's port is in §5 of the page.
 
 Still open:
-- **The Synod's timeline.** In the paper, the Synod of priests is centuries older than Parliament, but `ERAS.md` has the Round built for IV. Panel IV-09 stages the Synod in the Round; decide whether the Round predates Parliament or the Synod met elsewhere before that panel is generated.
 - The comic style isn't defined beyond "Franco-Belgian". One candidate is Jacques Martin's *Alix*, which is ligne claire set in antiquity.
 - The contents of the common and per-volume asset sheets aren't defined yet.
 
