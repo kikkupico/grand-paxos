@@ -17,8 +17,8 @@ _Last updated 16 Sep 2026._
    - Large props, first pass (`blender_props.py`): ships in all three harbours and at the quarry quay, the Raft, amphorae, a crane, the agora's cheese stalls and goat pen, and ox carts.
    - All checks pass: `blender/{terrain,buildings,round,detail,sites,props,vegetation}-checks.json`, §4–6 of the page.
    - **Small props skipped for now (user, 16 Sep 2026):** the ledger scroll, hourglass, ink and so on are not modelled. The image references already generated for them serve as references when scene images are generated. Tripo stays available for props later; ask before any paid API call.
-   - **Next:** stage 5, camera placements for shot pre-vis.
-5. Shot pre-vis: one camera per panel, rendered as clay plus a line pass.
+   - **Next:** build the actual scenes. Cameras are placed per scene as it is built, with no generic coverage set (user, 16 Sep 2026).
+5. Shot pre-vis: one camera per panel, rendered as clay plus a line pass. Camera angles are decided when each actual scene is built; no generic per-location coverage cameras.
 6. Comic pass: ligne claire over the pre-vis, checked against the asset sheets.
 
 ## Decisions
@@ -224,7 +224,6 @@ The sections are:
 - Storage decision: commit `island-painted.jpg` and its JSON as spec. Keep the full-size download out of Git.
 
 ## Next steps
-1. Stage 5: camera placements, one camera per panel. Small props are skipped for now; their existing image references are used for scene generation.
-2. Stage 5: shot pre-vis, one camera per panel.
+1. Stage 5: build the actual scenes, placing each panel's camera as the scene is built. Small props are skipped for now; their existing image references are used for scene generation.
 3. Optional: re-lay the Statue Walk with switchbacks or steps on its steep stretch.
 4. Optional: names for the town, bays and capes.
