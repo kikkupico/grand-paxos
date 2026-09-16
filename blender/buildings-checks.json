@@ -41,11 +41,11 @@
   },
   "Harbour town": {
    "volume": "IV",
-   "insulae": 36
+   "insulae": 35
   }
  },
  "objects": 9,
- "faces": 17080,
+ "faces": 38091,
  "round_east_gate_to_banquet_deg": 0.0,
  "land_buildings_on_land": true,
  "pier_tips_in_water": true,

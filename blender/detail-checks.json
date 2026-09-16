@@ -1,0 +1,72 @@
+{
+ "lantern_quays": 7,
+ "lantern_seen_from_posts": [
+  0,
+  1,
+  2,
+  3,
+  4,
+  5,
+  6
+ ],
+ "captains_see_neighbours": true,
+ "banquet": {
+  "faces_round_deg": 0.0,
+  "couches": 11,
+  "door_h_m": 2.8,
+  "porch_columns": 4
+ },
+ "houses": {
+  "houses": 229,
+  "with_door": 229,
+  "windows": 1109
+ },
+ "house_door_h_m": 2.1,
+ "house_window_sill_m": 2.0,
+ "temples": {
+  "oracle": {
+   "column_h_over_d": 5.5,
+   "axial_over_d": 2.4,
+   "step_riser_m": 0.29,
+   "door_h_m": 3.3,
+   "length_m": 13.0,
+   "width_m": 7.2
+  },
+  "headland city": {
+   "column_h_over_d": 5.5,
+   "axial_over_d": 2.4,
+   "step_riser_m": 0.32,
+   "door_h_m": 3.71,
+   "length_m": 23.2,
+   "width_m": 12.4
+  },
+  "citadel quorum hall": {
+   "column_h_over_d": 5.5,
+   "axial_over_d": 2.4,
+   "step_riser_m": 0.32,
+   "door_h_m": 3.71,
+   "length_m": 18.9,
+   "width_m": 12.4
+  }
+ },
+ "citadel": {
+  "merlon_h_m": 2.0,
+  "crenel_w_m": 0.9,
+  "wall_walk_w_m": 3.4,
+  "gate_w_m": 4.0,
+  "gate_h_m": 5.5
+ },
+ "oracle_cave_mouth_h_m": 5.0,
+ "checks": {
+  "seven_quays_each_see_the_lantern": true,
+  "each_captains_post_sees_its_neighbour": true,
+  "banquet_andron_seats_eleven": true,
+  "house_doors_and_windows_at_human_scale": true,
+  "temple_columns_doric_proportions": true,
+  "temple_steps_and_doors_at_human_scale": true,
+  "citadel_merlons_cover_a_standing_soldier": true,
+  "citadel_gate_takes_a_cart": true,
+  "oracle_cave_mouth_walk_in": true
+ },
+ "ok": true
+}

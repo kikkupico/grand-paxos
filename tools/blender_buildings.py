@@ -22,24 +22,44 @@ from blender_kit import *                                                       
 import blender_sites as bs
 import blender_nature as bn
 import blender_round as br
+import blender_arch as ba
 
 # ---------------------------------------------------------------- the buildings
 def banquet_house(ground, M, coll, report, round_xy):
+    """A garden dining house (hestiatorion) facing the Round's east gate: an entrance porch and vestibule on the side
+    toward the Round, a peristyle garden court with a fountain, and the dining room (andron) behind it with eleven couches."""
     X, Y = site("banquet"); g0 = ground.z(X, Y)
     report["Banquet house"] = {"volume": "IV", "radius_m": 17, "relief_before_m": ground.relief(X, Y, 16)[0]}
     ground.pad(X, Y, 18, g0, 25)
-    ang = math.atan2(round_xy[1] - Y, round_xy[0] - X)                                             # local -x... faces the Round
+    ang = math.atan2(round_xy[1] - Y, round_xy[0] - X)                                             # local +x points at the Round
+    c, s = math.cos(ang), math.sin(ang); P = lambda u, v: (X + u * c - v * s, Y + u * s + v * c)
+    f = g0 + .8
     k = Kit("IV · Banquet house")
-    k.box(X, Y, g0 - 2, g0 + .8, 30, 22, ang, M["limestone"])
-    k.box(X, Y, g0 + .8, g0 + .95, 17, 10, ang, M["garden"])
-    colonnade(k, X, Y, g0 + .8, g0 + 4.6, 24, 16, ang, 3.0, M["marble"])
-    c, s = math.cos(ang), math.sin(ang)
-    for u, v, sx, sy in ((0, 9.5, 27, 3), (0, -9.5, 27, 3), (12, 0, 3, 16), (-12, 0, 3, 16)):
-        k.box(X + u * c - v * s, Y + u * s + v * c, g0 + 4.6, g0 + 5.2, sx, sy, ang, M["roof"])
-    hx, hy = X - 9.5 * c, Y - 9.5 * s                                                               # dining hall on the side away from the Round
-    k.box(hx, hy, g0 + .8, g0 + 6.5, 9, 17, ang, M["plaster"])
-    k.gable(hx, hy, g0 + 6.5, 17.8, 9.8, 2.6, ang + math.pi / 2, M["roof"])
-    return k
+    k.box(X, Y, g0 - 2, f, 32, 22, ang, M["limestone"])
+    for i in range(2): k.box(*P(16.4 + i * .45, 0), g0 - .5, f - .4 * i - .4, .45, 6, ang, M["limestone"])   # entrance steps
+    for v in (-4.5, -1.5, 1.5, 4.5): ba.column(k, *P(14.3, v), f, f + 3.8, .28, M["marble"])        # porch
+    k.box(*P(12.8, 0), f + 3.8, f + 4.3, 3.8, 11, ang, M["marble"]); k.box(*P(12.9, 0), f + 4.3, f + 4.5, 4.2, 11.6, ang, M["roof"])   # flat porch roof
+    vx, vy = P(8.5, 0)                                                                              # vestibule range
+    k.box(vx, vy, f, f + 5.2, 5, 22, ang, M["plaster"]); k.gable(vx, vy, f + 5.2, 5.8, 22.8, 1.6, ang + math.pi / 2, M["roof"])
+    ba.opening(k, vx, vy, ang, 5, 22, "+x", 0, 1.6, f, f + 2.7)
+    for v in (-7, 7): ba.opening(k, vx, vy, ang, 5, 22, "+x", v, .7, f + 2.0, f + 2.9)
+    ba.opening(k, vx, vy, ang, 5, 22, "-x", 0, 1.6, f, f + 2.7)
+    k.box(*P(-.5, 0), f, f + .12, 11, 11, ang, M["garden"])                                          # garden court
+    k.cyl(*P(-.5, 0), 1.2, f, f + .6, M["marble"], 16); k.cyl(*P(-.5, 0), .25, f + .6, f + 1.5, M["marble"], 8)
+    for u, v in ((-4, -4), (-4, 4), (3, -4), (3, 4)): k.box(*P(u, v), f, f + .7, 1, 1, ang, M["limestone"])
+    colonnade(k, *P(-.5, 0), f, f + 3.2, 13, 13, ang, 2.6, M["marble"], .24)
+    for u, v, sx, sy in ((-.5, 7.9, 16, 2.8), (-.5, -7.9, 16, 2.8)):
+        k.box(*P(u, v), f + 3.2, f + 3.6, sx, sy, ang, M["roof"])
+    ax_, ay_ = P(-11.5, 0); ad, aw = 8, 20                                                         # the andron
+    k.box(ax_, ay_, f, f + 6, ad, aw, ang, M["plaster"]); k.gable(ax_, ay_, f + 6, ad + .8, aw + .8, 2.2, ang + math.pi / 2, M["roof"])
+    ba.opening(k, ax_, ay_, ang, ad, aw, "+x", 0, 1.8, f, f + 2.8)
+    for v in (-6, 0, 6): ba.opening(k, ax_, ay_, ang, ad, aw, "-x", v, .8, f + 2.6, f + 3.6)
+    couches = 0                                                                                      # eleven couches along the andron's inner walls
+    for i in range(4): k.box(*P(-15.1 + .45, -7.5 + i * 2.0 + 1.0), f, f + .55, .9, 1.9, ang, M["timber"]); couches += 1
+    for sd in (-1, 1):
+        for i in range(3): k.box(*P(-14.6 + i * 2.0 + .6, sd * (aw / 2 - .75)), f, f + .55, 1.9, .9, ang, M["timber"]); couches += 1
+    k.box(*P(-8.2, -6.5), f, f + .55, .9, 1.9, ang, M["timber"]); couches += 1
+    return k, {"faces_round_deg": 0.0, "couches": couches, "door_h_m": 2.8, "porch_columns": 4}
 
 def lantern_harbour(ground, M, coll, report):
     info = SITES["built"]["cothon"]
@@ -59,15 +79,39 @@ def lantern_harbour(ground, M, coll, report):
     gap = math.radians(9)
     k.ring(X, Y, R, R + 6, -4, 2.8, M["limestone"], 128, th_c + gap, th_c + TAU - gap)
     k.ring(X, Y, RI, RI + 2, -4, 2.6, M["limestone"], 48)
-    free = TAU - 2 * math.radians(25)
+    free = TAU - 2 * math.radians(25); posts = []
     for p in range(7):                                                                               # seven quays, one captain's post each
         th = th_c + math.radians(25) + (p + .5) * free / 7
         k.box(X + (R - 21) * math.cos(th), Y + (R - 21) * math.sin(th), -3, 2.6, 42, 8, th, M["limestone"])
+        for j in range(4):                                                                           # bollards along the quay
+            br_ = R - 38 + j * 11
+            for sd in (-1, 1):
+                bx_, by_ = X + br_ * math.cos(th) - sd * 3.4 * math.sin(th), Y + br_ * math.sin(th) + sd * 3.4 * math.cos(th)
+                k.cyl(bx_, by_, .28, 2.6, 3.4, M["ashlar"], 10)
         px, py = X + (R + 14) * math.cos(th), Y + (R + 14) * math.sin(th)
         house(k, ground, px, py, 6, 6, 3.5, th, M["plaster"], M["roof"])
-    k.cyl(X, Y, 7, 2.5, 24, M["limestone"], 24)
-    k.cyl(X, Y, 4.5, 24, 29, M["lantern"], 16)
-    k.cone(X, Y, 5.5, 29, 33, M["roof"], 16)
+        lx, ly = X + (R + 5) * math.cos(th) - 3.2 * math.sin(th), Y + (R + 5) * math.sin(th) + 3.2 * math.cos(th)   # the captain's lamp post, beside the quay's head
+        k.cyl(lx, ly, .18, 2.8, 7.2, M["timber"], 8); k.box(lx, ly, 7.2, 7.9, .7, .7, th, M["lantern"])
+        posts.append(((X + (R + 8) * math.cos(th), Y + (R + 8) * math.sin(th), 2.8 + 1.6), p))
+    # the lighthouse on the islet: podium, tapering shaft with string courses and slit windows, gallery, lantern room
+    k.box(X, Y, 2.5, 5.5, 14, 14, th_c, M["ashlar"])
+    k.box(X, Y, 5.5, 5.8, 14.8, 14.8, th_c, M["limestone"])
+    k.frustum(X, Y, 6.2, 5.0, 5.8, 26, M["limestone"], 24)
+    for zz in (11, 17, 23): k.ring(X, Y, 6.2 - (zz - 5.8) / 20.2 * 1.2 - .05, 6.4 - (zz - 5.8) / 20.2 * 1.2, zz, zz + .45, M["marble"], 24)
+    for n_, zz in enumerate((8, 13.5, 19)):
+        a_ = th_c + math.pi + n_ * 1.9; r_ = 6.2 - (zz + .6 - 5.8) / 20.2 * 1.2
+        k.box(X + (r_ + .02) * math.cos(a_), Y + (r_ + .02) * math.sin(a_), zz, zz + 1.3, .12, .45, a_, ba.dark())
+    dx_, dy_ = X + 7.05 * math.cos(th_c + math.pi), Y + 7.05 * math.sin(th_c + math.pi)
+    k.box(dx_, dy_, 5.8, 8.2, .1, 1.3, th_c, ba.dark())                                               # door, reached up the podium steps
+    for i_ in range(3): k.box(X + (7.6 + i_ * .45) * math.cos(th_c + math.pi), Y + (7.6 + i_ * .45) * math.sin(th_c + math.pi), 2.5, 5.5 - i_ * 1.0, .45, 2.2, th_c, M["limestone"])
+    k.ring(X, Y, 4.6, 6.6, 26, 26.4, M["marble"], 32)                                                 # gallery floor
+    k.ring(X, Y, 6.3, 6.6, 26.4, 27.5, M["marble"], 32)                                               # gallery parapet
+    for i_ in range(8):
+        a_ = i_ * TAU / 8; ba.column(k, X + 3.6 * math.cos(a_), Y + 3.6 * math.sin(a_), 26.4, 30.4, .28, M["marble"])
+    k.cyl(X, Y, 2.4, 26.4, 28.0, M["bronze"], 16); k.cyl(X, Y, 1.9, 28.0, 29.6, M["lantern"], 16)     # the fire bowl, its flame clear of the parapet from the quays
+    k.cyl(X, Y, 4.3, 30.4, 30.9, M["marble"], 24); k.cone(X, Y, 4.6, 30.9, 34.2, M["bronze"], 24)
+    k.cyl(X, Y, .25, 34.2, 35.4, M["bronze"], 8)
+    lantern_xyz = (X, Y, 28.2)
     tx, ty = -math.sin(th_c), math.cos(th_c)
     mid = (R + 265) / 2
     for side in (-1, 1):
@@ -77,7 +121,7 @@ def lantern_harbour(ground, M, coll, report):
         k.box(ex, ey, -4, 16, 9, 9, th_c, M["ashlar"])
     basin = [ground.z(X + 100 * math.cos(a), Y + 100 * math.sin(a)) for a in np.linspace(0, TAU, 16, endpoint=False)]
     report["Lantern harbour"]["basin_depth_m"] = round(float(np.median(basin)), 1)
-    return k
+    return k, {"posts": posts, "lantern": lantern_xyz, "quays": 7, "tower_top_m": 35.4}
 
 def merchant_quays(ground, M, coll, report):
     X, Y = site("port"); s = ground.seaward(X, Y)
@@ -101,7 +145,10 @@ def harbour_town(ground, M, coll, report):
     ax, ay = B(*town["agora_m_deg"][:2]); aang = math.radians(-town["agora_m_deg"][2])
     report["Harbour town"] = {"volume": "IV", "insulae": len(town["insulae_m_deg"])}
     k = Kit("IV · Harbour town and agora")
-    lo, hi = on_ground(ground, ax, ay, 40, 30, aang, 1)
+    ca_, sa_ = math.cos(aang), math.sin(aang)
+    level = float(np.median([ground.z(ax + u * ca_ - v * sa_, ay + u * sa_ + v * ca_) for u in np.linspace(-20, 20, 5) for v in np.linspace(-15, 15, 4)]))
+    ground.pad(ax, ay, 24, level, 30)                                                               # a levelled square, not a podium
+    lo, hi = level - .6, level
     k.box(ax, ay, lo, hi + .25, 40, 30, aang, M["pave"])
     c, s = math.cos(aang), math.sin(aang)
     sx_, sy_ = ax - 19.5 * s * -1, ay + 19.5 * c                                                     # stoa along one long side
@@ -110,7 +157,8 @@ def harbour_town(ground, M, coll, report):
     k.box(sx_, sy_, hi, hi + 7, 40, 9, aang, M["plaster"])
     k.gable(sx_, sy_, hi + 7, 41, 10, 2.2, aang, M["roof"])
     fx, fy = ax + 14.5 * -s, ay + 14.5 * c
-    for i in range(13): k.cyl(fx + (i - 6) * 3.2 * c, fy + (i - 6) * 3.2 * s, .35, hi + .25, hi + 6, M["marble"], 10)
+    for i in range(13): ba.column(k, fx + (i - 6) * 3.2 * c, fy + (i - 6) * 3.2 * s, hi + .25, hi + 6, .35, M["marble"])
+    for i in range(6): ba.opening(k, sx_, sy_, aang, 40, 9, "-y", -15 + i * 6, 1.4, hi, hi + 2.6)                # shop doors behind the colonnade
     k.cyl(ax, ay, 2.2, hi + .25, hi + 1, M["marble"], 16)                                           # fountain
     k.cyl(ax + 8 * c, ay + 8 * s, .4, hi + .25, hi + 3.2, M["marble"], 8)                           # sundial pillar
     for n, (x, y, deg) in enumerate(town["insulae_m_deg"]):
@@ -138,12 +186,14 @@ def headland_city(ground, M, coll, report, toward):
         if i == gate: continue
         L = math.hypot(x1 - x0, y1 - y0); za, zb = ground.z(x0, y0), ground.z(x1, y1)
         k.box((x0 + x1) / 2, (y0 + y1) / 2, min(za, zb) - 3, max(za, zb) + 9, L + 1.5, 3, math.atan2(y1 - y0, x1 - x0), M["ashlar"])
+        mx_, my_ = (x0 + x1) / 2 - X, (y0 + y1) / 2 - Y; nn = math.hypot(mx_, my_)
+        ba.crenellate(k, x0, y0, x1, y1, max(za, zb) + 9, (mx_ / nn, my_ / nn), 1.2, M["ashlar"])
     for i in range(0, 28, 2):
         x, y, a, _ = walls[i]; z = ground.z(x, y)
-        k.box(x, y, z - 3, z + 14, 7, 7, a, M["ashlar"])
+        k.box(x, y, z - 3, z + 14, 7, 7, a, M["ashlar"]); ba.crenellate_box(k, x, y, 7, 7, a, z + 14, M["ashlar"])
     for i in (gate, (gate + 1) % 28):
         x, y, a, _ = walls[i]; z = ground.z(x, y)
-        k.box(x, y, z - 3, z + 16, 8, 8, a, M["ashlar"])
+        k.box(x, y, z - 3, z + 16, 8, 8, a, M["ashlar"]); ba.crenellate_box(k, x, y, 8, 8, a, z + 16, M["ashlar"])
     rnd = random.Random(5); best = (g0, X, Y)
     c, s = math.cos(home), math.sin(home)
     for u in np.arange(-110, 111, 17):
@@ -155,11 +205,7 @@ def headland_city(ground, M, coll, report, toward):
             if rnd.random() < .3: continue
             house(k, ground, x, y, rnd.uniform(10, 13), rnd.uniform(8, 11), rnd.uniform(5, 7), home, M["plaster"], M["roof"])
     _, tx, ty = best                                                                                  # temple on the highest ground inside
-    lo, hi = on_ground(ground, tx, ty, 28, 13, home, 1)
-    k.box(tx, ty, lo, hi + 1.2, 30, 15, home, M["limestone"])
-    k.box(tx, ty, hi + 1.2, hi + 9, 18, 8, home, M["marble"])
-    colonnade(k, tx, ty, hi + 1.2, hi + 8.5, 26, 11, home, 3.0, M["marble"], .5)
-    k.gable(tx, ty, hi + 9, 29, 14, 3.2, home, M["roof"])
+    report["_city_temple"] = ba.temple(k, M, ground, tx, ty, home, 6, .9, n_side=11)
     camps = Kit("V · Siege camps")
     for n, (x, y, z) in enumerate(SITES["sites"]["camps"]["points_m"]):
         CX, CY = B(x, y); face = math.atan2(Y - CY, X - CX); gz = ground.z(CX, CY)
@@ -190,20 +236,34 @@ def citadel(ground, M, coll, report):
             if i == 1 and j == 2: continue                                                          # gatehouse gap, facing the harbour
             f0, f1 = j / 5, (j + 1) / 5
             a, b = P(u0 + (u1 - u0) * f0, v0 + (v1 - v0) * f0), P(u0 + (u1 - u0) * f1, v0 + (v1 - v0) * f1)
-            za, zb = ground.z(*a), ground.z(*b)
-            k.box((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, min(za, zb) - 3, max(za, zb) + 13, math.hypot(b[0] - a[0], b[1] - a[1]) + 2, 4,
+            za, zb = ground.z(*a), ground.z(*b); top_ = max(za, zb) + 13
+            k.box((a[0] + b[0]) / 2, (a[1] + b[1]) / 2, min(za, zb) - 3, top_, math.hypot(b[0] - a[0], b[1] - a[1]) + 2, 4,
                   math.atan2(b[1] - a[1], b[0] - a[0]), M["wall_dark"])
+            mu, mv = (u0 + u1) / 2, (v0 + v1) / 2; nn = math.hypot(mu, mv)
+            wall_merlons = ba.crenellate(k, *a, *b, top_, ((mu * c - mv * s) / nn, (mu * s + mv * c) / nn), 1.7, M["wall_dark"])
         cx, cy = P(u0, v0); z = ground.z(cx, cy)
-        k.cyl(cx, cy, 7.5, z - 3, z + 20, M["wall_dark"], 20)
+        k.cyl(cx, cy, 7.5, z - 3, z + 20, M["wall_dark"], 20); ba.crenellate_ring(k, cx, cy, 7.5, z + 20, M["wall_dark"])
+        for zz in (z + 8, z + 14): k.box(cx + 7.52 * math.cos(ang + i * TAU / 4 + TAU / 8), cy + 7.52 * math.sin(ang + i * TAU / 4 + TAU / 8), zz, zz + 1.3, .12, .35, ang + i * TAU / 4 + TAU / 8, ba.dark())
         mx, my = P((u0 + u1) / 2, (v0 + v1) / 2)
-        if i != 1: k.box(mx, my, ground.z(mx, my) - 3, ground.z(mx, my) + 17, 9, 9, ang, M["wall_dark"])
+        if i != 1:
+            k.box(mx, my, ground.z(mx, my) - 3, ground.z(mx, my) + 17, 9, 9, ang, M["wall_dark"]); ba.crenellate_box(k, mx, my, 9, 9, ang, ground.z(mx, my) + 17, M["wall_dark"])
+    gz = ground.z(*P(L2, 0))
     for side in (-1, 1):
         gx, gy = P(L2, side * 8.5); z = ground.z(gx, gy)
-        k.box(gx, gy, z - 3, z + 19, 10, 10, ang, M["wall_dark"])
+        k.box(gx, gy, z - 3, z + 19, 10, 10, ang, M["wall_dark"]); ba.crenellate_box(k, gx, gy, 10, 10, ang, z + 19, M["wall_dark"])
+        k.box(*P(L2, side * 2.75), gz - 1, gz + 5.5, 4, 1.5, ang, M["wall_dark"])                       # gate jambs narrow the passage to 4 m
+    k.box(*P(L2, 0), gz + 5.5, gz + 13, 4, 7, ang, M["wall_dark"])                                     # masonry over the gate passage
+    ba.crenellate(k, *P(L2, -3.5), *P(L2, 3.5), gz + 13, (c, s), 1.7, M["wall_dark"])
+    ba.portcullis(k, *P(L2 + 1.9, 0), ang, 4.0, gz + 3.2, 2.3, M["iron"])                              # portcullis, raised
     kx, ky = P(-10, 0)
-    k.box(kx, ky, g0 - 2, g0 + 24, 26, 26, ang, M["wall_dark"])
-    hx, hy = P(-42, 0)
-    k.box(hx, hy, g0 - 1, g0 + 10, 20, 32, ang, M["ashlar"]); k.gable(hx, hy, g0 + 10, 33, 21, 4, ang + math.pi / 2, M["roof"])
+    k.box(kx, ky, g0 - 2, g0 + 24, 26, 26, ang, M["wall_dark"]); ba.crenellate_box(k, kx, ky, 26, 26, ang, g0 + 24, M["wall_dark"])
+    for face_ in ("+x", "-x", "+y", "-y"):
+        for zz in (g0 + 8, g0 + 14, g0 + 19):
+            for al in (-6, 0, 6): ba.opening(k, kx, ky, ang, 26, 26, face_, al, .35, zz, zz + 1.3)
+    ba.opening(k, kx, ky, ang, 26, 26, "+x", 0, 2.0, g0 - .5, g0 + 3.0)
+    hall = ba.temple(k, M, ground, *P(-42, 0), ang, 6, .9, n_side=9)                                   # the quorum hall, facing the courtyard
+    report["_citadel_detail"] = {"merlon_h_m": wall_merlons["merlon_h_m"], "crenel_w_m": wall_merlons["crenel_w_m"], "wall_walk_w_m": 4 - .6,
+                                 "gate_w_m": 4.0, "gate_h_m": 5.5, "hall": hall}
     for side in (-1, 1):
         bx, by = P(20, side * 30)
         k.box(bx, by, g0 - 1, g0 + 7, 45, 10, ang, M["plaster"]); k.gable(bx, by, g0 + 7, 46, 11, 2.4, ang, M["roof"])
@@ -239,14 +299,15 @@ def main():
     report = {}
     rk, round_people, round_info = br.build(ground, M, report)
     RX, RY = site("round"); rim = round_info["rim"]
-    bk = banquet_house(ground, M, colls["IV"], report, (RX, RY))
-    ck = lantern_harbour(ground, M, colls["III"], report)
+    bk, banquet_info = banquet_house(ground, M, colls["IV"], report, (RX, RY))
+    ck, lantern_info = lantern_harbour(ground, M, colls["III"], report)
     ground.commit()                                                                                  # later builders sample the levelled ground
     ck_city, ck_camps = headland_city(ground, M, colls["V"], report, (RX, RY))
     cit, harb, (HSX, HSY) = citadel(ground, M, colls["VII"], report)
     ground.commit()
     mq = merchant_quays(ground, M, colls["IV"], report)
     tw = harbour_town(ground, M, colls["IV"], report)
+    citadel_detail, city_temple = report.pop("_citadel_detail"), report.pop("_city_temple")
     round_ob = rk.finish(colls["IV"]); round_people.finish(colls["IV"])
     objs = [round_ob, bk.finish(colls["IV"]), ck.finish(colls["III"]), mq.finish(colls["IV"]), tw.finish(colls["IV"]),
             ck_city.finish(colls["V"]), ck_camps.finish(colls["V"]), cit.finish(colls["VII"]), harb.finish(colls["VII"])]
@@ -361,6 +422,52 @@ def main():
                    (f"Banquet house seen from a verandah window ({rres['banquet_window_bearing_deg']}°)", rres["banquet_house_seen_from_verandah_window"]),
                    (f"Merchant quays seen from a verandah window ({rres['quays_window_bearing_deg']}°)", rres["quays_seen_from_verandah_window"])])
 
+    # detailing the other hero buildings: human-scale and story checks (tools/blender_arch.py)
+    from mathutils import Vector
+    harbour_ob = objs[2]
+    def blocked(p, q, stop):
+        p, q = Vector(p), Vector(q); d = q - p; L = d.length; d.normalize()
+        return any(ob.ray_cast(p + d * .3, d, distance=max(L - stop, 0))[0] for ob in (harbour_ob, ctx["terrain"]))
+    lx, ly, _ = lantern_info["lantern"]
+    seen = [n for eye, n in lantern_info["posts"] if not blocked(eye, (lx, ly, 29.3), 4.2)]
+    neighbours = all(not blocked(lantern_info["posts"][i][0], lantern_info["posts"][i + 1][0], .5) for i in range(6))
+    temples = {"oracle": bs.ORACLE_DETAIL["temple"], "headland city": city_temple, "citadel quorum hall": citadel_detail["hall"]}
+    hs = HOUSE_STATS
+    dres = {"lantern_quays": lantern_info["quays"], "lantern_seen_from_posts": seen, "captains_see_neighbours": neighbours,
+            "banquet": banquet_info, "houses": dict(hs), "house_door_h_m": DOOR_H, "house_window_sill_m": WINDOW_SILL,
+            "temples": {k_: {kk: v for kk, v in t_.items() if kk not in ("front", "floor_z")} for k_, t_ in temples.items()},
+            "citadel": {k_: v for k_, v in citadel_detail.items() if k_ != "hall"}, "oracle_cave_mouth_h_m": bs.ORACLE_DETAIL["cave_mouth_h_m"]}
+    dres["checks"] = {
+        "seven_quays_each_see_the_lantern": lantern_info["quays"] == 7 and len(seen) == 7,
+        "each_captains_post_sees_its_neighbour": neighbours,
+        "banquet_andron_seats_eleven": banquet_info["couches"] == 11,
+        "house_doors_and_windows_at_human_scale": DOOR_H >= 1.2 * ba.FIGURE and WINDOW_SILL >= 1.8 and hs["with_door"] >= .8 * hs["houses"],
+        "temple_columns_doric_proportions": all(4.5 <= t_["column_h_over_d"] <= 6.5 and 2.0 <= t_["axial_over_d"] <= 2.8 for t_ in temples.values()),
+        "temple_steps_and_doors_at_human_scale": all(t_["step_riser_m"] <= .4 and t_["door_h_m"] >= 2.2 for t_ in temples.values()),
+        "citadel_merlons_cover_a_standing_soldier": citadel_detail["merlon_h_m"] >= 1.8 and .6 <= citadel_detail["crenel_w_m"] <= 1.0 and citadel_detail["wall_walk_w_m"] >= 2,
+        "citadel_gate_takes_a_cart": citadel_detail["gate_w_m"] >= 3 and citadel_detail["gate_h_m"] >= 4,
+        "oracle_cave_mouth_walk_in": bs.ORACLE_DETAIL["cave_mouth_h_m"] >= 2.2}
+    dres["ok"] = all(dres["checks"].values())
+    (bt.OUT / "detail-checks.json").write_text(json.dumps(dres, indent=1, default=list))
+    print("DETAIL CHECKS", json.dumps(dres["checks"]), "ok", dres["ok"])
+    ck_ = dres["checks"]
+    bt.page_block("DETAIL",
+                  [("Houses with doors and windows", f"{hs['with_door']:,} of {hs['houses']:,} ({hs['windows']:,} windows)"),
+                   ("House doors · window sills", f"{DOOR_H} m · {WINDOW_SILL} m up"),
+                   ("Temples (column height ÷ diameter)", ", ".join(f"{k_} {t_['column_h_over_d']}" for k_, t_ in temples.items())),
+                   ("Banquet house couches", str(banquet_info["couches"])), ("Lighthouse", f"{lantern_info['tower_top_m']} m, seen from {len(seen)} of 7 captains' posts"),
+                   ("Citadel merlons · crenels · wall-walk", f"{citadel_detail['merlon_h_m']} m · {citadel_detail['crenel_w_m']} m · {citadel_detail['wall_walk_w_m']} m"),
+                   ("Citadel gate", f"{citadel_detail['gate_w_m']} × {citadel_detail['gate_h_m']} m")],
+                  [("All seven quays see the lantern (rays through the harbour and terrain)", ck_["seven_quays_each_see_the_lantern"]),
+                   ("Each captain's post sees its neighbour", ck_["each_captains_post_sees_its_neighbour"]),
+                   ("The banquet house's dining room seats eleven couches", ck_["banquet_andron_seats_eleven"]),
+                   ("House doors and high windows at human scale", ck_["house_doors_and_windows_at_human_scale"]),
+                   ("Temple columns in Doric proportion", ck_["temple_columns_doric_proportions"]),
+                   ("Temple steps and doors at human scale", ck_["temple_steps_and_doors_at_human_scale"]),
+                   ("Citadel merlons cover a standing soldier; wall-walk ≥ 2 m", ck_["citadel_merlons_cover_a_standing_soldier"]),
+                   ("Citadel gate takes a cart (≥ 3 × 4 m)", ck_["citadel_gate_takes_a_cart"]),
+                   ("Oracle's cave mouth tall enough to walk in", ck_["oracle_cave_mouth_walk_in"])])
+
     # vegetation, fields and tracks (tools/blender_nature.py)
     PX_, PY_ = site("port"); BX_, BY_ = site("banquet")
     sightlines = [((RX, RY, rim + 8), (PX_, PY_, ground.z(PX_, PY_) + 2)), ((RX, RY, rim + 8), (BX_, BY_, ground.z(BX_, BY_) + 4)),
@@ -397,7 +504,21 @@ def main():
     walk_pts = [B(x, y) for x, y in SITES["built"]["statue_walk_m"]]; wmx, wmy = walk_pts[len(walk_pts) // 2]
     to_round = (RX - agora[0], RY - agora[1]); tr = math.hypot(*to_round)
     zo = round_info["z_orch"]
+    (p0x, p0y, p0z), _ = lantern_info["posts"][0]
+    bdir = ((RX - BX) / math.hypot(RX - BX, RY - BY), (RY - BY) / math.hypot(RX - BX, RY - BY)); bz = ground.z(BX, BY)
+    OXd, OYd = site("oracle"); oz = ground.z(OXd, OYd)
+    CiX, CiY = site("citadel"); SwX, SwY = site("seawall"); cang = math.atan2(SwY - CiY, SwX - CiX)
+    cP = lambda u, v: (CiX + u * math.cos(cang) - v * math.sin(cang), CiY + u * math.sin(cang) + v * math.cos(cang)); gzc = ground.z(*cP(65, 0))
+    aX, aY = agora; adeg = math.radians(-SITES["built"]["town"]["agora_m_deg"][2])
+    tP = lambda u, v: (aX + u * math.cos(adeg) - v * math.sin(adeg), aY + u * math.sin(adeg) + v * math.cos(adeg))
+    ctf = city_temple["front"]
     cams.update({
+        "detail_lighthouse": bt.camera("Cam · the lighthouse from a captain's post", (p0x, p0y, p0z + 1), (lx, ly, 20), look, lens=35),
+        "detail_banquet": bt.camera("Cam · the banquet house from the Round's side", (BX + bdir[0] * 34 - bdir[1] * 14, BY + bdir[1] * 34 + bdir[0] * 14, bz + 7), (BX, BY, bz + 3), look, lens=32),
+        "detail_oracle": bt.camera("Cam · the oracle's temple", (OXd + 30, OYd - 20, oz + 6), (OXd, OYd, oz + 4), look, lens=32),
+        "detail_citadel": bt.camera("Cam · the citadel gate", (*cP(112, 22), gzc + 6), (*cP(65, 0), gzc + 8), look, lens=35),
+        "detail_town": bt.camera("Cam · the agora and its stoa", (*tP(-55, -45), ground.z(aX, aY) + 16), (*tP(0, 12), ground.z(aX, aY) + 3), look, lens=30),
+        "detail_city": bt.camera("Cam · the headland city's temple", (ctf[0] + 45, ctf[1] - 38, ground.z(*ctf) + 26), (ctf[0] - 8, ctf[1], ground.z(*ctf) + 6), look, lens=35),
         "round_gate": bt.camera("Cam · the Round's east gate", (RX + 50, RY - 12, rim + 3.2), (RX + 24.2, RY, rim + 4.2), look, lens=32),
         "round_interior": bt.camera("Cam · across the Round from the west verandah", (RX - 22.0, RY + 1.5, round_info["z_verandah"] + 1.6), (RX + 12, RY, round_info["z_orch"] + 2.5), look, lens=20),
         "round_window": bt.camera("Cam · out of an east verandah window", br.window_eye(round_info, (BX, BY))[0], (BX, BY, ground.z(BX, BY) + 3), look, lens=35),

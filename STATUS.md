@@ -12,11 +12,10 @@ _Last updated 16 Sep 2026._
 1. Rough map: done. The island is a generated elevation field with all 23 sites placed and every check passing.
 2. Painted map: tried once (16 Sep 2026) and **kept only as a record** of how it didn't turn out as expected: symbol-sized buildings, invented features, no usable surface detail. It is not used downstream. It lives in §3 of the page (`maps/island-painted.jpg`, with scores measured before the terrain smoothing below).
 3. Island blockout in Blender: terrain built (16 Sep 2026). `tools/blender_terrain.py` builds `blender/paxos.blend` (gitignored) straight from the heightmap. Checks are in `blender/terrain-checks.json` and §4 of the page.
-4. **Hero architecture: detailing in progress (16 Sep 2026).**
-   - Every site is placed as a true-scale blockout, with vegetation, fields and tracks.
-   - **The Great Round is detailed to human scale** (`tools/blender_round.py`), including the user's verandah refinement.
-   - All checks pass: `blender/{terrain,buildings,round,sites,vegetation}-checks.json`, §4–6 of the page.
-   - **Next:** detail the other hero buildings the same way, then props. Candidates: the lantern harbour's tower and quays, the banquet house, the oracle temple, the citadel, the town's houses with doors and windows. Tripo is used only for props (statues, amphorae, ships, the hourglass); ask before calling any paid API.
+4. **Hero architecture: key buildings detailed to human scale (16 Sep 2026).**
+   - Detailed: the Great Round (`blender_round.py`, with the user's verandah); the lighthouse and quays, banquet house, agora and stoa, oracle temple, headland city and citadel (`blender_arch.py` components); and doors and windows on every house.
+   - All checks pass: `blender/{terrain,buildings,round,detail,sites,vegetation}-checks.json`, §4–6 of the page.
+   - **Next:** props, such as ships in the harbours, amphorae, the hourglass and the ledger. Tripo is for props only; ask before any paid API call. Then stage 5, shot pre-vis.
 5. Shot pre-vis: one camera per panel, rendered as clay plus a line pass.
 6. Comic pass: ligne claire over the pre-vis, checked against the asset sheets.
 
@@ -140,6 +139,28 @@ The sections are:
   - Ray casts from a person standing at the sill of the nearest window: to the banquet house (16°) and to the merchant quays (41°), blocked by neither the Round nor the terrain. With the eye 0.8 m back from the sill and 1.2 m windows, the banquet ray clipped a pier.
 - **Renders:** `renders/buildings-round_{aerial,interior,window,gate,statue}.png`.
 
+## The other hero buildings in detail (`tools/blender_arch.py`)
+- **Components:**
+  - `column` (Doric: tapered 16-sided shaft, echinus, abacus) and `opening` (a dark door or window on a box face).
+  - `temple`: Doric peripteral temple from its column diameter d. Columns 5.5d high, 2.4d apart, three steps with risers of 0.4 m or less, architrave, frieze with triglyphs, cornice, marble pediments under a tiled roof, acroteria, cella with door.
+  - `crenellate`, `crenellate_box`, `crenellate_ring` (merlons 1 × 2 m; gaps at most 1 m by rounding the count up) and `portcullis`.
+- **Kit upgrades:** `house()` (every house) adds a 2.1 × 1.1 m doorway with lintel on the long face and 0.6 × 0.8 m windows with sills 2 m up on the back (`HOUSE_STATS` counts them). `colonnade()` makes Doric columns.
+- **Buildings:**
+  - Lighthouse: podium with steps and door, tapering shaft with string courses and slits, gallery and parapet, 8-column lantern room, fire bowl with its flame at 28–29.6 m, bronze cone; top 35.4 m. The 7 quays have bollards, and each captain's post has a lamp post beside it.
+  - Banquet house: steps, 4-column porch toward the Round, vestibule, peristyle garden with fountain, andron with 11 couches.
+  - Agora and stoa: the generator now places the agora wholly on dry land (map check `agora_on_dry_land`). It had been 22% over the sea as a podium. Blender pads it level; the stoa has Doric columns and 6 shop doors.
+  - Oracle: temple 4 × 7 (d 0.8) facing east, with a gateway in the enclosure; the hut has a door.
+  - Headland city: crenellated walls and towers, temple 6 × 11 (d 0.9).
+  - Citadel: crenellated walls and towers; gatehouse narrowed to 4 m with masonry to 13 m and a raised portcullis; keep with slits, door and merlons; quorum hall as temple 6 × 9 (d 0.9).
+- **Checks (`detail-checks.json`):**
+  - All seven quays see the lantern, and each captain's post sees its neighbour (rays through the harbour mesh and terrain). Both failed at first: lamp poles stood on the sightlines and the flame sat below the parapet.
+  - The banquet andron seats 11.
+  - House doors and windows at human scale.
+  - Temple columns in Doric proportion; steps and doors at human scale.
+  - Citadel merlons cover a standing soldier, crenels 0.6–1.0 m, wall-walk at least 2 m, gate at least 3 × 4 m.
+  - The oracle's cave mouth is walk-in height.
+- **Renders:** `renders/buildings-detail_{lighthouse,banquet,oracle,citadel,town,city}.png`. The full build and render takes about 2 minutes.
+
 ## Vegetation, fields and tracks (`tools/blender_nature.py`)
 - **Track network (map generator):** `TRACKS` lists hub-to-hub links in walking order. Hamlets hang off different hubs (press, oracle, beacon), so no track runs hamlet to hamlet.
   - Paths use `least_cost_path(slope_k=150, min_z=.5, passable=causeway corridor)`, which returns `[]` when a target is unreachable.
@@ -164,7 +185,7 @@ The sections are:
 - Storage decision: commit `island-painted.jpg` and its JSON as spec. Keep the full-size download out of Git.
 
 ## Next steps
-1. Detail the other hero buildings the way the Round was done (human scale, canon checks, close-up renders), then props (ships in the harbours, amphorae, the hourglass). Tripo is for props only; ask before any paid API call.
+1. Props: ships and skiffs in the three harbours, amphorae on the quays, the hourglass, the ledger, statues' detail. Tripo is for props only; ask before any paid API call.
 2. Stage 5: shot pre-vis, one camera per panel.
 3. Optional: re-lay the Statue Walk with switchbacks or steps on its steep stretch.
 4. Optional: names for the town, bays and capes.

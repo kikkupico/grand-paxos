@@ -11,6 +11,7 @@ import math, random
 import numpy as np
 from mathutils import Vector
 from blender_kit import *                                                                          # noqa: F401,F403
+import blender_arch as ba
 
 def extra_mats():
     return {"fieldstone": mat("Fieldstone", "#b3a486"), "thatch": mat("Thatch", "#a08a5a"), "fire": mat("Beacon fire", "#ff8a3c", .5, 0, "#ff7a2a"),
@@ -74,15 +75,15 @@ def beacon_towers(ground, M):
     return k, fires
 
 # ---------------------------------------------------------------- II · Sleeping Shepherd
+ORACLE_DETAIL = {}
 def oracle(ground, M):
     X, Y = site("oracle"); g = ground.z(X, Y)
     ground.pad(X, Y, 20, g, 25)
     k = Kit("II · Oracle sanctuary, cave and shepherd's hut")
     k.ring(X, Y, 30, 30.8, g - 2, g + 2, M["fieldstone"], 64, math.radians(8), TAU - math.radians(8))   # temenos, open to the east
-    k.box(X, Y, g - 1, g + 1.1, 16, 10, 0, M["limestone"])
-    k.box(X, Y, g + 1.1, g + 7.5, 8, 5, 0, M["marble"])
-    colonnade(k, X, Y, g + 1.1, g + 6.8, 14, 8, 0, 2.8, M["marble"], .4)
-    k.gable(X, Y, g + 7.5, 15.5, 9.5, 2.4, 0, M["roof"])
+    temple_info = ba.temple(k, M, ground, X, Y, 0.0, 4, .8, n_side=7)                              # facing east, toward the altar and the gap
+    for sd in (-1, 1): k.box(X + 30.4, Y + sd * 3.4, g - 1, g + 4.2, 1.2, 1.2, 0, M["fieldstone"])  # a simple gateway in the enclosure's gap
+    k.box(X + 30.4, Y, g + 4.2, g + 4.8, 1.4, 8.0, 0, M["fieldstone"])
     k.box(X + 14, Y, g - .5, g + 1.2, 3, 1.6, 0, M["marble"])                                      # altar before the east front
     down = min(np.linspace(0, TAU, 24, endpoint=False), key=lambda a: ground.z(X + 70 * math.cos(a), Y + 70 * math.sin(a)))
     cx, cy = X + 70 * math.cos(down), Y + 70 * math.sin(down); cz = ground.z(cx, cy)               # the cave, in a crag on the steepest side
@@ -93,8 +94,10 @@ def oracle(ground, M):
         k.box(cx + ox, cy + oy, cz - 4, cz + rnd.uniform(6, 13), rnd.uniform(6, 11), rnd.uniform(5, 9), face + rnd.uniform(-.4, .4), M["rock"])
     mx, my = cx - 6.2 * math.cos(face), cy - 6.2 * math.sin(face)
     k.box(mx, my, cz - .5, cz + 4.5, .6, 4, face, M["cave"])
+    ORACLE_DETAIL.update({"temple": temple_info, "cave_mouth_h_m": 5.0})
     hx, hy = X + 140 * math.cos(down + .7), Y + 140 * math.sin(down + .7)                          # the shepherd's hut and fold downslope
     k.cyl(hx, hy, 3, ground.z(hx, hy) - 1, ground.z(hx, hy) + 2.4, M["fieldstone"], 16)
+    k.box(hx + 3.02 * math.cos(down + .7 + math.pi), hy + 3.02 * math.sin(down + .7 + math.pi), ground.z(hx, hy), ground.z(hx, hy) + 1.9, .1, .9, down + .7, ba.dark())
     k.cone(hx, hy, 3.6, ground.z(hx, hy) + 2.4, ground.z(hx, hy) + 4.6, M["thatch"], 16)
     k.ring(hx + 14, hy, 7, 7.5, ground.z(hx + 14, hy) - 1, ground.z(hx + 14, hy) + 1.2, M["fieldstone"], 28, .6, TAU - .2)
     return k

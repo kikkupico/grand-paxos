@@ -97,7 +97,7 @@ def palette():
             "sand": mat("Orchestra sand", "#d9c38e"), "roof": mat("Terracotta roof", "#b0532f"), "plaster": mat("Plaster", "#e4d8c1"),
             "bronze": mat("Bronze", "#8a6428", .35, .85), "timber": mat("Timber", "#6a4a2e"), "garden": mat("Garden", "#6d7b38"),
             "pave": mat("Paving", "#cdc0a2"), "canvas": mat("Tent canvas", "#d8d0b8"), "lantern": mat("Lantern", "#ffd27a", .4, 0, "#ffc861"),
-            "wall_dark": mat("Fortress stone", "#a89c84")}
+            "wall_dark": mat("Fortress stone", "#a89c84"), "iron": mat("Iron", "#3a3a3a", .5, .9)}
 
 class Kit:
     """Accumulates boxes, rings, cylinders and roofs into one mesh object with material slots."""
@@ -194,15 +194,50 @@ def on_ground(ground, X, Y, sx, sy, ang, extra=0.0):
     zs = [ground.z(X + u * c - v * s, Y + u * s + v * c) for u in (-sx / 2, 0, sx / 2) for v in (-sy / 2, 0, sy / 2)]
     return min(zs) - extra, max(zs)
 
-def house(kit, ground, X, Y, sx, sy, h, ang, wall, roof, rise=None):
+DOOR_H, DOOR_W, WINDOW_SILL, WINDOW_H, WINDOW_W = 2.1, 1.1, 2.0, .8, .6
+HOUSE_STATS = {"houses": 0, "with_door": 0, "windows": 0}
+
+def house(kit, ground, X, Y, sx, sy, h, ang, wall, roof, rise=None, door=True):
+    """A house on foundations: walls, a pitched roof with eaves, and, when big enough, a doorway with a stone lintel on
+    the front (long) face and small high windows (sills 2 m up, as in Greek houses) on the back."""
     lo, hi = on_ground(ground, X, Y, sx, sy, ang, 1.5)
     kit.box(X, Y, lo, hi + h, sx, sy, ang, wall)
     kit.gable(X, Y, hi + h, sx + .8, sy + .8, rise if rise is not None else min(sx, sy) * .22, ang, roof)
+    HOUSE_STATS["houses"] += 1
+    if not door or h < 3.0 or min(sx, sy) < 4.0: return
+    dark_, lintel = mat("Opening (dark)", "#2a2320", .95), mat("Limestone", "#d8ccb0")
+    c, s_ = math.cos(ang), math.sin(ang)
+    long_x = sx >= sy; length = max(sx, sy)
+    front, back = ("-y", "+y") if long_x else ("-x", "+x")
+    def face_point(face, along):
+        if face in ("+x", "-x"):
+            sg = 1 if face == "+x" else -1; return X + c * sg * sx / 2 - s_ * along, Y + s_ * sg * sx / 2 + c * along
+        sg = 1 if face == "+y" else -1; return X - s_ * sg * sy / 2 + c * along, Y + c * sg * sy / 2 + s_ * along
+    def put(face, along, w, z0, z1, m, depth=.08):
+        if face in ("+x", "-x"):
+            sg = 1 if face == "+x" else -1
+            kit.box(X + c * sg * (sx / 2 + depth / 2 - .02) - s_ * along, Y + s_ * sg * (sx / 2 + depth / 2 - .02) + c * along, z0, z1, depth, w, ang, m)
+        else:
+            sg = 1 if face == "+y" else -1
+            kit.box(X - s_ * sg * (sy / 2 + depth / 2 - .02) + c * along, Y + c * sg * (sy / 2 + depth / 2 - .02) + s_ * along, z0, z1, w, depth, ang, m)
+    zd = min(max(ground.z(*face_point(front, 0)), lo + 1.5), hi)
+    put(front, 0, DOOR_W, zd, zd + DOOR_H, dark_)
+    put(front, 0, DOOR_W + .5, zd + DOOR_H, zd + DOOR_H + .25, lintel, .16)
+    HOUSE_STATS["with_door"] += 1
+    n = max(1, int(length // 4))
+    for i in range(n):
+        along = length * ((i + .5) / n - .5)
+        put(back, along, WINDOW_W, zd + WINDOW_SILL, zd + WINDOW_SILL + WINDOW_H, dark_)
+        HOUSE_STATS["windows"] += 1
 
 def colonnade(kit, X, Y, z0, z1, sx, sy, ang, spacing, m, r=.35):
-    c, s = math.cos(ang), math.sin(ang)
+    """Doric columns around a rectangle."""
+    c, s = math.cos(ang), math.sin(ang); h = z1 - z0
     nu, nv = max(1, round(sx / spacing)), max(1, round(sy / spacing))
     pts = {(round(u, 2), round(-sy / 2, 2)) for u in np.linspace(-sx / 2, sx / 2, nu + 1)} | {(round(u, 2), round(sy / 2, 2)) for u in np.linspace(-sx / 2, sx / 2, nu + 1)} \
         | {(round(-sx / 2, 2), round(v, 2)) for v in np.linspace(-sy / 2, sy / 2, nv + 1)} | {(round(sx / 2, 2), round(v, 2)) for v in np.linspace(-sy / 2, sy / 2, nv + 1)}
-    for u, v in pts: kit.cyl(X + u * c - v * s, Y + u * s + v * c, r, z0, z1, m, 10)
-
+    for u, v in pts:
+        cx, cy = X + u * c - v * s, Y + u * s + v * c
+        kit.frustum(cx, cy, r, r * .78, z0, z1 - h * .09, m, 12)
+        kit.frustum(cx, cy, r * .8, r * 1.18, z1 - h * .09, z1 - h * .045, m, 12)
+        kit.box(cx, cy, z1 - h * .045, z1, 2.5 * r, 2.5 * r, ang, m)

@@ -24,14 +24,14 @@
  },
  "statue_walk": {
   "length_m": 1798,
-  "max_grade_pct": 27.7,
-  "mean_grade_pct": 10.5,
+  "max_grade_pct": 19.9,
+  "mean_grade_pct": 10.1,
   "max_grade_ungraded_pct": 39.8,
   "statues": 29
  },
  "causeway_markers": 16,
  "monastery_jetty_tip_m": -8.4,
  "objects": 12,
- "faces": 4582,
+ "faces": 5895,
  "ok": true
 }

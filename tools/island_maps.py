@@ -547,6 +547,7 @@ def checks(h, loc, rules):
             "tracks_unreachable": [f"{a}–{b}" for a, b, p in loc["_tracks"][0] if len(p) < 2],
             "tracks_hamlet_to_hamlet": [f"{a}–{b}" for a, b in TRACKS if a.startswith("ham") and b.startswith("ham")],
             "causeway_joins_the_neck": bool(land_component(h, loc["oracle"])[int(loc["round"][1] / CELL), int(loc["round"][0] / CELL)]),
+            "agora_on_dry_land": bool(agora_footprint(h, *town_layout(h, loc)[0][:2], math.radians(town_layout(h, loc)[0][2])).min() > 2),
             "cothon_open_to_sea": bool(open_water_reaches_edge(h, (loc["cothon"][0] + 100, loc["cothon"][1]))),   # start in the basin, not on the islet
             **({"monastery_detached": not land_component(h, loc["round"])[int(loc["monastery"][1] / CELL), int(loc["monastery"][0] / CELL)]}
                if "monastery" in loc else {})}
@@ -634,12 +635,27 @@ SEA_T = [-60, -25]
 LAND_T = [0, 20, 70, 140, 220, 300, 380]
 LINE_T = [-5, -13, -24]
 
+AGORA_M = (40.0, 30.0)
+
+def agora_footprint(h, x, y, ang):
+    c, s = math.cos(ang), math.sin(ang)
+    return np.array([h_at(h, x + u * c - v * s, y + u * s + v * c) for u in np.linspace(-AGORA_M[0] / 2, AGORA_M[0] / 2, 9)
+                     for v in np.linspace(-AGORA_M[1] / 2, AGORA_M[1] / 2, 7)])
+
+def agora_on_land(h, x, y, ang, inland):
+    """Move the agora inland (toward `inland`) until its whole footprint stands on dry ground 2 m up."""
+    n = math.hypot(*inland) or 1; ux, uy = inland[0] / n, inland[1] / n
+    for step in range(60):
+        if agora_footprint(h, x + ux * step * 5, y + uy * step * 5, ang).min() > 2: return x + ux * step * 5, y + uy * step * 5
+    return x, y
+
 def town_layout(h, loc):
     """The harbour town: 44 x 30 m insulae on a street grid squared to the harbour, with the agora left open
     at the centre. Returns ((x, y, deg) of the agora, [(x, y, deg) per insula]), deg measured from +x towards +y."""
     rng = np.random.default_rng(7)
     tx, ty = loc["town"]; cx_, cy_ = harbour_of(loc); rnd = loc["round"]
     ang = math.atan2(cy_ - ty, cx_ - tx); ca, sa = math.cos(ang), math.sin(ang)
+    tx, ty = agora_on_land(h, tx, ty, ang, (rnd[0] - tx, rnd[1] - ty))
     blocks = []
     for i in range(-9, 10):
         for j in range(-9, 10):
@@ -847,7 +863,8 @@ def main():
             rows += [("Each volume after the ones it builds on (9 links)", ck["dependency_order"]["edges_ok"]),
                      ("The graph's five bands run NW → SE without overlapping", ck["dependency_order"]["bands_ok"])]
         if "monastery_detached" in ck: rows += [("Raft monastery on its own island", ck["monastery_detached"])]
-        rows += [("The causeway joins the neck in calm weather", ck["causeway_joins_the_neck"]),
+        rows += [("The agora stands wholly on dry land", ck["agora_on_dry_land"]),
+                 ("The causeway joins the neck in calm weather", ck["causeway_joins_the_neck"]),
                  ("The lantern harbour's basin opens to the sea", ck["cothon_open_to_sea"]),
                  ("Tracks connect every mainland site", ck["tracks_connect_every_mainland_site"]),
                  ("No track runs straight from one hamlet to another", not ck["tracks_hamlet_to_hamlet"])]
