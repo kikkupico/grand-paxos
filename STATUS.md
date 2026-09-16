@@ -65,14 +65,16 @@ Still open:
 - **Shapes:** strips are 21:9, since Gemini has no 12:5.
 
 ## Volume pages (`volumes/`)
+- **All nine volumes have pages (16 Sep 2026).** I–III and V–IX were ported from the sibling `paxos-illustrated` repo — an explicit, one-off exception to the standalone-project rule, approved for this task only — and corrected to the current canon: every in-text volume cross-reference renumbered to walking order (the old repo's numbering differs, e.g. Generals was II there and is V here), and any setting that named a different island, a real city (Delphi, Knossos, Byzantion) or a later era (Roman conquest) relocated onto Paxos's own gazetteer sites instead. The Round predating the Synod, the ledger as a two-rod scroll and so on all carried over unchanged. Each follows the pattern below; none of the eight has been staged for images yet.
 - **`volumes/IV-part-time-parliament.html`:** the Paxos paper (Volume IV), set with the text, footnotes, proofs and four interactive widgets. It uses `volumes/volume.css` and is a full standalone document; the Artifact page contract applies only to the art-direction page.
-- **Images removed:** every earlier image is gone. In their place are 25 fresh panel placeholders (IV-00 cover to IV-24), chosen for narrative, not one per old slot. Each names its shape (splash 3:2, strip 12:5, wide 16:9, half 4:3, tall 3:4), its Blender sites and its reference sheets.
-- **Staging:** most panels use places already built in Blender:
+- **Images removed:** every earlier image is gone. In their place are panel placeholders — IV has 25 (IV-00 cover to IV-24), chosen for narrative, not one per old slot; the other eight have 7–10 each, scaled to source length. Each names its shape (splash 3:2, strip 12:5, wide 16:9, half 4:3, tall 3:4), its Blender sites and its reference sheets.
+- **Staging:** most of IV's panels use places already built in Blender:
   - the Round's verandah, windows, gates, stairways and statue row;
   - the agora's cheese stalls, goat pen, sundial and stoa;
   - the merchant quays and the outbound merchantman;
   - the Statue Walk and the banquet house.
-- **Source of truth:** `volumes/IV-panels.json`. `python3 tools/volume_panels.py IV` renders the placeholders between `<!-- PANEL id -->` markers (never hand-edit between them) and writes the full briefs to `prompts/volume-IV-panels.md`, the input for image generation.
+  The other eight volumes' panels cite Blender sites too (each volume's own gazetteer sites), but haven't been staged with `blender_panels.py`/`<vol>-shots.json` yet — see "Next steps".
+- **Source of truth:** `volumes/<vol>-panels.json`, one per volume. `python3 tools/volume_panels.py <vol>` renders that volume's placeholders between `<!-- PANEL id -->` markers (never hand-edit between them) and writes the full briefs to `prompts/volume-<vol>-panels.md`, the input for image generation.
 
 ## The page (`art-direction-grand-island-shape.html`)
 The sections are:
@@ -263,5 +265,6 @@ The sections are:
 
 ## Next steps
 1. Stage 5: stage and generate the remaining IV panels (22 left) with the pilot's pipeline, IV-03 as the style anchor. Small props are skipped; the reference sheets stand in for them.
+2. Bring the other eight volumes' panels through the same staging and image pipeline, one volume at a time: a `<vol>-shots.json`, `blender_panels.py`, then `panel_images.py`. Reference sheets exist only for I, III and IV; the rest will need their own, or a decision to reuse across volumes.
 3. Optional: re-lay the Statue Walk with switchbacks or steps on its steep stretch.
 4. Optional: names for the town, bays and capes.
