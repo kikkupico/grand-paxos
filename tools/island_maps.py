@@ -295,7 +295,7 @@ E_ROUND, E_PORT = (5384.0, 4132.0), (5990.0, 3630.0)                            
 def option_dependency():
     """The island laid out along the papers' dependency graph, read NW -> SE:
     I+III, then IV (the causeway neck), then V (the Round's spine), then II/VI/VII/VIII
-    in pairs either side of the spine, and IX detached across a strait."""
+    as two pairs across the spine (II facing VI, then VII facing VIII), and IX detached across a strait."""
     set_world(11000, 8000)
     (x0, y0), (x1, y1) = E_AXIS
     L = math.hypot(x1 - x0, y1 - y0); ux, uy = (x1 - x0) / L, (y1 - y0) / L
