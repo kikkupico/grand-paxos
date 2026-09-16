@@ -14,7 +14,11 @@ SIZE = {"splash": "", "strip": "", "wide": "", "half": "mid", "tall": "narrow"}
 
 def placeholder(p, shapes):
     esc = html.escape
-    inner = (f'<div class="img-placeholder ph-{p["shape"]}" role="img" aria-label="{esc(p["title"])}: {esc(p["desc"])}">'
+    img = ROOT / "volumes" / "images" / f"{p['id']}.jpg"                                          # an accepted panel image replaces the placeholder
+    if img.exists():
+        inner = f'<img src="images/{img.name}" alt="{esc(p["title"])}: {esc(p["desc"])}" loading="lazy">'
+    else:
+        inner = (f'<div class="img-placeholder ph-{p["shape"]}" role="img" aria-label="{esc(p["title"])}: {esc(p["desc"])}">'
              f'<span class="ph-label">{p["id"]} · {shapes[p["shape"]]}</span>'
              f'<span class="ph-title">{esc(p["title"])}</span>'
              f'<span class="ph-desc">{esc(p["desc"])}</span>'

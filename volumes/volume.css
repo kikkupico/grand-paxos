@@ -108,7 +108,7 @@ figure.panel figcaption{
 }
 .panel.mid .img-placeholder, .panel.narrow .img-placeholder{aspect-ratio:4/3}
 .img-placeholder.ph-splash{aspect-ratio:3/2}
-.img-placeholder.ph-strip{aspect-ratio:12/5}
+.img-placeholder.ph-strip{aspect-ratio:21/9}                                         /* gemini-3-pro-image has no 12:5 */
 .img-placeholder.ph-wide{aspect-ratio:16/9}
 .panel .img-placeholder.ph-half{aspect-ratio:4/3}
 .panel .img-placeholder.ph-tall{aspect-ratio:3/4}

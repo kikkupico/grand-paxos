@@ -30,6 +30,7 @@ SILL_UP, WIN_H, WIN_W, WIN_STEP_DEG = 5.5, 1.9, 1.4, 5.0     # sills ~5.5 m abov
 GATE_W, DOOR_H, BAR_Z = 4.0, 4.0, 1.3
 STAIR_W, STAIRS = 1.2, 8
 FIGURE_H = 1.75
+TERRACE_R = 34.0                                              # paved terrace round the wall, out to here
 PYLON_HALF_DEG = 13.5                                          # gate pylons and pediments occupy this much wall either side of a gate axis
 
 # ---------------------------------------------------------------- textured materials
@@ -234,6 +235,10 @@ def build(ground, M0, report):
         else:
             ix, iy = cx - rx_ * .6 + tx * (GATE_W / 2 + .45), cy - ry_ * .6 + ty * (GATE_W / 2 + .45)
             k.beam((ix, iy, rim), (ix + tx * .2, iy + ty * .2, rim + GATE_W + .8), .26, .26, M["oak"])
+    # a paved terrace round the wall, level with the gate thresholds: the 12.5 m terrain cells either side of the bowl's
+    # edge otherwise slope down outside the wall, leaving a ditch up to 4.8 m deep (found staging panel IV-03)
+    k.ring(X, Y, WALL_OUT - .2, TERRACE_R, z_orch - 1, rim, M["pave"], 128)
+    k.ring(X, Y, TERRACE_R, TERRACE_R + .5, z_orch - 1, rim + .15, M["marble"], 128)
     statues = 0
     for sidx in range(24):
         th = sidx * TAU / 24
@@ -275,6 +280,18 @@ def checks(info, round_ob, terrain, banquet_xyz, port_xyz, extra=()):
     eye_b, win_b = window_eye(info, banquet_xyz); eye_p, win_p = window_eye(info, port_xyz)
     block_b, block_p = sight(eye_b, banquet_xyz, obs), sight(eye_p, port_xyz, obs)
     res = {k_: v for k_, v in info.items() if k_ not in ("windows_rad", "centre")}
+    X, Y = info["centre"]; gate_ground, edge_step = {}, {}                                          # the forecourt outside each gate must meet its threshold
+    for name, a in (("E", 0.0), ("N", TAU / 4), ("W", TAU / 2), ("S", 3 * TAU / 4)):
+        offs = []
+        for rr in (26, 28, 30, 33, 35.5):                                                           # the walking surface: the higher of the Round's terrace and the terrain
+            zs = []
+            for ob in (terrain, round_ob):
+                hit, loc, *_ = ob.ray_cast(Vector((X + rr * math.cos(a) - .9 * math.sin(a), Y + rr * math.sin(a) + .9 * math.cos(a), info["rim"] + 2)) - ob.location, Vector((0, 0, -1)))
+                if hit: zs.append(loc.z + ob.location.z)
+            offs.append(max(zs) - info["rim"] if zs else -99)
+        gate_ground[name] = round(max(offs[:4], key=abs), 2); edge_step[name] = round(offs[4], 2)
+    res["gate_ground_offset_m"] = gate_ground; res["terrace_edge_step_m"] = edge_step
+    res["gates_meet_the_ground"] = all(abs(v) <= .6 for v in gate_ground.values()) and all(abs(v) <= 1.2 for v in edge_step.values())
     res.update({"banquet_window_bearing_deg": round(win_b, 1), "quays_window_bearing_deg": round(win_p, 1),
                 "canon_14_tiers": info["tiers_incl_verandah"] == 14, "canon_stairways_8": info["stairs"] == 8,
                 "canon_gates_cardinal": sorted(info["gates_deg"]) == [0, 90, 180, 270],
@@ -288,5 +305,5 @@ def checks(info, round_ob, terrain, banquet_xyz, port_xyz, extra=()):
                 "banquet_house_seen_from_verandah_window": not block_b, "banquet_view_blocked_by": block_b,
                 "quays_seen_from_verandah_window": not block_p, "quays_view_blocked_by": block_p})
     res["ok"] = all(v for k_, v in res.items() if k_.startswith(("canon_", "seat_risers_", "stair_riser_c", "verandah_about", "window_sills",
-                                                               "gates_join", "doorway_", "drop_bar_l")) or k_ in ("banquet_house_seen_from_verandah_window", "quays_seen_from_verandah_window"))
+                                                               "gates_join", "gates_meet", "doorway_", "drop_bar_l")) or k_ in ("banquet_house_seen_from_verandah_window", "quays_seen_from_verandah_window"))
     return res

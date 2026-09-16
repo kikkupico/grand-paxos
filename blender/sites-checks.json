@@ -24,8 +24,8 @@
  },
  "statue_walk": {
   "length_m": 1798,
-  "max_grade_pct": 19.9,
-  "mean_grade_pct": 10.1,
+  "max_grade_pct": 26.2,
+  "mean_grade_pct": 10.7,
   "max_grade_ungraded_pct": 39.8,
   "statues": 29
  },

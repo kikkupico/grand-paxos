@@ -54,11 +54,14 @@ EDITS = {
                      "No covers, spines or pages anywhere on the sheet. " + NO_TEXT,
 }
 
-def call(prompt, image_path):
+def call(prompt, images, aspect="16:9"):
+    """One gemini-3-pro-image request: the prompt, then each image in order. Returns the last image's JPEG bytes."""
+    images = [images] if isinstance(images, Path) else images
+    mime = lambda p: "image/png" if p.suffix.lower() == ".png" else "image/jpeg"
     body = {"model": MODEL,
-            "input": [{"type": "text", "text": prompt},
-                      {"type": "image", "mime_type": "image/jpeg", "data": base64.b64encode(image_path.read_bytes()).decode()}],
-            "response_format": {"type": "image", "mime_type": "image/jpeg", "aspect_ratio": "16:9", "image_size": "2K"}}
+            "input": [{"type": "text", "text": prompt}] +
+                     [{"type": "image", "mime_type": mime(p), "data": base64.b64encode(p.read_bytes()).decode()} for p in images],
+            "response_format": {"type": "image", "mime_type": "image/jpeg", "aspect_ratio": aspect, "image_size": "2K"}}
     req = urllib.request.Request("https://generativelanguage.googleapis.com/v1beta/interactions", data=json.dumps(body).encode(),
                                  headers={"x-goog-api-key": os.environ["GEMINI_API_KEY"], "Content-Type": "application/json", "Api-Revision": "2026-05-20"})
     with urllib.request.urlopen(req, timeout=600) as r:

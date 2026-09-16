@@ -144,7 +144,7 @@ def smooth_path(pts, rounds=3, step=12.0):
     ts = np.arange(0, t[-1], step)
     return list(zip(np.interp(ts, t, p[:, 0]), np.interp(ts, t, p[:, 1]))) + [tuple(p[-1])]
 
-def statue_walk(ground, M, agora, window=9):
+def statue_walk(ground, M, agora, window=9, gate_z=None):
     """The processional way: the route smoothed, a road bed graded as a running average of the ground along it
     (the terrain is cut and filled to meet it), paved, with statues every ~45 m once clear of the town."""
     path = smooth_path([B(x, y) for x, y in SITES["built"]["statue_walk_m"]], rounds=2)
@@ -154,6 +154,9 @@ def statue_walk(ground, M, agora, window=9):
     pad_ = np.pad(raw, window // 2, mode="edge")
     bed = np.convolve(pad_, np.ones(window) / window, mode="valid")
     bed[0], bed[-1] = raw[0], raw[-1]
+    if gate_z is not None:                                                                          # a landing level with the Round's gate threshold, ramped over the last 120 m:
+        w = np.array([1 - float(smooth((math.dist(p, (RX, RY)) - 32) / 120)) for p in path])       # the running average had cut 4 m below the east gate
+        bed = bed * (1 - w) + gate_z * w
     for (x, y), z in zip(path, bed):                                                               # cut and fill a 6 m bed, feathered 10 m
         ground.edit(x, y, 16, lambda d, dX, dY, g, z=z: np.where(d < 16, g + (z - g) * (1 - smooth((d - 6) / 10)), g))
     k = Kit("IV · The Statue Walk")

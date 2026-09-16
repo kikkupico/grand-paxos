@@ -322,7 +322,7 @@ def main():
     drums, decks = bs.drummers(ground, M)
     markers, n_markers = bs.causeway_markers(ground, M)
     agora = B(*SITES["built"]["town"]["agora_m_deg"][:2])
-    walk, walk_info = bs.statue_walk(ground, M, agora)
+    walk, walk_info = bs.statue_walk(ground, M, agora, gate_z=rim)
     grans, gran_gap = bs.granaries(ground, M)
     guild, guild_info = bs.guild_quarter(ground, M, None)
     monk, jetty_tip, jetty_geom = bs.monastery(ground, M, (RX, RY))
@@ -433,6 +433,7 @@ def main():
                    ("Verandah about 15 ft above the outside ground", rres["verandah_about_15ft_up"]),
                    ("Window sills high enough to read as windows, not entrances", rres["window_sills_read_as_windows"]),
                    ("Gates open onto the walkway, below the verandah", rres["gates_join_below_the_verandah"]),
+                   (f"Every gate's forecourt meets its threshold (±0.6 m; worst {max(rres['gate_ground_offset_m'].values(), key=abs)} m) and the terrace edge is a step, not a drop (≤1.2 m; worst {max(rres['terrace_edge_step_m'].values(), key=abs)} m)", rres["gates_meet_the_ground"]),
                    ("Drop-bar within a person's reach (0.9–1.6 m)", rres["drop_bar_liftable_0_9_to_1_6m"]),
                    (f"Banquet house seen from a verandah window ({rres['banquet_window_bearing_deg']}°)", rres["banquet_house_seen_from_verandah_window"]),
                    (f"Merchant quays seen from a verandah window ({rres['quays_window_bearing_deg']}°)", rres["quays_seen_from_verandah_window"])])

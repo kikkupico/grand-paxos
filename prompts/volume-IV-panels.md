@@ -24,7 +24,7 @@ The only present-day panel. The col in low evening light. The Round survives as 
 
 ## IV-02 · A thriving mercantile centre
 
-- **Shape:** strip 12:5
+- **Shape:** strip 21:9
 - **Blender:** port; town; walk; round
 - **Cast:** sailors, porters, townsfolk, tiny
 - **Sheets:** `references/IV-townsfolk.jpg`
@@ -54,7 +54,7 @@ Tight close-up from over the shoulder. The ledger lies open across his knees bet
 
 ## IV-05 · Decree 37, twice
 
-- **Shape:** strip 12:5
+- **Shape:** strip 21:9
 - **Blender:** round (verandah); banquet; town (agora, stoa)
 - **Cast:** two groups of legislators, a painter
 - **Sheets:** `references/IV-benches.jpg`, `references/IV-townsfolk.jpg`
@@ -115,7 +115,7 @@ Comic scene in the Round. A stout priest is comfortably settled on a seat row wi
 
 ## IV-11 · NextBallot(b)
 
-- **Shape:** strip 12:5
+- **Shape:** strip 21:9
 - **Blender:** round (verandah, stairways)
 - **Cast:** priest p, five messengers, priests
 - **Sheets:** `references/IV-messengers.jpg`, `references/IV-symbols.jpg`, `references/IV-legislators.jpg`
@@ -176,7 +176,7 @@ A glass-blower's workshop in the harbour town, open to the agora. The furnace gl
 
 ## IV-17 · Friday afternoon
 
-- **Shape:** strip 12:5
+- **Shape:** strip 21:9
 - **Blender:** round (gate); walk; town; banquet
 - **Cast:** many legislators, a messenger
 - **Sheets:** `references/IV-benches.jpg`, `references/IV-messengers.jpg`
@@ -186,7 +186,7 @@ Late golden afternoon, looking down the Statue Walk from the Round's gate. Legis
 
 ## IV-18 · Behind closed doors
 
-- **Shape:** strip 12:5
+- **Shape:** strip 21:9
 - **Blender:** round (all gates barred)
 - **Cast:** the president, legislators, messengers
 - **Sheets:** `references/IV-messengers.jpg`, `references/IV-legislators.jpg`

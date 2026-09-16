@@ -1,0 +1,528 @@
+{
+ "volume": "IV",
+ "note": "Blender world coordinates (X east, Y north, metres), from the Round's site point and blender/round-checks.json. z 'surface' means standing on whatever surface is below (ray cast); the resolved value is written back as z_resolved. Verandah columns stand every 7.2 degrees from 3.6; keep cameras on the verandah between them.",
+ "colors": {
+  "terracotta": "#bf4a26",
+  "aegean": "#136f9e",
+  "olive": "#66722c",
+  "gold": "#c1912b",
+  "linen": "#ddd3bd",
+  "plum": "#6d3b6b"
+ },
+ "panels": {
+  "IV-03": {
+   "aspect": "16:9",
+   "resolution": [
+    1920,
+    1080
+   ],
+   "camera": {
+    "loc": [
+     -76,
+     -139,
+     "surface+1.6"
+    ],
+    "target": [
+     -90.5,
+     -131.5,
+     190.26
+    ],
+    "lens": 28,
+    "clip_start": 0.5,
+    "z_resolved": 187.825,
+    "z_from": 196.46
+   },
+   "hide": [
+    "IV · Scale figures (1.75 m)"
+   ],
+   "figures": [
+    {
+     "id": "A",
+     "label": "legislator strolling out toward the banquet house (east), ledger under his arm",
+     "color": "terracotta",
+     "xy": [
+      -80.5,
+      -138.2
+     ],
+     "z": "surface",
+     "facing_deg": 15,
+     "pose": "stand",
+     "carry": "scroll",
+     "z_resolved": 186.277,
+     "screen": [
+      0.256,
+      0.69
+     ],
+     "in_frame": true,
+     "z_from": 188.96,
+     "visible": true
+    },
+    {
+     "id": "B",
+     "label": "legislator hurrying in from the Statue Walk, eating a fig",
+     "color": "aegean",
+     "xy": [
+      -83.5,
+      -128.0
+     ],
+     "z": "surface",
+     "facing_deg": 195,
+     "pose": "stand",
+     "carry": "scroll",
+     "z_resolved": 186.462,
+     "screen": [
+      0.923,
+      0.678
+     ],
+     "in_frame": true,
+     "z_from": 188.96,
+     "visible": true
+    },
+    {
+     "id": "C",
+     "label": "legislator stopped halfway through the gate, gossiping",
+     "color": "olive",
+     "xy": [
+      -88.4,
+      -131.1
+     ],
+     "z": "surface",
+     "facing_deg": 20,
+     "pose": "orator",
+     "carry": "scroll",
+     "z_resolved": 186.462,
+     "screen": [
+      0.571,
+      0.683
+     ],
+     "in_frame": true,
+     "z_from": 188.96,
+     "visible": true
+    },
+    {
+     "id": "D",
+     "label": "townswoman with a basket, listening",
+     "color": "gold",
+     "xy": [
+      -87.3,
+      -130.0
+     ],
+     "z": "surface",
+     "facing_deg": 205,
+     "pose": "stand",
+     "z_resolved": 186.462,
+     "screen": [
+      0.655,
+      0.683
+     ],
+     "in_frame": true,
+     "z_from": 188.96,
+     "visible": true
+    }
+   ],
+   "props": [],
+   "ink_share": 0.069,
+   "lens_clear": true,
+   "centre_clear_m": 17.9
+  },
+  "IV-11": {
+   "aspect": "21:9",
+   "resolution": [
+    2520,
+    1080
+   ],
+   "camera": {
+    "loc": [
+     -136.92,
+     -140.28,
+     192.76
+    ],
+    "target": [
+     -113,
+     -128.5,
+     185.96
+    ],
+    "lens": 22,
+    "clip_start": 0.2
+   },
+   "hide": [
+    "IV · Scale figures (1.75 m)"
+   ],
+   "figures": [
+    {
+     "id": "p",
+     "label": "priest p at the verandah edge, handing out sealed ballot scrolls",
+     "color": "terracotta",
+     "xy": [
+      -134.34,
+      -139.97
+     ],
+     "z": "surface",
+     "facing_deg": 25,
+     "pose": "scroll",
+     "screen": [
+      0.703,
+      0.645
+     ],
+     "in_frame": true,
+     "visible": true,
+     "z_from": 190.76,
+     "z_resolved": 190.262
+    },
+    {
+     "id": "m0",
+     "label": "messenger taking a scroll from priest p",
+     "color": "aegean",
+     "xy": [
+      -134.21,
+      -138.09
+     ],
+     "z": "surface",
+     "facing_deg": 340,
+     "pose": "stand",
+     "screen": [
+      0.369,
+      0.628
+     ],
+     "in_frame": true,
+     "visible": true,
+     "z_from": 190.76,
+     "z_resolved": 189.962
+    },
+    {
+     "id": "m1",
+     "label": "messenger racing down a stairway",
+     "color": "aegean",
+     "xy": [
+      -131.71,
+      -125.49
+     ],
+     "z": "surface",
+     "facing_deg": 337.5,
+     "pose": "stand",
+     "z_from": 190.76,
+     "screen": [
+      -0.078,
+      0.517
+     ],
+     "in_frame": false,
+     "visible": false,
+     "z_resolved": 188.162
+    },
+    {
+     "id": "m2",
+     "label": "messenger racing down a stairway",
+     "color": "aegean",
+     "xy": [
+      -130.6,
+      -138.05
+     ],
+     "z": "surface",
+     "facing_deg": 22.5,
+     "pose": "stand",
+     "z_from": 190.76,
+     "screen": [
+      0.565,
+      0.953
+     ],
+     "in_frame": true,
+     "visible": true,
+     "z_resolved": 187.012
+    },
+    {
+     "id": "m3",
+     "label": "messenger near the bottom of a stairway",
+     "color": "aegean",
+     "xy": [
+      -120.78,
+      -120.45
+     ],
+     "z": "surface",
+     "facing_deg": 292.5,
+     "pose": "stand",
+     "z_from": 190.76,
+     "screen": [
+      0.228,
+      0.487
+     ],
+     "in_frame": true,
+     "visible": false,
+     "z_resolved": 185.462
+    },
+    {
+     "id": "m4",
+     "label": "messenger racing down a stairway",
+     "color": "aegean",
+     "xy": [
+      -122.7,
+      -148.17
+     ],
+     "z": "surface",
+     "facing_deg": 67.5,
+     "pose": "stand",
+     "z_from": 190.76,
+     "screen": [
+      1.346,
+      0.548
+     ],
+     "in_frame": false,
+     "visible": true,
+     "z_resolved": 188.462
+    },
+    {
+     "id": "m5",
+     "label": "messenger racing down a stairway",
+     "color": "aegean",
+     "xy": [
+      -111.41,
+      -143.09
+     ],
+     "z": "surface",
+     "facing_deg": 112.5,
+     "pose": "stand",
+     "z_from": 190.76,
+     "screen": [
+      0.882,
+      0.436
+     ],
+     "in_frame": true,
+     "visible": true,
+     "z_resolved": 186.662
+    },
+    {
+     "id": "q1",
+     "label": "priest on a seat row, looking up",
+     "color": "linen",
+     "xy": [
+      -99.84,
+      -126.12
+     ],
+     "z": "surface",
+     "facing_deg": 200,
+     "pose": "stand",
+     "z_from": 190.76,
+     "z_resolved": 188.782,
+     "screen": [
+      0.558,
+      0.226
+     ],
+     "in_frame": true,
+     "visible": true
+    },
+    {
+     "id": "q2",
+     "label": "priest on a seat row",
+     "color": "linen",
+     "xy": [
+      -104.74,
+      -138.5
+     ],
+     "z": "surface",
+     "facing_deg": 150,
+     "pose": "scroll",
+     "z_from": 190.76,
+     "z_resolved": 186.662,
+     "screen": [
+      0.758,
+      0.358
+     ],
+     "in_frame": true,
+     "visible": true
+    },
+    {
+     "id": "q3",
+     "label": "priest on the walkway",
+     "color": "linen",
+     "xy": [
+      -107.4,
+      -119.71
+     ],
+     "z": "surface",
+     "facing_deg": 235,
+     "pose": "stand",
+     "z_from": 190.76,
+     "z_resolved": 187.562,
+     "screen": [
+      0.406,
+      0.286
+     ],
+     "in_frame": true,
+     "visible": true
+    },
+    {
+     "id": "q4",
+     "label": "priest on a seat row",
+     "color": "linen",
+     "xy": [
+      -111.73,
+      -142.57
+     ],
+     "z": "surface",
+     "facing_deg": 112,
+     "pose": "stand",
+     "z_from": 190.76,
+     "z_resolved": 186.662,
+     "screen": [
+      0.866,
+      0.437
+     ],
+     "in_frame": true,
+     "visible": true
+    },
+    {
+     "id": "q5",
+     "label": "priest dozing on a seat row",
+     "color": "plum",
+     "xy": [
+      -103.92,
+      -133.7
+     ],
+     "z": "surface",
+     "facing_deg": 172,
+     "pose": "stand",
+     "z_from": 190.76,
+     "z_resolved": 186.662,
+     "screen": [
+      0.663,
+      0.339
+     ],
+     "in_frame": true,
+     "visible": true
+    },
+    {
+     "id": "q6",
+     "label": "priest on an upper row",
+     "color": "linen",
+     "xy": [
+      -100.31,
+      -120.6
+     ],
+     "z": "surface",
+     "facing_deg": 216,
+     "pose": "stand",
+     "z_from": 190.76,
+     "z_resolved": 185.962,
+     "screen": [
+      0.478,
+      0.321
+     ],
+     "in_frame": true,
+     "visible": false
+    }
+   ],
+   "props": [],
+   "ink_share": 0.098,
+   "lens_clear": true,
+   "centre_clear_m": 33.6
+  },
+  "IV-06": {
+   "aspect": "4:3",
+   "resolution": [
+    1600,
+    1200
+   ],
+   "camera": {
+    "loc": [
+     -94.45,
+     -126.08,
+     192.51
+    ],
+    "target": [
+     -92.64,
+     -125.3,
+     192.08
+    ],
+    "lens": 35,
+    "clip_start": 0.05,
+    "clear_m": 0.3
+   },
+   "hide": [
+    "IV · Scale figures (1.75 m)"
+   ],
+   "figures": [],
+   "props": [
+    {
+     "id": "ledger",
+     "kind": "scroll_closed",
+     "label": "the ledger on its two rods, tied with a cord and a dolphin seal",
+     "xy": [
+      -92.98,
+      -125.75
+     ],
+     "z": 191.962,
+     "angle_deg": 106,
+     "screen": [
+      0.675,
+      0.643
+     ],
+     "in_frame": true
+    },
+    {
+     "id": "ink",
+     "kind": "ink_pot",
+     "label": "a small pot of iron-gall ink",
+     "xy": [
+      -92.91,
+      -125.25
+     ],
+     "z": 191.962,
+     "screen": [
+      0.418,
+      0.582
+     ],
+     "in_frame": true
+    },
+    {
+     "id": "pen",
+     "kind": "pen",
+     "label": "a reed pen",
+     "xy": [
+      -93.18,
+      -125.25
+     ],
+     "z": 191.962,
+     "angle_deg": 60,
+     "screen": [
+      0.339,
+      0.639
+     ],
+     "in_frame": true
+    },
+    {
+     "id": "hourglass",
+     "kind": "hourglass",
+     "label": "a glass hourglass in a turned-wood frame",
+     "xy": [
+      -92.71,
+      -124.89
+     ],
+     "z": 191.962,
+     "screen": [
+      0.315,
+      0.528
+     ],
+     "in_frame": true
+    },
+    {
+     "id": "slip",
+     "kind": "slip",
+     "label": "a loose slip of paper lifting off the ledge in the wind",
+     "xy": [
+      -92.23,
+      -125.31
+     ],
+     "z": 192.182,
+     "angle_deg": 20,
+     "screen": [
+      0.571,
+      0.374
+     ],
+     "in_frame": true
+    }
+   ],
+   "ink_share": 0.039,
+   "lens_clear": false,
+   "centre_clear_m": 2.6
+  }
+ }
+}

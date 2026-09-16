@@ -28,6 +28,19 @@
  "walkway_z": 186.46241760253906,
  "gate_floor_z": 186.46241760253906,
  "sunk_m": 3.5,
+ "gate_ground_offset_m": {
+  "E": 0.22,
+  "N": 0.22,
+  "W": 0.27,
+  "S": 0.0
+ },
+ "terrace_edge_step_m": {
+  "E": -0.07,
+  "N": 0.04,
+  "W": 0.4,
+  "S": -0.22
+ },
+ "gates_meet_the_ground": true,
  "banquet_window_bearing_deg": 16.0,
  "quays_window_bearing_deg": 41.0,
  "canon_14_tiers": true,

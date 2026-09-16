@@ -5,7 +5,7 @@ _Last updated 16 Sep 2026._
 ## The brief
 1. Every volume's story takes place on the island of Paxos. Volume IX is on its own islet across a strait.
 2. The whole island is pre-visualised in Blender. Key architecture gets detailed models: the Great Round, the harbours, the city, the citadel, and so on.
-3. Each illustration starts as a Blender pre-vis render and is then turned into a Franco-Belgian comic image.
+3. Each illustration starts as a Blender pre-vis render and is then turned into a 1970s halftone comic image.
 4. There is one common asset sheet for the whole series, plus an asset sheet for each volume.
 
 ## Pipeline (current stage in bold)
@@ -18,8 +18,11 @@ _Last updated 16 Sep 2026._
    - All checks pass: `blender/{terrain,buildings,round,detail,sites,props,vegetation}-checks.json`, §4–6 of the page.
    - **Small props skipped for now (user, 16 Sep 2026):** the ledger scroll, hourglass, ink and so on are not modelled. The image references in `references/` (13 sheets for I, III and IV; see its README for where they disagree with the canon) serve as references when scene images are generated. Tripo stays available for props later; ask before any paid API call.
    - **Next:** build the actual scenes. Cameras are placed per scene as it is built, with no generic coverage set (user, 16 Sep 2026).
-5. Shot pre-vis: one camera per panel, rendered as clay plus a line pass. Camera angles are decided when each actual scene is built; no generic per-location coverage cameras.
-6. Comic pass: ligne claire over the pre-vis, checked against the asset sheets.
+5. **Panel layouts and images: pilot done (16 Sep 2026).** One camera per panel, decided when the panel is staged; no generic coverage cameras.
+   - **Blender:** `tools/blender_panels.py` renders an inked layout with colour-coded blocking figures and stand-in props.
+   - **Gemini:** `tools/panel_images.py` turns the layout into the comic panel with `gemini-3-pro-image`, using the reference sheets and a style anchor.
+   - **Pilot panels:** IV-03, IV-11 and IV-06 are accepted and on the page. See "Panels" below.
+6. Review and assembly: each panel checked against the canon and the sheets, then placed on the volume page.
 
 ## Decisions
 - **One island, the Dependency Spine.** It is laid out along the dependency graph between the papers. Walking from the NW tip reads the volumes in order, I to IX, and every volume comes after the ones it builds on. Four other layouts were explored and dropped; they're in git history before the commit that removed `art-direction-grand.html`.
@@ -28,14 +31,38 @@ _Last updated 16 Sep 2026._
 - **Time:** one terrain and one generation in five phases, one per graph band and island zone, with buildings only added. See `ERAS.md`.
 - **Every site belongs to one volume.** Kinds of place several volumes need are built per volume: III's cothon (the lantern harbour), IV's merchant quays and town, VII's walled harbour, VIII's guild hall, I's beacons and III's drummers.
 - **The Great Round predates the story (user, 16 Sep 2026).** Like a real Greek theatre, it is a multi-purpose building, older than both the Synod and the Parliament and used differently in different eras. The Synod (IV-09) met there; Parliament later took it over. See `ERAS.md`.
+- **Comic style: 1970s halftone comic (user, 16 Sep 2026)**, not Franco-Belgian ligne claire, which the user found more cartoonish. Bold ink outlines, halftone dot shading, aged newsprint, the house palette; the reference sheets already use it.
 - **3D files:** `.blend`, `.glb` and renders are gitignored, and renders go to R2.
 - **The ledger is a parchment scroll on two rods (16 Sep 2026)**, replacing the codex. It is one continuous strip, written in order and wound from rod to rod, and it is the same object in every volume: IV's legislators' ledgers, VI's granary ledger, and the statues' scroll pose. The gazetteer's ledger cliffs are now "layered strata", not "stacked tablets", so they don't suggest a different ledger form. A law book (IV §3.3.2) is a set of scrolls, one per area of law, each tagged with the last decree it reflects (user, 16 Sep 2026).
 
 Canon for the period, the Great Round and the Parliament's port is in §5 of the page.
 
 Still open:
-- The comic style isn't defined beyond "Franco-Belgian". One candidate is Jacques Martin's *Alix*, which is ligne claire set in antiquity.
 - The contents of the common and per-volume asset sheets aren't defined yet.
+
+## Panels: layouts and images (`tools/blender_panels.py`, `tools/panel_images.py`)
+- **Layout render:** `~/.local/bin/blender -b blender/paxos.blend -P tools/blender_panels.py -- IV IV-03 IV-11 IV-06`, after `blender_buildings.py` has saved the scene.
+  - **Input:** `volumes/IV-shots.json` holds each panel's camera (loc, target, lens, clip_start, clear_m), aspect, resolution, objects to hide, and blocking figures and stand-in props in Blender world coordinates.
+  - **Written back:** heights given as "surface" are ray-cast, and the resolved heights, each figure's frame position, visibility, lens clearance and centre clearance go back into the JSON, so a re-render reproduces the frame.
+  - **Blocking collections:** one per panel under "Panels", hidden from renders and viewports. Only the panel being rendered is shown. `blender/panels-IV.blend` is saved with all of them hidden, which is checked by reopening the file.
+  - **Outlines:** ink comes from normal and depth passes; Freestyle over the whole island didn't finish in 10 minutes. Output is `renders/panels/<id>-layout.png`.
+- **Image:** `python3 tools/panel_images.py edit|fix|score|accept <id>` (Gemini API).
+  - **Inputs:** the layout, then the panel's reference sheets, then `--anchor` (an accepted panel, for style).
+  - **Prompt:** built from the brief and the mannequin legend; it asks for a careful tracing of the layout, no border and no writing, and states the canon.
+  - **Fixes:** `fix` edits an attempt with one targeted change.
+  - **Score:** the share of the layout's strongest edges kept in the image, against the same image flipped as a baseline. Attempt 1 of IV-03 had redrawn the gate and scored 0.74 against 0.74; the accepted attempt scored 0.92 against 0.78.
+  - **Limits of the score:** it can't judge canon, so every panel is also checked by eye. Attempts, prompts and side-by-sides go to `temp/panels/`; accepted panels go to `volumes/images/<id>.jpg`, which `volume_panels.py` uses in place of the placeholder.
+- **Pilot results (15 API calls):**
+  - **IV-03 (east gate):** 4 attempts. The first redrew the gate and put the verandah outside; one left a mannequin in as a draped stand; one copied low-poly shrubs.
+  - **IV-11 (NextBallot from the verandah):** 1 attempt.
+  - **IV-06 (standard-issue still life):** 2 attempts. The first had a metal-nib pen and render shapes left on the hillside.
+  - **Lesson:** Blender helps even the close-up: it fixes the window, the ledge and the view.
+- **Staging found a modelling bug:** the Round stood in a ditch. Terrain vertices within 24 m are pulled down for the bowl, and the 12.5 m cells slope that down outside the 25 m wall, 4.8 m deep at the east gate. The fixes:
+  - a paved terrace round the wall to 34 m, level with the gates;
+  - the Statue Walk's bed ramped over its last 120 m up to the gate level (its steepest grade is now 26.2%);
+  - a new Round check that every gate's forecourt meets its threshold and the terrace edge is only a step. It failed at −4.56 m before the fix.
+- **Staging lessons:** keep verandah cameras between the columns (every 7.2° from 3.6°) and clear of the gate attics, which reach 0.75 m into the verandah. Keep ground cameras inside the 45 m vegetation-free zone.
+- **Shapes:** strips are 21:9, since Gemini has no 12:5.
 
 ## Volume pages (`volumes/`)
 - **`volumes/IV-part-time-parliament.html`:** the Paxos paper (Volume IV), set with the text, footnotes, proofs and four interactive widgets. It uses `volumes/volume.css` and is a full standalone document; the Artifact page contract applies only to the art-direction page.
@@ -235,6 +262,6 @@ The sections are:
 - Storage decision: commit `island-painted.jpg` and its JSON as spec. Keep the full-size download out of Git.
 
 ## Next steps
-1. Stage 5: build the actual scenes, placing each panel's camera as the scene is built. Small props are skipped for now; their existing image references are used for scene generation.
+1. Stage 5: stage and generate the remaining IV panels (22 left) with the pilot's pipeline, IV-03 as the style anchor. Small props are skipped; the reference sheets stand in for them.
 3. Optional: re-lay the Statue Walk with switchbacks or steps on its steep stretch.
 4. Optional: names for the town, bays and capes.
