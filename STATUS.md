@@ -11,8 +11,8 @@ _Last updated 16 Sep 2026._
 ## Pipeline (current stage in bold)
 1. Rough map: done. The island is a generated elevation field with all 23 sites placed and every check passing.
 2. Painted map: tried once (16 Sep 2026) and **kept only as a record** of how it didn't turn out as expected: symbol-sized buildings, invented features, no usable surface detail. It is not used downstream. It lives in §3 of the page (`maps/island-painted.jpg`, with scores measured before the terrain smoothing below).
-3. **Island blockout in Blender: terrain built (16 Sep 2026). Next: place buildings, vegetation and props on top.** `tools/blender_terrain.py` builds `blender/paxos.blend` (gitignored) straight from the heightmap. Checks are in `blender/terrain-checks.json` and §4 of the page.
-4. Hero architecture: the Round, the three harbours, the headland city, the citadel, the granary, the guild hall and the lock-houses are hand-modelled. Tripo is used only for props (statues, amphorae, ships, the hourglass).
+3. Island blockout in Blender: terrain built (16 Sep 2026). `tools/blender_terrain.py` builds `blender/paxos.blend` (gitignored) straight from the heightmap. Checks are in `blender/terrain-checks.json` and §4 of the page.
+4. **Hero architecture: key buildings placed as true-scale blockouts (16 Sep 2026).** `tools/blender_buildings.py` builds the terrain fresh and adds the Great Round and banquet house (IV), the lantern harbour (III), the merchant quays and harbour town (IV), the headland city and siege camps (V), and the citadel with its walled harbour (VII). All checks pass (`blender/buildings-checks.json`, §5 of the page). **Next:** the remaining buildings (hamlets, press, beacons, oracle, drummers, granary, guild hall, lock-houses, monastery), then vegetation and the Statue Walk. Tripo is used only for props (statues, amphorae, ships, the hourglass).
 5. Shot pre-vis: one camera per panel, rendered as clay plus a line pass.
 6. Comic pass: ligne claire over the pre-vis, checked against the asset sheets.
 
@@ -76,6 +76,26 @@ The sections are:
 - **Checks:** 563,200 vertices; site heights vs the site list max 0.39 m, mean 0.07 m; north is +Y; every site lands on the terrain.
 - **Next:** buildings, vegetation and props, placed at the site empties. Building footprints come from the gazetteer and canon, not the painting.
 
+## Key buildings (`tools/blender_buildings.py`)
+- **Run:** `~/.local/bin/blender -b -P tools/blender_buildings.py [-- --render]`. It calls `blender_terrain.build()` first, so it is the full scene build. It writes `blender/paxos.blend`, `blender/buildings-checks.json`, the page's `<!-- BUILDINGS -->` block, and with `--render` `renders/buildings-{round,parliament,cothon,port,city,citadel}.png`.
+- **Inputs:** site points, plus `island-sites.json["built"]` from the map generator: the cothon centre, radii and channel bearing; the town's agora and 36 insulae (44 × 30 m); and the Statue Walk path (exported, not yet used).
+- **Ground:** reads and edits the terrain mesh heights. `pad()` levels with a smoothstep falloff (the Round, the banquet house, the citadel at its hilltop median). The Round's bowl is dropped below the tiers. The cothon's quay platform is levelled to 2.8 m right up to the basin wall, leaving the channel alone. Other buildings sit on foundations down to their lowest ground. The heightmap itself is never changed.
+- **Models:** a `Kit` accumulates boxes, rings, cylinders, cones and gable roofs into one mesh per building, with materials for limestone, ashlar, marble, sand, terracotta, plaster, bronze, timber, paving, canvas, lantern and fortress stone. 9 objects, about 13k faces. They sit in collections by volume under Buildings.
+- **Checks:**
+  - The Round's east gate faces the banquet house (0°).
+  - Land buildings stand on land.
+  - The merchant pier tips reach water.
+  - The cothon basin is deeper than 3 m.
+  - The breakwater is at least 70% over water (100%).
+  - No hero footprints overlap.
+- **Bugs this stage found:**
+  - The cothon channel was cut toward water inside the future basin, so the quay platform sealed it into a closed lake, even on the 2D map. `cothon()` now aims at water beyond the platform, and the map checks gain `cothon_open_to_sea` (a flood fill from the basin must reach the world edge; it fails if the channel is sealed).
+  - A levelling gap left hill-height vertices at the basin edge, which rendered as spikes.
+- **Rough edges:**
+  - Terrain triangulation shows as saw-teeth along levelled edges at 12.5 m cells.
+  - Some bare rock remains on the citadel's downhill cut.
+  - Buildings are simple blockouts: no openings, no roof tiles, no statues' detail.
+
 ## Stage 2 files
 - `maps/island-reference.svg` is written by `island_maps.py` in its clean mode. It has no numbers, zone numerals, dots, compass, scale bar or offshore depth bands. Built sites are shown as terracotta rectangles.
 - `maps/island-reference.png` is written by `painted_map.py reference`: 2200 × 1650, with the 11:8 map letterboxed with 25 units of sea top and bottom to make 4:3, the nearest aspect ratio the image model offers.
@@ -84,6 +104,6 @@ The sections are:
 - Storage decision: commit `island-painted.jpg` and its JSON as spec. Keep the full-size download out of Git.
 
 ## Next steps
-1. Place buildings on the terrain, starting with the hero sites: the Great Round in its col, the three harbours, the headland city, the citadel.
+1. The remaining buildings: hamlets A, K and M, the olive press, the beacons and drummers' posts, the oracle sanctuary and cave, the granary storehouses, the guild hall, lock-houses and quarry, and the Raft monastery. Then the Statue Walk with its statues, and roads.
 2. Vegetation: olive groves, maquis and pines by elevation and slope, and wheat on the south-east plain.
 3. Optional: names for the town, bays and capes.

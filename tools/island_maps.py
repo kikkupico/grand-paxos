@@ -99,7 +99,8 @@ def snap(h, p, lo, hi, coast=None, radius=700.0):
 
 def cothon(h, cx, cy, r=150.0):
     """Carthage-type circular inner harbour: quay platform, basin, central islet, channel to deep water."""
-    deep = np.where(h < -6, (X0 - cx) ** 2 + (Y0 - cy) ** 2, np.inf)
+    d2 = (X0 - cx) ** 2 + (Y0 - cy) ** 2
+    deep = np.where((h < -6) & (d2 > (r + 130) ** 2), d2, np.inf)                 # open water beyond the quay platform, so the channel reaches the sea
     i, j = np.unravel_index(np.argmin(deep), deep.shape)
     ex, ey = X0[i, j], Y0[i, j]
     d = np.hypot(X0 - cx, Y0 - cy)
@@ -268,6 +269,7 @@ def build():
     h, rough, hint, over = island()
     ct = snap(h, hint, 1, 30, 200, 900)
     h, mouth = cothon(h, *ct)
+    over = {**over, "cothon_channel_deg": mouth}
     rules = {**RULES, **over}
     loc = {"cothon": ct, "strait": rough["strait"]}
     for skey, v in rough.items():
@@ -371,6 +373,11 @@ def land_component(h, p):
             if 0 <= ii < NY and 0 <= jj < NX and land[ii, jj] and not seen[ii, jj]:
                 seen[ii, jj] = True; stack.append((ii, jj))
     return seen
+
+def open_water_reaches_edge(h, p):
+    """The cothon basin's water connects to the open sea at the edge of the world."""
+    water = land_component(-h, p)
+    return water[0, :].any() or water[-1, :].any() or water[:, 0].any() or water[:, -1].any()
 
 def axis_t(axis, p):
     (x0, y0), (x1, y1) = axis
@@ -479,6 +486,7 @@ def checks(h, loc, rules):
             "banquet_offset_m": [round(loc["banquet"][0] - loc["round"][0]), round(loc["banquet"][1] - loc["round"][1])],
             **({"causeway": measure_causeway(h, rules["causeway"])} if "causeway" in rules else {}),
             **({"dependency_order": dependency_order(loc, rules["axis"], rules["sites"])} if "axis" in rules else {}),
+            "cothon_open_to_sea": bool(open_water_reaches_edge(h, (loc["cothon"][0] + 100, loc["cothon"][1]))),   # start in the basin, not on the islet
             **({"monastery_detached": not land_component(h, loc["round"])[int(loc["monastery"][1] / CELL), int(loc["monastery"][0] / CELL)]}
                if "monastery" in loc else {})}
 
@@ -565,6 +573,25 @@ SEA_T = [-60, -25]
 LAND_T = [0, 20, 70, 140, 220, 300, 380]
 LINE_T = [-5, -13, -24]
 
+def town_layout(h, loc):
+    """The harbour town: 44 x 30 m insulae on a street grid squared to the harbour, with the agora left open
+    at the centre. Returns ((x, y, deg) of the agora, [(x, y, deg) per insula]), deg measured from +x towards +y."""
+    rng = np.random.default_rng(7)
+    tx, ty = loc["town"]; cx_, cy_ = harbour_of(loc); rnd = loc["round"]
+    ang = math.atan2(cy_ - ty, cx_ - tx); ca, sa = math.cos(ang), math.sin(ang)
+    blocks = []
+    for i in range(-9, 10):
+        for j in range(-9, 10):
+            u, v = i * 52.0, j * 38.0                                            # 44 x 30 m blocks, 8 m streets
+            if abs(u) < 60 and abs(v) < 45: continue                             # the agora
+            x, y = tx + u * ca - v * sa, ty + u * sa + v * ca
+            z = h_at(h, x, y)
+            if not 3 < z < 95 or math.hypot(u, v) > 460 + 80 * rng.random() or rng.random() < .2: continue
+            if math.dist((x, y), (cx_, cy_)) < 240 or math.dist((x, y), rnd) < 380: continue
+            if abs(h_at(h, x + 25, y) - h_at(h, x - 25, y)) > 16 or abs(h_at(h, x, y + 25) - h_at(h, x, y - 25)) > 16: continue
+            blocks.append((float(x), float(y), math.degrees(ang)))
+    return (float(tx), float(ty), math.degrees(ang)), blocks
+
 def svg_for(title, h, site_list, loc, zones=(), clean=False):
     """clean=True is the layout reference for the painted map: no text, numbers, dots, compass or scale bar."""
     S = []
@@ -595,20 +622,11 @@ def svg_for(title, h, site_list, loc, zones=(), clean=False):
         path = least_cost_path(h, rnd if tgt == "banquet" else town, p)
         if len(path) > 2: S.append(f'<path class="road track" d="{smooth_d(path)}"/>')
     # town: insulae on a street grid squared to the harbour, agora left open at the centre
-    rng = np.random.default_rng(7)
-    tx, ty = town; cx_, cy_ = harbour_of(loc)
-    ang = math.atan2(cy_ - ty, cx_ - tx); ca, sa = math.cos(ang), math.sin(ang)
-    S.append(f'<rect class="agora" x="-9" y="-7" width="18" height="14" transform="translate({tx / U:.1f} {ty / U:.1f}) rotate({math.degrees(ang):.1f})"/>')
-    for i in range(-9, 10):
-        for j in range(-9, 10):
-            u, v = i * 52.0, j * 38.0                                            # 44 x 30 m blocks, 8 m streets
-            if abs(u) < 60 and abs(v) < 45: continue                             # the agora
-            x, y = tx + u * ca - v * sa, ty + u * sa + v * ca
-            z = h_at(h, x, y)
-            if not 3 < z < 95 or math.hypot(u, v) > 460 + 80 * rng.random() or rng.random() < .2: continue
-            if math.dist((x, y), (cx_, cy_)) < 240 or math.dist((x, y), rnd) < 380: continue
-            if abs(h_at(h, x + 25, y) - h_at(h, x - 25, y)) > 16 or abs(h_at(h, x, y + 25) - h_at(h, x, y - 25)) > 16: continue
-            S.append(f'<rect class="house" x="-4.4" y="-3" width="8.8" height="6" transform="translate({x / U:.1f} {y / U:.1f}) rotate({math.degrees(ang):.1f})"/>')
+    agora, blocks = town_layout(h, loc)
+    tx, ty, adeg = agora
+    S.append(f'<rect class="agora" x="-9" y="-7" width="18" height="14" transform="translate({tx / U:.1f} {ty / U:.1f}) rotate({adeg:.1f})"/>')
+    for x, y, bdeg in blocks:
+        S.append(f'<rect class="house" x="-4.4" y="-3" width="8.8" height="6" transform="translate({x / U:.1f} {y / U:.1f}) rotate({bdeg:.1f})"/>')
     # site symbols; number badges dodge symbols and each other
     RAD = {"round": 20, "cothon": 34, "strait": 24, "citadel": 22, "cliff": 30, "port": 16, "harbour": 20, "hall": 12}
     marks = []
@@ -741,7 +759,13 @@ def main():
           f" | harbour seen {ck['town_to_round_clear']} | walk {math.dist(loc['town'], loc['round']):.0f} m"
           f" | saddle {ck['round_in_saddle']} | banquet offset {ck['banquet_offset_m']} | causeway {ck.get('causeway')}"
           f" | order {ck.get('dependency_order')} | IX detached {ck.get('monastery_detached')}")
-    meta = {"title": TITLE, "world_m": [W, H], "cell_m": CELL,
+    agora, blocks = town_layout(h, loc)
+    built = {"cothon": {"centre_m": [round(v) for v in loc["cothon"]], "basin_radius_m": 150, "islet_radius_m": 45,
+                        "channel_bearing_deg_from_x_toward_y": round(rules["cothon_channel_deg"], 1)},
+             "town": {"agora_m_deg": [round(agora[0]), round(agora[1]), round(agora[2], 1)], "insula_m": [44, 30],
+                      "insulae_m_deg": [[round(x), round(y), round(d, 1)] for x, y, d in blocks]},
+             "statue_walk_m": [[round(x), round(y)] for x, y in least_cost_path(h, loc["town"], loc["round"])]}
+    meta = {"title": TITLE, "world_m": [W, H], "cell_m": CELL, "built": built,
             "height_png_range_m": [HMIN, HMAX], "land_km2": round(land, 2),
             "summit_m": round(float(h.max())), "checks": ck, "sites": report}
     (OUT / "island-sites.json").write_text(json.dumps(meta, indent=1))
@@ -764,6 +788,7 @@ def main():
             rows += [("Each volume after the ones it builds on (9 links)", ck["dependency_order"]["edges_ok"]),
                      ("The graph's five bands run NW → SE without overlapping", ck["dependency_order"]["bands_ok"])]
         if "monastery_detached" in ck: rows += [("Raft monastery on its own island", ck["monastery_detached"])]
+        rows += [("The lantern harbour's basin opens to the sea", ck["cothon_open_to_sea"])]
         if cw: rows += [("Causeway dry in calm weather", cw["dry_in_calm"]),
                         ("Winter seas break over it (crest ≤ 3 m)", cw["winter_seas_break_over"])]
         stats = (f'<dl class="stats"><div><dt>Land</dt><dd>{land:.1f} km²</dd></div>'

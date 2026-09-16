@@ -171,8 +171,25 @@ def render(scene, cam, path, size):
     scene.render.filepath = str(path)
     bpy.ops.render.render(write_still=True)
 
-def main():
-    args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
+PAGE = ROOT / "art-direction-grand-island-shape.html"
+
+def page_block(marker, rows, checks_):
+    """Write measured rows and pass/fail checks into the page between <!-- marker --> comments."""
+    if not PAGE.exists(): return
+    block = ('<dl class="stats">' + "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in rows)
+             + "".join(f'<div class="ck {"pass" if ok else "fail"}"><dt>{k}</dt><dd>{"✓ yes" if ok else "✗ no"}</dd></div>' for k, ok in checks_) + "</dl>")
+    html = PAGE.read_text()
+    a0, a1 = html.find(f"<!-- {marker} -->"), html.find(f"<!-- /{marker} -->")
+    if a0 >= 0 and a1 > a0:
+        PAGE.write_text(html[:a0] + f"<!-- {marker} -->\n" + block + "\n" + html[a1:])
+
+def use_eevee(scene):
+    engines = {e.identifier for e in bpy.types.RenderSettings.bl_rna.properties["engine"].enum_items}
+    scene.render.engine = "BLENDER_EEVEE" if "BLENDER_EEVEE" in engines else "BLENDER_EEVEE_NEXT"
+    scene.view_settings.view_transform = "AgX"
+
+def build():
+    """A fresh scene: terrain, sea, site empties, sun and cameras, with the terrain checks run and recorded."""
     bpy.ops.wm.read_factory_settings(use_empty=True)
     scene = bpy.context.scene
     scene.unit_settings.system, scene.unit_settings.length_unit = "METRIC", "METERS"
@@ -192,10 +209,10 @@ def main():
     sun.data.energy, sun.data.angle = 2.6, .02
     sun.rotation_euler = (0.95, 0.0, -1.17)                                     # ~35° high, from the west-south-west
     look_c.objects.link(sun)
-    overview = camera("Cam · overview from the south-west", (-7500, -9500, 5200), (400, 300, 0), look_c, lens=30)
-    top = camera("Cam · top", (0, 0, 15000), (0, 0.01, 0), look_c, ortho=11200)
-    col = camera("Cam · the Round's col from over the harbour", (1900, 1700, 520), (-130, -140, 150), look_c, lens=32)
-    scene.camera = overview
+    cams = {"overview": camera("Cam · overview from the south-west", (-7500, -9500, 5200), (400, 300, 0), look_c, lens=30),
+            "top": camera("Cam · top", (0, 0, 15000), (0, 0.01, 0), look_c, ortho=11200),
+            "col": camera("Cam · the Round's col from over the harbour", (1900, 1700, 520), (-130, -140, 150), look_c, lens=32)}
+    scene.camera = cams["overview"]
     for scr in bpy.data.screens:
         for area in scr.areas:
             if area.type == "VIEW_3D":
@@ -205,31 +222,27 @@ def main():
     OUT.mkdir(exist_ok=True)
     (OUT / "terrain-checks.json").write_text(json.dumps(res, indent=1))
     print("TERRAIN CHECKS", json.dumps(res))
-    page = ROOT / "art-direction-grand-island-shape.html"
-    if page.exists():
-        rows = [("Terrain vertices", f"{res['vertices']:,} ({res['grid'][0]} × {res['grid'][1]}, {CELL} m apart)"),
+    page_block("TERRAIN",
+               [("Terrain vertices", f"{res['vertices']:,} ({res['grid'][0]} × {res['grid'][1]}, {CELL} m apart)"),
                 ("Summit", f"{res['summit_m']} m"), ("Land", f"{res['land_km2']} km²"),
-                ("Site heights vs the site list", f"max {res['site_height_err_max_m']} m, mean {res['site_height_err_mean_m']} m over {res['site_points']} points")]
-        checks_ = [("North is +Y (site 1 north-west, site 23 south-east)", res["north_is_plus_y"]),
-                   ("Every site lands on the terrain", res["all_sites_on_terrain"]),
-                   ("Site heights within 6 m", res["site_height_err_max_m"] < 6)]
-        block = ('<dl class="stats">' + "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in rows)
-                 + "".join(f'<div class="ck {"pass" if ok else "fail"}"><dt>{k}</dt><dd>{"✓ yes" if ok else "✗ no"}</dd></div>' for k, ok in checks_) + "</dl>")
-        html = page.read_text()
-        a0, a1 = html.find("<!-- TERRAIN -->"), html.find("<!-- /TERRAIN -->")
-        if a0 >= 0 and a1 > a0:
-            page.write_text(html[:a0] + "<!-- TERRAIN -->\n" + block + "\n" + html[a1:])
-    bpy.ops.wm.save_as_mainfile(filepath=str(OUT / "paxos.blend"), compress=True)
+                ("Site heights vs the site list", f"max {res['site_height_err_max_m']} m, mean {res['site_height_err_mean_m']} m over {res['site_points']} points")],
+               [("North is +Y (site 1 north-west, site 23 south-east)", res["north_is_plus_y"]),
+                ("Every site lands on the terrain", res["all_sites_on_terrain"]),
+                ("Site heights within 6 m", res["site_height_err_max_m"] < 6)])
+    return {"scene": scene, "terrain": terrain, "z": z, "sites": sites, "cams": cams, "look": look_c}
 
+def main():
+    args = sys.argv[sys.argv.index("--") + 1:] if "--" in sys.argv else []
+    ctx = build(); scene, cams = ctx["scene"], ctx["cams"]
+    bpy.ops.wm.save_as_mainfile(filepath=str(OUT / "paxos.blend"), compress=True)
     if "--render" in args:
         RENDERS.mkdir(exist_ok=True)
-        engines = {e.identifier for e in bpy.types.RenderSettings.bl_rna.properties["engine"].enum_items}
-        scene.render.engine = "BLENDER_EEVEE" if "BLENDER_EEVEE" in engines else "BLENDER_EEVEE_NEXT"
-        scene.view_settings.view_transform = "AgX"
-        render(scene, overview, RENDERS / "terrain-overview.png", (1920, 1080))
-        render(scene, top, RENDERS / "terrain-top.png", (1540, 1120))
-        render(scene, col, RENDERS / "terrain-col.png", (1920, 1080))
-        scene.camera = overview
+        use_eevee(scene)
+        render(scene, cams["overview"], RENDERS / "terrain-overview.png", (1920, 1080))
+        render(scene, cams["top"], RENDERS / "terrain-top.png", (1540, 1120))
+        render(scene, cams["col"], RENDERS / "terrain-col.png", (1920, 1080))
+        scene.camera = cams["overview"]
         bpy.ops.wm.save_as_mainfile(filepath=str(OUT / "paxos.blend"), compress=True)
 
-main()
+if __name__ == "__main__":
+    main()
