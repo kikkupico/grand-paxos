@@ -29,10 +29,10 @@
 <path class="land5 contour" fill-rule="evenodd" d="M386.2 436.2L395.9 434.7L402.8 435.0L406.6 435.9L411.2 438.8L417.1 445.4L418.8 448.6L420.9 456.2L424.0 460.8L431.4 466.0L438.0 474.0L444.7 476.2L448.6 478.8L454.0 485.6L457.1 491.6L457.4 496.6L456.3 498.8L451.3 503.8L444.1 514.2L440.4 515.9L431.6 518.1L422.8 514.6L416.2 513.7L411.8 516.6L400.3 520.0L393.4 520.7L390.5 519.7L383.7 513.8L376.0 510.1L371.8 505.8L366.8 495.6L360.7 486.3L359.3 479.7L359.5 476.6L365.6 459.7L367.0 450.3L371.4 441.6L375.5 438.2L386.2 436.2ZM1002.9 738.7L1008.7 738.6L1014.7 740.2L1023.8 743.7L1028.6 746.4L1036.3 748.7L1041.9 755.6L1043.6 760.3L1042.0 767.2L1041.7 775.9L1040.3 784.1L1040.1 794.1L1038.9 798.6L1037.3 801.4L1032.8 805.6L1018.3 809.1L1009.7 814.6L1005.9 815.6L1001.0 814.6L991.6 809.4L982.9 809.3L973.8 804.2L971.1 801.4L968.1 796.3L966.2 791.2L966.7 782.2L966.2 758.7L971.5 748.9L981.2 741.6L984.7 739.9L1002.9 738.7ZM1198.0 841.1L1203.6 841.1L1214.0 844.9L1216.3 846.6L1221.4 853.7L1234.2 861.1L1236.5 863.5L1237.2 866.6L1238.1 882.2L1237.2 899.1L1236.2 903.4L1234.6 906.4L1228.4 915.9L1223.6 926.0L1215.9 937.3L1213.3 939.1L1208.4 940.6L1200.3 940.1L1190.9 941.6L1183.8 941.3L1171.3 938.7L1161.7 934.6L1153.8 923.7L1150.4 914.7L1148.8 901.2L1144.8 886.6L1144.4 879.1L1146.3 873.9L1153.9 861.4L1158.3 857.1L1164.0 853.9L1171.2 851.2L1177.2 846.8L1198.0 841.1Z"/>
 <path class="land6 contour" fill-rule="evenodd" d=""/>
 <text class="zone" x="454" y="149">I</text>
-<text class="zone" x="371" y="617">III</text>
-<text class="zone" x="717" y="728">IV</text>
-<text class="zone" x="1009" y="985">V</text>
-<text class="zone" x="1590" y="748">II</text>
+<text class="zone" x="371" y="617">II</text>
+<text class="zone" x="717" y="728">III</text>
+<text class="zone" x="1009" y="985">IV</text>
+<text class="zone" x="1590" y="748">V</text>
 <text class="zone" x="1218" y="1219">VI</text>
 <text class="zone" x="1890" y="888">VII</text>
 <text class="zone" x="1460" y="1440">VIII</text>
@@ -105,11 +105,11 @@
 <circle class="sym-dot" cx="746.2" cy="413.8" r="7"/>
 <g class="tag"><circle class="num-bg" cx="609.6" cy="233.3" r="15"/><text class="num" x="609.6" y="240.3">5</text></g>
 </g>
-<g class="site v3" data-site="6">
+<g class="site v2" data-site="6">
 <circle class="sym-dot" cx="418.8" cy="481.2" r="7"/>
 <g class="tag"><circle class="num-bg" cx="437.1" cy="465.8" r="15"/><text class="num" x="437.1" y="472.8">6</text></g>
 </g>
-<g class="site v4" data-site="7">
+<g class="site v3" data-site="7">
 <circle class="sym-cothon" cx="671.2" cy="651.2" r="30"/><circle class="sym-cothon-isle" cx="671.2" cy="651.2" r="9"/>
 <line class="sym-quay" x1="671.2" y1="621.2" x2="671.2" y2="629.2"/>
 <line class="sym-quay" x1="694.7" y1="632.5" x2="688.5" y2="637.5"/>
@@ -120,24 +120,24 @@
 <line class="sym-quay" x1="647.8" y1="632.5" x2="654.0" y2="637.5"/>
 <g class="tag"><circle class="num-bg" cx="709.6" cy="619.1" r="15"/><text class="num" x="709.6" y="626.1">7</text></g>
 </g>
-<g class="site v4" data-site="8">
+<g class="site v3" data-site="8">
 <circle class="sym-dot" cx="813.8" cy="501.2" r="7"/>
 <circle class="sym-dot" cx="913.8" cy="628.8" r="7"/>
 <g class="tag"><circle class="num-bg" cx="832.1" cy="485.8" r="15"/><text class="num" x="832.1" y="492.8">8</text></g>
 </g>
-<g class="site v4" data-site="9">
+<g class="site v3" data-site="9">
 <circle class="sym-strait" cx="818.7" cy="620.1" r="22"/>
 <g class="tag"><circle class="num-bg" cx="849.3" cy="594.4" r="15"/><text class="num" x="849.3" y="601.4">9</text></g>
 </g>
-<g class="site v5" data-site="10">
+<g class="site v4" data-site="10">
 <circle class="sym-dot" cx="1288.8" cy="761.2" r="7"/>
 <g class="tag"><circle class="num-bg" cx="1307.1" cy="745.8" r="15"/><text class="num" x="1307.1" y="752.8">10</text></g>
 </g>
-<g class="site v5" data-site="11">
+<g class="site v4" data-site="11">
 <path class="sym-port" d="M1183.8 728.8H1213.8M1188.8 728.8V718.8M1198.8 728.8V718.8M1208.8 728.8V718.8"/>
 <g class="tag"><circle class="num-bg" cx="1223.3" cy="708.2" r="15"/><text class="num" x="1223.3" y="715.2">11</text></g>
 </g>
-<g class="site v5" data-site="12">
+<g class="site v4" data-site="12">
 <circle class="sym-round" cx="1076.8" cy="826.4" r="16"/><circle class="sym-round-in" cx="1076.8" cy="826.4" r="6.5"/>
 <rect class="sym-gate" x="1089.3" y="822.9" width="7" height="7"/>
 <rect class="sym-gate" x="1073.3" y="838.9" width="7" height="7"/>
@@ -145,15 +145,15 @@
 <rect class="sym-gate" x="1073.3" y="806.9" width="7" height="7"/>
 <g class="tag"><circle class="num-bg" cx="1049.2" cy="803.3" r="15"/><text class="num" x="1049.2" y="810.3">12</text></g>
 </g>
-<g class="site v5" data-site="13">
+<g class="site v4" data-site="13">
 <circle class="sym-dot" cx="1108.8" cy="826.4" r="7"/>
 <g class="tag"><circle class="num-bg" cx="1127.2" cy="811.0" r="15"/><text class="num" x="1127.2" y="818.0">13</text></g>
 </g>
-<g class="site v2" data-site="14">
+<g class="site v5" data-site="14">
 <path class="sym-citadel" d="M1495.8 872.2L1495.8 854.2L1503.8 848.2L1523.8 848.2L1531.8 854.2L1531.8 872.2Z"/>
 <g class="tag"><circle class="num-bg" cx="1542.9" cy="836.8" r="15"/><text class="num" x="1542.9" y="843.8">14</text></g>
 </g>
-<g class="site v2" data-site="15">
+<g class="site v5" data-site="15">
 <circle class="sym-dot" cx="1428.8" cy="903.8" r="7"/>
 <circle class="sym-dot" cx="1516.2" cy="991.2" r="7"/>
 <circle class="sym-dot" cx="1433.8" cy="1003.8" r="7"/>

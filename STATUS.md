@@ -1,5 +1,7 @@
 # Status: grand art direction
 
+> **Volume numbers.** On 16 Sep 2026 the volumes were renumbered in walking order on map E: I Sundials, II Sleeping Shepherd (published III), III Passable Season (published IV), IV Parliament (published V), V Generals (published II), VI–IX unchanged. See ERAS.md. The history and the A–D notes below use the **published** numbers; the map E notes, ERAS.md and the island-shape page use the **new** ones.
+
 _Last updated 16 Sep 2026._
 
 ## The brief (the user's four expectations)
@@ -43,10 +45,10 @@ The user explicitly allowed starting afresh. Nothing from the old per-volume art
    - **C · Caldera:** a broken ring round a lagoon, with an oracle cone that has vapours. Fails "sea on both sides of the Round" (it sees 210° as one continuous arc). Its Santorini look clashes with D05.
    - **D · Ridge Spine:** modelled on the real Paxoi (the Lakka bay, the Antipaxos islet, the west cliffs). Passes every check. It has the least iconic silhouette, and the real island is in the Ionian Sea, not the Aegean.
    - **E · Dependency Spine (CHOSEN):** the zones run along the axis `E_AXIS` (1500,1300)→(9800,7200). Walking NW→SE reads the papers in dependency order.
-     - **I + III:** the NW lobe: hamlets, press, I's beacon pair across the NE bay, and the oracle summit (~325 m).
-     - **IV:** the neck, cut by `channel()`, with IV's own cothon (the lantern harbour) on the SW shore, the drummers' pair, and a causeway (395 m, crest 1.3–1.8 m).
-     - **V:** the Round in a col at `E_ROUND` (5384,4132), 187 m, between two knolls. A valley and a graded descent lead down to V's merchant quays at `E_PORT`, with the town on a graded coastal flat.
-     - **II beside VI:** II's besieged headland city and siege camps on the NE side face VI's granary plain on the SW, as in the graph.
+     - **I + II** (new numbering): the NW lobe: hamlets, press, I's beacon pair across the NE bay, and II's oracle summit (~325 m).
+     - **III:** the neck, cut by `channel()`, with III's own cothon (the lantern harbour) on the SW shore, the drummers' pair, and a causeway (395 m, crest 1.3–1.8 m).
+     - **IV:** the Round in a col at `E_ROUND` (5384,4132), 187 m, between two knolls. A valley and a graded descent lead down to IV's merchant quays at `E_PORT`, with the town on a graded coastal flat.
+     - **V beside VI:** V's besieged headland city and siege camps on the NE side face VI's granary plain on the SW, as in the graph.
      - **VII and VIII:** VII's citadel above its own walled harbour on the NE; VIII's guild hall, lock-houses running across the ridge, and the ledger cliffs on the SW.
      - **IX:** the Raft islet across a strait (`channel()` at t .905). Stray islets are drowned by `keep_islands()`.
      - **Checks:** all pass, including "each volume after the ones it builds on (9 links)" and "the graph's five bands don't overlap".
@@ -59,11 +61,11 @@ The user explicitly allowed starting afresh. Nothing from the old per-volume art
 The page text follows ERAS.md: scope-table rows VII and VIII, and §5's five phases.
 
 ## Locked decisions (chosen 16 Sep 2026, in chat rather than via the page export)
-**`ERAS.md` (compressed and revised 16 Sep 2026):** on map E, the walk from the NW tip is the dependency order *and* the story order. One generation (about 40 years) in five phases, one per graph band and island zone: 1 hamlets (I, III), 2 passable season (IV), 3 Parliament (V), 4 siege and ledger side by side (II, VI), 5 citadel, guild and Raft (VII, VIII, IX). Only additions; volumes look back, never ahead. Reading order is I, III, IV, V, II, VI, VII, VIII, IX, and the volume numbers stay as published unless the user renumbers. The pending `volumes.md` wording changes are listed in ERAS.md.
+**`ERAS.md` (compressed and revised 16 Sep 2026):** on map E, the walk from the NW tip is the dependency order, the story order *and* the volume numbering. The volumes are renumbered (see the note at the top). One generation (about 40 years) in five phases, one per graph band and island zone: 1 hamlets (I, II), 2 passable season (III), 3 Parliament (IV), 4 siege and ledger side by side (V, VI), 5 citadel, guild and Raft (VII, VIII, IX). Only additions; volumes look back, never ahead. The pending `paxos-illustrated` changes (the renumbering itself and the wording) are listed in ERAS.md.
 
 - **G01 World scope: A, one island.**
 - **G02 Island form: E, Dependency Spine** (chosen 16 Sep, replacing B, which stays on the page as the measured fallback). Options A, C and D stay on the page as the record.
-- **G03 Circular harbour: B (revised 16 Sep with map E).** The cothon is Volume IV's own lantern harbour. V has merchant quays and VII a walled harbour, so no site is shared.
+- **G03 Circular harbour: B (revised 16 Sep with map E).** The cothon is the Passable Season's own lantern harbour. The Parliament has merchant quays and the Citadel a walled harbour, so no site is shared.
 - **G04 World scale: 11 × 8 km for E** (A–D stay at 8 × 5.5 km).
 - **G05 Time across volumes: A, one terrain.** One generation in five phases, walked NW→SE in story order (see ERAS.md).
 - **G06 Volume IX: B, on an islet on the map** (option E's Raft islet, across a strait at the SE end). This reverses the earlier "off-island" answer; the user confirmed it with the E direction.
@@ -83,7 +85,7 @@ Also still open:
 - Contours use hand-written marching squares, then Chaikin smoothing and RDP simplification. Roads are least-cost Dijkstra paths on a 25 m grid, avoiding water and steep slopes.
 - Terrain tools added for B: `grade()` cuts and fills a ramp (the banquet terrace), and `causeway()` lays a Bézier tombolo whose crest and width wander, with shallows fading to the deep. `sea_before` records where the bar crosses former sea, and `measure_causeway()` measures it there.
 - Option extras go through the overrides dict: `round_radius` (0 means keep the snapped rough position; E uses that), `round_saddle`, `causeway` as `(ctrl, sea_before)`, `axis` + `order` (the dependency-order check) and `zones` (faint volume numerals on the map).
-- `set_world(w, h)` is called first in every option function; the SVG size, compass, scale bar and badge bounds all derive from `W`/`H`. Option E passes its own site list via `rules["sites"]` (`SITES_E`); every loop skips sites an option doesn't place. `harbour_of(loc)` gives the harbour the Round must see (V's `port` on E, else the cothon). `sight_pairs` names the headland pairs to place and check (E: `beacons`, `drummers`). `dependency_order()` checks every `DEPENDS` edge and the `BANDS` sequence along `axis`.
+- `set_world(w, h)` is called first in every option function; the SVG size, compass, scale bar and badge bounds all derive from `W`/`H`. Option E passes its own site list via `rules["sites"]` (`SITES_E`); every loop skips sites an option doesn't place. `harbour_of(loc)` gives the harbour the Round must see (V's `port` on E, else the cothon). `sight_pairs` names the headland pairs to place and check (E: `beacons`, `drummers`). `dependency_order()` checks every `DEPENDS` edge and the `BANDS` sequence along `axis`. Both use the new volume numbers; `PUBLISHED_VOL` maps them back.
 - Also added for E: `channel()` cuts a noisy strait square across the axis; `keep_islands()` drowns land not connected to the anchor points; `land_component()` is a flood fill; `dependency_order()` projects sites onto the axis.
 - The town is insulae on a street grid squared to the cothon, with an open agora. Badges search for a spot that clears every symbol and sits nearer their own site than any other.
 - Known rough edges:
@@ -103,7 +105,7 @@ Also still open:
 
 ## Next steps
 1. Done: decisions locked; map B refined, then option E built and chosen. The page is the local `art-direction-grand.html` (Artifact publishing dropped; see CLAUDE.md).
-2. Apply the text changes listed in ERAS.md to `paxos-illustrated/volumes.md` when the user asks, including IX's move to the islet.
+2. When the user asks, apply ERAS.md's changes to `paxos-illustrated`: renumber the volumes across `volumes.md`, `volume-N.html`, the index, prompts and `detangled-graph.yaml`, and make the wording changes.
 3. Optional: names for the town, bays and capes on map E; enlarge E's symbols.
 4. Stage 2: write the painted-map prompt with `maps/option-e.svg` as the layout reference (Gemini image model, as in `paxos-illustrated/tools/gen_panel.py`).
 5. Stage 3: build the Blender scene from `option-e-height.png` and `option-e-sites.json`, following the spec above. `.blend` files are gitignored (G07).

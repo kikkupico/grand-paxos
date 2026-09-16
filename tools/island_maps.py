@@ -186,16 +186,16 @@ SITES_E = [
     (3,  "hamM",      "Hamlet M",                      "1", "dot"),
     (4,  "press",     "Olive press",                   "1", "dot"),
     (5,  "beacons",   "Beacon headlands",              "1", "multi"),
-    (6,  "oracle",    "Oracle & cave",                 "3", "dot"),
-    (7,  "cothon",    "Lantern harbour (cothon)",      "4", "cothon"),
-    (8,  "drummers",  "Drummers' headlands",           "4", "multi"),
-    (9,  "strait",    "The causeway",                  "4", "strait"),
-    (10, "town",      "Harbour town · agora",          "5", "dot"),
-    (11, "port",      "Merchant quays",                "5", "port"),
-    (12, "round",     "The Great Round",               "5", "round"),
-    (13, "banquet",   "Banquet house",                 "5", "dot"),
-    (14, "city",      "Besieged headland city",        "2", "citadel"),
-    (15, "camps",     "Siege camps",                   "2", "multi"),
+    (6,  "oracle",    "Oracle & cave",                 "2", "dot"),
+    (7,  "cothon",    "Lantern harbour (cothon)",      "3", "cothon"),
+    (8,  "drummers",  "Drummers' headlands",           "3", "multi"),
+    (9,  "strait",    "The causeway",                  "3", "strait"),
+    (10, "town",      "Harbour town · agora",          "4", "dot"),
+    (11, "port",      "Merchant quays",                "4", "port"),
+    (12, "round",     "The Great Round",               "4", "round"),
+    (13, "banquet",   "Banquet house",                 "4", "dot"),
+    (14, "city",      "Besieged headland city",        "5", "citadel"),
+    (15, "camps",     "Siege camps",                   "5", "multi"),
     (16, "granary",   "Granary storehouses",           "6", "multi"),
     (17, "granary2",  "Granary on the heights",        "6", "dot"),
     (18, "citadel",   "Citadel of Iron Quorums",       "7", "citadel"),
@@ -205,9 +205,11 @@ SITES_E = [
     (22, "cliffs",    "Ledger cliffs",                 "8", "cliff"),
     (23, "monastery", "Raft monastery",                "9", "dot"),
 ]
-# Volume dependencies from paxos-illustrated/detangled-graph.yaml (parent, child), and the graph's bands NW -> SE.
-DEPENDS = [(1, 5), (3, 4), (4, 5), (5, 6), (5, 9), (6, 7), (6, 8), (6, 9), (2, 7)]
-BANDS = [[1, 3], [4], [5], [2, 6], [7, 8, 9]]
+# Volumes are numbered in walking order (renumbered 16 Sep 2026; published numbers in PUBLISHED_VOL).
+# Dependencies from paxos-illustrated/detangled-graph.yaml as (parent, child), and the graph's bands NW -> SE.
+PUBLISHED_VOL = {1: 1, 2: 3, 3: 4, 4: 5, 5: 2, 6: 6, 7: 7, 8: 8, 9: 9}
+DEPENDS = [(1, 4), (2, 3), (3, 4), (4, 6), (4, 9), (6, 7), (6, 8), (6, 9), (5, 7)]
+BANDS = [[1, 2], [3], [4], [5, 6], [7, 8, 9]]
 VOL_ROMAN = {1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI", 7: "VII", 8: "VIII", 9: "IX"}
 # what each site demands of the ground: (min m, max m, within-metres-of-sea or None)
 RULES = {"hamA": (40, 230, None), "hamK": (40, 230, None), "hamM": (40, 230, None), "press": (90, 300, None),
@@ -325,8 +327,8 @@ E_AXIS = ((1500.0, 1300.0), (9800.0, 7200.0))                                   
 E_ROUND, E_PORT = (5384.0, 4132.0), (5990.0, 3630.0)                              # the col, and the cothon's mouth below it
 
 def option_dependency():
-    """The island laid out along the papers' dependency graph, read NW -> SE:
-    I beside III, then IV (the causeway neck), then V (the Round's col), then II beside VI,
+    """The island laid out along the papers' dependency graph, read NW -> SE (volumes numbered in walking order):
+    I beside II, then III (the causeway neck), then IV (the Round's col), then V beside VI,
     then VII beside VIII, and IX on an islet across a strait. See DEPENDS/BANDS and SITES_E."""
     set_world(11000, 8000)
     (x0, y0), (x1, y1) = E_AXIS
@@ -338,13 +340,13 @@ def option_dependency():
     warp(61, 200)
     m = ridge(*at(-.02), *at(.84), 620, 95, p=2.0)                               # the low spine that strings the beads
     m += bead(.05, 520, 760, 640, 190)                                           # I   Disordered Sundials
-    m += bead(.11, -560, 720, 620, 285)                                          # III Sleeping Shepherd (the summit)
-    m += bead(.27, 0, 520, 420, 70)                                              # IV  Passable Season: the low neck
-    m += bead(.425, 0, 380, 520, 185) + bead(.545, 0, 380, 520, 180)             # V   two knolls either side of the Round's col
+    m += bead(.11, -560, 720, 620, 285)                                          # II  Sleeping Shepherd (the summit)
+    m += bead(.27, 0, 520, 420, 70)                                              # III Passable Season: the low neck
+    m += bead(.425, 0, 380, 520, 185) + bead(.545, 0, 380, 520, 180)             # IV  two knolls either side of the Round's col
     m += bead(.485, 0, 950, 650, 100, p=3.0)                                     #     the Parliament's broad middle
     m += ridge(*at(.43), *at(.54), 230, 40)                                       #     a narrow crest, so the col falls away to both coasts
     m -= ridge(*at(.48, 170), *at(.48, 1150), 230, 45, p=1.6)                   #     the valley from the col down to the port
-    m += bead(.64, 720, 620, 560, 150)                                           # II  Generals: headland city
+    m += bead(.64, 720, 620, 560, 150)                                           # V   Generals: headland city
     m += bead(.66, -700, 700, 640, 70, p=3.0)                                    # VI  Ledger: the granary plain
     m += bead(.79, 760, 600, 540, 165)                                           # VII Citadel
     m += bead(.80, -760, 640, 560, 175)                                          # VIII Quarries: cliffs and the lock ridge
@@ -368,17 +370,17 @@ def option_dependency():
     sites = {                                                                    # one volume per site, walked NW -> SE
         "hamA": at(.0, 650), "hamK": at(.13, -1050), "hamM": at(.17, 700), "press": at(.05, 450),
         "beacons": [at(.15, 1150), at(.225, 1000)],                              # I: across the north-east bay
-        "oracle": at(.11, -560),                                                 # III
-        "drummers": [at(.285, 700), at(.335, 700)], "strait": bezier(cw, 3)[1],  # IV (the cothon is the hint below)
-        "town": at(.535, 900), "port": E_PORT, "round": E_ROUND, "banquet": at(.48, 300),       # V
-        "city": at(.665, 1250), "camps": [at(.635, 650), at(.695, 550), at(.665, 250)],            # II
+        "oracle": at(.11, -560),                                                 # II
+        "drummers": [at(.285, 700), at(.335, 700)], "strait": bezier(cw, 3)[1],  # III (the cothon is the hint below)
+        "town": at(.535, 900), "port": E_PORT, "round": E_ROUND, "banquet": at(.48, 300),       # IV
+        "city": at(.665, 1250), "camps": [at(.635, 650), at(.695, 550), at(.665, 250)],            # V
         "granary": [at(.62, -350), at(.65, -850), at(.68, -1300)], "granary2": at(.69, -150),  # VI
         "citadel": at(.80, 1150), "seawall": at(.785, 1550),                                   # VII
         "hall": at(.765, -350), "locks": [at(.80, -250 - 200 * k) for k in range(5)],          # VIII
         "cliffs": at(.83, -1350),
         "monastery": at(.975, 150),                                                            # IX
     }
-    zones = [("I", .03, 900), ("III", .13, -1250), ("IV", .30, -700), ("V", .49, -900), ("II", .655, 1750),
+    zones = [("I", .03, 900), ("II", .13, -1250), ("III", .30, -700), ("IV", .49, -900), ("V", .655, 1750),
              ("VI", .64, -1250), ("VII", .815, 2050), ("VIII", .80, -1450), ("IX", .975, -650)]
     return h, sites, at(.26, -520), {"round_radius": 0, "round_saddle": True, "causeway": (cw, sea_before),
                                      "axis": E_AXIS, "sites": SITES_E, "sight_pairs": ["beacons", "drummers"],
@@ -819,8 +821,8 @@ SVG_STYLE = """<style>
 </style>"""
 
 HTML_PAGES = [ROOT / "art-direction-grand.html", ROOT / "art-direction-grand-island-shape.html"]
-VOL_TITLES = {1: "The Disordered Sundials", 2: "The Generals Before the Walls", 3: "The Curse of the Sleeping Shepherd",
-              4: "The Passable Season", 5: "The Part-time Parliament", 6: "The Ledger of Many Decrees",
+VOL_TITLES = {1: "The Disordered Sundials", 2: "The Curse of the Sleeping Shepherd", 3: "The Passable Season",
+              4: "The Part-time Parliament", 5: "The Generals Before the Walls", 6: "The Ledger of Many Decrees",
               7: "The Citadel of Iron Quorums", 8: "The Quarries of the Roman Guilds", 9: "The Reformation of the Raft Monks"}
 
 def order_table(order, axis):
@@ -832,7 +834,7 @@ def order_table(order, axis):
     for v in (v for g in BANDS for v in g):
         lo, hi = order["spans"][VOL_ROMAN[v]]
         parents = [VOL_ROMAN[a] for a, b in DEPENDS if b == v]
-        rows.append(f'<tr><td class="n">{band[v]}</td><td class="n">{VOL_ROMAN[v]}</td><td>{VOL_TITLES[v]}</td>'
+        rows.append(f'<tr><td class="n">{band[v]}</td><td class="n">{VOL_ROMAN[v]}</td><td>{VOL_TITLES[v]} <span class="muted">(published {VOL_ROMAN[PUBLISHED_VOL[v]]})</span></td>'
                     f'<td>{", ".join(parents) or "nothing (a root)"}</td><td class="n">{lo * km:.1f}–{hi * km:.1f} km</td></tr>')
     ok = "✓ all nine links hold" if order["edges_ok"] else "✗ broken: " + ", ".join(order["broken_edges"])
     return ('<div class="tbl"><table><thead><tr><th>Phase</th><th>Vol</th><th>Title</th><th>Builds on</th><th>Along the walk</th></tr></thead><tbody>'
