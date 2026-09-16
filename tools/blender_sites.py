@@ -27,11 +27,10 @@ def contour_angle(ground, X, Y, r=25):
     gx = ground.z(X + r, Y) - ground.z(X - r, Y); gy = ground.z(X, Y + r) - ground.z(X, Y - r)
     return math.atan2(gx, -gy) if abs(gx) + abs(gy) > .5 else 0.0
 
-def clear_sight(terrain, p, q):
-    """True if nothing on the terrain mesh blocks the straight line from p to q (Blender coordinates)."""
+def clear_sight(terrain, p, q, extra=()):
+    """True if nothing on the terrain mesh (or the `extra` objects) blocks the straight line from p to q (Blender coordinates)."""
     p, q = Vector(p), Vector(q); d = q - p; L = d.length
-    hit, *_ = terrain.ray_cast(p, d.normalized(), distance=max(L - 2.0, 0.0))
-    return not hit
+    return not any(ob.ray_cast(p, d.normalized(), distance=max(L - 2.0, 0.0))[0] for ob in (terrain, *extra))
 
 # ---------------------------------------------------------------- I · Disordered Sundials
 def hamlet(ground, M, key, label, seed):
@@ -241,7 +240,7 @@ def guild_quarter(ground, M, extras):
     house(k, ground, ox, oy, 12, 8, 4.5, th, M["plaster"], M["roof"])                              # the guild's quarry office
     spacing = [math.dist(a, b) for a, b in zip(locks, locks[1:])]
     return k, {"lock_spacing_m": [round(v) for v in spacing], "lock_ground_min_m": round(min(tops), 1), "stone_stacks": stacks,
-               "names": ["CUSTOS I", "CUSTOS II", "CUSTOS III", "CVSTOS IIII", "CUSTOS V"]}
+               "quay": (SX, SY, th), "names": ["CUSTOS I", "CUSTOS II", "CUSTOS III", "CVSTOS IIII", "CUSTOS V"]}
 
 # ---------------------------------------------------------------- IX · Raft Monks
 def monastery(ground, M, toward):
@@ -259,5 +258,4 @@ def monastery(ground, M, toward):
     SX, SY = ground.shore(X, Y, np.array([c, s]), 1200)
     k.box(SX + c * 20, SY + s * 20, -2.5, 1.2, 50, 4, face, M["timber"])                           # jetty
     tip = ground.z(SX + c * 44, SY + s * 44)
-    k.box(SX + c * 40 + 4 * -s, SY + s * 40 + 4 * c, .1, .9, 8, 4, face, M["timber"])              # the raft
-    return k, round(tip, 1)
+    return k, round(tip, 1), {"shore": (SX, SY), "face": face}                                    # the Raft itself is a prop (blender_props.py)

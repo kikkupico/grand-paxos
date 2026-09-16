@@ -14,8 +14,9 @@ _Last updated 16 Sep 2026._
 3. Island blockout in Blender: terrain built (16 Sep 2026). `tools/blender_terrain.py` builds `blender/paxos.blend` (gitignored) straight from the heightmap. Checks are in `blender/terrain-checks.json` and §4 of the page.
 4. **Hero architecture: key buildings detailed to human scale (16 Sep 2026).**
    - Detailed: the Great Round (`blender_round.py`, with the user's verandah); the lighthouse and quays, banquet house, agora and stoa, oracle temple, headland city and citadel (`blender_arch.py` components); and doors and windows on every house.
-   - All checks pass: `blender/{terrain,buildings,round,detail,sites,vegetation}-checks.json`, §4–6 of the page.
-   - **Next:** props, such as ships in the harbours, amphorae, the hourglass and the ledger. Tripo is for props only; ask before any paid API call. Then stage 5, shot pre-vis.
+   - Large props, first pass (`blender_props.py`): ships in all three harbours and at the quarry quay, the Raft, amphorae, a crane, the agora's cheese stalls and goat pen, and ox carts.
+   - All checks pass: `blender/{terrain,buildings,round,detail,sites,props,vegetation}-checks.json`, §4–6 of the page.
+   - **Next:** the small props from Tripo: the hourglass, the ledger, ink, statues. Tripo is for props only; ask before any paid API call. Then stage 5, shot pre-vis.
 5. Shot pre-vis: one camera per panel, rendered as clay plus a line pass.
 6. Comic pass: ligne claire over the pre-vis, checked against the asset sheets.
 
@@ -161,6 +162,40 @@ The sections are:
   - The oracle's cave mouth is walk-in height.
 - **Renders:** `renders/buildings-detail_{lighthouse,banquet,oracle,citadel,town,city}.png`. The full build and render takes about 2 minutes.
 
+## Large props, first pass (`tools/blender_props.py`)
+- **Scope (16 Sep 2026):** the user asked for the larger props first, done crudely in Blender. The small ones (the hourglass, the ledger and so on) go to Tripo in the next step. Only props the canon or gazetteer supports are built. Siege engines are not built, because the canon names only "palisaded siege camps with tents".
+- **Code layout:** `build(ground, M, colls, geo, tracks, buildings)` is called from `blender_buildings.main()` after the sites and before the sites, Round and detail checks. That way the sightline rays run with the props in place. It never edits the ground.
+  - `geo` carries each harbour's geometry, returned by its builder: `merchant_quays` returns the shore point and seaward vector; `citadel` returns the harbour shore and bearing; `guild_quarter` returns `quay`, which main pops; `monastery` returns the jetty.
+  - Main also passes the agora and the terrain.
+- **Ships:**
+  - `ship()` lofts one hull from `SHIPS` (length, beam, draught, freeboard, sheer), pitch below 0.3 m, with a deck. Posts, a ram, outriggers, eyes, a deckhouse, a mast, yard and sail (set or furled), stays, steering oars and crew are added by type.
+  - Each ship is its own object.
+  - `berth()` searches along a quay face for the most water under the keel, with the hull 0.7 m off the face.
+  - `moor()` adds a gangplank to the deck's centreline and mooring lines. These go in per-volume "Harbour fittings" objects, so they aren't counted as ships cutting into quays.
+- **Placement:**
+  - III: a navigators' ship (22 m) at each of the seven quays.
+  - IV: three merchantmen (18 m) and the galley (30 m) at the piers, three skiffs, the treadwheel crane, 168 amphorae, and the outbound merchantman under sail 300 m out.
+  - VII: the inquisitors' galley at the quay, and a merchantman at anchor.
+  - VIII: a stone barge at the loading quay.
+  - IX: the Raft (logs, battens, reed shelter, mast, sweep), which replaced the old box in `blender_sites.monastery`.
+  - Agora: five cheese stalls in front of the stoa, and a goat pen 8 m from the fountain.
+  - Carts: along the smoothed tracks near the press, the port, each granary, the hall and the quarry. Each goes at the first spot 40–320 m out where the grade and cross slope are both 10% or less and the cart overlaps no building (BVH).
+- **Checks (`props-checks.json`):**
+  - Every ship floats: the seabed is at least 0.5 m below the hull underside at 27 samples, or 0.3 m for skiffs.
+  - Moored ships lie 0.3–2 m from the quay mesh (BVH `find_nearest`).
+  - No ship overlaps a quay or another ship (BVH).
+  - Gangplanks are 30° or less.
+  - There are seven navigators' ships.
+  - The outbound merchantman: a ray at keel depth meets no seabed for 1 km ahead; it is at least 150 m past the pier tips and heading within 30° of seaward; and a verandah window of the Round sees it past the Round, terrain, town and other props.
+  - The Raft floats 0.2–1.5 m off the jetty.
+  - The stalls and pen sit on the paving, clear of the colonnade, fountain and sundial, and don't overlap; the pen is within 12 m of the fountain.
+  - Carts are on the tracks at holdable grades and clear of buildings.
+  - Human scale: decks 0.8–1.6 m above the water, wheels 1.2–1.6 m, cart beds 0.9–1.2 m, counters 0.8–1.0 m, awnings at least 1.2 figures high.
+  - No prop blocks a story sightline: `blocked()` in the detail checks, `br.checks(extra=)` and `bs.clear_sight(extra=)` now cast through the props.
+- **Found:** a skiff berthed on dry ground (the shore quay east of the centre pier stands on land) and the port cart cutting into a town house. Both checks failed until placement was fixed.
+- **Renders:** `renders/buildings-props_{port,outbound,cothon,market,galley,barge,raft,cart}.png`.
+- **Rough edges:** oxen and goats are boxes, sails are flat, and no ship is under oars. The cothon quays are 2.6 m high, so their gangplanks are at 25.8°.
+
 ## Vegetation, fields and tracks (`tools/blender_nature.py`)
 - **Track network (map generator):** `TRACKS` lists hub-to-hub links in walking order. Hamlets hang off different hubs (press, oracle, beacon), so no track runs hamlet to hamlet.
   - Paths use `least_cost_path(slope_k=150, min_z=.5, passable=causeway corridor)`, which returns `[]` when a target is unreachable.
@@ -185,7 +220,7 @@ The sections are:
 - Storage decision: commit `island-painted.jpg` and its JSON as spec. Keep the full-size download out of Git.
 
 ## Next steps
-1. Props: ships and skiffs in the three harbours, amphorae on the quays, the hourglass, the ledger, statues' detail. Tripo is for props only; ask before any paid API call.
+1. Small props from Tripo: the hourglass, the parchment codex ledger, iron-gall ink, the Statue Walk's statues. Ask before any paid API call.
 2. Stage 5: shot pre-vis, one camera per panel.
 3. Optional: re-lay the Statue Walk with switchbacks or steps on its steep stretch.
 4. Optional: names for the town, bays and capes.

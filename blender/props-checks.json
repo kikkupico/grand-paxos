@@ -1,0 +1,171 @@
+{
+ "ships": 18,
+ "moored": 16,
+ "navigators_ships": 7,
+ "amphorae": 168,
+ "keel_clearance_m": {
+  "III \u00b7 Navigators' ship at quay 1": 6.0,
+  "III \u00b7 Navigators' ship at quay 2": 6.0,
+  "III \u00b7 Navigators' ship at quay 3": 6.0,
+  "III \u00b7 Navigators' ship at quay 4": 6.0,
+  "III \u00b7 Navigators' ship at quay 5": 6.0,
+  "III \u00b7 Navigators' ship at quay 6": 6.0,
+  "III \u00b7 Navigators' ship at quay 7": 6.0,
+  "IV \u00b7 Merchantman loading wine": 15.73,
+  "IV \u00b7 Merchantman under the crane": 19.09,
+  "IV \u00b7 The galley": 15.11,
+  "IV \u00b7 Merchantman unloading grain": 25.04,
+  "IV \u00b7 Skiff 1": 9.23,
+  "IV \u00b7 Skiff 2": 8.68,
+  "IV \u00b7 Skiff 3": 6.56,
+  "IV \u00b7 The outbound merchantman": 69.81,
+  "VII \u00b7 The inquisitors' galley": 3.78,
+  "VII \u00b7 Merchantman at anchor": 16.79,
+  "VIII \u00b7 Stone barge": 4.44
+ },
+ "alongside_gap_m": {
+  "III \u00b7 Navigators' ship at quay 1": 0.7,
+  "III \u00b7 Navigators' ship at quay 2": 0.7,
+  "III \u00b7 Navigators' ship at quay 3": 0.7,
+  "III \u00b7 Navigators' ship at quay 4": 0.7,
+  "III \u00b7 Navigators' ship at quay 5": 0.7,
+  "III \u00b7 Navigators' ship at quay 6": 0.7,
+  "III \u00b7 Navigators' ship at quay 7": 0.7,
+  "IV \u00b7 Merchantman loading wine": 0.7,
+  "IV \u00b7 Merchantman under the crane": 0.7,
+  "IV \u00b7 The galley": 0.7,
+  "IV \u00b7 Merchantman unloading grain": 0.7,
+  "IV \u00b7 Skiff 1": 0.7,
+  "IV \u00b7 Skiff 2": 0.7,
+  "IV \u00b7 Skiff 3": 0.7,
+  "VII \u00b7 The inquisitors' galley": 0.7,
+  "VIII \u00b7 Stone barge": 0.7
+ },
+ "gangplank_deg": {
+  "III \u00b7 Navigators' ship at quay 1": 25.8,
+  "III \u00b7 Navigators' ship at quay 2": 25.8,
+  "III \u00b7 Navigators' ship at quay 3": 25.8,
+  "III \u00b7 Navigators' ship at quay 4": 25.8,
+  "III \u00b7 Navigators' ship at quay 5": 25.8,
+  "III \u00b7 Navigators' ship at quay 6": 25.8,
+  "III \u00b7 Navigators' ship at quay 7": 25.8,
+  "IV \u00b7 Merchantman loading wine": 9.0,
+  "IV \u00b7 Merchantman under the crane": 9.0,
+  "IV \u00b7 The galley": 9.5,
+  "IV \u00b7 Merchantman unloading grain": 9.0,
+  "VII \u00b7 The inquisitors' galley": 12.8,
+  "VIII \u00b7 Stone barge": 13.0
+ },
+ "cuts": [],
+ "raft": {
+  "deck_z_m": 0.4,
+  "underside_z_m": -0.2,
+  "clearance_m": 5.56,
+  "jetty_gap_m": 0.45
+ },
+ "outbound": {
+  "open_water_ahead_1km": true,
+  "beyond_pier_tips_m": 219,
+  "heading_off_seaward_deg": 14.3,
+  "keel_clearance_m": 69.8,
+  "seen_from_verandah_window": true,
+  "blocked_by": []
+ },
+ "agora": {
+  "stalls": 5,
+  "goat_pen_to_fountain_m": 8.1,
+  "clear_of_fountain_m": 2.8,
+  "clear_of_sundial_m": 9.1,
+  "all_on_the_paving": true,
+  "overlapping": false
+ },
+ "carts": [
+  {
+   "near": "press",
+   "placed": true,
+   "grade_pct": 4.6,
+   "cross_slope_pct": 8.4,
+   "off_track_m": 0.0
+  },
+  {
+   "near": "port",
+   "placed": true,
+   "grade_pct": 1.0,
+   "cross_slope_pct": 7.9,
+   "off_track_m": 0.0
+  },
+  {
+   "near": "granary:0",
+   "placed": true,
+   "grade_pct": 9.3,
+   "cross_slope_pct": 6.4,
+   "off_track_m": 0.0
+  },
+  {
+   "near": "granary:1",
+   "placed": true,
+   "grade_pct": 1.5,
+   "cross_slope_pct": 9.4,
+   "off_track_m": 0.0
+  },
+  {
+   "near": "granary:2",
+   "placed": true,
+   "grade_pct": 8.3,
+   "cross_slope_pct": 5.6,
+   "off_track_m": 0.0
+  },
+  {
+   "near": "granary2",
+   "placed": true,
+   "grade_pct": 2.6,
+   "cross_slope_pct": 1.6,
+   "off_track_m": 0.0
+  },
+  {
+   "near": "cliffs",
+   "placed": true,
+   "grade_pct": 0.0,
+   "cross_slope_pct": 0.0,
+   "off_track_m": 0.0
+  },
+  {
+   "near": "hall",
+   "placed": true,
+   "grade_pct": 10.0,
+   "cross_slope_pct": 7.2,
+   "off_track_m": 0.0
+  }
+ ],
+ "cart_cuts": [],
+ "scale": {
+  "deck_freeboard_m": {
+   "merchantman": 1.15,
+   "galley": 1.25,
+   "navigator": 1.15,
+   "barge": 0.85
+  },
+  "cart_wheel_d_m": 1.4,
+  "cart_bed_top_m": 1.05,
+  "stall_counter_m": 0.9,
+  "stall_awning_m": 2.3,
+  "amphora_h_m": 1.0
+ },
+ "checks": {
+  "every_ship_floats": true,
+  "moored_ships_lie_alongside_their_quays": true,
+  "no_ship_cuts_a_quay_or_another_ship": true,
+  "gangplanks_walkable_30deg": true,
+  "a_navigators_ship_at_each_of_the_seven_quays": true,
+  "outbound_merchantman_in_open_water_heading_out": true,
+  "raft_floats_alongside_the_jetty": true,
+  "cheese_stalls_and_goat_pen_on_the_agora": true,
+  "carts_on_tracks_at_grades_oxen_can_hold": true,
+  "props_at_human_scale": true,
+  "outbound_merchantman_seen_from_a_verandah_window": true,
+  "props_block_no_story_sightline": true
+ },
+ "objects": 28,
+ "faces": 16219,
+ "ok": true
+}

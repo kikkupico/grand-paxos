@@ -267,9 +267,9 @@ def sight(p, q, obs):
     p, q = Vector(p), Vector(q); d = q - p; L = d.length; d.normalize()
     return [name for name, ob, pad in obs if ob.ray_cast(p + d * .3, d, distance=L - pad)[0]]
 
-def checks(info, round_ob, terrain, banquet_xyz, port_xyz):
-    """Canon and human-scale checks, and the views from the verandah through its windows."""
-    obs = [("the Round", round_ob, .5), ("terrain", terrain, 3.0)]
+def checks(info, round_ob, terrain, banquet_xyz, port_xyz, extra=()):
+    """Canon and human-scale checks, and the views from the verandah through its windows (also through `extra` (name, object, pad), e.g. props)."""
+    obs = [("the Round", round_ob, .5), ("terrain", terrain, 3.0), *extra]
     eye_b, win_b = window_eye(info, banquet_xyz); eye_p, win_p = window_eye(info, port_xyz)
     block_b, block_p = sight(eye_b, banquet_xyz, obs), sight(eye_p, port_xyz, obs)
     res = {k_: v for k_, v in info.items() if k_ not in ("windows_rad", "centre")}

@@ -23,6 +23,7 @@ import blender_sites as bs
 import blender_nature as bn
 import blender_round as br
 import blender_arch as ba
+import blender_props as bp
 
 # ---------------------------------------------------------------- the buildings
 def banquet_house(ground, M, coll, report, round_xy):
@@ -138,7 +139,7 @@ def merchant_quays(ground, M, coll, report):
     for off in (-40, 40):                                                                           # warehouses behind the quay
         house(k, ground, SX - s[0] * 26 + tx * off, SY - s[1] * 26 + ty * off, 13, 55, 7, ang, M["plaster"], M["roof"])
     report["Merchant quays"]["pier_tip_depths_m"] = [round(t, 1) for t in tips]
-    return k
+    return k, {"shore": (SX, SY), "s": (float(s[0]), float(s[1]))}
 
 def harbour_town(ground, M, coll, report):
     town = SITES["built"]["town"]
@@ -284,7 +285,7 @@ def citadel(ground, M, coll, report):
     h.box(SX + sw[0] * 6, SY + sw[1] * 6, -3, 2, 10, 60, th, M["limestone"])
     arc = [ground.z(SX + 110 * math.cos(a), SY + 110 * math.sin(a)) for a in np.linspace(a0, a1, 16)]
     report["Citadel harbour and sea wall"] = {"volume": "VII", "radius_m": 116, "breakwater_over_water_pct": round(100 * float(np.mean(np.array(arc) < 0)), 1)}
-    return k, h, (SX, SY)
+    return k, h, (SX, SY, th)
 
 # ---------------------------------------------------------------- checks, cameras, main
 def bearing_diff(a, b):
@@ -303,9 +304,9 @@ def main():
     ck, lantern_info = lantern_harbour(ground, M, colls["III"], report)
     ground.commit()                                                                                  # later builders sample the levelled ground
     ck_city, ck_camps = headland_city(ground, M, colls["V"], report, (RX, RY))
-    cit, harb, (HSX, HSY) = citadel(ground, M, colls["VII"], report)
+    cit, harb, (HSX, HSY, HTH) = citadel(ground, M, colls["VII"], report)
     ground.commit()
-    mq = merchant_quays(ground, M, colls["IV"], report)
+    mq, port_geom = merchant_quays(ground, M, colls["IV"], report)
     tw = harbour_town(ground, M, colls["IV"], report)
     citadel_detail, city_temple = report.pop("_citadel_detail"), report.pop("_city_temple")
     round_ob = rk.finish(colls["IV"]); round_people.finish(colls["IV"])
@@ -324,12 +325,25 @@ def main():
     walk, walk_info = bs.statue_walk(ground, M, agora)
     grans, gran_gap = bs.granaries(ground, M)
     guild, guild_info = bs.guild_quarter(ground, M, None)
-    monk, jetty_tip = bs.monastery(ground, M, (RX, RY))
+    monk, jetty_tip, jetty_geom = bs.monastery(ground, M, (RX, RY))
+    guild_quay = guild_info.pop("quay")
     ground.commit()
     site_objs = [hk.finish(colls["I"]) for hk, _ in hamlets] + [press.finish(colls["I"]), beacons.finish(colls["I"]), oracle_k.finish(colls["II"]),
                  drums.finish(colls["III"]), markers.finish(colls["III"]), walk.finish(colls["IV"]), grans.finish(colls["VI"]),
                  guild.finish(colls["VIII"]), monk.finish(colls["IX"])]
     terrain = ctx["terrain"]
+
+    # the large props (tools/blender_props.py): ships, the Raft, market, carts, amphorae, crane
+    cinfo = SITES["built"]["cothon"]; cth = math.radians(-cinfo["channel_bearing_deg_from_x_toward_y"])
+    ax_, ay_ = B(*SITES["built"]["town"]["agora_m_deg"][:2])
+    geo = {"cothon": {"X": B(*cinfo["centre_m"])[0], "Y": B(*cinfo["centre_m"])[1], "R": cinfo["basin_radius_m"], "ob": objs[2],
+                      "quay_angles": [cth + math.radians(25) + (p + .5) * (TAU - 2 * math.radians(25)) / 7 for p in range(7)]},
+           "port": {**port_geom, "ob": objs[3]}, "seawall": {"shore": (HSX, HSY), "th": HTH, "ob": objs[8]},
+           "guild": {"shore": guild_quay[:2], "th": guild_quay[2], "ob": site_objs[-2]}, "monastery": {**jetty_geom, "ob": site_objs[-1]},
+           "agora": {"X": ax_, "Y": ay_, "ang": math.radians(-SITES["built"]["town"]["agora_m_deg"][2]), "z": ground.z(ax_, ay_) + .25}, "terrain": terrain}
+    track_lines = [bs.smooth_path([B(x, y) for x, y in t_["path"]], rounds=2) for t_ in SITES["built"]["tracks_m"] if len(t_["path"]) > 1]
+    props, pres, pviews = bp.build(ground, M, colls, geo, track_lines, objs + site_objs)
+    prop_obs = [o for o in props if len(o.data.polygons)]
     tops = [t for _, t in hamlets]
     ham_seen = [f"{'AKM'[i]}–{'AKM'[j]}" for i in range(3) for j in range(i + 1, 3) if bs.clear_sight(terrain, tops[i], tops[j])]
     OX, OY = site("oracle")
@@ -338,8 +352,8 @@ def main():
     OX_, OY_ = site("oracle"); oz = ground.z(OX_, OY_)
     rays_work = all(bs.clear_sight(terrain, lift(tops[i]), lift(tops[j])) for i in range(3) for j in range(i + 1, 3)) \
         and not bs.clear_sight(terrain, (OX_ - 900, OY_, oz - 60), (OX_ + 900, OY_, oz - 60))       # self-test: clear 500 m up, blocked through the summit
-    sres = {"sightline_self_test": rays_work, "hamlet_rooftops_in_sight": ham_seen, "beacon_fires_in_sight": bs.clear_sight(terrain, *fires),
-            "drum_decks_in_sight": bs.clear_sight(terrain, *decks), "granary_min_gap_m": gran_gap,
+    sres = {"sightline_self_test": rays_work, "hamlet_rooftops_in_sight": ham_seen, "beacon_fires_in_sight": bs.clear_sight(terrain, *fires, extra=prop_obs),
+            "drum_decks_in_sight": bs.clear_sight(terrain, *decks, extra=prop_obs), "granary_min_gap_m": gran_gap,
             "oracle_below_local_summit_m": round(summit_near - ground.z(OX, OY, before=True), 1),
             "lock_houses": guild_info, "statue_walk": walk_info, "causeway_markers": n_markers, "monastery_jetty_tip_m": jetty_tip,
             "objects": len(site_objs), "faces": sum(len(o.data.polygons) for o in site_objs)}
@@ -401,7 +415,8 @@ def main():
 
     # the Great Round in detail: canon and human-scale checks (tools/blender_round.py)
     PXr, PYr = site("port")
-    rres = br.checks(round_info, round_ob, ctx["terrain"], (BX, BY, ground.z(BX, BY) + 4), (PXr, PYr, ground.z(PXr, PYr) + 2))
+    rres = br.checks(round_info, round_ob, ctx["terrain"], (BX, BY, ground.z(BX, BY) + 4), (PXr, PYr, ground.z(PXr, PYr) + 2),
+                     extra=[(f"prop {o.name}", o, .5) for o in prop_obs])
     (bt.OUT / "round-checks.json").write_text(json.dumps(rres, indent=1))
     print("ROUND CHECKS", json.dumps(rres))
     bt.page_block("ROUND",
@@ -427,7 +442,7 @@ def main():
     harbour_ob = objs[2]
     def blocked(p, q, stop):
         p, q = Vector(p), Vector(q); d = q - p; L = d.length; d.normalize()
-        return any(ob.ray_cast(p + d * .3, d, distance=max(L - stop, 0))[0] for ob in (harbour_ob, ctx["terrain"]))
+        return any(ob.ray_cast(p + d * .3, d, distance=max(L - stop, 0))[0] for ob in (harbour_ob, ctx["terrain"], *prop_obs))
     lx, ly, _ = lantern_info["lantern"]
     seen = [n for eye, n in lantern_info["posts"] if not blocked(eye, (lx, ly, 29.3), 4.2)]
     neighbours = all(not blocked(lantern_info["posts"][i][0], lantern_info["posts"][i + 1][0], .5) for i in range(6))
@@ -467,6 +482,45 @@ def main():
                    ("Citadel merlons cover a standing soldier; wall-walk ≥ 2 m", ck_["citadel_merlons_cover_a_standing_soldier"]),
                    ("Citadel gate takes a cart (≥ 3 × 4 m)", ck_["citadel_gate_takes_a_cart"]),
                    ("Oracle's cave mouth tall enough to walk in", ck_["oracle_cave_mouth_walk_in"])])
+
+    # the large props (tools/blender_props.py): their own checks, plus the outbound merchantman seen from the Round
+    out_ob = next(o for o in prop_obs if o.name == "IV · The outbound merchantman")
+    oeye, owin = br.window_eye(round_info, pviews["outbound"])
+    oblock = br.sight(oeye, pviews["outbound"], [("the Round", round_ob, .5), ("terrain", ctx["terrain"], 3.0), ("town", objs[4], .5),
+                                                 *[(o.name, o, .5) for o in prop_obs if o is not out_ob]])
+    pres["outbound"]["seen_from_verandah_window"], pres["outbound"]["blocked_by"] = not oblock, oblock
+    pres["checks"]["outbound_merchantman_seen_from_a_verandah_window"] = not oblock
+    pres["checks"]["props_block_no_story_sightline"] = (ck_["seven_quays_each_see_the_lantern"] and ck_["each_captains_post_sees_its_neighbour"]
+                                                         and rres["banquet_house_seen_from_verandah_window"] and rres["quays_seen_from_verandah_window"]
+                                                         and sres["beacon_fires_in_sight"] and sres["drum_decks_in_sight"])
+    pres["objects"], pres["faces"] = len(prop_obs), sum(len(o.data.polygons) for o in prop_obs)
+    pres["ok"] = all(pres["checks"].values())
+    (bt.OUT / "props-checks.json").write_text(json.dumps(pres, indent=1, default=lambda o: o.item() if hasattr(o, "item") else list(o)))
+    print("PROPS CHECKS", json.dumps({k_: bool(v) for k_, v in pres["checks"].items()}), "ok", pres["ok"])
+    pk = pres["checks"]; placed_carts = [c_ for c_ in pres["carts"] if c_["placed"]]
+    bt.page_block("PROPS",
+                  [("Models", f"{pres['objects']} objects, {pres['faces']:,} faces"),
+                   ("Ships", f"{pres['ships']} ({pres['navigators_ships']} navigators' ships, {pres['moored'] - pres['navigators_ships']} others moored, 2 under sail or at anchor)"),
+                   ("Least water under a keel", f"{min(pres['keel_clearance_m'].values())} m"),
+                   ("Gap to the quay, alongside (measured to the quay mesh)", f"{min(pres['alongside_gap_m'].values())}–{max(pres['alongside_gap_m'].values())} m"
+                    if min(pres['alongside_gap_m'].values()) != max(pres['alongside_gap_m'].values()) else f"{min(pres['alongside_gap_m'].values())} m"),
+                   ("Steepest gangplank", f"{max(pres['gangplank_deg'].values())}°"),
+                   ("Deck above the water", ", ".join(f"{k_} {v} m" for k_, v in pres["scale"]["deck_freeboard_m"].items())),
+                   ("Amphorae", str(pres["amphorae"])), ("Ox carts", f"{len(placed_carts)}, steepest grade {max(c_['grade_pct'] for c_ in placed_carts)}%"),
+                   ("Agora", f"{pres['agora']['stalls']} cheese stalls; goat pen {pres['agora']['goat_pen_to_fountain_m']} m from the fountain"),
+                   ("The Raft", f"deck {pres['raft']['deck_z_m']} m above the water, {pres['raft']['jetty_gap_m']} m off the jetty")],
+                  [("Every ship floats (the seabed lies below its keel)", pk["every_ship_floats"]),
+                   ("Moored ships lie alongside their quays (0.3–2 m)", pk["moored_ships_lie_alongside_their_quays"]),
+                   ("No ship cuts into a quay or another ship", pk["no_ship_cuts_a_quay_or_another_ship"]),
+                   ("Gangplanks walkable (30° or less)", pk["gangplanks_walkable_30deg"]),
+                   ("A navigators' ship at each of the seven quays", pk["a_navigators_ship_at_each_of_the_seven_quays"]),
+                   ("The outbound merchantman is in open water, heading out", pk["outbound_merchantman_in_open_water_heading_out"]),
+                   ("…and seen from a verandah window of the Round", pk["outbound_merchantman_seen_from_a_verandah_window"]),
+                   ("The Raft floats alongside the monastery jetty", pk["raft_floats_alongside_the_jetty"]),
+                   ("Cheese stalls and goat pen on the paving, by the fountain, clear of it (canon)", pk["cheese_stalls_and_goat_pen_on_the_agora"]),
+                   ("Ox carts on the tracks, on grades of 10% or less, clear of buildings", pk["carts_on_tracks_at_grades_oxen_can_hold"]),
+                   ("Props at human scale (decks, cart beds and wheels, stall counters and awnings)", pk["props_at_human_scale"]),
+                   ("No prop blocks a story sightline (lantern, Round windows, beacons, drums)", pk["props_block_no_story_sightline"])])
 
     # vegetation, fields and tracks (tools/blender_nature.py)
     PX_, PY_ = site("port"); BX_, BY_ = site("banquet")
@@ -532,6 +586,22 @@ def main():
         "guild": cam_at("Cam · the guild quarter and quarry", ((HLX + cliffX) / 2, (HLY + cliffY) / 2, 60), (s_cl[0] * 650 - 250, s_cl[1] * 650 - 150), 420, lens=28),
         "monastery": cam_at("Cam · the Raft monastery", (MOX, MOY, ground.z(MOX, MOY)), ((RX - MOX) / math.hypot(RX - MOX, RY - MOY) * 210 + 60, (RY - MOY) / math.hypot(RX - MOX, RY - MOY) * 210 - 60), 110),
         "walk": bt.camera("Cam · up the Statue Walk", (agora[0] - to_round[0] / tr * 150, agora[1] - to_round[1] / tr * 150, ground.z(*agora) + 160), (wmx, wmy, ground.z(wmx, wmy)), look, lens=35)})
+    oX, oY, oZ = pviews["outbound"]; qx_, qy_ = pviews["crane"]; mkx, mky = pviews["market"]; ra = pviews["agora_ang"]
+    gX, gY, gA = pviews["galley"]; bX, bY, bA = pviews["barge_xy"]; rfx, rfy = pviews["raft"]; rf = pviews["raft_face"]
+    nX, nY = pviews["cothon_ship"]
+    AP = pviews["agora_P"]; gsea = pviews["galley_sea"]; rpp = pviews["raft_perp"]; pc = pviews["cothon"]
+    qa = (pc[3][2] + pc[3][3]) / 2
+    cams.update({
+        "props_cothon": bt.camera("Cam · navigators' ships at their quays", (pc[0] + (pc[2] + 25) * math.cos(qa), pc[1] + (pc[2] + 25) * math.sin(qa), 26), (pc[0], pc[1], 8), look, lens=30),
+        "props_port": bt.camera("Cam · ships at the merchant quays", (qx_ + s_port[0] * 70 - s_port[1] * 60, qy_ + s_port[1] * 70 + s_port[0] * 60, 22), (qx_ - s_port[0] * 10, qy_ - s_port[1] * 10, 3), look, lens=30),
+        "props_outbound": bt.camera("Cam · the outbound merchantman", (oX + 40, oY - 35, 9), (oX, oY, 5), look, lens=35),
+        "props_market": bt.camera("Cam · cheese stalls and the goat pen", (*AP(-6, -30), ground.z(mkx, mky) + 14), (*AP(-5, 3), ground.z(mkx, mky) + 1), look, lens=30),
+        "props_galley": bt.camera("Cam · the inquisitors' galley at the citadel quay", (gX + gsea[0] * 34 + math.cos(gA) * 22, gY + gsea[1] * 34 + math.sin(gA) * 22, 10), (gX, gY, 2.5), look, lens=35),
+        "props_barge": bt.camera("Cam · the stone barge at the quarry quay", (bX + 30 * math.cos(bA - .8), bY + 30 * math.sin(bA - .8), 11), (bX, bY, 2), look, lens=35),
+        "props_raft": bt.camera("Cam · the Raft at the monastery jetty", (rfx + rpp[0] * 16 - math.cos(rf) * 9, rfy + rpp[1] * 16 - math.sin(rf) * 9, 5), (rfx, rfy, 1.2), look, lens=35)})
+    cxyz = pviews["cart"]
+    if cxyz: cams["props_cart"] = bt.camera("Cam · an ox cart on the granary track", (cxyz[0] + 16 * math.cos(cxyz[3] - 1.2) + 3 * math.cos(cxyz[3]), cxyz[1] + 16 * math.sin(cxyz[3] - 1.2) + 3 * math.sin(cxyz[3]), cxyz[2] + 6),
+                                    (cxyz[0] + 3 * math.cos(cxyz[3]), cxyz[1] + 3 * math.sin(cxyz[3]), cxyz[2] + 1), look, lens=35)
     scene.camera = ctx["cams"]["overview"]
     bpy.ops.wm.save_as_mainfile(filepath=str(bt.OUT / "paxos.blend"), compress=True)
     if "--render" in args:
