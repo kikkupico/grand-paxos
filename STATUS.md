@@ -129,7 +129,7 @@ The sections are:
 - Storage decision: commit `island-painted.jpg` and its JSON as spec. Keep the full-size download out of Git.
 
 ## Next steps
-1. Vegetation, roads and tracks between the sites.
-2. Optional: re-lay the Statue Walk with switchbacks or steps on its steep stretch.
-3. Vegetation: olive groves, maquis and pines by elevation and slope, and wheat on the south-east plain.
-3. Optional: names for the town, bays and capes.
+1. Vegetation: olive groves, maquis and pines by elevation and slope, and wheat on the south-east plain.
+2. Roads and tracks between the sites.
+3. Optional: re-lay the Statue Walk with switchbacks or steps on its steep stretch.
+4. Optional: names for the town, bays and capes.
