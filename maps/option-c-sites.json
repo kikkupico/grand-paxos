@@ -1,0 +1,305 @@
+{
+ "option": "c",
+ "title": "Caldera",
+ "world_m": [
+  8000.0,
+  5500.0
+ ],
+ "cell_m": 12.5,
+ "height_png_range_m": [
+  -120.0,
+  480.0
+ ],
+ "land_km2": 12.12,
+ "summit_m": 313,
+ "checks": {
+  "hamlets_mutually_visible": [],
+  "banquet_visible_from_round": true,
+  "round_sea_bearings": 210,
+  "round_sea_two_sided": false,
+  "round_sea_arcs": [
+   [
+    247.5,
+    210
+   ]
+  ],
+  "signal_pairs_clear": [
+   1,
+   1
+  ],
+  "town_to_round_clear": true
+ },
+ "sites": {
+  "hamA": {
+   "num": 1,
+   "name": "Hamlet A",
+   "volumes": [
+    "I"
+   ],
+   "points_m": [
+    [
+     2344,
+     4006,
+     108.7
+    ]
+   ]
+  },
+  "hamK": {
+   "num": 2,
+   "name": "Hamlet K",
+   "volumes": [
+    "I"
+   ],
+   "points_m": [
+    [
+     4694,
+     4744,
+     149.8
+    ]
+   ]
+  },
+  "hamM": {
+   "num": 3,
+   "name": "Hamlet M",
+   "volumes": [
+    "I"
+   ],
+   "points_m": [
+    [
+     5831,
+     1994,
+     149.3
+    ]
+   ]
+  },
+  "press": {
+   "num": 4,
+   "name": "Olive press",
+   "volumes": [
+    "I"
+   ],
+   "points_m": [
+    [
+     5681,
+     3456,
+     182.9
+    ]
+   ]
+  },
+  "signals": {
+   "num": 5,
+   "name": "Signal headlands",
+   "volumes": [
+    "I",
+    "IV"
+   ],
+   "points_m": [
+    [
+     2306,
+     2769,
+     36.8
+    ],
+    [
+     2543,
+     2345,
+     227.8
+    ],
+    [
+     3919,
+     5169,
+     18.0
+    ]
+   ]
+  },
+  "citadel": {
+   "num": 6,
+   "name": "Headland city \u2192 Citadel",
+   "volumes": [
+    "II",
+    "VII"
+   ],
+   "points_m": [
+    [
+     2456,
+     2956,
+     178.6
+    ]
+   ]
+  },
+  "oracle": {
+   "num": 7,
+   "name": "Oracle & cave",
+   "volumes": [
+    "III"
+   ],
+   "points_m": [
+    [
+     3994,
+     2844,
+     146.0
+    ]
+   ]
+  },
+  "cothon": {
+   "num": 8,
+   "name": "Circular harbour",
+   "volumes": [
+    "IV",
+    "V",
+    "VII"
+   ],
+   "points_m": [
+    [
+     3569,
+     1594,
+     4.0
+    ]
+   ]
+  },
+  "strait": {
+   "num": 9,
+   "name": "The strait",
+   "volumes": [
+    "IV"
+   ],
+   "points_m": [
+    [
+     2478,
+     2554,
+     -62.6
+    ]
+   ]
+  },
+  "town": {
+   "num": 10,
+   "name": "Harbour town \u00b7 agora",
+   "volumes": [
+    "I",
+    "V",
+    "VII"
+   ],
+   "points_m": [
+    [
+     3719,
+     1519,
+     29.6
+    ]
+   ]
+  },
+  "round": {
+   "num": 11,
+   "name": "The Great Round",
+   "volumes": [
+    "V",
+    "VIII"
+   ],
+   "points_m": [
+    [
+     4708,
+     1454,
+     267.6
+    ]
+   ]
+  },
+  "banquet": {
+   "num": 12,
+   "name": "Banquet house",
+   "volumes": [
+    "V"
+   ],
+   "points_m": [
+    [
+     4803,
+     1344,
+     263.1
+    ]
+   ]
+  },
+  "granary": {
+   "num": 13,
+   "name": "Granary storehouses",
+   "volumes": [
+    "VI"
+   ],
+   "points_m": [
+    [
+     3619,
+     4981,
+     56.1
+    ],
+    [
+     3331,
+     4919,
+     68.8
+    ],
+    [
+     3044,
+     4806,
+     59.7
+    ]
+   ]
+  },
+  "granary2": {
+   "num": 14,
+   "name": "Granary on the heights",
+   "volumes": [
+    "VI"
+   ],
+   "points_m": [
+    [
+     3244,
+     4469,
+     172.4
+    ]
+   ]
+  },
+  "cliffs": {
+   "num": 15,
+   "name": "Ledger cliffs",
+   "volumes": [
+    "VIII"
+   ],
+   "points_m": [
+    [
+     4694,
+     4056,
+     48.1
+    ]
+   ]
+  },
+  "locks": {
+   "num": 16,
+   "name": "Roman lock-houses",
+   "volumes": [
+    "VIII"
+   ],
+   "points_m": [
+    [
+     5606,
+     2269,
+     215.8
+    ],
+    [
+     5669,
+     2494,
+     212.4
+    ],
+    [
+     5706,
+     2731,
+     223.2
+    ],
+    [
+     5706,
+     2969,
+     223.0
+    ],
+    [
+     5669,
+     3206,
+     196.1
+    ]
+   ]
+  }
+ }
+}
