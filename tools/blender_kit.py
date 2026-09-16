@@ -155,6 +155,31 @@ class Kit:
         self._face([d, c_, b_, a], m); self._face([a, b_, r1, r0], m); self._face([c_, d, r0, r1], m)
         self._face([b_, c_, r1], m); self._face([d, a, r0], m)
 
+    def frustum(self, X, Y, r0, r1, z0, z1, m, segs=12):
+        angs = np.linspace(0, TAU, segs, endpoint=False)
+        b = [self.bm.verts.new((X + r0 * math.cos(a), Y + r0 * math.sin(a), z0)) for a in angs]
+        t = [self.bm.verts.new((X + r1 * math.cos(a), Y + r1 * math.sin(a), z1)) for a in angs]
+        self._face(b[::-1], m); self._face(t, m)
+        for i in range(segs): self._face([b[i], b[(i + 1) % segs], t[(i + 1) % segs], t[i]], m)
+
+    def ellipsoid(self, X, Y, Z, rx, ry, rz, m, subdiv=1):
+        from mathutils import Matrix
+        res = bmesh.ops.create_icosphere(self.bm, subdivisions=subdiv, radius=1.0,
+                                         matrix=Matrix.Translation((X, Y, Z)) @ Matrix.Diagonal((rx, ry, rz, 1.0)))
+        for f in {f for v in res["verts"] for f in v.link_faces}: f.material_index = self._mi(m)
+
+    def beam(self, p0, p1, w, d, m):
+        """A box from point p0 to point p1 (any direction) with a w x d cross-section."""
+        from mathutils import Vector
+        a, b = Vector(p0), Vector(p1); ax = b - a
+        if ax.length < 1e-6: return
+        ax.normalize(); ref = Vector((0, 0, 1)) if abs(ax.z) < .9 else Vector((1, 0, 0))
+        u = ax.cross(ref).normalized() * (w / 2); v = ax.cross(u).normalized() * (d / 2)
+        c0 = [a + su * u + sv * v for su, sv in ((-1, -1), (1, -1), (1, 1), (-1, 1))]
+        vs0 = [self.bm.verts.new(p) for p in c0]; vs1 = [self.bm.verts.new(p + (b - a)) for p in c0]
+        self._face(vs0[::-1], m); self._face(vs1, m)
+        for i in range(4): self._face([vs0[i], vs0[(i + 1) % 4], vs1[(i + 1) % 4], vs1[i]], m)
+
     def finish(self, coll, **props):
         bmesh.ops.recalc_face_normals(self.bm, faces=self.bm.faces[:])
         me = bpy.data.meshes.new(self.name); self.bm.to_mesh(me); self.bm.free()

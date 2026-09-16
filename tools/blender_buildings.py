@@ -21,48 +21,9 @@ import blender_terrain as bt
 from blender_kit import *                                                                          # noqa: F401,F403
 import blender_sites as bs
 import blender_nature as bn
+import blender_round as br
 
 # ---------------------------------------------------------------- the buildings
-def great_round(ground, M, coll, report):
-    X, Y = site("round"); rim = ground.z(X, Y)
-    report["The Great Round"] = {"volume": "IV", "radius_m": 25, "relief_before_m": ground.relief(X, Y, 25)[0]}
-    z_orch = rim - 11.2
-    ground.pad(X, Y, 31, rim, 45)
-    ground.edit(X, Y, 25, lambda d, dX, dY, g: np.where(d < 24, np.minimum(g, z_orch - 2), g))       # the bowl, hidden under the tiers
-    k = Kit("IV · The Great Round")
-    k.cyl(X, Y, 8.0, z_orch - 1, z_orch, M["sand"], 48)
-    k.ring(X, Y, 8.0, 8.6, z_orch - 1, z_orch + .35, M["marble"], 48)
-    radii = [8.6 + i * .95 + (1.4 if i >= 7 else 0) for i in range(14)]                           # the walkway after row 7
-    for i, r_in in enumerate(radii):
-        k.ring(X, Y, r_in, 23.4, z_orch - 1, z_orch + .8 * (i + 1), M["limestone"], 96)
-    gate_half = math.asin(2.7 / 24.2)
-    for g in range(4):                                                                              # ring wall between the gates
-        k.ring(X, Y, 23.4, 25.0, rim - 12, rim + 7, M["ashlar"], 96, g * TAU / 4 + gate_half, (g + 1) * TAU / 4 - gate_half)
-    for g in range(4):                                                                              # E, N, W, S gateways
-        th = g * TAU / 4; cx, cy = X + 24.2 * math.cos(th), Y + 24.2 * math.sin(th)
-        tx, ty = -math.sin(th), math.cos(th)
-        for side in (-1, 1): k.box(cx + tx * 4.4 * side, cy + ty * 4.4 * side, rim - 2, rim + 10, 3.4, 3.4, th, M["ashlar"])
-        k.box(cx, cy, rim + 6.2, rim + 7.6, 3.4, 12.2, th, M["ashlar"])
-        for side in (-1, 1): k.box(cx + tx * 1.35 * side, cy + ty * 1.35 * side, rim, rim + 5.8, .35, 2.6, th, M["bronze"])
-        k.box(cx - math.cos(th) * .45, cy - math.sin(th) * .45, rim + 2.7, rim + 3.1, .35, 5.6, th, M["timber"])
-        k.box(cx, cy, rim - .3, rim, 5.0, 5.4, th, M["pave"])
-    for sidx in range(8):                                                                           # radial stairways between gates
-        th = TAU / 16 + sidx * TAU / 8
-        for i, r_in in enumerate(radii):
-            r_out = radii[i + 1] if i + 1 < len(radii) else 23.4
-            top = z_orch + .8 * (i + 1)
-            for f, zt in ((.25, top - .4), (.75, top)):
-                r = r_in + (r_out - r_in) * f
-                k.box(X + r * math.cos(th), Y + r * math.sin(th), top - .8, zt + .02, (r_out - r_in) / 2, 1.3, th, M["marble"])
-    for sidx in range(24):                                                                          # legislators' statues outside the wall
-        th = sidx * TAU / 24
-        if min(abs((th - g * TAU / 4 + math.pi) % TAU - math.pi) for g in range(4)) < math.radians(12): continue
-        sx, sy = X + 29.5 * math.cos(th), Y + 29.5 * math.sin(th)
-        k.box(sx, sy, rim - .5, rim + 1.3, 1.1, 1.1, th, M["marble"])
-        k.cyl(sx, sy, .32, rim + 1.3, rim + 3.0, M["marble"], 8)
-        k.box(sx, sy, rim + 3.0, rim + 3.45, .45, .45, th, M["marble"])
-    return k, (X, Y, rim)
-
 def banquet_house(ground, M, coll, report, round_xy):
     X, Y = site("banquet"); g0 = ground.z(X, Y)
     report["Banquet house"] = {"volume": "IV", "radius_m": 17, "relief_before_m": ground.relief(X, Y, 16)[0]}
@@ -276,7 +237,8 @@ def main():
     top = bt.collection("Buildings")
     colls = {v: bt.collection(f"{v} · {bt.VOLUMES[v]}", top) for v in ("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX")}
     report = {}
-    rk, (RX, RY, rim) = great_round(ground, M, colls["IV"], report)
+    rk, round_people, round_info = br.build(ground, M, report)
+    RX, RY = site("round"); rim = round_info["rim"]
     bk = banquet_house(ground, M, colls["IV"], report, (RX, RY))
     ck = lantern_harbour(ground, M, colls["III"], report)
     ground.commit()                                                                                  # later builders sample the levelled ground
@@ -285,7 +247,8 @@ def main():
     ground.commit()
     mq = merchant_quays(ground, M, colls["IV"], report)
     tw = harbour_town(ground, M, colls["IV"], report)
-    objs = [rk.finish(colls["IV"]), bk.finish(colls["IV"]), ck.finish(colls["III"]), mq.finish(colls["IV"]), tw.finish(colls["IV"]),
+    round_ob = rk.finish(colls["IV"]); round_people.finish(colls["IV"])
+    objs = [round_ob, bk.finish(colls["IV"]), ck.finish(colls["III"]), mq.finish(colls["IV"]), tw.finish(colls["IV"]),
             ck_city.finish(colls["V"]), ck_camps.finish(colls["V"]), cit.finish(colls["VII"]), harb.finish(colls["VII"])]
 
     # the remaining sites (tools/blender_sites.py)
@@ -375,6 +338,29 @@ def main():
                    ("The breakwater stands mostly in the sea (≥70%)", res["breakwater_mostly_over_water"]),
                    ("No hero footprints overlap", not overlaps)])
 
+    # the Great Round in detail: canon and human-scale checks (tools/blender_round.py)
+    PXr, PYr = site("port")
+    rres = br.checks(round_info, round_ob, ctx["terrain"], (BX, BY, ground.z(BX, BY) + 4), (PXr, PYr, ground.z(PXr, PYr) + 2))
+    (bt.OUT / "round-checks.json").write_text(json.dumps(rres, indent=1))
+    print("ROUND CHECKS", json.dumps(rres))
+    bt.page_block("ROUND",
+                  [("Across the ring wall", f"{rres['outer_diameter_m']} m"), ("Orchestra below the outside ground", f"{rres['sunk_m']} m"),
+                   ("Seat rows · verandah · stairways · gates", f"{rres['seat_rows']} · 1 · {rres['stairs']} · {len(rres['gates_deg'])}"),
+                   ("Seat rows", f"{rres['tread_m']} m treads, {rres['seat_risers_m'][0]} m rise below the walkway, {rres['seat_risers_m'][1]} m above"),
+                   ("Verandah floor above the outside ground", f"{rres['verandah_floor_above_ground_m']} m (15 ft)"),
+                   ("Window sills above the outside ground", f"{rres['window_sill_above_ground_m']} m; {rres['windows']} windows"),
+                   ("Doorway · drop-bar", f"{rres['door_height_m']} m · {rres['drop_bar_height_m']} m above the threshold"),
+                   ("Statues of legislators", str(rres["statues"]))],
+                  [("14 tiers (13 seat rows and the verandah), 8 stairways, 4 cardinal gates, ~50 m across (canon)",
+                    rres["canon_14_tiers"] and rres["canon_stairways_8"] and rres["canon_gates_cardinal"] and rres["canon_about_50m_across"]),
+                   ("Seat rows and stair steps at human scale", rres["seat_risers_comfortable"] and rres["stair_riser_climbable"]),
+                   ("Verandah about 15 ft above the outside ground", rres["verandah_about_15ft_up"]),
+                   ("Window sills high enough to read as windows, not entrances", rres["window_sills_read_as_windows"]),
+                   ("Gates open onto the walkway, below the verandah", rres["gates_join_below_the_verandah"]),
+                   ("Drop-bar within a person's reach (0.9–1.6 m)", rres["drop_bar_liftable_0_9_to_1_6m"]),
+                   (f"Banquet house seen from a verandah window ({rres['banquet_window_bearing_deg']}°)", rres["banquet_house_seen_from_verandah_window"]),
+                   (f"Merchant quays seen from a verandah window ({rres['quays_window_bearing_deg']}°)", rres["quays_seen_from_verandah_window"])])
+
     # vegetation, fields and tracks (tools/blender_nature.py)
     PX_, PY_ = site("port"); BX_, BY_ = site("banquet")
     sightlines = [((RX, RY, rim + 8), (PX_, PY_, ground.z(PX_, PY_) + 2)), ((RX, RY, rim + 8), (BX_, BY_, ground.z(BX_, BY_) + 4)),
@@ -410,7 +396,14 @@ def main():
     cliffX, cliffY = site("cliffs"); s_cl = ground.seaward(cliffX, cliffY)
     walk_pts = [B(x, y) for x, y in SITES["built"]["statue_walk_m"]]; wmx, wmy = walk_pts[len(walk_pts) // 2]
     to_round = (RX - agora[0], RY - agora[1]); tr = math.hypot(*to_round)
+    zo = round_info["z_orch"]
     cams.update({
+        "round_gate": bt.camera("Cam · the Round's east gate", (RX + 50, RY - 12, rim + 3.2), (RX + 24.2, RY, rim + 4.2), look, lens=32),
+        "round_interior": bt.camera("Cam · across the Round from the west verandah", (RX - 22.0, RY + 1.5, round_info["z_verandah"] + 1.6), (RX + 12, RY, round_info["z_orch"] + 2.5), look, lens=20),
+        "round_window": bt.camera("Cam · out of an east verandah window", br.window_eye(round_info, (BX, BY))[0], (BX, BY, ground.z(BX, BY) + 3), look, lens=35),
+        "round_aerial": bt.camera("Cam · the Round from above", (RX - 58, RY - 46, rim + 48), (RX, RY, zo + 2), look, lens=35),
+        "round_statue": bt.camera("Cam · a legislator's statue", (RX + 36 * math.cos(.12), RY + 36 * math.sin(.12), rim + 2.6),
+                                  (RX + 29.5 * math.cos(TAU / 24), RY + 29.5 * math.sin(TAU / 24), rim + 3.0), look, lens=50),
         "hamlet": cam_at("Cam · hamlet A", (hAX, hAY, ground.z(hAX, hAY)), (-150, -150), 95),
         "oracle": cam_at("Cam · the oracle on the summit", (OX2, OY2, ground.z(OX2, OY2) - 20), (-240, -260), 170),
         "neck": cam_at("Cam · the neck: causeway and drummers", ((site("drummers", 0)[0] + site("drummers", 1)[0]) / 2, (site("drummers", 0)[1] + site("drummers", 1)[1]) / 2, 5), (-760, -700), 460, lens=28),

@@ -12,10 +12,11 @@ _Last updated 16 Sep 2026._
 1. Rough map: done. The island is a generated elevation field with all 23 sites placed and every check passing.
 2. Painted map: tried once (16 Sep 2026) and **kept only as a record** of how it didn't turn out as expected: symbol-sized buildings, invented features, no usable surface detail. It is not used downstream. It lives in §3 of the page (`maps/island-painted.jpg`, with scores measured before the terrain smoothing below).
 3. Island blockout in Blender: terrain built (16 Sep 2026). `tools/blender_terrain.py` builds `blender/paxos.blend` (gitignored) straight from the heightmap. Checks are in `blender/terrain-checks.json` and §4 of the page.
-4. **Hero architecture: every site placed as a true-scale blockout, with vegetation, fields and tracks (16 Sep 2026).**
-   - `tools/blender_buildings.py` builds the whole scene: terrain, key buildings, every other site (`blender_sites.py`), and vegetation, fields and tracks (`blender_nature.py`).
-   - All checks pass: `blender/{terrain,buildings,sites,vegetation}-checks.json`, §4–6 of the page.
-   - **Next:** detailing the hero buildings (openings, roof tiles, statue figures) and props. Tripo is used only for props (statues, amphorae, ships, the hourglass). Then stage 5, shot pre-vis cameras.
+4. **Hero architecture: detailing in progress (16 Sep 2026).**
+   - Every site is placed as a true-scale blockout, with vegetation, fields and tracks.
+   - **The Great Round is detailed to human scale** (`tools/blender_round.py`), including the user's verandah refinement.
+   - All checks pass: `blender/{terrain,buildings,round,sites,vegetation}-checks.json`, §4–6 of the page.
+   - **Next:** detail the other hero buildings the same way, then props. Candidates: the lantern harbour's tower and quays, the banquet house, the oracle temple, the citadel, the town's houses with doors and windows. Tripo is used only for props (statues, amphorae, ships, the hourglass); ask before calling any paid API.
 5. Shot pre-vis: one camera per panel, rendered as clay plus a line pass.
 6. Comic pass: ligne claire over the pre-vis, checked against the asset sheets.
 
@@ -121,6 +122,24 @@ The sections are:
   - The monastery jetty reaches water (−8.4 m).
 - **Found on the way:** the first self-test's "blocked" ray ran underground, where no surface can block it, so it failed for the wrong reason. Smoothing the switchback path cut corners and raised the steepest grade until the bed was graded.
 
+## The Great Round in detail (`tools/blender_round.py`)
+- **User refinement (16 Sep 2026):** the top tier is an inward-facing colonnaded verandah, its floor about 15 ft (4.6 m) above the outside ground. Windows in the ring wall along it look out over the island, with sills (5.5 m above the outside ground) high enough to read as windows, not entrances. The gates stay at ground level and join the cavea below the verandah, at the mid-height walkway, which the verandah bridges.
+- **Why:** with a plain high ring wall, the ray check showed the banquet house could not be seen from the tiers (blocked by the Round's floor through the gate, and by terrain).
+- **Layout:**
+  - Cavea: 7 lower rows (0.5 m rise) from the orchestra (3.5 m below the outside ground) to the walkway at ground level; then a 1.1 m podium and 6 upper rows (0.6 m rise); then the verandah (3 m deep, 50 columns, tiled roof). Treads are 0.8 m.
+  - Stairways: 8, with steps of 0.3 m or less.
+  - Gate passages are cut through the upper cavea with retaining walls. Doorways are 4 m (to fit under the verandah floor), with pylons, lintel, attic and pediment rising above the wall.
+  - Ring wall: WALL_IN 23.4, WALL_OUT 25 m, ashlar brick texture mapped by angle × radius, 48 windows 1.4 × 1.9 m every 5° clear of the pylons.
+  - Doors: bronze with panels and bosses. The east gate is open (leaves swung in 80°, bar leaning on the jamb); the others are barred at 1.3 m.
+  - 20 statues on inscribed pedestals (orator, scroll and standing poses, 2.1 m). Scale figures of 1.75 m.
+- **Kit additions:** `frustum`, `ellipsoid`, `beam` (a box between any two points).
+- **Checks (`round-checks.json`):**
+  - Canon: 14 tiers, 8 stairways, cardinal gates, 50 m across.
+  - Human scale: seat risers, stair risers, drop-bar within reach.
+  - Verandah about 15 ft up; window sills ≥ 4.5 m; gates join below the verandah.
+  - Ray casts from a person standing at the sill of the nearest window: to the banquet house (16°) and to the merchant quays (41°), blocked by neither the Round nor the terrain. With the eye 0.8 m back from the sill and 1.2 m windows, the banquet ray clipped a pier.
+- **Renders:** `renders/buildings-round_{aerial,interior,window,gate,statue}.png`.
+
 ## Vegetation, fields and tracks (`tools/blender_nature.py`)
 - **Track network (map generator):** `TRACKS` lists hub-to-hub links in walking order. Hamlets hang off different hubs (press, oracle, beacon), so no track runs hamlet to hamlet.
   - Paths use `least_cost_path(slope_k=150, min_z=.5, passable=causeway corridor)`, which returns `[]` when a target is unreachable.
@@ -145,7 +164,7 @@ The sections are:
 - Storage decision: commit `island-painted.jpg` and its JSON as spec. Keep the full-size download out of Git.
 
 ## Next steps
-1. Detailing the hero buildings (openings, roof tiles, statue figures) and props (ships in the harbours, amphorae, the hourglass), with Tripo for props only.
+1. Detail the other hero buildings the way the Round was done (human scale, canon checks, close-up renders), then props (ships in the harbours, amphorae, the hourglass). Tripo is for props only; ask before any paid API call.
 2. Stage 5: shot pre-vis, one camera per panel.
 3. Optional: re-lay the Statue Walk with switchbacks or steps on its steep stretch.
 4. Optional: names for the town, bays and capes.
