@@ -2,3 +2,8 @@ sources/
 .DS_Store
 __pycache__/
 *.blend1
+*.blend
+*.glb
+*.gltf
+*.fbx
+renders/

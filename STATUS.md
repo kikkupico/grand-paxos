@@ -11,7 +11,7 @@ _Last updated 16 Sep 2026._
 The user explicitly allowed starting afresh. Nothing from the old per-volume art is assumed to carry over, except the locked Volume V decisions below.
 
 ## Pipeline (current stage in bold)
-1. **Rough map: SVG layout options. We are here, waiting for the user's decisions.**
+1. **Rough map: SVG layout options. Decisions are locked (B, Twin Lobes). We are refining map B.**
 2. Painted map: an image model fills in detail from the chosen SVG (vegetation, town fabric, coves, cliffs).
 3. Island blockout in Blender: the heightmap displaces a Grid, empties come from the sites JSON, then sculpting.
 4. Hero architecture: the Round, the cothon, the headland city and citadel, the granary and the lock-houses are hand-modelled. Tripo is used only for props (statues, amphorae, ships, the hourglass).
@@ -44,17 +44,16 @@ The user explicitly allowed starting afresh. Nothing from the old per-volume art
 6. **Blender handoff spec:** see below.
 7. **Decisions export.**
 
-## Open decisions (the user hasn't chosen yet; recommendation in brackets)
-- **G01 World scope:** A one island (the user's brief) / B Paxos and its islets / C hub of a charted sea [A]
-- **G02 Island form:** A Crescent / B Twin Lobes / C Caldera / D Ridge Spine [B]
-- **G03 Circular harbour:** A cothon inside the main port / B a separate navigators' harbour / C a natural round bay [A]
-- **G04 World scale:** A compact, about 5 × 3.5 km / B as drafted, 8 × 5.5 km / C large, about 12 × 8 km [B]
-- **G05 Time across volumes:** A one terrain with era collections (Pastoral, Siege, Oracle, Navigators, Parliament, Granary, Citadel, Roman; ruins are variants) / B a separate island state per volume [A]
-- **G06 Volume IX:** A off-island, a misty northern coast / B a northern islet / C on Paxos [A]
-- **G07 Where the 3D work lives:** effectively settled by creating this repo. Still open: whether `.blend` and `.glb` files go into Git LFS here, or are gitignored with renders sent to R2 (as in the old repo). Only `*.blend1` is ignored so far.
+## Locked decisions (chosen 16 Sep 2026, in chat rather than via the page export)
+- **G01 World scope: A, one island.**
+- **G02 Island form: B, Twin Lobes.** Options A, C and D stay on the page as the record.
+- **G03 Circular harbour: A, a cothon inside the main port.**
+- **G04 World scale: B, 8 × 5.5 km as drafted.**
+- **G05 Time across volumes: A, one terrain with era collections.** Ruins are variants.
+- **G06 Volume IX: A, off-island on a misty northern coast.**
+- **G07 3D files: gitignored.** `.blend`, `.glb` and renders stay out of Git, and renders go to R2 as in the old repo.
 
 Also still open:
-- The user was offered pushing this repo to GitHub and hasn't answered. There is no remote yet.
 - The comic style isn't defined beyond "Franco-Belgian". One candidate is Jacques Martin's *Alix*, which is ligne claire set in antiquity.
 - The contents of the common and per-volume asset sheets aren't defined yet.
 
@@ -79,7 +78,7 @@ Also still open:
 - **Check this on the first import:** option B's citadel empty must land on the northern peninsula, on land. If it lands in water to the south, the image V axis is flipped.
 
 ## Next steps
-1. The user picks options on the page and pastes back the Markdown export.
+1. Done: decisions locked (see above).
 2. Refine the chosen map. Adjust the terrain in its option function, tidy label placement, and optionally add names for the town, bays and capes. Then republish the Artifact (read it first, then publish with `url`).
 3. Stage 2: write the painted-map prompt with the chosen SVG as the layout reference (Gemini image model, as in `paxos-illustrated/tools/gen_panel.py`).
-4. Stage 3: build the Blender scene from the heightmap and sites JSON, following the spec above. Settle G07's LFS question before the first `.blend` save.
+4. Stage 3: build the Blender scene from the heightmap and sites JSON, following the spec above. `.blend` files are gitignored (G07).
