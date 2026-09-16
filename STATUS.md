@@ -12,7 +12,10 @@ _Last updated 16 Sep 2026._
 1. Rough map: done. The island is a generated elevation field with all 23 sites placed and every check passing.
 2. Painted map: tried once (16 Sep 2026) and **kept only as a record** of how it didn't turn out as expected: symbol-sized buildings, invented features, no usable surface detail. It is not used downstream. It lives in §3 of the page (`maps/island-painted.jpg`, with scores measured before the terrain smoothing below).
 3. Island blockout in Blender: terrain built (16 Sep 2026). `tools/blender_terrain.py` builds `blender/paxos.blend` (gitignored) straight from the heightmap. Checks are in `blender/terrain-checks.json` and §4 of the page.
-4. **Hero architecture: key buildings placed as true-scale blockouts (16 Sep 2026).** `tools/blender_buildings.py` builds the terrain fresh and adds the Great Round and banquet house (IV), the lantern harbour (III), the merchant quays and harbour town (IV), the headland city and siege camps (V), and the citadel with its walled harbour (VII). All checks pass (`blender/buildings-checks.json`, §5 of the page). **Next:** the remaining buildings (hamlets, press, beacons, oracle, drummers, granary, guild hall, lock-houses, monastery), then vegetation and the Statue Walk. Tripo is used only for props (statues, amphorae, ships, the hourglass).
+4. **Hero architecture: every site placed as a true-scale blockout (16 Sep 2026).**
+   - `tools/blender_buildings.py` builds the terrain, the key buildings, and (through `tools/blender_sites.py`) every other gazetteer site plus the Statue Walk.
+   - All checks pass: `blender/buildings-checks.json`, `blender/sites-checks.json`, §5 of the page.
+   - **Next:** vegetation (olive groves, maquis, pines, wheat), roads and tracks, and detailing the hero buildings. Tripo is used only for props (statues, amphorae, ships, the hourglass).
 5. Shot pre-vis: one camera per panel, rendered as clay plus a line pass.
 6. Comic pass: ligne claire over the pre-vis, checked against the asset sheets.
 
@@ -96,6 +99,28 @@ The sections are:
   - Some bare rock remains on the citadel's downhill cut.
   - Buildings are simple blockouts: no openings, no roof tiles, no statues' detail.
 
+## Remaining sites (`tools/blender_sites.py`)
+- **Code layout:** called from `blender_buildings.main()` after the key buildings. The shared helpers (`Ground`, `Kit`, materials, `house`, `colonnade`, `B`, `site`) live in `tools/blender_kit.py`, so there's one material set.
+- **Builders:**
+  - `hamlet` ×3 and `olive_press`: pads, stone houses, a sundial each.
+  - `beacon_towers`.
+  - `oracle`: a temple in a temenos on a pad; a rock crag with the cave mouth on the steepest side 70 m out; the shepherd's hut.
+  - `drummers` and `causeway_markers`: posts along the crest of cells 0–3.5 m high near the strait, ordered by PCA.
+  - `statue_walk`: see below.
+  - `granaries`: buttressed storehouses turned along the contours.
+  - `guild_quarter`: hall, 5 identical lock-houses with nameplates (one misspelled: CVSTOS IIII), quarry benches cut as 6 m terrain steps, stone stacks, loading quay, crane, office.
+  - `monastery`: cloister, scriptorium, jetty and raft.
+- **The Statue Walk:** the exported least-cost route is Chaikin-smoothed and ends 32 m from the Round, at the gate, not in the bowl. Its bed is the running average of the ground over 9 samples, and the terrain is cut and filled to it. Result: 1.8 km, 29 statues, mean grade 10.5%, steepest 27.7% (40% on raw ground), which would need steps.
+- **Checks (`sites-checks.json`):**
+  - Sightline self-test: clear 500 m up, blocked through the summit.
+  - Hamlet rooftops hidden from each other (rays through the terrain mesh).
+  - Beacon fires and drum platforms in sight of their partners.
+  - Granaries at least 300 m apart (513).
+  - The oracle within 15 m of the local summit (6.4).
+  - Lock-houses on land.
+  - The monastery jetty reaches water (−8.4 m).
+- **Found on the way:** the first self-test's "blocked" ray ran underground, where no surface can block it, so it failed for the wrong reason. Smoothing the switchback path cut corners and raised the steepest grade until the bed was graded.
+
 ## Stage 2 files
 - `maps/island-reference.svg` is written by `island_maps.py` in its clean mode. It has no numbers, zone numerals, dots, compass, scale bar or offshore depth bands. Built sites are shown as terracotta rectangles.
 - `maps/island-reference.png` is written by `painted_map.py reference`: 2200 × 1650, with the 11:8 map letterboxed with 25 units of sea top and bottom to make 4:3, the nearest aspect ratio the image model offers.
@@ -104,6 +129,7 @@ The sections are:
 - Storage decision: commit `island-painted.jpg` and its JSON as spec. Keep the full-size download out of Git.
 
 ## Next steps
-1. The remaining buildings: hamlets A, K and M, the olive press, the beacons and drummers' posts, the oracle sanctuary and cave, the granary storehouses, the guild hall, lock-houses and quarry, and the Raft monastery. Then the Statue Walk with its statues, and roads.
-2. Vegetation: olive groves, maquis and pines by elevation and slope, and wheat on the south-east plain.
+1. Vegetation, roads and tracks between the sites.
+2. Optional: re-lay the Statue Walk with switchbacks or steps on its steep stretch.
+3. Vegetation: olive groves, maquis and pines by elevation and slope, and wheat on the south-east plain.
 3. Optional: names for the town, bays and capes.

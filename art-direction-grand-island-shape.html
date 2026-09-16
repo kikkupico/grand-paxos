@@ -194,7 +194,7 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
     <li class="now"><strong>Rough map</strong>The island as a real elevation field, with every site placed and tested. This page.</li>
     <li><strong>Painted map</strong>Tried once and kept as a record (§3). Not used downstream.</li>
     <li><strong>Island blockout</strong>Terrain built in Blender from the heightmap, with every site as an empty (§4). Buildings and vegetation go on top next.</li>
-    <li><strong>Hero architecture</strong>Blockout models of the key buildings placed on the terrain (§5). The granary, guild buildings, hamlets and monastery come next. Tripo makes the props.</li>
+    <li><strong>Hero architecture</strong>Blockout models of every site placed on the terrain (§5). Detailing and vegetation come next. Tripo makes the props.</li>
     <li><strong>Shot pre-vis</strong>One camera per panel: a clay render plus a line pass.</li>
     <li><strong>Comic pass</strong>Ligne claire over the pre-vis, checked against the asset sheets.</li>
   </ol>
@@ -511,7 +511,7 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 </section>
 
 <section id="buildings">
-<h2><span class="num">5</span>Key buildings</h2>
+<h2><span class="num">5</span>Buildings</h2>
 <p class="prose"><code>tools/blender_buildings.py</code> builds the terrain fresh, then places pre-vis models of the key buildings at true scale. Positions come from the site list and the town layout the map generator exports, and details from the canon (§8). Where a building needs level ground, the Blender terrain is padded under it. That edit is to the scene only, since the heightmap stays the spec.</p>
 <div class="grid">
   <figure style="margin:0"><img src="renders/buildings-round.png" alt="The Great Round: a ring wall with four gated entrances, fourteen tiers stepping down to a sand orchestra, statues outside, and the banquet house to the east" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">IV · The Great Round and the banquet house off its east gate</figcaption></figure>
@@ -543,6 +543,39 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
   <div><h4>Checks</h4><!-- BUILDINGS -->
 <dl class="stats"><div><dt>Models</dt><dd>9 objects, 13,364 faces</dd></div><div><dt>Ground relief levelled under the Round</dt><dd>10.4 m</dd></div><div><dt>…under the citadel</dt><dd>41.6 m</dd></div><div><dt>Lantern harbour basin depth</dt><dd>-7.0 m</dd></div><div><dt>Merchant pier tips</dt><dd>-23.7 m, -28.8 m, -36.8 m</dd></div><div><dt>Breakwater over water</dt><dd>100.0%</dd></div><div><dt>Town insulae</dt><dd>36</dd></div><div class="ck pass"><dt>The Round's east gate faces the banquet house (within 30°: 0.0°)</dt><dd>✓ yes</dd></div><div class="ck pass"><dt>Land buildings stand on land</dt><dd>✓ yes</dd></div><div class="ck pass"><dt>Merchant pier tips reach water</dt><dd>✓ yes</dd></div><div class="ck pass"><dt>The cothon basin holds water (deeper than 3 m)</dt><dd>✓ yes</dd></div><div class="ck pass"><dt>The breakwater stands mostly in the sea (≥70%)</dt><dd>✓ yes</dd></div><div class="ck pass"><dt>No hero footprints overlap</dt><dd>✓ yes</dd></div></dl>
 <!-- /BUILDINGS --></div>
+</div>
+<h3>Every other site</h3>
+<p class="prose"><code>tools/blender_sites.py</code> adds the rest of the gazetteer. The checks here use real sightlines, rays cast through the terrain mesh, not the 2D map. The sightline test is itself tested: rays 500 m up must be clear, and a ray through the summit must be blocked.</p>
+<div class="grid">
+  <figure style="margin:0"><img src="renders/buildings-hamlet.png" alt="A hamlet of six stone houses around a threshing floor, with an animal pen" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">I · Hamlet A, with its own sundial</figcaption></figure>
+  <figure style="margin:0"><img src="renders/buildings-oracle.png" alt="The oracle's small temple inside a walled enclosure on the summit, with a rock crag and a shepherd's hut below" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">II · The oracle, its cave crag and the shepherd's hut</figcaption></figure>
+  <figure style="margin:0"><img src="renders/buildings-neck.png" alt="The low sand causeway curving across the strait at the neck, with headlands either side" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">III · The neck: causeway, marker posts, drummers' headlands</figcaption></figure>
+  <figure style="margin:0"><img src="renders/buildings-walk.png" alt="The paved Statue Walk climbing from the harbour town up the valley to the col" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">IV · The Statue Walk from the town up to the Round</figcaption></figure>
+  <figure style="margin:0"><img src="renders/buildings-granaries.png" alt="Four long storehouses spread across the south-east plain" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">VI · The granary storehouses, far apart</figcaption></figure>
+  <figure style="margin:0"><img src="renders/buildings-guild.png" alt="Five identical lock-houses stepping up a ridge, with the guild hall and the quarry office" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">VIII · The guild hall, lock-houses and quarry</figcaption></figure>
+  <figure style="margin:0"><img src="renders/buildings-monastery.png" alt="A cloister of four ranges around a garden, with a scriptorium, on the islet" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">IX · The Raft monastery</figcaption></figure>
+</div>
+<div class="option-body">
+  <div>
+    <h4>What's modelled</h4>
+    <ul class="pros">
+      <li><b>I:</b> three hamlets of stone houses around threshing floors, each with its own sundial and an animal pen. An olive press with its crushing basin, and two beacon towers with their fires.</li>
+      <li><b>II:</b> the oracle's small temple, altar and walled enclosure on the summit, a rock crag with the dark cave mouth on the steepest side, and a shepherd's hut and fold below.</li>
+      <li><b>III:</b> two drummers' posts, each a hut and a raised platform with a drum, and timber marker posts along the causeway crest.</li>
+      <li><b>IV:</b> the Statue Walk, a paved way from the town to the Round's gate on a road bed cut and filled into the hill, lined with statues.</li>
+      <li><b>VI:</b> four buttressed storehouses on raised floors, each with a clerk's office, turned along the contours.</li>
+      <li><b>VIII:</b> the guild hall with its porch, five identical lock-houses with lock towers and nameplates (one misspelled, CVSTOS IIII), stepped quarry benches cut into the ledger cliffs, stacked blocks, a loading quay, a crane and the quarry office.</li>
+      <li><b>IX:</b> the Raft monastery, four ranges around a cloister garden and a scriptorium facing the main island, with a jetty and a raft.</li>
+    </ul>
+    <h4>Rough edges</h4>
+    <ul class="cons">
+      <li>The Statue Walk's steepest stretch is still steep on its graded bed. It would need steps there. The route comes from the map's least-cost path and could be re-laid with switchbacks.</li>
+      <li>Some camera framings are loose: the jetty and the drum posts are hard to make out at render size.</li>
+    </ul>
+  </div>
+  <div><h4>Checks</h4><!-- SITES -->
+<dl class="stats"><div><dt>Models</dt><dd>12 objects, 4,582 faces</dd></div><div><dt>Statue Walk</dt><dd>1798 m, 29 statues</dd></div><div><dt>…grade on its levelled bed</dt><dd>mean 10.5%, steepest 27.7% (ground alone: 39.8%)</dd></div><div><dt>Granary storehouses, closest pair</dt><dd>513 m apart</dd></div><div><dt>Lock-house spacing</dt><dd>198 m, 198 m, 215 m, 198 m</dd></div><div><dt>Causeway marker posts</dt><dd>16</dd></div><div><dt>Monastery jetty tip</dt><dd>-8.4 m</dd></div><div class="ck pass"><dt>Sightline test works (clear 500 m up, blocked through the summit)</dt><dd>✓ yes</dd></div><div class="ck pass"><dt>Hamlet rooftops hidden from each other (rays through the terrain)</dt><dd>✓ yes</dd></div><div class="ck pass"><dt>Beacon fires in sight of each other</dt><dd>✓ yes</dd></div><div class="ck pass"><dt>Drum platforms in sight across the strait</dt><dd>✓ yes</dd></div><div class="ck pass"><dt>Granary storehouses at least 300 m apart</dt><dd>✓ yes</dd></div><div class="ck pass"><dt>Oracle within 15 m of the local summit (6.4 m below)</dt><dd>✓ yes</dd></div><div class="ck pass"><dt>Lock-houses all on land</dt><dd>✓ yes</dd></div><div class="ck pass"><dt>Monastery jetty reaches water</dt><dd>✓ yes</dd></div></dl>
+<!-- /SITES --></div>
 </div>
 </section>
 

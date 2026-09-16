@@ -1,0 +1,37 @@
+{
+ "sightline_self_test": true,
+ "hamlet_rooftops_in_sight": [],
+ "beacon_fires_in_sight": true,
+ "drum_decks_in_sight": true,
+ "granary_min_gap_m": 513,
+ "oracle_below_local_summit_m": 6.4,
+ "lock_houses": {
+  "lock_spacing_m": [
+   198,
+   198,
+   215,
+   198
+  ],
+  "lock_ground_min_m": 116.8,
+  "stone_stacks": 14,
+  "names": [
+   "CUSTOS I",
+   "CUSTOS II",
+   "CUSTOS III",
+   "CVSTOS IIII",
+   "CUSTOS V"
+  ]
+ },
+ "statue_walk": {
+  "length_m": 1798,
+  "max_grade_pct": 27.7,
+  "mean_grade_pct": 10.5,
+  "max_grade_ungraded_pct": 39.8,
+  "statues": 29
+ },
+ "causeway_markers": 16,
+ "monastery_jetty_tip_m": -8.4,
+ "objects": 12,
+ "faces": 4582,
+ "ok": true
+}

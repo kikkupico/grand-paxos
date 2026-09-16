@@ -12,183 +12,14 @@ the page between <!-- BUILDINGS --> markers.
 """
 import json, math, random, sys
 from pathlib import Path
-import bpy, bmesh
+import bpy
 import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import blender_terrain as bt
 
-TAU = math.tau
-SITES = json.loads(bt.SITES.read_text())
-
-def B(x, y):
-    """Map metres (x east, y south) -> Blender (X east, Y north)."""
-    return x - bt.W / 2, bt.H / 2 - y
-
-def site(key, k=0):
-    x, y, z = SITES["sites"][key]["points_m"][k]
-    return B(x, y)
-
-def smooth(t):
-    t = np.clip(t, 0, 1); return t * t * (3 - 2 * t)
-
-# ---------------------------------------------------------------- ground: sample and level the terrain mesh
-class Ground:
-    def __init__(self, terrain):
-        self.me = terrain.data
-        self.co = np.empty(len(self.me.vertices) * 3, np.float32)
-        self.me.vertices.foreach_get("co", self.co)
-        ny, nx = bt.heights().shape
-        self.g = self.co.reshape(ny, nx, 3)[..., 2]
-        self.orig = self.g.copy()
-        self.ny, self.nx = ny, nx
-
-    def _cr(self, X, Y):
-        return (X + bt.W / 2) / bt.CELL - .5, (bt.H / 2 - Y) / bt.CELL - .5
-
-    def z(self, X, Y, before=False):
-        g = self.orig if before else self.g
-        c, r = self._cr(X, Y)
-        c0, r0 = int(np.clip(math.floor(c), 0, self.nx - 2)), int(np.clip(math.floor(r), 0, self.ny - 2))
-        fc, fr = min(max(c - c0, 0), 1), min(max(r - r0, 0), 1)
-        return float(g[r0, c0] * (1 - fc) * (1 - fr) + g[r0, c0 + 1] * fc * (1 - fr) + g[r0 + 1, c0] * (1 - fc) * fr + g[r0 + 1, c0 + 1] * fc * fr)
-
-    def edit(self, X, Y, reach, fn):
-        """fn(d, dX, dY, g) -> new g for the vertices within `reach` metres of (X, Y)."""
-        c, r = self._cr(X, Y); k = int(reach / bt.CELL) + 2
-        r0, r1 = max(int(r) - k, 0), min(int(r) + k + 1, self.ny)
-        c0, c1 = max(int(c) - k, 0), min(int(c) + k + 1, self.nx)
-        rows, cols = np.mgrid[r0:r1, c0:c1]
-        dX = (cols + .5) * bt.CELL - bt.W / 2 - X
-        dY = bt.H / 2 - (rows + .5) * bt.CELL - Y
-        self.g[r0:r1, c0:c1] = fn(np.hypot(dX, dY), dX, dY, self.g[r0:r1, c0:c1])
-
-    def pad(self, X, Y, radius, level, falloff):
-        w = lambda d: 1 - smooth((d - radius) / falloff)
-        self.edit(X, Y, radius + falloff, lambda d, dX, dY, g: g * (1 - w(d)) + level * w(d))
-
-    def relief(self, X, Y, radius):
-        zs = [self.z(X + radius * f * math.cos(a), Y + radius * f * math.sin(a), before=True)
-              for f in (0, .5, 1) for a in np.linspace(0, TAU, 12, endpoint=False)]
-        return round(max(zs) - min(zs), 1), round(min(zs), 1)
-
-    def seaward(self, X, Y, radius=150):
-        v = np.zeros(2)
-        for a in np.linspace(0, TAU, 72, endpoint=False):
-            if self.z(X + radius * math.cos(a), Y + radius * math.sin(a)) < 0: v += (math.cos(a), math.sin(a))
-        n = np.hypot(*v)
-        return (v / n) if n else np.array([1.0, 0.0])
-
-    def shore(self, X, Y, s, reach=600):
-        for d in np.arange(0, reach, 2.5):
-            if self.z(X + s[0] * d, Y + s[1] * d) < 0: return X + s[0] * d, Y + s[1] * d
-        return X, Y
-
-    def commit(self):
-        self.me.vertices.foreach_set("co", self.co)
-        self.me.update()
-
-# ---------------------------------------------------------------- materials and a mesh kit
-MATS = {}
-def mat(name, hexc, rough=.85, metal=0.0, emit=None):
-    if name in MATS: return MATS[name]
-    m = bpy.data.materials.new(name); m.use_nodes = True
-    b = m.node_tree.nodes["Principled BSDF"]
-    b.inputs["Base Color"].default_value = bt.hexrgb(hexc)
-    b.inputs["Roughness"].default_value = rough; b.inputs["Metallic"].default_value = metal
-    if emit:
-        b.inputs["Emission Color"].default_value = bt.hexrgb(emit); b.inputs["Emission Strength"].default_value = 25
-    MATS[name] = m
-    return m
-
-def palette():
-    return {"limestone": mat("Limestone", "#d8ccb0"), "ashlar": mat("Ashlar", "#c6b793"), "marble": mat("Marble", "#eeeae0", .5),
-            "sand": mat("Orchestra sand", "#d9c38e"), "roof": mat("Terracotta roof", "#b0532f"), "plaster": mat("Plaster", "#e4d8c1"),
-            "bronze": mat("Bronze", "#8a6428", .35, .85), "timber": mat("Timber", "#6a4a2e"), "garden": mat("Garden", "#6d7b38"),
-            "pave": mat("Paving", "#cdc0a2"), "canvas": mat("Tent canvas", "#d8d0b8"), "lantern": mat("Lantern", "#ffd27a", .4, 0, "#ffc861"),
-            "wall_dark": mat("Fortress stone", "#a89c84")}
-
-class Kit:
-    """Accumulates boxes, rings, cylinders and roofs into one mesh object with material slots."""
-    def __init__(self, name):
-        self.name, self.bm, self.slots = name, bmesh.new(), []
-
-    def _mi(self, m):
-        if m not in self.slots: self.slots.append(m)
-        return self.slots.index(m)
-
-    def _face(self, vs, m):
-        f = self.bm.faces.new(vs); f.material_index = self._mi(m)
-
-    def box(self, X, Y, z0, z1, sx, sy, ang, m):
-        c, s = math.cos(ang), math.sin(ang)
-        pts = [(X + u * c - v * s, Y + u * s + v * c) for u, v in ((-sx / 2, -sy / 2), (sx / 2, -sy / 2), (sx / 2, sy / 2), (-sx / 2, sy / 2))]
-        b = [self.bm.verts.new((x, y, z0)) for x, y in pts]; t = [self.bm.verts.new((x, y, z1)) for x, y in pts]
-        self._face(b[::-1], m); self._face(t, m)
-        for i in range(4): self._face([b[i], b[(i + 1) % 4], t[(i + 1) % 4], t[i]], m)
-
-    def ring(self, X, Y, r_in, r_out, z0, z1, m, segs=64, a0=0.0, a1=TAU):
-        full = a1 - a0 >= TAU - 1e-6
-        n = segs if full else max(2, int(segs * (a1 - a0) / TAU) + 1)
-        angs = np.linspace(a0, a1, n, endpoint=not full)
-        P = lambda r, a, z: self.bm.verts.new((X + r * math.cos(a), Y + r * math.sin(a), z))
-        ib = [P(r_in, a, z0) for a in angs]; ob = [P(r_out, a, z0) for a in angs]
-        it = [P(r_in, a, z1) for a in angs]; ot = [P(r_out, a, z1) for a in angs]
-        for k in range(n if full else n - 1):
-            k2 = (k + 1) % n
-            self._face([it[k], ot[k], ot[k2], it[k2]], m); self._face([ib[k], ib[k2], ob[k2], ob[k]], m)
-            self._face([ob[k], ob[k2], ot[k2], ot[k]], m); self._face([ib[k], it[k], it[k2], ib[k2]], m)
-        if not full:
-            self._face([ib[0], ob[0], ot[0], it[0]], m); self._face([ib[-1], it[-1], ot[-1], ob[-1]], m)
-
-    def cyl(self, X, Y, r, z0, z1, m, segs=20):
-        angs = np.linspace(0, TAU, segs, endpoint=False)
-        b = [self.bm.verts.new((X + r * math.cos(a), Y + r * math.sin(a), z0)) for a in angs]
-        t = [self.bm.verts.new((X + r * math.cos(a), Y + r * math.sin(a), z1)) for a in angs]
-        self._face(b[::-1], m); self._face(t, m)
-        for i in range(segs): self._face([b[i], b[(i + 1) % segs], t[(i + 1) % segs], t[i]], m)
-
-    def cone(self, X, Y, r, z0, z1, m, segs=20):
-        angs = np.linspace(0, TAU, segs, endpoint=False)
-        b = [self.bm.verts.new((X + r * math.cos(a), Y + r * math.sin(a), z0)) for a in angs]
-        apex = self.bm.verts.new((X, Y, z1))
-        self._face(b[::-1], m)
-        for i in range(segs): self._face([b[i], b[(i + 1) % segs], apex], m)
-
-    def gable(self, X, Y, z, sx, sy, rise, ang, m):
-        """Pitched roof, ridge along the local x axis."""
-        c, s = math.cos(ang), math.sin(ang)
-        L = lambda u, v, zz: self.bm.verts.new((X + u * c - v * s, Y + u * s + v * c, zz))
-        a, b_, c_, d = L(-sx / 2, -sy / 2, z), L(sx / 2, -sy / 2, z), L(sx / 2, sy / 2, z), L(-sx / 2, sy / 2, z)
-        r0, r1 = L(-sx / 2, 0, z + rise), L(sx / 2, 0, z + rise)
-        self._face([d, c_, b_, a], m); self._face([a, b_, r1, r0], m); self._face([c_, d, r0, r1], m)
-        self._face([b_, c_, r1], m); self._face([d, a, r0], m)
-
-    def finish(self, coll, **props):
-        bmesh.ops.recalc_face_normals(self.bm, faces=self.bm.faces[:])
-        me = bpy.data.meshes.new(self.name); self.bm.to_mesh(me); self.bm.free()
-        for m in self.slots: me.materials.append(m)
-        ob = bpy.data.objects.new(self.name, me); coll.objects.link(ob)
-        for k, v in props.items(): ob[k] = v
-        return ob
-
-def on_ground(ground, X, Y, sx, sy, ang, extra=0.0):
-    """Lowest and highest ground under a rotated footprint."""
-    c, s = math.cos(ang), math.sin(ang)
-    zs = [ground.z(X + u * c - v * s, Y + u * s + v * c) for u in (-sx / 2, 0, sx / 2) for v in (-sy / 2, 0, sy / 2)]
-    return min(zs) - extra, max(zs)
-
-def house(kit, ground, X, Y, sx, sy, h, ang, wall, roof, rise=None):
-    lo, hi = on_ground(ground, X, Y, sx, sy, ang, 1.5)
-    kit.box(X, Y, lo, hi + h, sx, sy, ang, wall)
-    kit.gable(X, Y, hi + h, sx + .8, sy + .8, rise if rise is not None else min(sx, sy) * .22, ang, roof)
-
-def colonnade(kit, X, Y, z0, z1, sx, sy, ang, spacing, m, r=.35):
-    c, s = math.cos(ang), math.sin(ang)
-    nu, nv = max(1, round(sx / spacing)), max(1, round(sy / spacing))
-    pts = {(round(u, 2), round(-sy / 2, 2)) for u in np.linspace(-sx / 2, sx / 2, nu + 1)} | {(round(u, 2), round(sy / 2, 2)) for u in np.linspace(-sx / 2, sx / 2, nu + 1)} \
-        | {(round(-sx / 2, 2), round(v, 2)) for v in np.linspace(-sy / 2, sy / 2, nv + 1)} | {(round(sx / 2, 2), round(v, 2)) for v in np.linspace(-sy / 2, sy / 2, nv + 1)}
-    for u, v in pts: kit.cyl(X + u * c - v * s, Y + u * s + v * c, r, z0, z1, m, 10)
+from blender_kit import *                                                                          # noqa: F401,F403
+import blender_sites as bs
 
 # ---------------------------------------------------------------- the buildings
 def great_round(ground, M, coll, report):
@@ -442,7 +273,7 @@ def main():
     ctx = bt.build(); scene = ctx["scene"]
     ground = Ground(ctx["terrain"]); M = palette()
     top = bt.collection("Buildings")
-    colls = {v: bt.collection(f"{v} · {bt.VOLUMES[v]}", top) for v in ("III", "IV", "V", "VII")}
+    colls = {v: bt.collection(f"{v} · {bt.VOLUMES[v]}", top) for v in ("I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX")}
     report = {}
     rk, (RX, RY, rim) = great_round(ground, M, colls["IV"], report)
     bk = banquet_house(ground, M, colls["IV"], report, (RX, RY))
@@ -455,6 +286,57 @@ def main():
     tw = harbour_town(ground, M, colls["IV"], report)
     objs = [rk.finish(colls["IV"]), bk.finish(colls["IV"]), ck.finish(colls["III"]), mq.finish(colls["IV"]), tw.finish(colls["IV"]),
             ck_city.finish(colls["V"]), ck_camps.finish(colls["V"]), cit.finish(colls["VII"]), harb.finish(colls["VII"])]
+
+    # the remaining sites (tools/blender_sites.py)
+    M.update(bs.extra_mats())
+    hamlets = [bs.hamlet(ground, M, key, f"Hamlet {key[-1]}", n) for n, key in enumerate(("hamA", "hamK", "hamM"))]
+    press = bs.olive_press(ground, M)
+    beacons, fires = bs.beacon_towers(ground, M)
+    oracle_k = bs.oracle(ground, M)
+    drums, decks = bs.drummers(ground, M)
+    markers, n_markers = bs.causeway_markers(ground, M)
+    agora = B(*SITES["built"]["town"]["agora_m_deg"][:2])
+    walk, walk_info = bs.statue_walk(ground, M, agora)
+    grans, gran_gap = bs.granaries(ground, M)
+    guild, guild_info = bs.guild_quarter(ground, M, None)
+    monk, jetty_tip = bs.monastery(ground, M, (RX, RY))
+    ground.commit()
+    site_objs = [hk.finish(colls["I"]) for hk, _ in hamlets] + [press.finish(colls["I"]), beacons.finish(colls["I"]), oracle_k.finish(colls["II"]),
+                 drums.finish(colls["III"]), markers.finish(colls["III"]), walk.finish(colls["IV"]), grans.finish(colls["VI"]),
+                 guild.finish(colls["VIII"]), monk.finish(colls["IX"])]
+    terrain = ctx["terrain"]
+    tops = [t for _, t in hamlets]
+    ham_seen = [f"{'AKM'[i]}–{'AKM'[j]}" for i in range(3) for j in range(i + 1, 3) if bs.clear_sight(terrain, tops[i], tops[j])]
+    OX, OY = site("oracle")
+    summit_near = max(ground.z(OX + r * math.cos(a), OY + r * math.sin(a), before=True) for r in range(0, 401, 25) for a in np.linspace(0, TAU, 24, endpoint=False))
+    lift = lambda p: (p[0], p[1], p[2] + 500)
+    OX_, OY_ = site("oracle"); oz = ground.z(OX_, OY_)
+    rays_work = all(bs.clear_sight(terrain, lift(tops[i]), lift(tops[j])) for i in range(3) for j in range(i + 1, 3)) \
+        and not bs.clear_sight(terrain, (OX_ - 900, OY_, oz - 60), (OX_ + 900, OY_, oz - 60))       # self-test: clear 500 m up, blocked through the summit
+    sres = {"sightline_self_test": rays_work, "hamlet_rooftops_in_sight": ham_seen, "beacon_fires_in_sight": bs.clear_sight(terrain, *fires),
+            "drum_decks_in_sight": bs.clear_sight(terrain, *decks), "granary_min_gap_m": gran_gap,
+            "oracle_below_local_summit_m": round(summit_near - ground.z(OX, OY, before=True), 1),
+            "lock_houses": guild_info, "statue_walk": walk_info, "causeway_markers": n_markers, "monastery_jetty_tip_m": jetty_tip,
+            "objects": len(site_objs), "faces": sum(len(o.data.polygons) for o in site_objs)}
+    sres["ok"] = (rays_work and not ham_seen and sres["beacon_fires_in_sight"] and sres["drum_decks_in_sight"] and gran_gap >= 300
+                  and sres["oracle_below_local_summit_m"] <= 15 and guild_info["lock_ground_min_m"] > 1 and jetty_tip < -1)
+    (bt.OUT / "sites-checks.json").write_text(json.dumps(sres, indent=1))
+    print("SITES CHECKS", json.dumps(sres))
+    bt.page_block("SITES",
+                  [("Models", f"{sres['objects']} objects, {sres['faces']:,} faces"),
+                   ("Statue Walk", f"{walk_info['length_m']} m, {walk_info['statues']} statues"),
+                   ("…grade on its levelled bed", f"mean {walk_info['mean_grade_pct']}%, steepest {walk_info['max_grade_pct']}% (ground alone: {walk_info['max_grade_ungraded_pct']}%)"),
+                   ("Granary storehouses, closest pair", f"{gran_gap} m apart"),
+                   ("Lock-house spacing", ", ".join(f"{v} m" for v in guild_info["lock_spacing_m"])),
+                   ("Causeway marker posts", str(n_markers)), ("Monastery jetty tip", f"{jetty_tip} m")],
+                  [("Sightline test works (clear 500 m up, blocked through the summit)", rays_work),
+                   ("Hamlet rooftops hidden from each other (rays through the terrain)", not ham_seen),
+                   ("Beacon fires in sight of each other", sres["beacon_fires_in_sight"]),
+                   ("Drum platforms in sight across the strait", sres["drum_decks_in_sight"]),
+                   ("Granary storehouses at least 300 m apart", gran_gap >= 300),
+                   (f"Oracle within 15 m of the local summit ({sres['oracle_below_local_summit_m']} m below)", sres["oracle_below_local_summit_m"] <= 15),
+                   ("Lock-houses all on land", guild_info["lock_ground_min_m"] > 1),
+                   ("Monastery jetty reaches water", jetty_tip < -1)])
 
     BX, BY = site("banquet")
     land = {n: site(k_) for n, k_ in (("The Great Round", "round"), ("Banquet house", "banquet"), ("Besieged headland city", "city"),
@@ -504,6 +386,20 @@ def main():
             "city": cam_at("Cam · the headland city", (cityX, cityY, ground.z(cityX, cityY)), (-420, -420), 330),
             "citadel": cam_at("Cam · citadel and walled harbour", ((CitX + HSX) / 2, (CitY + HSY) / 2, 40), (650, -250), 380),
             "parliament": cam_at("Cam · the Parliament's lobe", (RX + 300, RY + 100, 120), (-1400, -1500), 900, lens=40)}
+    hAX, hAY = site("hamA"); OX2, OY2 = site("oracle"); stX, stY = site("strait"); HLX, HLY = site("hall"); MOX, MOY = site("monastery")
+    gpts = [site("granary", i) for i in range(3)] + [site("granary2")]
+    gcx, gcy = sum(p[0] for p in gpts) / 4, sum(p[1] for p in gpts) / 4
+    cliffX, cliffY = site("cliffs"); s_cl = ground.seaward(cliffX, cliffY)
+    walk_pts = [B(x, y) for x, y in SITES["built"]["statue_walk_m"]]; wmx, wmy = walk_pts[len(walk_pts) // 2]
+    to_round = (RX - agora[0], RY - agora[1]); tr = math.hypot(*to_round)
+    cams.update({
+        "hamlet": cam_at("Cam · hamlet A", (hAX, hAY, ground.z(hAX, hAY)), (-150, -150), 95),
+        "oracle": cam_at("Cam · the oracle on the summit", (OX2, OY2, ground.z(OX2, OY2) - 20), (-240, -260), 170),
+        "neck": cam_at("Cam · the neck: causeway and drummers", ((site("drummers", 0)[0] + site("drummers", 1)[0]) / 2, (site("drummers", 0)[1] + site("drummers", 1)[1]) / 2, 5), (-760, -700), 460, lens=28),
+        "granaries": cam_at("Cam · the granary plain", (gcx, gcy, 40), (-900, -420), 620, lens=32),
+        "guild": cam_at("Cam · the guild quarter and quarry", ((HLX + cliffX) / 2, (HLY + cliffY) / 2, 60), (s_cl[0] * 650 - 250, s_cl[1] * 650 - 150), 420, lens=28),
+        "monastery": cam_at("Cam · the Raft monastery", (MOX, MOY, ground.z(MOX, MOY)), ((RX - MOX) / math.hypot(RX - MOX, RY - MOY) * 210 + 60, (RY - MOY) / math.hypot(RX - MOX, RY - MOY) * 210 - 60), 110),
+        "walk": bt.camera("Cam · up the Statue Walk", (agora[0] - to_round[0] / tr * 150, agora[1] - to_round[1] / tr * 150, ground.z(*agora) + 160), (wmx, wmy, ground.z(wmx, wmy)), look, lens=35)})
     scene.camera = ctx["cams"]["overview"]
     bpy.ops.wm.save_as_mainfile(filepath=str(bt.OUT / "paxos.blend"), compress=True)
     if "--render" in args:
