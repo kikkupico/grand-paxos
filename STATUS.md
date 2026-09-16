@@ -84,7 +84,7 @@ Also still open:
 - **Check this on the first import:** option B's citadel empty must land on the northern peninsula, on land. If it lands in water to the south, the image V axis is flipped.
 
 ## Next steps
-1. Done: decisions locked, and map B refined and republished.
+1. Done: decisions locked, and map B refined. **Not yet republished.** The live Artifact is still draft 0.1, byte-identical to commit cdc025b apart from the service wrapper. The Artifact tool refuses a republish until the saved live copy has been Read line by line, and because of the inline map SVGs that's about 265k tokens. Options: do that read once, publish to a new URL (then update CLAUDE.md), or slim the page first by moving the SVGs out into `files`.
 2. Get the user's answer on G06 (Volume IX off-island, or the east-lobe monastery). If it goes on the island, add a site to `SITES`/`RULES` and to option B.
 3. Optional: names for the town, bays and capes on map B.
 4. Stage 2: write the painted-map prompt with the chosen SVG as the layout reference (Gemini image model, as in `paxos-illustrated/tools/gen_panel.py`).
