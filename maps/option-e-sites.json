@@ -10,7 +10,7 @@
   -120.0,
   480.0
  ],
- "land_km2": 18.54,
+ "land_km2": 18.5,
  "summit_m": 376,
  "checks": {
   "hamlets_mutually_visible": [],
@@ -28,8 +28,8 @@
    ]
   ],
   "signal_pairs_clear": [
-   1,
-   1
+   2,
+   2
   ],
   "town_to_round_clear": true,
   "round_in_saddle": true,
@@ -46,31 +46,49 @@
    "dry_in_calm": true,
    "winter_seas_break_over": true
   },
-  "dependency_order": [
-   true,
-   [
-    [
+  "dependency_order": {
+   "edges_ok": true,
+   "broken_edges": [],
+   "bands_ok": true,
+   "spans": {
+    "I": [
      0.0,
-     0.196
+     0.222
     ],
-    [
-     0.31,
-     0.31
+    "II": [
+     0.635,
+     0.695
     ],
-    [
+    "III": [
+     0.11,
+     0.11
+    ],
+    "IV": [
+     0.26,
+     0.351
+    ],
+    "V": [
      0.472,
-     0.485
+     0.538
     ],
-    [
-     0.61,
+    "VI": [
+     0.62,
+     0.682
+    ],
+    "VII": [
+     0.785,
+     0.8
+    ],
+    "VIII": [
+     0.764,
      0.83
     ],
-    [
+    "IX": [
      0.975,
      0.975
     ]
-   ]
-  ],
+   }
+  },
   "monastery_detached": true
  },
  "sites": {
@@ -130,53 +148,27 @@
     ]
    ]
   },
-  "signals": {
+  "beacons": {
    "num": 5,
-   "name": "Signal headlands",
+   "name": "Beacon headlands",
    "volumes": [
-    "I",
-    "IV"
+    "I"
    ],
    "points_m": [
     [
-     4069,
-     2506,
-     15.2
+     2956,
+     1244,
+     17.2
     ],
     [
-     4569,
-     3144,
-     15.2
-    ],
-    [
-     1194,
-     2556,
-     15.1
-    ],
-    [
-     9856,
-     6794,
-     16.8
-    ]
-   ]
-  },
-  "citadel": {
-   "num": 6,
-   "name": "Headland city \u2192 Citadel",
-   "volumes": [
-    "II",
-    "VII"
-   ],
-   "points_m": [
-    [
-     8331,
-     4781,
-     60.7
+     3731,
+     2069,
+     15.4
     ]
    ]
   },
   "oracle": {
-   "num": 7,
+   "num": 6,
    "name": "Oracle & cave",
    "volumes": [
     "III"
@@ -190,24 +182,41 @@
    ]
   },
   "cothon": {
-   "num": 8,
-   "name": "Circular harbour",
+   "num": 7,
+   "name": "Lantern harbour (cothon)",
    "volumes": [
-    "IV",
-    "V",
-    "VII"
+    "IV"
    ],
    "points_m": [
     [
-     5994,
-     3644,
+     3356,
+     3256,
      4.0
+    ]
+   ]
+  },
+  "drummers": {
+   "num": 8,
+   "name": "Drummers' headlands",
+   "volumes": [
+    "IV"
+   ],
+   "points_m": [
+    [
+     4069,
+     2506,
+     15.2
+    ],
+    [
+     4569,
+     3144,
+     15.2
     ]
    ]
   },
   "strait": {
    "num": 9,
-   "name": "The strait",
+   "name": "The causeway",
    "volumes": [
     "IV"
    ],
@@ -223,9 +232,7 @@
    "num": 10,
    "name": "Harbour town \u00b7 agora",
    "volumes": [
-    "I",
-    "V",
-    "VII"
+    "V"
    ],
    "points_m": [
     [
@@ -235,12 +242,25 @@
     ]
    ]
   },
-  "round": {
+  "port": {
    "num": 11,
+   "name": "Merchant quays",
+   "volumes": [
+    "V"
+   ],
+   "points_m": [
+    [
+     5994,
+     3644,
+     14.2
+    ]
+   ]
+  },
+  "round": {
+   "num": 12,
    "name": "The Great Round",
    "volumes": [
-    "V",
-    "VIII"
+    "V"
    ],
    "points_m": [
     [
@@ -251,7 +271,7 @@
    ]
   },
   "banquet": {
-   "num": 12,
+   "num": 13,
    "name": "Banquet house",
    "volumes": [
     "V"
@@ -264,94 +284,174 @@
     ]
    ]
   },
+  "city": {
+   "num": 14,
+   "name": "Besieged headland city",
+   "volumes": [
+    "II"
+   ],
+   "points_m": [
+    [
+     7569,
+     4306,
+     61.0
+    ]
+   ]
+  },
+  "camps": {
+   "num": 15,
+   "name": "Siege camps",
+   "volumes": [
+    "II"
+   ],
+   "points_m": [
+    [
+     7144,
+     4519,
+     115.7
+    ],
+    [
+     7581,
+     4956,
+     74.2
+    ],
+    [
+     7169,
+     5019,
+     99.2
+    ]
+   ]
+  },
   "granary": {
-   "num": 13,
+   "num": 16,
    "name": "Granary storehouses",
    "volumes": [
     "VI"
    ],
    "points_m": [
     [
-     6081,
-     5569,
-     7.0
+     6444,
+     5244,
+     85.7
+    ],
+    [
+     6406,
+     5831,
+     69.7
     ],
     [
      6394,
-     6194,
-     31.2
-    ],
-    [
-     7231,
-     6194,
-     89.6
+     6344,
+     6.8
     ]
    ]
   },
   "granary2": {
-   "num": 14,
+   "num": 17,
    "name": "Granary on the heights",
    "volumes": [
     "VI"
    ],
    "points_m": [
     [
-     7019,
-     5706,
-     90.1
+     6969,
+     5594,
+     90.3
     ]
    ]
   },
-  "cliffs": {
-   "num": 15,
-   "name": "Ledger cliffs",
+  "citadel": {
+   "num": 18,
+   "name": "Citadel of Iron Quorums",
    "volumes": [
-    "VIII"
+    "VII"
    ],
    "points_m": [
     [
-     7519,
-     7244,
-     35.0
+     8806,
+     5081,
+     130.4
     ]
    ]
   },
-  "locks": {
-   "num": 16,
-   "name": "Italian guild lock-houses",
+  "seawall": {
+   "num": 19,
+   "name": "Citadel harbour & sea wall",
+   "volumes": [
+    "VII"
+   ],
+   "points_m": [
+    [
+     8919,
+     4669,
+     22.1
+    ]
+   ]
+  },
+  "hall": {
+   "num": 20,
+   "name": "Guild hall",
    "volumes": [
     "VIII"
    ],
    "points_m": [
     [
      7644,
-     5844,
-     96.5
+     6094,
+     130.0
+    ]
+   ]
+  },
+  "locks": {
+   "num": 21,
+   "name": "Italian guild lock-houses",
+   "volumes": [
+    "VIII"
+   ],
+   "points_m": [
+    [
+     7994,
+     6219,
+     137.0
     ],
     [
-     7806,
-     5969,
-     120.0
+     7881,
+     6381,
+     163.4
     ],
     [
-     7969,
-     6081,
-     123.8
+     7769,
+     6544,
+     167.5
     ],
     [
-     8131,
-     6206,
-     101.5
+     7644,
+     6719,
+     146.0
     ],
     [
-     8306,
-     6319,
-     73.4
+     7531,
+     6881,
+     115.8
+    ]
+   ]
+  },
+  "cliffs": {
+   "num": 22,
+   "name": "Ledger cliffs",
+   "volumes": [
+    "VIII"
+   ],
+   "points_m": [
+    [
+     7606,
+     7294,
+     23.3
     ]
    ]
   },
   "monastery": {
-   "num": 17,
+   "num": 23,
    "name": "Raft monastery",
    "volumes": [
     "IX"
