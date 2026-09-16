@@ -10,8 +10,9 @@ _Last updated 16 Sep 2026._
 
 ## Pipeline (current stage in bold)
 1. Rough map: done. The island is a generated elevation field with all 23 sites placed and every check passing.
-2. **Painted map: in progress, waiting for the user.** The user makes the image by hand in the Gemini web UI (no API calls) from `maps/island-reference.png` and the prompt in `prompts/painted-map.md`, then brings the file back. Next: run `python3 tools/painted_map.py register <file>`, check the coastline score and the mismatch image, and put the painting on the page.
-3. Island blockout in Blender: the heightmap displaces a Grid, empties come from the sites JSON, then sculpting.
+2. Painted map: first painting done (16 Sep 2026). The user made it in the Gemini web UI from `maps/island-reference.png` and `prompts/painted-map.md`. It is registered as `maps/island-painted.jpg`, with land IoU 0.959 and 0.29% of cells more than 50 m off, and shown in §3 of the page. The source download is `temp/Gemini_Generated_Image_952pf1952pf1952p.jpeg` (gitignored).
+3. **Island blockout in Blender: next.**
+   The heightmap displaces a Grid, empties come from the sites JSON, then sculpting, with the painted map as the colour reference.
 4. Hero architecture: the Round, the three harbours, the headland city, the citadel, the granary, the guild hall and the lock-houses are hand-modelled. Tripo is used only for props (statues, amphorae, ships, the hourglass).
 5. Shot pre-vis: one camera per panel, rendered as clay plus a line pass.
 6. Comic pass: ligne claire over the pre-vis, checked against the asset sheets.
@@ -75,10 +76,11 @@ The sections are:
 ## Stage 2 files
 - `maps/island-reference.svg` is written by `island_maps.py` in its clean mode. It has no numbers, zone numerals, dots, compass, scale bar or offshore depth bands. Built sites are shown as terracotta rectangles.
 - `maps/island-reference.png` is written by `painted_map.py reference`: 2200 × 1650, with the 11:8 map letterboxed with 25 units of sea top and bottom to make 4:3, the nearest aspect ratio the image model offers.
-- `painted_map.py register <file>` scales the painting to that 4:3 frame, crops the letterbox, and writes `maps/island-painted.jpg` (2200 × 1600, the same frame as the SVG and heightmap). It also writes `island-painted.json`, with land IoU and the percentage of cells wrong by more than 50 m from the coast, and `island-painted-mismatch.png`. The sea classifier treats blue-dominant pixels as sea. A self-test on the reference itself scored IoU 0.993, with 0% beyond 50 m.
+- `painted_map.py register <file>` scales the painting to that 4:3 frame, crops the letterbox, and writes `maps/island-painted.jpg` (2200 × 1600, the same frame as the SVG and heightmap). It also writes `island-painted.json`, with land IoU and the percentage of cells wrong by more than 50 m from the coast, and `island-painted-mismatch.png`. The sea classifier counts as water anything blue-dominant, or pale sea-green (green over red, blue at most 30 under red, bright). The first rule missed the painted turquoise and sea-green shallows and scored the painting 0.83, which was wrong. On the painting, only 0.08% of land reads as sea. A self-test on the reference scores IoU 0.994, with 0% beyond 50 m. `register` also writes the scores into the page between `<!-- PAINTED -->` markers.
+- Departures in painting v1 that the score doesn't catch: buildings are drawn at symbol size (citadel, city and Round several times too big), the east breakwater appears twice, the town piers and a SW quay reach too far out, the Raft islet has no monastery building, and the Round reads as a theatre. Take building footprints from the site list, not the painting.
 - Storage decision: commit `island-painted.jpg` and its JSON as spec. Keep the full-size download out of Git.
 
 ## Next steps
-1. Register the user's painting, iterate on the prompt if the score is poor, then add the painting to the page (optionally with the site badges overlaid in the same viewBox).
+1. Optional: re-roll or touch up the painting for the departures listed above.
 2. Optional: names for the town, bays and capes; larger map symbols.
 3. Stage 3: build the Blender scene from `island-height.png` and `island-sites.json`, following the spec above.

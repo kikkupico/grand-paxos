@@ -1,0 +1,11 @@
+{
+ "source": "Gemini_Generated_Image_952pf1952pf1952p.jpeg",
+ "source_px": [
+  2400,
+  1792
+ ],
+ "land_iou": 0.9587,
+ "cells_wrong_pct": 0.91,
+ "cells_wrong_beyond_50m_pct": 0.29,
+ "registered": "maps/island-painted.jpg (2200 x 1600, same frame as island.svg)"
+}

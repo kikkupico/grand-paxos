@@ -174,8 +174,8 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 
 <nav class="adnav" aria-label="Sections">
   <div class="adnav-inner">
-    <a href="#brief">Brief</a><a href="#order">1 · Reading order</a><a href="#map">2 · The map</a><a href="#gazetteer">3 · Gazetteer</a>
-    <a href="#places">4 · Places</a><a href="#canon">5 · Canon</a><a href="#decisions">6 · Decisions</a><a href="#blender">7 · To Blender</a>
+    <a href="#brief">Brief</a><a href="#order">1 · Reading order</a><a href="#map">2 · The map</a><a href="#painted">3 · Painted map</a><a href="#gazetteer">4 · Gazetteer</a>
+    <a href="#places">5 · Places</a><a href="#canon">6 · Canon</a><a href="#decisions">7 · Decisions</a><a href="#blender">8 · To Blender</a>
   </div>
 </nav>
 
@@ -192,7 +192,7 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
   </div>
   <ol class="pipe" aria-label="Pipeline">
     <li class="now"><strong>Rough map</strong>The island as a real elevation field, with every site placed and tested. This page.</li>
-    <li><strong>Painted map</strong>An image model fills in the map: vegetation, town fabric, coves, cliffs.</li>
+    <li><strong>Painted map</strong>First painting done and registered to the heightmap (§3). Vegetation, town fabric, coves, cliffs.</li>
     <li><strong>Island blockout</strong>The heightmap displaces a plane in Blender, site empties come from the JSON, then sculpting.</li>
     <li><strong>Hero architecture</strong>The Round, the harbours, the city, the citadel, the granary and the guild buildings are hand-modelled. Tripo makes the props.</li>
     <li><strong>Shot pre-vis</strong>One camera per panel: a clay render plus a line pass.</li>
@@ -463,8 +463,35 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 </div>
 </section>
 
+<section id="painted">
+<h2><span class="num">3</span>The painted map</h2>
+<p class="prose">Painted in the Gemini web UI from the text-free layout reference (<code>maps/island-reference.png</code>) and the prompt in <code>prompts/painted-map.md</code>. <code>tools/painted_map.py register</code> crops and scales the painting back into the map's exact frame, so it lies on the heightmap. It then scores the painted coastline against the heightmap's.</p>
+<div class="mapframe"><img src="maps/island-painted.jpg" alt="Hand-painted map of Paxos: the rounded north-west lobe with its summit, the causeway neck, the Round between two hills above the harbour town, the south-east lobe with the headland city, citadel and wheat plain, and the Raft islet" style="display:block;width:100%;height:auto"></div>
+<div class="option-body">
+  <div>
+    <h4>What the painting gets right</h4>
+    <ul class="pros">
+      <li>The coastline, lobes, causeway, strait and islet sit where the heightmap puts them.</li>
+      <li>The two knolls with the Round in the col between them, the processional way down to the town, and the town on the north-east coast.</li>
+      <li>The round lantern harbour with its lighthouse islet at the neck. Olive groves and terraces on the slopes, bare summits, the wheat plain in the south-east and quarried cliffs on the south coast.</li>
+    </ul>
+    <h4>Where it departs from the layout</h4>
+    <ul class="cons">
+      <li>Buildings are drawn at map-symbol size, not true scale: the citadel, the headland city and the Round are several times too big. Take footprints from the site list, not the painting.</li>
+      <li>The east breakwater appears twice, a small arc on land and an oversized arc offshore.</li>
+      <li>The town's piers and a quay-like structure on the south-west coast reach further into the sea than the layout shows.</li>
+      <li>The Raft islet has trees but no monastery building.</li>
+      <li>The Round reads more like a theatre than a closed ring.</li>
+    </ul>
+  </div>
+  <div><h4>Registration</h4><!-- PAINTED -->
+<dl class="stats"><div><dt>Source image</dt><dd>2400 × 1792 px</dd></div><div><dt>Land overlap (IoU) with the heightmap</dt><dd>0.959</dd></div><div><dt>Cells where land/sea disagree</dt><dd>0.91%</dd></div><div><dt>…more than 50 m from the true coast</dt><dd>0.29%</dd></div></dl>
+<!-- /PAINTED --><p class="muted">Where the painting's land or sea disagrees with the heightmap by more than 50 m (terra red):</p><img src="maps/island-painted-mismatch.png" alt="Mismatch map: the island in sand colour with small red marks at the town piers, the east breakwater and a few ships" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"></div>
+</div>
+</section>
+
 <section id="gazetteer">
-<h2><span class="num">3</span>Gazetteer: 23 sites in walking order</h2>
+<h2><span class="num">4</span>Gazetteer: 23 sites in walking order</h2>
 <p class="prose"><b>Every site belongs to exactly one volume</b>, which is what lets the walk read in order. Elevation and distance to the sea are enforced when a site is placed. Sightline rules are tested by casting rays across the terrain, and the generator searches for positions that pass them.</p>
 <div class="tbl"><table>
   <thead><tr><th>#</th><th>Site</th><th>Volume</th><th>Ground rule</th><th>Why</th></tr></thead>
@@ -495,7 +522,7 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 </section>
 
 <section id="places">
-<h2><span class="num">4</span>Places each volume builds for itself</h2>
+<h2><span class="num">5</span>Places each volume builds for itself</h2>
 <p class="prose">Several volumes need the same kind of place. Each gets its own, in its own zone, so a shot for one volume never needs another volume's buildings in frame.</p>
 <div class="grid">
   <div class="card"><h4>Harbours</h4><p><b>III</b> has the round cothon (seven quays, an islet with a lantern tower) at the neck. <b>IV</b> has plain merchant quays and the harbour town below the Round, where the galley sails. <b>VII</b> has a walled harbour with a sea wall below its citadel, where the inquisitors land.</p></div>
@@ -506,7 +533,7 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 </section>
 
 <section id="canon">
-<h2><span class="num">5</span>Canon</h2>
+<h2><span class="num">6</span>Canon</h2>
 <div class="grid">
   <div class="card"><h4>Period</h4><p>Classical Greek, in a Hellenistic free port like Delos, with a resident Italian merchant guild. Add exactly the objects the papers name, treated as advanced Paxon crafts: a parchment codex ledger, iron-gall ink and a glass hourglass.</p></div>
   <div class="card"><h4>The Great Round</h4><p>An open-air circular assembly theatre after the ekklesiasteria at Metapontum and Paestum, about 50 m across, sunk into a windswept col above the sea. About 14 rows of limestone tiers, 8 radial stairways, a mid-height walkway, a sand orchestra with a marble kerb and a high ashlar ring wall. Four monumental gateways at the cardinal points have bronze-plated double doors and an oak drop-bar. Statues of past legislators stand outside the wall. Oratory has to be visibly impossible, which is why messengers exist.</p></div>
@@ -515,7 +542,7 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 </section>
 
 <section id="decisions">
-<h2><span class="num">6</span>Decisions</h2>
+<h2><span class="num">7</span>Decisions</h2>
 <ul class="prose">
   <li><b>One island</b> carries all nine volumes. Its shape is this dependency spine, chosen over four other explored layouts.</li>
   <li><b>World:</b> 11 × 8 km, about 18.5 km² of land.</li>
@@ -528,7 +555,7 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 </section>
 
 <section id="blender">
-<h2><span class="num">7</span>From map to Blender</h2>
+<h2><span class="num">8</span>From map to Blender</h2>
 <div class="box gold">
 <h4>Files in <code>maps/</code></h4>
 <pre class="code">island.svg              the map on this page

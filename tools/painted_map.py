@@ -10,10 +10,10 @@ prompts/painted-map.md; this tool prepares the upload and registers what comes b
   python3 tools/painted_map.py register <downloaded image>
       Scales the painting to the 4:3 frame, crops the letterbox back off, and writes
       maps/island-painted.jpg (2200 x 1600, the same frame as island.svg and the heightmap).
-      Then measures how well its coastline sits on the heightmap's and writes
-      maps/island-painted.json.
+      Then measures how well its coastline sits on the heightmap's, writes maps/island-painted.json
+      and island-painted-mismatch.png, and puts the scores in the page between its PAINTED markers.
 """
-import json, subprocess, sys, tempfile
+import json, re, subprocess, sys, tempfile
 from pathlib import Path
 import numpy as np
 from PIL import Image
@@ -41,10 +41,12 @@ def reference():
     print(f"maps/island-reference.png  {out.size[0]} x {out.size[1]}")
 
 def land_mask_from_painting(img):
-    """Sea is the blue-dominant water; everything else is land (beaches, rock, fields, towns)."""
+    """Water is blue-dominant (deep sea, turquoise) or a pale sea-green wash (green over red, blue only a
+    little under red). Land runs warm: beaches, fields and roofs have red above blue by a wide margin,
+    and even hill greens sit far lower in blue."""
     a = np.asarray(img.convert("RGB")).astype(int)
     r, g, b = a[..., 0], a[..., 1], a[..., 2]
-    return ~((b > r + 12) & (b >= g - 6))
+    return ~((b > r + 5) | ((g > r + 8) & (b > r - 30) & (r + g + b > 450)))
 
 def grow(mask, cells):
     k = cells
@@ -75,6 +77,15 @@ def register(path):
     (MAPS / "island-painted.json").write_text(json.dumps(report, indent=1))
     Image.fromarray(np.where(beyond[..., None], [191, 74, 38], np.where(land[..., None], [226, 213, 155], [143, 188, 205])).astype(np.uint8)) \
         .save(MAPS / "island-painted-mismatch.png")
+    page = ROOT / "art-direction-grand-island-shape.html"
+    rows = [("Source image", f"{w} × {h} px"), ("Land overlap (IoU) with the heightmap", f"{iou:.3f}"),
+            ("Cells where land/sea disagree", f"{report['cells_wrong_pct']}%"),
+            ("…more than 50 m from the true coast", f"{report['cells_wrong_beyond_50m_pct']}%")]
+    block = '<dl class="stats">' + "".join(f"<div><dt>{k}</dt><dd>{v}</dd></div>" for k, v in rows) + "</dl>"
+    if page.exists():
+        html = page.read_text()
+        html = re.sub(r"(<!-- PAINTED -->).*?(<!-- /PAINTED -->)", lambda mo: mo.group(1) + "\n" + block + "\n" + mo.group(2), html, flags=re.S)
+        page.write_text(html)
     print(json.dumps(report, indent=1))
     print("maps/island-painted-mismatch.png shows in terra red where the painting's coast strays more than 50 m")
 
