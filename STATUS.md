@@ -15,7 +15,7 @@ _Last updated 16 Sep 2026._
 4. **Hero architecture: key buildings detailed to human scale (16 Sep 2026).**
    - Detailed: the Great Round (`blender_round.py`, with the user's verandah); the lighthouse and quays, banquet house, agora and stoa, oracle temple, headland city and citadel (`blender_arch.py` components); and doors and windows on every house.
    - Large props, first pass (`blender_props.py`): ships in all three harbours and at the quarry quay, the Raft, amphorae, a crane, the agora's cheese stalls and goat pen, and ox carts.
-   - All checks pass: `blender/{terrain,buildings,round,detail,sites,props,vegetation}-checks.json`, §4–6 of the page.
+   - All checks pass: `blender/{terrain,buildings,round,detail,sites,props,vegetation}-checks.json`, §4–6 of the page; panels in §7.
    - **Small props skipped for now (user, 16 Sep 2026):** the ledger scroll, hourglass, ink and so on are not modelled. The image references in `references/` (13 sheets for I, III and IV; see its README for where they disagree with the canon) serve as references when scene images are generated. Tripo stays available for props later; ask before any paid API call.
    - **Next:** build the actual scenes. Cameras are placed per scene as it is built, with no generic coverage set (user, 16 Sep 2026).
 5. **Panel layouts and images: pilot done (16 Sep 2026).** One camera per panel, decided when the panel is staged; no generic coverage cameras.
@@ -35,7 +35,7 @@ _Last updated 16 Sep 2026._
 - **3D files:** `.blend`, `.glb` and renders are gitignored, and renders go to R2.
 - **The ledger is a parchment scroll on two rods (16 Sep 2026)**, replacing the codex. It is one continuous strip, written in order and wound from rod to rod, and it is the same object in every volume: IV's legislators' ledgers, VI's granary ledger, and the statues' scroll pose. The gazetteer's ledger cliffs are now "layered strata", not "stacked tablets", so they don't suggest a different ledger form. A law book (IV §3.3.2) is a set of scrolls, one per area of law, each tagged with the last decree it reflects (user, 16 Sep 2026).
 
-Canon for the period, the Great Round and the Parliament's port is in §5 of the page.
+Canon for the period, the Great Round, the Parliament's port and the ledger is in §10 of the page.
 
 Still open:
 - The contents of the common and per-volume asset sheets aren't defined yet.

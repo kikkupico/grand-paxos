@@ -174,8 +174,8 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 
 <nav class="adnav" aria-label="Sections">
   <div class="adnav-inner">
-    <a href="#brief">Brief</a><a href="#order">1 · Reading order</a><a href="#map">2 · The map</a><a href="#painted">3 · Painted map</a><a href="#terrain">4 · Terrain</a><a href="#buildings">5 · Buildings</a><a href="#nature">6 · Vegetation</a><a href="#gazetteer">7 · Gazetteer</a>
-    <a href="#places">8 · Places</a><a href="#canon">9 · Canon</a><a href="#decisions">10 · Decisions</a><a href="#blender">11 · To Blender</a>
+    <a href="#brief">Brief</a><a href="#order">1 · Reading order</a><a href="#map">2 · The map</a><a href="#painted">3 · Painted map</a><a href="#terrain">4 · Terrain</a><a href="#buildings">5 · Buildings</a><a href="#nature">6 · Vegetation</a><a href="#panels">7 · Panels</a><a href="#gazetteer">8 · Gazetteer</a>
+    <a href="#places">9 · Places</a><a href="#canon">10 · Canon</a><a href="#decisions">11 · Decisions</a><a href="#blender">12 · To Blender</a>
   </div>
 </nav>
 
@@ -191,11 +191,11 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
     <div><b>4</b><span>There's one shared asset sheet for the whole series, plus a sheet for each volume.</span></div>
   </div>
   <ol class="pipe" aria-label="Pipeline">
-    <li class="now"><strong>Rough map</strong>The island as a real elevation field, with every site placed and tested. This page.</li>
+    <li><strong>Rough map</strong>The island as a real elevation field, with every site placed and tested. This page.</li>
     <li><strong>Painted map</strong>Tried once and kept as a record (§3). Not used downstream.</li>
     <li><strong>Island blockout</strong>Terrain built in Blender from the heightmap, with every site as an empty (§4). Buildings and vegetation go on top next.</li>
     <li><strong>Hero architecture</strong>Every site is modelled (§5), with the hero buildings detailed to human scale, the large props (ships, the Raft, carts, the market) and vegetation, fields and tracks (§6). The small props come next, from Tripo.</li>
-    <li><strong>Shot pre-vis</strong>One camera per panel: a clay render plus a line pass.</li>
+    <li class="now"><strong>Shot pre-vis</strong>One camera per panel, staged on the island with blocking figures and rendered with ink outlines (§7). Pilot done.</li>
     <li><strong>Comic pass</strong>A 1970s halftone comic drawn over the pre-vis layout, checked against the canon and the reference sheets.</li>
   </ol>
   <p class="muted prose">Everything on this page can be rebuilt. The map, the measured checks and the reading-order table come from <code>tools/island_maps.py</code>, which also writes <code>maps/island.svg</code>, the 16-bit heightmap and the site list. The story phases are in <code>ERAS.md</code>.</p>
@@ -735,8 +735,50 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 </div>
 </section>
 
+<section id="panels">
+<h2><span class="num">7</span>Panels: from layout to comic</h2>
+<p class="prose">Each panel is staged on the built island in Blender, then drawn as a 1970s halftone comic with the Gemini API. The pilot covers three different kinds of panel: an exterior at eye level, a crowded interior and a close-up still life. All three are accepted and appear on the <a href="volumes/IV-part-time-parliament.html">Volume IV page</a>.</p>
+<div class="grid">
+  <div>
+    <h4>How a panel is made</h4>
+    <ul class="pros">
+      <li><b>Stage:</b> <code>volumes/IV-shots.json</code> holds each panel's camera (position, target, lens), aspect, resolution, and its blocking figures and stand-in props. <code>tools/blender_panels.py</code> builds them in a per-panel collection, hidden from every other render, and writes the resolved heights and frame positions back so the frame can be re-rendered exactly.</li>
+      <li><b>Layout render:</b> the lit render with ink outlines from normal and depth passes. Automatic checks: the lens and frame centre are clear, and every figure is in frame and visible.</li>
+      <li><b>Draw:</b> <code>tools/panel_images.py</code> sends the layout, the panel's reference sheets and an accepted panel as a style anchor to <code>gemini-3-pro-image</code>. The prompt asks for a careful tracing of the layout and says what each mannequin and stand-in becomes, plus the canon (two-rod ledgers, ashlar not whitewash, the verandah inside the ring). No borders, no writing.</li>
+      <li><b>Check:</b> a layout score (the share of the layout's strongest edges that survive) against the same image flipped as a baseline. Every panel is also read against the canon by eye, since the score can't see a codex or whitewash. Targeted fixes edit an attempt rather than starting again.</li>
+    </ul>
+  </div>
+  <div>
+    <h4>Found on the way</h4>
+    <ul class="cons">
+      <li>The Great Round stood in a ditch, 4.8 m deep at its east gate. The bowl's lowered 12.5 m terrain cells sloped down outside the wall. It's now fixed with a paved terrace to 34 m and a Statue Walk landing at gate level, and a Round check (§5) fails on the old scene.</li>
+      <li>Freestyle outlines over the whole island didn't finish in 10 minutes, so outlines come from normal and depth passes instead.</li>
+      <li>Gemini draws mannequins it doesn't recognise as objects, and copies low-poly vegetation literally. Both are caught by eye and fixed in one edit.</li>
+    </ul>
+  </div>
+</div>
+<h3>IV-03 · In and out of the Chamber <span class="muted" style="font-weight:400;font-size:.8em">(4 attempts)</span></h3>
+<div class="grid">
+  <figure style="margin:0"><img src="renders/panels/IV-03-layout.png" alt="Blender layout: the Round's east gate pylon, open bronze door and statues on the paved terrace, with four colour-coded mannequins" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">Blender layout, with blocking figures</figcaption></figure>
+  <figure style="margin:0"><img src="volumes/images/IV-03.jpg" alt="Finished panel: a legislator in terracotta walks toward the viewer with a two-rod ledger, two figures gossip in the gateway, another legislator and a runner come and go, statues and a maquis hillside behind" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">Accepted panel</figcaption></figure>
+</div>
+<p class="prose">The first attempt redrew the gate and put the verandah outside the wall (layout score 0.74, no better than the 0.74 baseline). The second kept the architecture but left a mannequin in as a draped wooden stand. Two targeted fixes replaced it with the legislator and turned copied low-poly shrubs into maquis. Accepted at 0.92 against 0.78. This panel is the style anchor for the rest.</p>
+<h3>IV-11 · NextBallot(b) <span class="muted" style="font-weight:400;font-size:.8em">(1 attempt)</span></h3>
+<div class="grid">
+  <figure style="margin:0"><img src="renders/panels/IV-11-layout.png" alt="Blender layout: the cavea from between two verandah columns, the stairways and orchestra below, mannequins for priest p, messengers and priests" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">Blender layout, with blocking figures</figcaption></figure>
+  <figure style="margin:0"><img src="volumes/images/IV-11.jpg" alt="Finished panel: priest p in terracotta hands a sealed scroll to a messenger while others run down the stairways, priests seated on the far rows, the verandah colonnade across the top" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">Accepted panel</figcaption></figure>
+</div>
+<p class="prose">Right first time with the style anchor (0.87 against 0.73). The foreground group sits a little lower in the bowl than laid out. Staging found that the gate attics reach into the verandah and a camera had been placed inside one; verandah cameras now sit between the columns.</p>
+<h3>IV-06 · Standard issue <span class="muted" style="font-weight:400;font-size:.8em">(2 attempts)</span></h3>
+<div class="grid">
+  <figure style="margin:0"><img src="renders/panels/IV-06-layout.png" alt="Blender layout: a verandah window ledge with stand-ins for the two-rod ledger, ink pot, pen, hourglass and a lifting slip of paper, the east slope beyond" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">Blender layout, with blocking figures</figcaption></figure>
+  <figure style="margin:0"><img src="volumes/images/IV-06.jpg" alt="Finished panel: the tied two-rod ledger with a seal, a reed pen, ink pot, glass hourglass and a slip of paper on the stone ledge, the banquet house among cypresses and a statue on the slope beyond" style="display:block;width:100%;height:auto;border:1.5px solid var(--ink);border-radius:3px"><figcaption class="muted" style="font-size:.85rem">Accepted panel</figcaption></figure>
+</div>
+<p class="prose">The first attempt drew a metal-nib pen and copied the render's banquet house and statue as blank shapes. One fix gave a cut reed pen, the banquet house with its tiled roof and cypresses, and a statue (0.92 against 0.64). Blender helped even this close-up: it fixed the window, the ledge and the view.</p>
+</section>
+
 <section id="gazetteer">
-<h2><span class="num">7</span>Gazetteer: 23 sites in walking order</h2>
+<h2><span class="num">8</span>Gazetteer: 23 sites in walking order</h2>
 <p class="prose"><b>Every site belongs to exactly one volume</b>, which is what lets the walk read in order. Elevation and distance to the sea are enforced when a site is placed. Sightline rules are tested by casting rays across the terrain, and the generator searches for positions that pass them.</p>
 <div class="tbl"><table>
   <thead><tr><th>#</th><th>Site</th><th>Volume</th><th>Ground rule</th><th>Why</th></tr></thead>
@@ -767,7 +809,7 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 </section>
 
 <section id="places">
-<h2><span class="num">8</span>Places each volume builds for itself</h2>
+<h2><span class="num">9</span>Places each volume builds for itself</h2>
 <p class="prose">Several volumes need the same kind of place. Each gets its own, in its own zone, so a shot for one volume never needs another volume's buildings in frame.</p>
 <div class="grid">
   <div class="card"><h4>Harbours</h4><p><b>III</b> has the round cothon (seven quays, an islet with a lantern tower) at the neck. <b>IV</b> has plain merchant quays and the harbour town below the Round, where the galley sails. <b>VII</b> has a walled harbour with a sea wall below its citadel, where the inquisitors land.</p></div>
@@ -778,7 +820,7 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 </section>
 
 <section id="canon">
-<h2><span class="num">9</span>Canon</h2>
+<h2><span class="num">10</span>Canon</h2>
 <div class="grid">
   <div class="card"><h4>Period</h4><p>Classical Greek, in a Hellenistic free port like Delos, with a resident Italian merchant guild. Add exactly the objects the papers name, treated as advanced Paxon crafts: a parchment ledger scroll on two rods, iron-gall ink and a glass hourglass.</p></div>
   <div class="card"><h4>The ledger</h4><p>A ledger is one continuous strip of parchment wound between two wooden rods, never a bound codex. Entries are written one after another and wound on from one rod to the other. Reading winds back through them in the order they were written. It is the same object wherever a ledger appears: the legislators' ledgers in IV, the granary clerks' ledger in VI, and the statues of legislators that hold one. When the paper's legislators turn their ledgers into <em>law books</em>, a law book is a set of scrolls, one per area of law, each tagged with the last decree it reflects, not a codex.</p></div>
@@ -788,7 +830,7 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 </section>
 
 <section id="decisions">
-<h2><span class="num">10</span>Decisions</h2>
+<h2><span class="num">11</span>Decisions</h2>
 <ul class="prose">
   <li><b>One island</b> carries all nine volumes. Its shape is this dependency spine, chosen over four other explored layouts.</li>
   <li><b>World:</b> 11 × 8 km, about 18.5 km² of land.</li>
@@ -802,7 +844,7 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 </section>
 
 <section id="blender">
-<h2><span class="num">11</span>From map to Blender</h2>
+<h2><span class="num">12</span>From map to Blender</h2>
 <div class="box gold">
 <h4>Files in <code>maps/</code></h4>
 <pre class="code">island.svg              the map on this page
