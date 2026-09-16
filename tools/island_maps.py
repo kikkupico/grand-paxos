@@ -108,11 +108,25 @@ def cothon(h, cx, cy, r=150.0):
     h = np.where((d < r) | (cd < 22), np.minimum(h, -7.0), h)
     return np.where(d < r * .3, 4.0, h), math.degrees(math.atan2(ey - cy, ex - cx))
 
-def grade(h, a, b, half, feather):
-    """Cut and fill a straight ramp from a=(x, y, z) to b, blending into the ground over `feather` metres."""
-    d, t = seg_dist(a[0], a[1], b[0], b[1], X0, Y0)
-    w = np.clip((half + feather - d) / feather, 0, 1); w = w * w * (3 - 2 * w)
-    return h * (1 - w) + (a[2] + (b[2] - a[2]) * t) * w
+def open_sightline(h, a, b, margin, width, lead=80.0):
+    """Lower only the ground that rises within `margin` of the sightline a=(x, y, eye z) -> b, fading out
+    sideways over `width` metres and easing in over the first `lead` metres, so the view opens as a soft
+    valley instead of a cut. Ground is never raised, and a's own spot is untouched."""
+    (ax, ay, az), (bx, by, bz) = a, b
+    dx, dy = bx - ax, by - ay; L = math.hypot(dx, dy)
+    s = ((X0 - ax) * dx + (Y0 - ay) * dy) / (L * L)
+    t = np.clip(s, 0, 1)
+    d = np.hypot(X0 - (ax + t * dx), Y0 - (ay + t * dy))
+    line = az + (bz - az) * t - margin
+    w = np.exp(-(d / width) ** 2) * np.clip(s * L / lead, 0, 1)
+    return np.where(h > line, h - (h - line) * w, h)
+
+def settle(h, a, b, level, width):
+    """Ease ground above `level` down towards it along a strip a -> b with a soft sideways falloff: a coastal
+    flat that never raises ground, so the shore keeps its natural slope."""
+    d, _ = seg_dist(a[0], a[1], b[0], b[1], X0, Y0)
+    w = np.exp(-(d / width) ** 2)
+    return np.where(h > level, h - (h - level) * w, h)
 
 def channel(h, axis, t, half, depth, seed, feather=140.0, wander=110.0):
     """Cut a sea channel square across an axis at fraction t, its banks wandering with noise."""
@@ -220,17 +234,14 @@ def island():
                              (.59, -1250, 380, 480, 190), (.59, 1300, 360, 460, 180)):
         m -= bead(t, n, ra, rc, dd)                                              # bays in the notches between paired zones
     h = finish(m, 61)
-    h = np.where(h > 0, grade(h, (*at(.505, 820), 14), (*at(.59, 880), 10), 170, 160), h)   # the coastal flat the harbour town stands on
-    R, T = ROUND_COL, PORT                                                       # grade the Statue Walk's descent so the port stays in view
-    dist = math.dist(R, T); vx, vy = (T[0] - R[0]) / dist, (T[1] - R[1]) / dist
-    eye = h_at(h, *R) + 8; fall = (eye - 2) / dist
-    ramp = lambda s_: (R[0] + vx * s_, R[1] + vy * s_, max(3.0, eye - fall * s_ - 12))
-    h = grade(h, ramp(150), ramp(dist - 130), 45, 90)
-    h = channel(h, AXIS, .31, 170, 9.0, seed=62, wander=40)                               # the neck the causeway crosses
+    h = settle(h, at(.505, 820), at(.59, 880), 12.0, 230)                          # the coastal flat the harbour town stands on
+    R, T = ROUND_COL, PORT                                                       # keep the quays in view from the Round's tiers
+    h = open_sightline(h, (*R, h_at(h, *R) + 8), (*T, h_at(h, *T) + 2), 10.0, 140.0)
+    h = channel(h, AXIS, .31, 150, 9.0, seed=62, feather=320, wander=120)                               # the neck the causeway crosses
     cw = [at(.29, -20), at(.31, 90), at(.33, -20)]
     sea_before = h < 0
     h = causeway(h, cw, seed=61)
-    h = channel(h, AXIS, .905, 170, 18.0, seed=63, wander=260)                             # the strait to the Raft islet
+    h = channel(h, AXIS, .905, 170, 18.0, seed=63, feather=380, wander=260)                             # the strait to the Raft islet
     h = keep_islands(h, [at(.11, -560), at(.48), at(.975, 150)], shoal=-8.0)
     sites = {                                                                    # one volume per site, walked NW -> SE
         "hamA": at(.0, 650), "hamK": at(.13, -1050), "hamM": at(.17, 700), "press": at(.05, 450),

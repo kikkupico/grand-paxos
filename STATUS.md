@@ -10,9 +10,8 @@ _Last updated 16 Sep 2026._
 
 ## Pipeline (current stage in bold)
 1. Rough map: done. The island is a generated elevation field with all 23 sites placed and every check passing.
-2. Painted map: first painting done (16 Sep 2026). The user made it in the Gemini web UI from `maps/island-reference.png` and `prompts/painted-map.md`. It is registered as `maps/island-painted.jpg`, with land IoU 0.959 and 0.29% of cells more than 50 m off, and shown in §3 of the page. The source download is `temp/Gemini_Generated_Image_952pf1952pf1952p.jpeg` (gitignored).
-3. **Island blockout in Blender: next.**
-   The heightmap displaces a Grid, empties come from the sites JSON, then sculpting, with the painted map as the colour reference.
+2. Painted map: tried once (16 Sep 2026) and **kept only as a record** of how it didn't turn out as expected: symbol-sized buildings, invented features, no usable surface detail. It is not used downstream. It lives in §3 of the page (`maps/island-painted.jpg`, with scores measured before the terrain smoothing below).
+3. **Island blockout in Blender: terrain built (16 Sep 2026). Next: place buildings, vegetation and props on top.** `tools/blender_terrain.py` builds `blender/paxos.blend` (gitignored) straight from the heightmap. Checks are in `blender/terrain-checks.json` and §4 of the page.
 4. Hero architecture: the Round, the three harbours, the headland city, the citadel, the granary, the guild hall and the lock-houses are hand-modelled. Tripo is used only for props (statues, amphorae, ships, the hourglass).
 5. Shot pre-vis: one camera per panel, rendered as clay plus a line pass.
 6. Comic pass: ligne claire over the pre-vis, checked against the asset sheets.
@@ -51,8 +50,10 @@ The sections are:
 - **Hand-shaped ground:**
   - A narrow crest through the col makes it fall away to both coasts.
   - A valley runs from the col to the NE coast.
-  - `grade()` makes a coastal flat for the town and a graded descent from the Round to `PORT`, computed from those two points so the quays stay in view.
-  - `channel()` cuts the neck (t .31) and the Raft strait (t .905).
+  - `settle()` eases ground above 12 m down along the town's shore with a soft falloff. It only lowers, so the shore keeps its slope.
+  - `open_sightline()` lowers only the ground within 10 m of the sightline from the Round (eye +8 m) to `PORT`, fading sideways over 140 m. That gives a soft valley, not a cut.
+  - `channel()` cuts the neck (t .31, feather 320 m) and the Raft strait (t .905, feather 380 m) with wandering banks.
+  - These replaced a cut-and-fill `grade()` ramp, a raised terrace and steep channel faces, which looked like a trench, a sea wall and ruler-straight coasts once viewed in 3D.
   - `causeway()` lays a Bézier tombolo across the neck.
   - `keep_islands()` drowns stray islets.
 - **Checks** (`checks()`, written to the JSON and the page):
@@ -67,11 +68,13 @@ The sections are:
   - The south-east lobe reads as one mass, so its four zones show through the numerals more than the coastline.
   - The causeway still reads fairly straight at map scale.
 
-## Blender import spec
-- **Grid:** 881 × 641 vertices, 11000 × 8000 m, so one face per heightmap pixel (`maps/island-height.png` is 880 × 640).
-- **Displace modifier:** Non-Color, Strength 600, Midlevel 0.2.
-- **Site empties:** Blender X = x − 5500, Blender Y = 4000 − y, Z = elevation.
-- **Check this on the first import:** site 23's empty (the Raft monastery) must land on the small SE islet. If it lands NW, the image V axis is flipped.
+## Blender scene (`tools/blender_terrain.py`)
+- **Run:** `~/.local/bin/blender -b -P tools/blender_terrain.py [-- --render]`. It takes a few seconds and writes `blender/paxos.blend` and `blender/terrain-checks.json`, plus the checks between the page's `<!-- TERRAIN -->` markers. With `--render` it also writes `renders/terrain-{overview,top,col}.png` (gitignored).
+- **Terrain mesh:** 880 × 640 vertices at the heightmap pixel centres, 12.5 m apart, Z = elevation (no Displace modifier). The heightmap is read through Blender's image loader as Non-Color and flipped north-first. The outermost 600 m of seabed are eased down to −120 m (only open sea), so there's no table edge.
+- **Coordinates:** Blender X = x − 5500, Y = 4000 − y (north is +Y), Z = elevation.
+- **Scene:** a sea plane at 0 over a sea floor at −121 m; a placeholder material coloured by elevation, with rock on slopes over ~30°; a sun from the WSW; cameras for the overview, top and the Round's col. Collections: Terrain, Sites (one child collection per volume, one empty per site point with `site_num`, `site_key`, `volume` and `elevation_m` properties), and Cameras & light.
+- **Checks:** 563,200 vertices; site heights vs the site list max 0.39 m, mean 0.07 m; north is +Y; every site lands on the terrain.
+- **Next:** buildings, vegetation and props, placed at the site empties. Building footprints come from the gazetteer and canon, not the painting.
 
 ## Stage 2 files
 - `maps/island-reference.svg` is written by `island_maps.py` in its clean mode. It has no numbers, zone numerals, dots, compass, scale bar or offshore depth bands. Built sites are shown as terracotta rectangles.
@@ -81,6 +84,6 @@ The sections are:
 - Storage decision: commit `island-painted.jpg` and its JSON as spec. Keep the full-size download out of Git.
 
 ## Next steps
-1. Optional: re-roll or touch up the painting for the departures listed above.
-2. Optional: names for the town, bays and capes; larger map symbols.
-3. Stage 3: build the Blender scene from `island-height.png` and `island-sites.json`, following the spec above.
+1. Place buildings on the terrain, starting with the hero sites: the Great Round in its col, the three harbours, the headland city, the citadel.
+2. Vegetation: olive groves, maquis and pines by elevation and slope, and wheat on the south-east plain.
+3. Optional: names for the town, bays and capes.
