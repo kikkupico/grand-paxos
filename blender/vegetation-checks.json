@@ -1,7 +1,7 @@
 {
  "instances": {
-  "olive groves": 18727,
-  "maquis": 236900,
+  "olive groves": 18722,
+  "maquis": 236888,
   "umbrella pines": 9290
  },
  "cypresses": 25,
@@ -9,6 +9,7 @@
  "track_ribbons_m": 28727,
  "trees_standing_in_water": 0,
  "tall_trees_on_building_footprints": 0,
+ "plants_on_props": 0,
  "tall_trees_on_story_sightlines": 0,
  "ok": true
 }

@@ -164,7 +164,7 @@ The sections are:
 
 ## Large props, first pass (`tools/blender_props.py`)
 - **Scope (16 Sep 2026):** the user asked for the larger props first, done crudely in Blender. The small ones (the hourglass, the ledger and so on) go to Tripo in the next step. Only props the canon or gazetteer supports are built. Siege engines are not built, because the canon names only "palisaded siege camps with tents".
-- **Code layout:** `build(ground, M, colls, geo, tracks, buildings)` is called from `blender_buildings.main()` after the sites and before the sites, Round and detail checks. That way the sightline rays run with the props in place. It never edits the ground.
+- **Code layout:** `build(ground, M, colls, geo, tracks, buildings)` is called from `blender_buildings.main()` once the sites are built and before the sites, Round and detail checks run, so those rays see the props. It never edits the ground.
   - `geo` carries each harbour's geometry, returned by its builder: `merchant_quays` returns the shore point and seaward vector; `citadel` returns the harbour shore and bearing; `guild_quarter` returns `quay`, which main pops; `monastery` returns the jetty.
   - Main also passes the agora and the terrain.
 - **Ships:**
@@ -193,6 +193,8 @@ The sections are:
   - Human scale: decks 0.8–1.6 m above the water, wheels 1.2–1.6 m, cart beds 0.9–1.2 m, counters 0.8–1.0 m, awnings at least 1.2 figures high.
   - No prop blocks a story sightline: `blocked()` in the detail checks, `br.checks(extra=)` and `bs.clear_sight(extra=)` now cast through the props.
 - **Found:** a skiff berthed on dry ground (the shore quay east of the centre pier stands on land) and the port cart cutting into a town house. Both checks failed until placement was fixed.
+- **Vegetation:** the view returns `spots` (carts with their oxen, the crane, the amphora stacks). `blender_nature.masks()` excludes them, one cell wider, and `build()` counts every plant instance within them, shrubs included (`plants_on_props`). Without the mask exclusion, 3 plants stood in props; with it, 0.
+- **Narrower than the names suggest:** gangplanks and mooring lines are left out of the ship/quay overlap test by design, since they touch both. Ships on water and stalls in the agora are kept clear of plants by the existing water and agora exclusions.
 - **Renders:** `renders/buildings-props_{port,outbound,cothon,market,galley,barge,raft,cart}.png`.
 - **Rough edges:** oxen and goats are boxes, sails are flat, and no ship is under oars. The cothon quays are 2.6 m high, so their gangplanks are at 25.8°.
 

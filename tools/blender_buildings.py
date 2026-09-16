@@ -527,7 +527,7 @@ def main():
     sightlines = [((RX, RY, rim + 8), (PX_, PY_, ground.z(PX_, PY_) + 2)), ((RX, RY, rim + 8), (BX_, BY_, ground.z(BX_, BY_) + 4)),
                   tuple(fires), tuple(decks)]
     exclusions = [(*B(x, y), r) for key, r in bn.EXCLUDE_M.items() for x, y, _ in SITES["sites"][key]["points_m"]]
-    vres = bn.build(ctx, ground, bs.smooth_path, sightlines, exclusions)
+    vres = bn.build(ctx, ground, bs.smooth_path, sightlines, exclusions, pviews["spots"])
     (bt.OUT / "vegetation-checks.json").write_text(json.dumps(vres, indent=1))
     print("VEGETATION CHECKS", json.dumps(vres))
     ic = vres["instances"]
@@ -536,6 +536,7 @@ def main():
                    ("Cypresses (placed by hand)", str(vres["cypresses"])), ("Wheat and fallow parcels", f"{vres['wheat_and_fallow_km2']} km²"),
                    ("Track ribbons", f"{vres['track_ribbons_m']:,} m")],
                   [("No trees standing in water", vres["trees_standing_in_water"] == 0),
+                   ("No plants growing through the props (carts, crane, amphora stacks)", vres["plants_on_props"] == 0),
                    ("No tall trees on building footprints", vres["tall_trees_on_building_footprints"] == 0),
                    ("No tall trees on the story's sightlines (Round to quays and banquet house, beacons, drums)", vres["tall_trees_on_story_sightlines"] == 0)])
 

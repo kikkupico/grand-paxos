@@ -445,7 +445,9 @@ def build(ground, M, colls, geo, tracks, buildings):
         "carts_on_tracks_at_grades_oxen_can_hold": carts_ok,
         "props_at_human_scale": all(.8 <= v <= 1.6 for v in sc["deck_freeboard_m"].values()) and 1.2 <= sc["cart_wheel_d_m"] <= 1.6
                                 and .9 <= sc["cart_bed_top_m"] <= 1.2 and .8 <= sc["stall_counter_m"] <= 1.0 and sc["stall_awning_m"] >= 1.2 * ba.FIGURE}
-    views = {"outbound": (OX, OY, oinfo["deck_z"] + 6), "galley_sea": sw, "barge_sea": gs, "raft_perp": (-ms, mc), "agora_P": AP,
+    spots = [(c_["_xyz"][0] + 3 * math.cos(c_["_xyz"][3]), c_["_xyz"][1] + 3 * math.sin(c_["_xyz"][3]), 6.0) for c_ in cart_info if c_.get("placed")]   # carts with their oxen
+    spots += [(px + s[0] * 12, py + s[1] * 12, 8.0)] + [(SX + tq[0] * toff, SY + tq[1] * toff, 9.0) for toff in (-40, 40, 110)]   # crane, amphora stacks
+    views = {"outbound": (OX, OY, oinfo["deck_z"] + 6), "spots": spots, "galley_sea": sw, "barge_sea": gs, "raft_perp": (-ms, mc), "agora_P": AP,
              "cothon": (cx, cy, R, geo["cothon"]["quay_angles"]),
              "raft": (RLX, RLY), "market": AP(0, 4), "barge": None,
              "cart": next((c_["_xyz"] for c_ in cart_info if c_.get("placed") and c_["near"].startswith("granary")), None),

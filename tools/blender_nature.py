@@ -58,7 +58,7 @@ def tracks(smooth):
     out = [smooth([B(x, y) for x, y in t["path"]], rounds=2) for t in SITES["built"]["tracks_m"] if len(t["path"]) > 1]
     return out, smooth([B(x, y) for x, y in SITES["built"]["statue_walk_m"]], rounds=2)
 
-def masks(ground, smooth, sightlines):
+def masks(ground, smooth, sightlines, prop_spots=()):
     X, Y = grid_xy(ground); z = ground.g.astype(np.float64)
     gy, gx = np.gradient(z, bt.CELL); slope = np.hypot(gx, gy)
     land = z > 2.0
@@ -70,6 +70,7 @@ def masks(ground, smooth, sightlines):
     for x, y, _ in SITES["built"]["town"]["insulae_m_deg"]:
         bx, by = B(x, y); excl |= np.hypot(X - bx, Y - by) < 34
     ax, ay = B(*SITES["built"]["town"]["agora_m_deg"][:2]); excl |= np.hypot(X - ax, Y - ay) < 45
+    for px, py, r in prop_spots: excl |= np.hypot(X - px, Y - py) < r + 12.5                          # carts, crane, amphorae: a cell wider, since density interpolates
     track_lines, walk = tracks(smooth)
     track_d = np.full(z.shape, np.inf)
     for line in track_lines + [walk]: track_d = np.minimum(track_d, segment_distance(X, Y, line))
@@ -214,11 +215,11 @@ def ribbons(ground, lines, width, lift, material, name, coll):
     return ob, round(total)
 
 # ---------------------------------------------------------------- build + checks
-def build(ctx, ground, smooth, sightlines, exclusions):
+def build(ctx, ground, smooth, sightlines, exclusions, prop_spots=()):
     terrain = ctx["terrain"]
     top = bt.collection("Vegetation and tracks")
     proto_c = bt.collection("Vegetation prototypes", top)
-    fields, info = masks(ground, smooth, sightlines)
+    fields, info = masks(ground, smooth, sightlines, prop_spots)
     store(terrain, fields)
     patch_terrain_material(terrain)
     protos = prototypes(proto_c)
@@ -240,14 +241,17 @@ def build(ctx, ground, smooth, sightlines, exclusions):
     deps = bpy.context.evaluated_depsgraph_get()
     counts = {k: 0 for k in objs}; wet, on_bld, in_corridor = 0, 0, 0
     names = {o.name: k for k, o in objs.items()}
-    tall = []
+    tall, allp = [], []
     for inst in deps.object_instances:
         if not inst.is_instance or inst.parent is None or inst.parent.name not in names: continue
         kind = names[inst.parent.name]; counts[kind] += 1
         p = inst.matrix_world.translation
         if p.z < 0.3: wet += 1
+        allp.append((p.x, p.y))
         if kind != "maquis": tall.append((p.x, p.y))
     tall = np.array(tall) if tall else np.zeros((0, 2))
+    allp = np.array(allp) if allp else np.zeros((0, 2))
+    on_props = sum(int((np.hypot(allp[:, 0] - px, allp[:, 1] - py) < r).sum()) for px, py, r in prop_spots) if len(allp) else 0
     for (cx, cy, r) in exclusions:
         if len(tall): on_bld += int((np.hypot(tall[:, 0] - cx, tall[:, 1] - cy) < r * .75).sum())
     for p, q in sightlines:
@@ -256,6 +260,6 @@ def build(ctx, ground, smooth, sightlines, exclusions):
         t = np.clip(((tall[:, 0] - x0) * dx + (tall[:, 1] - y0) * dy) / L2, 0, 1)
         in_corridor += int((np.hypot(tall[:, 0] - (x0 + t * dx), tall[:, 1] - (y0 + t * dy)) < 8).sum())
     res = {"instances": counts, "cypresses": len(cypresses), "wheat_and_fallow_km2": info["wheat_km2"], "track_ribbons_m": track_len,
-           "trees_standing_in_water": wet, "tall_trees_on_building_footprints": on_bld, "tall_trees_on_story_sightlines": in_corridor}
-    res["ok"] = wet == 0 and on_bld == 0 and in_corridor == 0 and all(v > 0 for v in counts.values())
+           "trees_standing_in_water": wet, "tall_trees_on_building_footprints": on_bld, "plants_on_props": on_props, "tall_trees_on_story_sightlines": in_corridor}
+    res["ok"] = wet == 0 and on_bld == 0 and on_props == 0 and in_corridor == 0 and all(v > 0 for v in counts.values())
     return res
