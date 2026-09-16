@@ -7,6 +7,7 @@ same source yields three things:
   maps/option-<k>-height.png   16-bit heightmap for Blender displacement
   maps/option-<k>-sites.json   site positions + elevations (for empties)
 and the SVGs are inlined into art-direction-grand.html between MAP markers.
+With no arguments only option e (the chosen map) is rebuilt; a-d are frozen records.
 
 World: x east, y south, in metres; 8 x 5.5 km for options a-d, 11 x 8 km for e
 (set per option by set_world). SVG unit = 5 m.
@@ -343,8 +344,8 @@ def option_dependency():
     }
     order = [["hamA", "hamK", "hamM", "press", "oracle"], ["strait"], ["round", "banquet"],
              ["citadel", "granary", "granary2", "cliffs", "locks"], ["monastery"]]
-    zones = [("I", .03, 900), ("III", .13, -1250), ("IV", .30, -700), ("V", .49, -900), ("II", .62, 1550),
-             ("VI", .64, -1050), ("VII", .80, 1650), ("VIII", .79, -1250), ("IX", .975, -650)]
+    zones = [("I", .03, 900), ("III", .13, -1250), ("IV", .30, -700), ("V", .49, -900), 
+             ("VI", .64, -1050), ("II · VII", .72, 1750), ("VIII", .79, -1250), ("IX", .975, -650)]
     return h, sites, E_PORT, {"round_radius": 0, "round_saddle": True, "causeway": (cw, sea_before),
                                       "axis": E_AXIS, "order": order, "zones": [(z, *at(t, n)) for z, t, n in zones]}
 
@@ -766,7 +767,7 @@ SVG_STYLE = """<style>
 
 def main():
     OUT.mkdir(parents=True, exist_ok=True)
-    only = sys.argv[1:] or list(OPTIONS)
+    only = sys.argv[1:] or ["e"]                                                 # a-d are frozen records; name them to rebuild
     html_path = ROOT / "art-direction-grand.html"
     html = html_path.read_text() if html_path.exists() else None
     for key in only:
@@ -807,7 +808,7 @@ def main():
                     ("The Round sits in a saddle", ck["round_in_saddle"]),
                     (f"The Round clear of the town (≥{ROUND_TOWN_MIN:.0f} m)", ck["round_town_m"] >= ROUND_TOWN_MIN),
                     ("Banquet house due east (±60 m)", ck["banquet_offset_m"][0] >= 120 and abs(ck["banquet_offset_m"][1]) <= 60)]
-            if "dependency_order" in ck: rows += [("Volumes run NW → SE in dependency order", ck["dependency_order"][0])]
+            if "dependency_order" in ck: rows += [("Stages run NW → SE in dependency order (5)", ck["dependency_order"][0])]
             if "monastery_detached" in ck: rows += [("Raft monastery on its own island", ck["monastery_detached"])]
             if cw: rows += [("Causeway dry in calm weather", cw["dry_in_calm"]),
                             ("Winter seas break over it (crest ≤ 3 m)", cw["winter_seas_break_over"])]
