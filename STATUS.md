@@ -16,7 +16,8 @@ _Last updated 16 Sep 2026._
    - Detailed: the Great Round (`blender_round.py`, with the user's verandah); the lighthouse and quays, banquet house, agora and stoa, oracle temple, headland city and citadel (`blender_arch.py` components); and doors and windows on every house.
    - Large props, first pass (`blender_props.py`): ships in all three harbours and at the quarry quay, the Raft, amphorae, a crane, the agora's cheese stalls and goat pen, and ox carts.
    - All checks pass: `blender/{terrain,buildings,round,detail,sites,props,vegetation}-checks.json`, §4–6 of the page.
-   - **Next:** the small props from Tripo: the hourglass, the ledger, ink, statues. Tripo is for props only; ask before any paid API call. Then stage 5, shot pre-vis.
+   - **Small props skipped for now (user, 16 Sep 2026):** the ledger scroll, hourglass, ink and so on are not modelled. The image references already generated for them serve as references when scene images are generated. Tripo stays available for props later; ask before any paid API call.
+   - **Next:** stage 5, camera placements for shot pre-vis.
 5. Shot pre-vis: one camera per panel, rendered as clay plus a line pass.
 6. Comic pass: ligne claire over the pre-vis, checked against the asset sheets.
 
@@ -27,6 +28,7 @@ _Last updated 16 Sep 2026._
 - **Time:** one terrain and one generation in five phases, one per graph band and island zone, with buildings only added. See `ERAS.md`.
 - **Every site belongs to one volume.** Kinds of place several volumes need are built per volume: III's cothon (the lantern harbour), IV's merchant quays and town, VII's walled harbour, VIII's guild hall, I's beacons and III's drummers.
 - **3D files:** `.blend`, `.glb` and renders are gitignored, and renders go to R2.
+- **The ledger is a parchment scroll on two rods (16 Sep 2026)**, replacing the codex. It is one continuous strip, written in order and wound from rod to rod, and it is the same object in every volume: IV's legislators' ledgers, VI's granary ledger, and the statues' scroll pose. The gazetteer's ledger cliffs are now "layered strata", not "stacked tablets", so they don't suggest a different ledger form.
 
 Canon for the period, the Great Round and the Parliament's port is in §5 of the page.
 
@@ -131,7 +133,7 @@ The sections are:
   - Gate passages are cut through the upper cavea with retaining walls. Doorways are 4 m (to fit under the verandah floor), with pylons, lintel, attic and pediment rising above the wall.
   - Ring wall: WALL_IN 23.4, WALL_OUT 25 m, ashlar brick texture mapped by angle × radius, 48 windows 1.4 × 1.9 m every 5° clear of the pylons.
   - Doors: bronze with panels and bosses. The east gate is open (leaves swung in 80°, bar leaning on the jamb); the others are barred at 1.3 m.
-  - 20 statues on inscribed pedestals (orator, scroll and standing poses, 2.1 m). Scale figures of 1.75 m.
+  - 20 statues on inscribed pedestals (orator, scroll and standing poses, 2.1 m). The scroll pose holds a ledger open between its two rods. Scale figures of 1.75 m.
 - **Kit additions:** `frustum`, `ellipsoid`, `beam` (a box between any two points).
 - **Checks (`round-checks.json`):**
   - Canon: 14 tiers, 8 stairways, cardinal gates, 50 m across.
@@ -163,7 +165,7 @@ The sections are:
 - **Renders:** `renders/buildings-detail_{lighthouse,banquet,oracle,citadel,town,city}.png`. The full build and render takes about 2 minutes.
 
 ## Large props, first pass (`tools/blender_props.py`)
-- **Scope (16 Sep 2026):** the user asked for the larger props first, done crudely in Blender. The small ones (the hourglass, the ledger and so on) go to Tripo in the next step. Only props the canon or gazetteer supports are built. Siege engines are not built, because the canon names only "palisaded siege camps with tents".
+- **Scope (16 Sep 2026):** the user asked for the larger props first, done crudely in Blender. The small ones (the hourglass, the ledger scroll and so on) go to Tripo in the next step. Only props the canon or gazetteer supports are built. Siege engines are not built, because the canon names only "palisaded siege camps with tents".
 - **Code layout:** `build(ground, M, colls, geo, tracks, buildings)` is called from `blender_buildings.main()` once the sites are built and before the sites, Round and detail checks run, so those rays see the props. It never edits the ground.
   - `geo` carries each harbour's geometry, returned by its builder: `merchant_quays` returns the shore point and seaward vector; `citadel` returns the harbour shore and bearing; `guild_quarter` returns `quay`, which main pops; `monastery` returns the jetty.
   - Main also passes the agora and the terrain.
@@ -222,7 +224,7 @@ The sections are:
 - Storage decision: commit `island-painted.jpg` and its JSON as spec. Keep the full-size download out of Git.
 
 ## Next steps
-1. Small props from Tripo: the hourglass, the parchment codex ledger, iron-gall ink, the Statue Walk's statues. Ask before any paid API call.
+1. Stage 5: camera placements, one camera per panel. Small props are skipped for now; their existing image references are used for scene generation.
 2. Stage 5: shot pre-vis, one camera per panel.
 3. Optional: re-lay the Statue Walk with switchbacks or steps on its steep stretch.
 4. Optional: names for the town, bays and capes.

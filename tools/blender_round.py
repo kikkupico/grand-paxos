@@ -81,7 +81,7 @@ def round_materials(X, Y):
 # ---------------------------------------------------------------- figures
 def figure(k, X, Y, z, facing, pose, body, drape=None, head=None, height=FIGURE_H):
     """A draped standing figure, `height` metres tall, facing `facing` (radians). pose: 'orator' raises the right arm;
-    'scroll' holds a scroll in both hands; 'stand' has the arms down."""
+    'scroll' holds a ledger open in both hands: parchment between two rods; 'stand' has the arms down."""
     s = height / 1.75; c, sn = math.cos(facing), math.sin(facing)
     fwd = lambda d: (c * d, sn * d); side = lambda d: (-sn * d, c * d)
     P = lambda f, r, zz: (X + fwd(f)[0] + side(r)[0], Y + fwd(f)[1] + side(r)[1], z + zz * s)
@@ -99,7 +99,9 @@ def figure(k, X, Y, z, facing, pose, body, drape=None, head=None, height=FIGURE_
             k.beam(sh, P(.08, .20 * sd, 1.12), .08 * s, .08 * s, body); k.beam(P(.08, .20 * sd, 1.12), P(.30, .10 * sd, 1.18), .07 * s, .07 * s, head)
         else:
             k.beam(sh, P(.02, .27 * sd, .82), .08 * s, .08 * s, drape if sd < 0 else body)
-    if pose == "scroll": k.beam(P(.32, -.16, 1.18), P(.32, .16, 1.18), .07 * s, .07 * s, drape)
+    if pose == "scroll":                                                                             # the ledger: a parchment strip wound on two rods, held open
+        for sd in (-1, 1): k.beam(P(.32, .19 * sd, 1.02), P(.32, .19 * sd, 1.34), .05 * s, .05 * s, head)
+        k.box(*P(.33, 0, 0)[:2], z + 1.06 * s, z + 1.30 * s, .02 * s, .36 * s, facing, drape)
 
 def statue(k, M, X, Y, z, facing, pose):
     k.box(X, Y, z - .5, z + .35, 1.35, 1.35, facing, M["marble"])

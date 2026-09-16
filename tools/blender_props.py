@@ -2,7 +2,7 @@
 Raft at the monastery jetty, amphorae and a treadwheel crane on the merchant quays, the agora's cheese stalls and
 goat pen (canon), and ox carts on the tracks by the olive press, the granaries and the quarry.
 
-The small props (the hourglass, the ledger, ink, the statues' detail) come later, from Tripo.
+The small props (the hourglass, the ledger scroll on two rods, ink, the statues' detail) come later, from Tripo.
 
 Every ship is its own object so the checks can test it: it floats (the seabed under its hull lies below its keel), a
 moored ship lies alongside its quay without cutting into it, its gangplank is walkable, and it blocks none of the
