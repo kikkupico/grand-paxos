@@ -110,6 +110,7 @@ pre.code{font:.8rem/1.55 var(--mono); background:#fffdf6; border:1.5px dashed va
 .stats div{display:flex; justify-content:space-between; gap:12px; padding:5px 0; border-bottom:1px solid rgba(28,21,18,.25); font-size:.9rem}
 .stats dt{font:.8rem var(--display); letter-spacing:.04em; color:var(--ink-soft)}
 .stats dd{margin:0; font-variant-numeric:tabular-nums; text-align:right; font-weight:700}
+.phases{margin:.4em 0; padding-left:0; list-style:none} .phases li{margin:.15em 0}
 .stats .ck.pass dd{color:var(--olive-d)} .stats .ck.fail dd{color:var(--blood)}
 
 /* map styling (inline SVGs from tools/island_maps.py) */
@@ -188,13 +189,21 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
 
 <section id="order">
 <h2><span class="num">1</span>The reading order</h2>
-<p class="prose">The dependencies come from <code>paxos-illustrated/detangled-graph.yaml</code>. Volumes I, II and III depend on nothing. The graph draws the others in five bands, and the island follows them from north-west to south-east. Volumes in the same band don't depend on each other, so they sit side by side across the spine.</p>
+<p class="prose">The dependencies come from <code>paxos-illustrated/detangled-graph.yaml</code>. Volumes I, II and III depend on nothing. The graph draws the volumes in five bands, and each band is one zone of the island and one phase of the story, from north-west to south-east. Volumes in the same band don't depend on each other, so they sit side by side across the spine.</p>
 <!-- ORDER:e -->
-<div class="tbl"><table><thead><tr><th>Band</th><th>Vol</th><th>Title</th><th>Builds on</th><th>Along the walk</th></tr></thead><tbody><tr><td class="n">1</td><td class="n">I</td><td>The Disordered Sundials</td><td>nothing (a root)</td><td class="n">0.0–2.3 km</td></tr><tr><td class="n">1</td><td class="n">III</td><td>The Curse of the Sleeping Shepherd</td><td>nothing (a root)</td><td class="n">1.1–1.1 km</td></tr><tr><td class="n">2</td><td class="n">IV</td><td>The Passable Season</td><td>III</td><td class="n">2.6–3.6 km</td></tr><tr><td class="n">3</td><td class="n">V</td><td>The Part-time Parliament</td><td>I, IV</td><td class="n">4.8–5.5 km</td></tr><tr><td class="n">4</td><td class="n">II</td><td>The Generals Before the Walls</td><td>nothing (a root)</td><td class="n">6.5–7.1 km</td></tr><tr><td class="n">4</td><td class="n">VI</td><td>The Ledger of Many Decrees</td><td>V</td><td class="n">6.3–6.9 km</td></tr><tr><td class="n">5</td><td class="n">VII</td><td>The Citadel of Iron Quorums</td><td>VI, II</td><td class="n">8.0–8.1 km</td></tr><tr><td class="n">5</td><td class="n">VIII</td><td>The Quarries of the Roman Guilds</td><td>VI</td><td class="n">7.8–8.5 km</td></tr><tr><td class="n">5</td><td class="n">IX</td><td>The Reformation of the Raft Monks</td><td>V, VI</td><td class="n">9.9–9.9 km</td></tr></tbody></table></div><p class="muted">Measured from the north-west tip along the island's axis. ✓ all nine links hold; the bands don't overlap.</p>
+<div class="tbl"><table><thead><tr><th>Phase</th><th>Vol</th><th>Title</th><th>Builds on</th><th>Along the walk</th></tr></thead><tbody><tr><td class="n">1</td><td class="n">I</td><td>The Disordered Sundials</td><td>nothing (a root)</td><td class="n">0.0–2.3 km</td></tr><tr><td class="n">1</td><td class="n">III</td><td>The Curse of the Sleeping Shepherd</td><td>nothing (a root)</td><td class="n">1.1–1.1 km</td></tr><tr><td class="n">2</td><td class="n">IV</td><td>The Passable Season</td><td>III</td><td class="n">2.6–3.6 km</td></tr><tr><td class="n">3</td><td class="n">V</td><td>The Part-time Parliament</td><td>I, IV</td><td class="n">4.8–5.5 km</td></tr><tr><td class="n">4</td><td class="n">II</td><td>The Generals Before the Walls</td><td>nothing (a root)</td><td class="n">6.5–7.1 km</td></tr><tr><td class="n">4</td><td class="n">VI</td><td>The Ledger of Many Decrees</td><td>V</td><td class="n">6.3–6.9 km</td></tr><tr><td class="n">5</td><td class="n">VII</td><td>The Citadel of Iron Quorums</td><td>VI, II</td><td class="n">8.0–8.1 km</td></tr><tr><td class="n">5</td><td class="n">VIII</td><td>The Quarries of the Roman Guilds</td><td>VI</td><td class="n">7.8–8.5 km</td></tr><tr><td class="n">5</td><td class="n">IX</td><td>The Reformation of the Raft Monks</td><td>V, VI</td><td class="n">9.9–9.9 km</td></tr></tbody></table></div><p class="muted">Measured from the north-west tip along the island's axis. ✓ all nine links hold; the bands don't overlap.</p>
 <!-- /ORDER:e -->
 <div class="box gold">
-  <h4>Map order is not story order</h4>
-  <p>The walk shows what builds on what. Story time is set by the four phases in <code>ERAS.md</code>, and the two can disagree. Volume II is a root, but its only descendant is VII, so the graph draws it just before VII and it sits past the Parliament on the island. In story time its siege still happens in phase 1, before the Round is finished.</p>
+  <h4>The walk is also the story</h4>
+  <p>The whole series spans one generation, about 40 island years, told in the order you walk. Each of the five bands is one phase, set in its own zone:</p>
+  <ol class="phases">
+    <li><b>1 · The hamlets</b> (years 0–8, first lobe): I and III.</li>
+    <li><b>2 · The passable season</b> (8–14, the neck): IV.</li>
+    <li><b>3 · The Parliament</b> (14–22, the col): V.</li>
+    <li><b>4 · Siege and ledger</b> (22–30, either side of the spine): II and VI, at the same time.</li>
+    <li><b>5 · Citadel, guild, Raft</b> (30–40, the far lobe and the islet): VII, VIII and IX.</li>
+  </ol>
+  <p>Buildings are only added, and zones you've passed only get older. So a volume can look back at anything behind the walker, but never ahead. The volume numbers stay as published, which makes the reading order I, III, IV, V, II, VI, VII, VIII, IX. Details are in <code>ERAS.md</code>.</p>
 </div>
 </section>
 
@@ -428,7 +437,7 @@ footer{margin-top:60px; padding-top:14px; border-top:1.5px solid var(--ink); fon
         <h4>Costs and rough edges</h4>
         <ul class="cons">
           <li>This is the biggest world (11 × 8 km, about 18.5 km² of land), and there are more buildings: three harbours instead of one, and a guild hall.</li>
-          <li>Map order is dependency order, not story order. II sits after V here, but ERAS.md still puts its siege in the first phase.</li>
+          <li>The reading order (I, III, IV, V, II, VI, VII, VIII, IX) differs from the published numbering. II's siege now comes after the Parliament, which needs a few wording changes in <code>volumes.md</code>.</li>
           <li>The Round, its quays and the Statue Walk's descent are pinned and graded by hand to pass the sightline check, so the middle of the island is the most "engineered" ground.</li>
           <li>The four later volumes share one lobe, so their zones are tighter than the early ones.</li>
         </ul>

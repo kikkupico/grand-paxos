@@ -56,16 +56,16 @@ The user explicitly allowed starting afresh. Nothing from the old per-volume art
 5. **Scale, time and Volume IX.**
 6. **Blender handoff:** the general recipe, with a link to E's exact numbers on the island-shape page.
 7. **Decisions export.** The locked choices are pre-checked in the HTML, and a "Decided" box sits under the pipeline.
-The page text now follows ERAS.md: the scope table rows VII and VIII, site 16 renamed "Italian guild lock-houses", and §5's four phases.
+The page text follows ERAS.md: scope-table rows VII and VIII, and §5's five phases.
 
 ## Locked decisions (chosen 16 Sep 2026, in chat rather than via the page export)
-**Map order follows dependencies; the phases follow story time** (so Volume II sits downstream of V on the map but still happens in phase 1). **`ERAS.md` refines G05** (agreed in a side thread): one generation (about 40 years) in a Hellenistic Delos-type port, four additive phases, the Volume VII citadel on the same footprint as the Volume II city, and the Volume VIII "Romans" as the resident Italian guild. Read it before touching eras or assets. It also lists pending text edits to `paxos-illustrated/volumes.md`, which haven't been made yet.
+**`ERAS.md` (compressed and revised 16 Sep 2026):** on map E, the walk from the NW tip is the dependency order *and* the story order. One generation (about 40 years) in five phases, one per graph band and island zone: 1 hamlets (I, III), 2 passable season (IV), 3 Parliament (V), 4 siege and ledger side by side (II, VI), 5 citadel, guild and Raft (VII, VIII, IX). Only additions; volumes look back, never ahead. Reading order is I, III, IV, V, II, VI, VII, VIII, IX, and the volume numbers stay as published unless the user renumbers. The pending `volumes.md` wording changes are listed in ERAS.md.
 
 - **G01 World scope: A, one island.**
 - **G02 Island form: E, Dependency Spine** (chosen 16 Sep, replacing B, which stays on the page as the measured fallback). Options A, C and D stay on the page as the record.
 - **G03 Circular harbour: B (revised 16 Sep with map E).** The cothon is Volume IV's own lantern harbour. V has merchant quays and VII a walled harbour, so no site is shared.
 - **G04 World scale: 11 × 8 km for E** (A–D stay at 8 × 5.5 km).
-- **G05 Time across volumes: A, one terrain with era collections.** Ruins are variants.
+- **G05 Time across volumes: A, one terrain.** One generation in five phases, walked NW→SE in story order (see ERAS.md).
 - **G06 Volume IX: B, on an islet on the map** (option E's Raft islet, across a strait at the SE end). This reverses the earlier "off-island" answer; the user confirmed it with the E direction.
 - **G07 3D files: gitignored.** `.blend`, `.glb` and renders stay out of Git, and renders go to R2 as in the old repo.
 

@@ -835,7 +835,7 @@ def order_table(order, axis):
         rows.append(f'<tr><td class="n">{band[v]}</td><td class="n">{VOL_ROMAN[v]}</td><td>{VOL_TITLES[v]}</td>'
                     f'<td>{", ".join(parents) or "nothing (a root)"}</td><td class="n">{lo * km:.1f}–{hi * km:.1f} km</td></tr>')
     ok = "✓ all nine links hold" if order["edges_ok"] else "✗ broken: " + ", ".join(order["broken_edges"])
-    return ('<div class="tbl"><table><thead><tr><th>Band</th><th>Vol</th><th>Title</th><th>Builds on</th><th>Along the walk</th></tr></thead><tbody>'
+    return ('<div class="tbl"><table><thead><tr><th>Phase</th><th>Vol</th><th>Title</th><th>Builds on</th><th>Along the walk</th></tr></thead><tbody>'
             + "".join(rows) + f'</tbody></table></div><p class="muted">Measured from the north-west tip along the island\'s axis. {ok}; '
             + ("the bands don't overlap." if order["bands_ok"] else "the bands overlap.") + '</p>')
 

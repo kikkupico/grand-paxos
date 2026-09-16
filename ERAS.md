@@ -1,48 +1,37 @@
-# Eras: one island, eras close together
+# Eras: one generation, walked from the north-west
 
-_Agreed with the user on 16 Sep 2026, in a side thread. The main session hasn't applied this yet._
+_Decided with the user on 16 Sep 2026. This replaces the earlier four-phase plan._
 
-## Decision
-- There is one island, Paxos, for every volume. G01 A and G02 B still stand.
-- Eras stay, to show the story's temporal dependencies. G05 A is kept, with this refinement: **the eras sit close together (about one generation, roughly 40 years), so the island's look barely changes between them.**
-- The period is Hellenistic, a Delos-type free port (matching D05). Delos after 166 BC had a resident Italian merchant community with its own guilds and its own "Agora of the Italians", so Volume VIII's "Roman guilds" fit this period as residents, not as a later empire.
-- The papers' own 36-year span (1978–2014) roughly maps onto the island's years. One idea: Leslie arrives young in Volume I and is old by Volume IX.
-
-## Map order vs story order
-Option E lays the island out in **dependency order** (NW→SE: I+III, IV, V, then II/VI/VII/VIII, then IX). The phases below are **story time**. They disagree for Volume II, which sits downstream of V on the map but is a phase-1 siege. That's deliberate: the map shows what builds on what, and the phases show what happened when.
+## The rule
+On map E, **the walk from the north-west tip is the dependency order and the story order.**
+- **Setting:** one generation (about 40 island years) in a Hellenistic, Delos-type free port, with a resident Italian merchant guild.
+- **Five phases:** the five bands of the dependency graph, which are also the five zones of the island. Each phase happens in its own zone, further south-east than the last.
+- **Only additions:** buildings are added, never demolished. Zones already passed get older (weathering, more statues, cut cliffs), but they don't change shape.
+- **Looking back only:** a volume's text may refer to anything behind the walker, meaning earlier zones and phases. It refers forward only as a narrator's hint.
 
 ## Phases
-| Phase | Island years | Volumes | Visual differences |
-|---|---|---|---|
-| 1 · Before the Round | 0–10 | I, II, III, IV | Hamlets and tracks. The headland city has plain walls and a siege camp outside (II). Summit oracle (III). Navigators at the cothon, winter causeway (IV). The Round's saddle has scaffolding or an unfinished ring. |
-| 2 · The Parliament | 12–22 | V, VI | The Round is finished; the Statue Walk has only a few statues. New granary storehouses on the plain (VI, a contemporary rival reform). |
-| 3 · Citadel & guilds | 22–32 | VII, VIII | The citadel is a **separate fortress** further along the island, above its own harbour and sea wall. The Volume II headland city still stands, just older. The Italian guild has its own hall, quarry office and lock-houses. The ledger cliffs are heavily cut. The Round's marble is weathered; more statues line the walk. |
-| 4 · Reformation | 32–40 | IX | Everything from phase 3, plus the Raft monastery on its islet across the strait (option E). |
+| Phase | Years | Zone on map E | Volumes | What happens there |
+|---|---|---|---|---|
+| 1 · The hamlets | 0–8 | First lobe, 0–2.3 km | I, III | Hamlets with no common clock, each hidden from the others (I). The shepherd's curse at the summit oracle (III). The neck and the col are still empty. |
+| 2 · The passable season | 8–14 | The neck, 2.6–3.6 km | IV | The navigators' doctrine at the lantern harbour. The causeway that winter seas close. |
+| 3 · The Parliament | 14–22 | The col, 4.8–5.5 km | V | The Round is built in the col, then the Statue Walk, the merchant quays and the town. |
+| 4 · Siege and ledger | 22–30 | Either side of the spine, 6.3–7.1 km | II, VI | Two things happen at once, facing each other across the spine. Traitor commanders besiege the headland city, which proves the 3f+1 bound (II). The granary clerks keep the ledger under a standing consul (VI). |
+| 5 · Citadel, guild, Raft | 30–40 | The far lobe and the islet, 7.8–9.9 km | VII, VIII, IX | The citadel above its own harbour combines II's bound with VI's views (VII). The Italian guild's hall, lock-houses and quarry cliffs (VIII). The monks cross the strait to the islet (IX). |
 
-## What stays the same in every phase (the common asset sheet)
-- The terrain, coastline, causeway and cothon.
-- The road network and town fabric.
-- Costume, ship types, materials and palette.
+The distances come from the generated reading-order table on `art-direction-grand-island-shape.html`.
 
-## What can change between phases
-- Buildings get **added** (never demolished), and construction moves from scaffolding to finished.
-- Walls get strengthened.
-- Weathering and quarry cuts increase.
-- The statue count grows.
-- Banners, props and cast change.
+## What never changes (the common asset sheet)
+- The terrain, coastline and causeway.
+- The building kit: ashlar, marble, timber quays.
+- Costume, ship types and palette.
 
-In Blender, the eras are small additive collections on one scene, not separate island states.
+In Blender, each phase is one collection covering one zone. Later phases add a weathering pass to the earlier zones.
 
-## Text changes for `paxos-illustrated/volumes.md`
-- **II:** "three centuries before the citadel of Volume VII was built on top of it" becomes "a generation before the citadel of Volume VII was built on it". "It" is the 3f+1 bound, not the ground, because the citadel is its own site on map E.
-- **VII:** "For five hundred years the 3f+1 Law…" becomes "since the siege": the law was correct but unaffordable for a generation.
-- **VIII:** the "Roman engineers" become the resident Italian merchant guild's engineers, and they work in the **guild's own hall**, not the "ruined chamber" of the Round.
-- **IV / V / VII harbours (map E):** the lantern round-robin happens at IV's own cothon at the neck, V's galley leaves from the merchant quays below the Round, and VII's inquisitors land at the citadel's walled harbour.
-- **IX:** "sailed north" becomes "crossed to the island": the monks withdraw to the Raft islet across the strait at the SE end of the island (option E, G06 B, decided 16 Sep 2026).
-- **D05's present-day dig site and "Paxos in decline":** keep them only as a narrator's frame (a few sepia panels), not a modelled era.
-
-## Map order vs shared places (decided 16 Sep 2026)
-On map E every site belongs to exactly one volume, so a walk from the NW corner reads the papers in dependency order (`DEPENDS`/`BANDS` in `tools/island_maps.py`). Places that were shared are rebuilt per volume: IV has the cothon, V its merchant quays and town, VII a walled harbour, and VIII a guild hall. I's beacons and IV's drummers are separate pairs. The earlier "citadel on the same footprint as II's city" idea is dropped.
-
-## What was updated in this repo
-All of it is done: STATUS.md, `SITES_E` (23 sites, one volume each), the page's scope table and gazetteer, and §5's phases.
+## Text changes for `paxos-illustrated/volumes.md` (not yet made)
+- **Reading order:** I, III, IV, V, II, VI, VII, VIII, IX. The volume numbers stay as published unless the user decides to renumber.
+- **II:** "three centuries before the citadel of Volume VII was built on top of it" becomes "a few years before the citadel of Volume VII was built on it". "It" is the bound. The siege now comes after the Parliament.
+- **IV:** "two islands cut apart by a storm" becomes the island's two halves, cut apart at the neck when winter seas cover the causeway.
+- **VII:** "For five hundred years the 3f+1 Law…" becomes "Since the siege…".
+- **VIII:** "Roman engineers" become the Italian guild's engineers, and they work in their own guild hall. "Decades of micro-decrees" becomes "years of micro-decrees".
+- **IX:** "sailed north" becomes "crossed the strait to the islet".
+- **D05's present-day dig and "Paxos in decline":** these survive only as a narrator's frame and aren't modelled.
