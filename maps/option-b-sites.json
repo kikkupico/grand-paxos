@@ -10,24 +10,42 @@
   -120.0,
   480.0
  ],
- "land_km2": 14.76,
+ "land_km2": 14.79,
  "summit_m": 385,
  "checks": {
   "hamlets_mutually_visible": [],
   "banquet_visible_from_round": true,
-  "round_sea_bearings": 240,
+  "round_sea_bearings": 165,
   "round_sea_two_sided": true,
   "round_sea_arcs": [
    [
-    52.5,
-    240
+    105.0,
+    105
+   ],
+   [
+    307.5,
+    60
    ]
   ],
   "signal_pairs_clear": [
    1,
    1
   ],
-  "town_to_round_clear": true
+  "town_to_round_clear": true,
+  "round_in_saddle": true,
+  "round_town_m": 647,
+  "banquet_offset_m": [
+   160,
+   0
+  ],
+  "causeway": {
+   "length_m": 605,
+   "crest_min_m": 1.4,
+   "crest_max_m": 2.0,
+   "width_above_1_5m_mean": 49,
+   "dry_in_calm": true,
+   "winter_seas_break_over": true
+  }
  },
  "sites": {
   "hamA": {
@@ -127,7 +145,7 @@
     [
      3694,
      1444,
-     92.5
+     164.2
     ]
    ]
   },
@@ -169,9 +187,9 @@
    ],
    "points_m": [
     [
-     4620,
-     2875,
-     2.5
+     4632,
+     3018,
+     1.9
     ]
    ]
   },
@@ -200,9 +218,9 @@
    ],
    "points_m": [
     [
-     3400,
-     2050,
-     219.7
+     3475,
+     1850,
+     141.9
     ]
    ]
   },
@@ -214,9 +232,9 @@
    ],
    "points_m": [
     [
-     3470,
-     1940,
-     172.5
+     3635,
+     1850,
+     114.5
     ]
    ]
   },
@@ -274,7 +292,7 @@
   },
   "locks": {
    "num": 16,
-   "name": "Roman lock-houses",
+   "name": "Italian guild lock-houses",
    "volumes": [
     "VIII"
    ],

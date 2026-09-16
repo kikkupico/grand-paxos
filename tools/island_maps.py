@@ -109,6 +109,30 @@ def cothon(h, cx, cy, r=150.0):
     h = np.where((d < r) | (cd < 22), np.minimum(h, -7.0), h)
     return np.where(d < r * .3, 4.0, h), math.degrees(math.atan2(ey - cy, ex - cx))
 
+def grade(h, a, b, half, feather):
+    """Cut and fill a straight ramp from a=(x, y, z) to b, blending into the ground over `feather` metres."""
+    d, t = seg_dist(a[0], a[1], b[0], b[1], X0, Y0)
+    w = np.clip((half + feather - d) / feather, 0, 1); w = w * w * (3 - 2 * w)
+    return h * (1 - w) + (a[2] + (b[2] - a[2]) * t) * w
+
+def bezier(pts, n=60):
+    (x0, y0), (x1, y1), (x2, y2) = pts
+    return [((1 - t) ** 2 * x0 + 2 * (1 - t) * t * x1 + t * t * x2, (1 - t) ** 2 * y0 + 2 * (1 - t) * t * y1 + t * t * y2)
+            for t in np.linspace(0, 1, n)]
+
+def causeway(h, ctrl, seed, crest=(1.2, 2.6)):
+    """A tombolo between the lobes: dry in summer, its crest low enough for winter seas to break over it."""
+    line = bezier(ctrl)
+    d = np.full(h.shape, np.inf)
+    for k in range(len(line) - 1):
+        d = np.minimum(d, seg_dist(*line[k], *line[k + 1], X0, Y0)[0])
+    wob = value_noise(seed + 300, (900, 450, 220))                               # crest and width wander along it
+    top = crest[0] + (crest[1] - crest[0]) * np.clip(.5 + wob, 0, 1)
+    half = 42 + 22 * wob
+    h = np.where(h < 0, np.maximum(h, -2.5 - (d / (95 + 40 * wob)) ** 2), h)       # sandbar shallows, fading into the deep
+    bar = top * (1 - (d / half) ** 2)
+    return np.where((d < half) & (h < top), np.maximum(h, bar), h)
+
 # ---------------------------------------------------------------- sites (shared numbering)
 SITES = [  # num, key, name, volumes, kind
     (1,  "hamA",     "Hamlet A",                       "1",   "dot"),
@@ -126,7 +150,7 @@ SITES = [  # num, key, name, volumes, kind
     (13, "granary",  "Granary storehouses",            "6",   "multi"),
     (14, "granary2", "Granary on the heights",         "6",   "dot"),
     (15, "cliffs",   "Ledger cliffs",                  "8",   "cliff"),
-    (16, "locks",    "Roman lock-houses",              "8",   "multi"),
+    (16, "locks",    "Italian guild lock-houses",      "8",   "multi"),
 ]
 VOL_ROMAN = {1: "I", 2: "II", 3: "III", 4: "IV", 5: "V", 6: "VI", 7: "VII", 8: "VIII", 9: "IX"}
 # what each site demands of the ground: (min m, max m, within-metres-of-sea or None)
@@ -167,21 +191,24 @@ def option_twin():
     m += ridge(2700, 2750, 3700, 2600, 260, 70, p=2.2)                           # the saddle ridge
     m -= blob(3550, 3750, 620, 520, 170)                                         # south bay bites into the lobe
     m += ridge(3350, 2050, 3800, 1300, 170, 150, p=2.4)                          # citadel peninsula
+    m += blob(3640, 1560, 260, 220, 95)                                          # citadel hill at its tip
+    m -= blob(3470, 1840, 170, 140, 35)                                          # the col on its neck: the Round's saddle
     m += blob(6250, 2750, 1080, 900, 190, ang=12, p=3.0)                         # east lobe
     m += blob(6500, 2450, 420, 360, 125)
     h = finish(m, 23)
-    d, _ = seg_dist(3950, 2900, 5300, 2850, X0, Y0)                             # the causeway: a tombolo
-    h = np.where((d < 320) & (h < 0), np.maximum(h, -4.0 - d / 60), h)          # sandbar shallows
-    h = np.where(d < 55, np.maximum(h, 2.5), h)
+    cw = [(3950, 2900), (4640, 3160), (5300, 2850)]
+    h = grade(h, (3500, 1800, 142), (3720, 1800, 96), 55, 60)                    # garden terrace falling from the east gate
+    sea_before = h < 0
+    h = causeway(h, cw, seed=23)
     sites = {
         "hamA": (1400, 3300), "hamK": (6750, 3150), "hamM": (5900, 2000), "press": (6450, 2550),
         "signals": [(3900, 3700), (5350, 3500), (900, 2600), (7250, 2500)],
-        "citadel": (3700, 1450), "oracle": (1650, 2550), "strait": (4620, 2875),
-        "town": (3800, 2450), "round": (3300, 2650), "banquet": (3450, 2650),
+        "citadel": (3700, 1450), "oracle": (1650, 2550), "strait": bezier(cw, 3)[1],
+        "town": (3800, 2450), "round": (3475, 1800), "banquet": (3600, 1800),
         "granary": [(5350, 3050), (5550, 3150), (5750, 3250)], "granary2": (6050, 2800),
         "cliffs": (2300, 4100), "locks": [(5600, 2050), (5800, 2080), (6000, 2110), (6200, 2140), (6400, 2170)],
     }
-    return h, sites, (3980, 2450), {}
+    return h, sites, (3980, 2450), {"round_radius": 250, "round_saddle": True, "causeway": (cw, sea_before)}
 
 def option_caldera():
     cx, cy, r = 4000, 2850, 1550
@@ -251,7 +278,7 @@ def build(key):
         lo, hi, coast = rules[skey]
         loc[skey] = [snap(h, p, lo, hi, coast) for p in v] if isinstance(v, list) else snap(h, v, lo, hi, coast)
     place_by_sight(h, loc, rough, rules)
-    return title, h, loc
+    return title, h, loc, rules
 
 def candidates(h, centre, radius, lo, hi, step=50.0):
     out = []
@@ -270,13 +297,16 @@ def place_by_sight(h, loc, rough, rules):
         b = sea_bearings(h, p, reach=3000, step_m=50)
         opposed = two_sided(b)
         harbour = los_clear(h, p, loc["cothon"], 8, 2)        # "beyond the gate a galley sets sail from the harbour below"
-        return len(b) * 15 + (90 if opposed else 0) + (120 if harbour else 0) - math.dist(p, rough["round"]) / 25
-    loc["round"] = max(candidates(h, rough["round"], 900, lo, hi) + [loc["round"]], key=score)
+        saddle = 300 if rules.get("round_saddle") and is_saddle(h, p) else 0
+        return len(b) * 15 + (90 if opposed else 0) + (120 if harbour else 0) + saddle - math.dist(p, rough["round"]) / 25
+    pool = candidates(h, rough["round"], rules.get("round_radius", 900), lo, hi) + [loc["round"]]
+    clear = [c for c in pool if math.dist(c, loc["town"]) >= ROUND_TOWN_MIN]         # above the town, not in it
+    loc["round"] = max(clear or pool, key=score)
     # Banquet house: a short walk east of the Round, lower, in plain view of the tiers.
     r = loc["round"]; rz = h_at(h, *r)
-    want = (r[0] + 130, r[1])
-    ok = [c for c in candidates(h, want, 160, max(5, rz - 70), rz - 4, 25)
-          if c[0] - r[0] >= 60 and los_clear(h, r, c, 6, 4)]
+    want = (r[0] + 160, r[1])
+    ok = [c for c in candidates(h, want, 200, max(5, rz - 70), rz - 4, 25)
+          if c[0] - r[0] >= 120 and abs(c[1] - r[1]) <= 60 and los_clear(h, r, c, 6, 4)]   # due east, off the east gate
     if ok: loc["banquet"] = min(ok, key=lambda c: math.dist(c, want))
     else: print("      ! no visible banquet site east of the Round")
     # Beacon pair: the second headland must see the first across the water.
@@ -302,6 +332,30 @@ def place_by_sight(h, loc, rough, rules):
 def h_at(h, x, y):
     j, i = int(np.clip(x / CELL, 0, NX - 1)), int(np.clip(y / CELL, 0, NY - 1))
     return float(h[i, j])
+
+ROUND_TOWN_MIN = 500.0
+
+def is_saddle(h, p, r=200.0, rel=8.0):
+    """Ground rises both ways along one axis and falls both ways across it."""
+    z0 = h_at(h, *p)
+    d = [h_at(h, p[0] + r * math.sin(k * math.pi / 4), p[1] - r * math.cos(k * math.pi / 4)) - z0 for k in range(8)]
+    return any(min(d[k], d[k + 4]) > rel and max(d[k + 2], d[(k + 6) % 8]) < -rel for k in range(4))
+
+def measure_causeway(h, spec, step=10.0):
+    """Crest profile of the bar over what was open water before it was laid."""
+    ctrl, sea_before = spec
+    line = bezier(ctrl, 400)
+    crest, widths, run = [], [], 0.0
+    for k in range(1, len(line) - 1):
+        (x0, y0), (x1, y1) = line[k - 1], line[k + 1]
+        x, y = line[k]; z = h_at(h, x, y)
+        if not sea_before[int(np.clip(y / CELL, 0, NY - 1)), int(np.clip(x / CELL, 0, NX - 1))]: continue
+        crest.append(z); run += math.dist(line[k], line[k + 1])
+        nx, ny = -(y1 - y0), x1 - x0; n = math.hypot(nx, ny); nx, ny = nx / n, ny / n
+        widths.append(sum(step for o in np.arange(-150, 150, step) if h_at(h, x + nx * o, y + ny * o) > 1.5))
+    return {"length_m": round(run), "crest_min_m": round(min(crest), 1), "crest_max_m": round(max(crest), 1),
+            "width_above_1_5m_mean": round(float(np.mean(widths))), "dry_in_calm": min(crest) > .5,
+            "winter_seas_break_over": max(crest) <= 3.0}
 
 def least_cost_path(h, a, b, slope_k=900.0):
     """Dijkstra on the 12.5 m grid; roads avoid water and steep ground."""
@@ -373,7 +427,7 @@ def two_sided(bearings):
     big = [c for c, w in a if w >= 30]
     return any(abs((x - y + 180) % 360 - 180) >= 120 for x in big for y in big)
 
-def checks(h, loc):
+def checks(h, loc, rules):
     hams = [("A", loc["hamA"]), ("K", loc["hamK"]), ("M", loc["hamM"])]
     pairs = [(a, b) for i, a in enumerate(hams) for b in hams[i + 1:]]
     ham_seen = [f"{a[0]}–{b[0]}" for a, b in pairs if los_clear(h, a[1], b[1], 3, 3)]
@@ -385,7 +439,10 @@ def checks(h, loc):
             "banquet_visible_from_round": los_clear(h, loc["round"], loc["banquet"], 6, 4),
             "round_sea_bearings": len(sea) * 15, "round_sea_two_sided": two_sided(sea), "round_sea_arcs": arcs(sea),
             "signal_pairs_clear": [sig_ok, len(sig_pairs)],
-            "town_to_round_clear": los_clear(h, loc["round"], loc["cothon"], 8, 2)}
+            "town_to_round_clear": los_clear(h, loc["round"], loc["cothon"], 8, 2),
+            "round_in_saddle": is_saddle(h, loc["round"]), "round_town_m": round(math.dist(loc["round"], loc["town"])),
+            "banquet_offset_m": [round(loc["banquet"][0] - loc["round"][0]), round(loc["banquet"][1] - loc["round"][1])],
+            **({"causeway": measure_causeway(h, rules["causeway"])} if "causeway" in rules else {})}
 
 # ---------------------------------------------------------------- contours
 def march(h, t):
@@ -491,16 +548,43 @@ def svg_for(key, title, h, sites, loc):
         if h_at(h, *p) < 1.5: continue
         path = least_cost_path(h, rnd if tgt == "banquet" else town, p)
         if len(path) > 2: S.append(f'<path class="road track" d="{smooth_d(path)}"/>')
-    # town: little blocks on low ground
+    # town: insulae on a street grid squared to the harbour, agora left open at the centre
     rng = np.random.default_rng(7)
-    tx, ty = town
-    for _ in range(160):
-        r, a = 420 * math.sqrt(rng.random()), rng.random() * math.tau
-        x, y = tx + r * math.cos(a), ty + r * math.sin(a)
-        if 3 < h_at(h, x, y) < 75 and math.hypot(x - loc["cothon"][0], y - loc["cothon"][1]) > 190:
-            w_, hh = 5 + 5 * rng.random(), 4 + 4 * rng.random()
-            S.append(f'<rect class="house" x="{x / U - w_ / 2:.1f}" y="{y / U - hh / 2:.1f}" width="{w_:.1f}" height="{hh:.1f}"/>')
-    # site symbols
+    tx, ty = town; cx_, cy_ = loc["cothon"]
+    ang = math.atan2(cy_ - ty, cx_ - tx); ca, sa = math.cos(ang), math.sin(ang)
+    S.append(f'<rect class="agora" x="-9" y="-7" width="18" height="14" transform="translate({tx / U:.1f} {ty / U:.1f}) rotate({math.degrees(ang):.1f})"/>')
+    for i in range(-9, 10):
+        for j in range(-9, 10):
+            u, v = i * 52.0, j * 38.0                                            # 44 x 30 m blocks, 8 m streets
+            if abs(u) < 60 and abs(v) < 45: continue                             # the agora
+            x, y = tx + u * ca - v * sa, ty + u * sa + v * ca
+            z = h_at(h, x, y)
+            if not 3 < z < 95 or math.hypot(u, v) > 460 + 80 * rng.random() or rng.random() < .2: continue
+            if math.dist((x, y), (cx_, cy_)) < 240 or math.dist((x, y), rnd) < 380: continue
+            if abs(h_at(h, x + 25, y) - h_at(h, x - 25, y)) > 16 or abs(h_at(h, x, y + 25) - h_at(h, x, y - 25)) > 16: continue
+            S.append(f'<rect class="house" x="-4.4" y="-3" width="8.8" height="6" transform="translate({x / U:.1f} {y / U:.1f}) rotate({math.degrees(ang):.1f})"/>')
+    # site symbols; number badges dodge symbols and each other
+    RAD = {"round": 20, "cothon": 34, "strait": 24, "citadel": 22, "cliff": 30}
+    marks = []
+    for num, skey, name, vols, kind in SITES:
+        pts = loc[skey] if isinstance(loc[skey], list) else [loc[skey]]
+        marks += [(px / U, py / U, RAD.get(kind, 8) if k == 0 else 8, num) for k, (px, py) in enumerate(pts)]
+    badges = []
+    def badge_at(x, y, r0, num):
+        """Nearest spot that clears every symbol and badge, and sits nearer its own site than any other."""
+        best, best_key = None, None
+        for dist in (r0 + 16, r0 + 28, r0 + 42, r0 + 58):
+            for a in (-40, -140, 40, 140, -90, 90, 0, 180):
+                bx, by = x + dist * math.cos(math.radians(a)), y + dist * math.sin(math.radians(a))
+                if not (16 < bx < 1584 and 16 < by < 1084): continue
+                gaps = [math.hypot(bx - mx, by - my) - mr - 15 for mx, my, mr, n in marks if n != num]
+                gaps += [math.hypot(bx - qx, by - qy) - 30 for qx, qy in badges]
+                own = min(math.hypot(bx - mx, by - my) - mr for mx, my, mr, n in marks if n == num)
+                clear = min(gaps, default=99)
+                if clear >= 2 and all(own < math.hypot(bx - mx, by - my) - mr for mx, my, mr, n in marks if n != num):
+                    return bx, by
+                if best_key is None or clear > best_key: best, best_key = (bx, by), clear
+        return best
     for num, skey, name, vols, kind in SITES:
         pts = loc[skey] if isinstance(loc[skey], list) else [loc[skey]]
         cls = " ".join(f"v{v}" for v in vols.split())
@@ -525,10 +609,9 @@ def svg_for(key, title, h, sites, loc):
                 S.append(f'<line class="sym-cliff" x1="{x + k * 9:.1f}" y1="{y - 9:.1f}" x2="{x + k * 9 + 4:.1f}" y2="{y + 9:.1f}"/>')
         for px, py in pts[(1 if kind in ("round", "cothon", "citadel", "strait", "cliff") else 0):]:
             S.append(f'<circle class="sym-dot" cx="{px / U:.1f}" cy="{py / U:.1f}" r="7"/>')
-        lx, ly = pts[0][0] / U, pts[0][1] / U
-        off = {"round": 20, "cothon": 34, "strait": 24, "citadel": 22, "cliff": 30}.get(kind, 10)
-        S.append(f'<g class="tag"><circle class="num-bg" cx="{lx + off + 14:.1f}" cy="{ly - off * .5 - 6:.1f}" r="15"/>'
-                 f'<text class="num" x="{lx + off + 14:.1f}" y="{ly - off * .5 + 1:.1f}">{num}</text></g>')
+        bx, by = badge_at(pts[0][0] / U, pts[0][1] / U, RAD.get(kind, 8), num); badges.append((bx, by))
+        S.append(f'<g class="tag"><circle class="num-bg" cx="{bx:.1f}" cy="{by:.1f}" r="15"/>'
+                 f'<text class="num" x="{bx:.1f}" y="{by + 7:.1f}">{num}</text></g>')
         S.append('</g>')
     # compass + scale (1 km and 5 stadia at 185 m)
     S.append('<g class="furniture"><g transform="translate(1520 90)"><path class="compass" d="M0 -38L9 6L0 0L-9 6Z"/>'
@@ -547,7 +630,7 @@ SVG_STYLE = """<style>
 .coast{stroke:#1c1512;stroke-width:2.2;stroke-linejoin:round}.contour{stroke:#1c1512;stroke-opacity:.22;stroke-width:.8}
 .road{fill:none;stroke-linecap:round;stroke-linejoin:round}.walk{stroke:#faf3e0;stroke-width:5}.walk-dots{stroke:#1c1512;stroke-width:4.2;stroke-dasharray:0 9}
 .track{stroke:#6b5a43;stroke-width:1.4;stroke-dasharray:5 4}
-.house{fill:#bf4a26;stroke:#1c1512;stroke-width:.6}
+.house{fill:#bf4a26;stroke:#1c1512;stroke-width:.6}.agora{fill:#faf3e0;stroke:#1c1512;stroke-width:.8}
 .sym-round{fill:#f8f5ee;stroke:#1c1512;stroke-width:2.4}.sym-round-in{fill:#e2cf9b;stroke:#1c1512;stroke-width:1}.sym-gate{fill:#c1912b;stroke:#1c1512;stroke-width:1}
 .sym-cothon{fill:#7fb2c8;stroke:#1c1512;stroke-width:2.2}.sym-cothon-isle{fill:#f8f5ee;stroke:#1c1512;stroke-width:1.4}.sym-quay{stroke:#1c1512;stroke-width:2}
 .sym-citadel{fill:#8e2323;stroke:#1c1512;stroke-width:1.6}.sym-strait{fill:none;stroke:#8e2323;stroke-width:2.2;stroke-dasharray:4 3}
@@ -563,7 +646,7 @@ def main():
     html_path = ROOT / "art-direction-grand.html"
     html = html_path.read_text() if html_path.exists() else None
     for key in only:
-        title, h, loc = build(key)
+        title, h, loc, rules = build(key)
         report = {}
         for num, skey, name, vols, kind in SITES:
             v = loc[skey]
@@ -575,10 +658,11 @@ def main():
         png = np.clip((h - HMIN) / (HMAX - HMIN), 0, 1) * 65535
         Image.fromarray(png.astype(np.uint16)).save(OUT / f"option-{key}-height.png")
         land = (h > 0).mean() * W * H / 1e6
-        ck = checks(h, loc)
+        ck = checks(h, loc, rules)
         print(f"    checks: hamlets seen {ck['hamlets_mutually_visible'] or 'none'} | banquet {ck['banquet_visible_from_round']}"
               f" | sea from Round {ck['round_sea_bearings']}° two-sided {ck['round_sea_two_sided']} {ck['round_sea_arcs']} | signals {ck['signal_pairs_clear']}"
-              f" | harbour seen {ck['town_to_round_clear']} | walk {math.dist(loc['town'], loc['round']):.0f} m")
+              f" | harbour seen {ck['town_to_round_clear']} | walk {math.dist(loc['town'], loc['round']):.0f} m"
+              f" | saddle {ck['round_in_saddle']} | banquet offset {ck['banquet_offset_m']} | causeway {ck.get('causeway')}")
         meta = {"option": key, "title": title, "world_m": [W, H], "cell_m": CELL,
                 "height_png_range_m": [HMIN, HMAX], "land_km2": round(land, 2),
                 "summit_m": round(float(h.max())), "checks": ck, "sites": report}
@@ -588,18 +672,26 @@ def main():
             print(f"    {r['num']:>2} {skey:9s}", " ".join(f"{p[2]:>6.1f}" for p in r["points_m"]))
         if html:
             rp, tp, bp = (report[k_]["points_m"][0] for k_ in ("round", "town", "banquet"))
+            cw = ck.get("causeway")
+            rows = [("Sea on both sides of the Round", ck["round_sea_two_sided"]),
+                    ("Harbour in view from the Round", ck["town_to_round_clear"]),
+                    ("Banquet house in view from the tiers", ck["banquet_visible_from_round"]),
+                    ("Hamlets out of each other's sight", not ck["hamlets_mutually_visible"]),
+                    ("Beacons in sight across the water", ck["signal_pairs_clear"][0] == ck["signal_pairs_clear"][1]),
+                    ("The Round sits in a saddle", ck["round_in_saddle"]),
+                    (f"The Round clear of the town (≥{ROUND_TOWN_MIN:.0f} m)", ck["round_town_m"] >= ROUND_TOWN_MIN),
+                    ("Banquet house due east (±60 m)", ck["banquet_offset_m"][0] >= 120 and abs(ck["banquet_offset_m"][1]) <= 60)]
+            if cw: rows += [("Causeway dry in calm weather", cw["dry_in_calm"]),
+                            ("Winter seas break over it (crest ≤ 3 m)", cw["winter_seas_break_over"])]
             stats = (f'<dl class="stats"><div><dt>Land</dt><dd>{land:.1f} km²</dd></div>'
                      f'<div><dt>Summit</dt><dd>{h.max():.0f} m</dd></div>'
                      f'<div><dt>The Round sits at</dt><dd>{rp[2]:.0f} m</dd></div>'
                      f'<div><dt>Harbour → Round</dt><dd>{math.dist(tp[:2], rp[:2]) / 1000:.2f} km, {rp[2] - tp[2]:.0f} m climb</dd></div>'
-                     f'<div><dt>Banquet house</dt><dd>{math.dist(bp[:2], rp[:2]):.0f} m east, {rp[2] - bp[2]:.0f} m below</dd></div>'
+                     f'<div><dt>Banquet house</dt><dd>{ck["banquet_offset_m"][0]} m east, {abs(ck["banquet_offset_m"][1])} m {"south" if ck["banquet_offset_m"][1] > 0 else "north"}, {rp[2] - bp[2]:.0f} m below</dd></div>'
                      f'<div><dt>Sea seen from the Round</dt><dd>{ck["round_sea_bearings"]}° of horizon</dd></div>'
+                     + (f'<div><dt>Causeway</dt><dd>{cw["length_m"]} m long, crest {cw["crest_min_m"]}–{cw["crest_max_m"]} m, ~{cw["width_above_1_5m_mean"]} m wide above 1.5 m</dd></div>' if cw else "")
                      + "".join(f'<div class="ck {"pass" if ok else "fail"}"><dt>{label}</dt><dd>{"✓ yes" if ok else "✗ no"}</dd></div>'
-                               for label, ok in (("Sea on both sides of the Round", ck["round_sea_two_sided"]),
-                                                 ("Harbour in view from the Round", ck["town_to_round_clear"]),
-                                                 ("Banquet house in view from the tiers", ck["banquet_visible_from_round"]),
-                                                 ("Hamlets out of each other's sight", not ck["hamlets_mutually_visible"]),
-                                                 ("Beacons in sight across the water", ck["signal_pairs_clear"][0] == ck["signal_pairs_clear"][1])))
+                               for label, ok in rows)
                      + '</dl>')
             thumb = (f'<svg class="thumb" viewBox="0 0 1600 1100" aria-hidden="true"><rect class="t-sea" width="1600" height="1100"/>'
                      f'<path class="t-land" fill-rule="evenodd" d="{loops_to_d(march(h, 0), 3.0, 60)}"/>'

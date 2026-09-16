@@ -11,7 +11,7 @@ _Last updated 16 Sep 2026._
 The user explicitly allowed starting afresh. Nothing from the old per-volume art is assumed to carry over, except the locked Volume V decisions below.
 
 ## Pipeline (current stage in bold)
-1. **Rough map: SVG layout options. Decisions are locked (B, Twin Lobes). We are refining map B.**
+1. **Rough map: B chosen and refined. Next is stage 2.**
 2. Painted map: an image model fills in detail from the chosen SVG (vegetation, town fabric, coves, cliffs).
 3. Island blockout in Blender: the heightmap displaces a Grid, empties come from the sites JSON, then sculpting.
 4. Hero architecture: the Round, the cothon, the headland city and citadel, the granary and the lock-houses are hand-modelled. Tripo is used only for props (statues, amphorae, ships, the hourglass).
@@ -35,22 +35,26 @@ The user explicitly allowed starting afresh. Nothing from the old per-volume art
 2. **Gazetteer:** 16 numbered sites with ground rules, defined in the generator as `SITES`/`RULES`, plus the Statue Walk road.
 3. **Four layouts on the same 8 × 5.5 km world:**
    - **A · Crescent:** hills round a north-facing bay. Passes every check.
-   - **B · Twin Lobes (recommended):** two hill masses joined by a sand causeway that the winter sea covers. That makes Volume IV's "Passable Season" literal: in a storm the island becomes two assemblies. The Round sits on the neck of the citadel peninsula above the town. Passes every check. About 14.8 km².
+   - **B · Twin Lobes (CHOSEN, refined 16 Sep):** two hill masses joined by a curved sand causeway, about 605 m long with its crest at 1.4–2.0 m: dry in calm weather, awash in winter. The Round sits in a real col on the citadel peninsula's neck at 142 m, between a new citadel knoll to the north and the western highland. It sees sea WNW and ESE (165° in total), has the cothon in view, and is 647 m and a 92 m climb from the town. The banquet house is on a graded terrace 160 m due east of the Round and 27 m below it. All 12 checks pass. About 14.8 km².
    - **C · Caldera:** a broken ring round a lagoon, with an oracle cone that has vapours. Fails "sea on both sides of the Round" (it sees 210° as one continuous arc). Its Santorini look clashes with D05.
    - **D · Ridge Spine:** modelled on the real Paxoi (the Lakka bay, the Antipaxos islet, the west cliffs). Passes every check. It has the least iconic silhouette, and the real island is in the Ionian Sea, not the Aegean.
+   A, C and D were **not regenerated** after the B refinement. Their SVGs, JSON and Measured panels come from the generator at commit cdc025b. Rerunning them now would apply the new Round/banquet rules and change them.
    Each map has volume filter chips, a heightmap view, and a "Measured" panel with the check results.
 4. **Circular harbour:** a Carthage-type cothon (a basin about 300 m across with 7 quays, a central islet with a lantern tower and a channel about 44 m wide), set inside the Delos-type port. It serves Volumes IV, V and VII.
 5. **Scale, time and Volume IX.**
 6. **Blender handoff spec:** see below.
-7. **Decisions export.**
+7. **Decisions export.** The locked choices are pre-checked in the HTML, and a "Decided" box sits under the pipeline.
+The page text now follows ERAS.md: the scope table rows VII and VIII, site 16 renamed "Italian guild lock-houses", and §5's four phases.
 
 ## Locked decisions (chosen 16 Sep 2026, in chat rather than via the page export)
+**`ERAS.md` refines G05** (agreed in a side thread): one generation (about 40 years) in a Hellenistic Delos-type port, four additive phases, the Volume VII citadel on the same footprint as the Volume II city, and the Volume VIII "Romans" as the resident Italian guild. Read it before touching eras or assets. It also lists pending text edits to `paxos-illustrated/volumes.md`, which haven't been made yet.
+
 - **G01 World scope: A, one island.**
 - **G02 Island form: B, Twin Lobes.** Options A, C and D stay on the page as the record.
 - **G03 Circular harbour: A, a cothon inside the main port.**
 - **G04 World scale: B, 8 × 5.5 km as drafted.**
 - **G05 Time across volumes: A, one terrain with era collections.** Ruins are variants.
-- **G06 Volume IX: A, off-island on a misty northern coast.**
+- **G06 Volume IX: A, off-island on a misty northern coast.** Reopened by ERAS.md: the alternative is a monastery on the east lobe's north shore, cut off when the causeway is awash. Waiting for the user.
 - **G07 3D files: gitignored.** `.blend`, `.glb` and renders stay out of Git, and renders go to R2 as in the old repo.
 
 Also still open:
@@ -59,17 +63,19 @@ Also still open:
 
 ## Generator notes (`tools/island_maps.py`)
 - Each option is a function that builds terrain from primitives (`blob`, `ridge`, `ring`) with domain warp (`warp`) and value noise (`finish`). It returns rough site positions, a hint for the cothon's position, and any rule overrides. `build()` then snaps the cothon to the shore and carves it (basin, islet, channel to deep water), snaps each site to its `RULES` band (elevation range, distance to sea), and runs `place_by_sight()`:
-  - The Round goes to the candidate within 900 m that maximises the sea seen, with two opposed sea arcs and the harbour in view.
-  - The banquet house goes 60–250 m east of the Round, lower, and visible from it.
+  - The Round goes to the candidate within `round_radius` (default 900 m, 250 m for B) at least 500 m from the town (`ROUND_TOWN_MIN`) that maximises the score: sea seen, two opposed sea arcs, harbour in view, and +300 if `is_saddle()` when `round_saddle` is set.
+  - The banquet house goes 120 m or more east of the Round, within 60 m north or south, lower, and visible from it.
   - Hamlets K and M are moved until they're hidden from the hamlets already placed.
   - The second beacon is moved until it's in sight of the first.
 - `checks()` writes its results to the sites JSON under `"checks"` and to the page's "Measured" panels.
 - Contours use hand-written marching squares, then Chaikin smoothing and RDP simplification. Roads are least-cost Dijkstra paths on a 25 m grid, avoiding water and steep slopes.
+- Terrain tools added for B: `grade()` cuts and fills a ramp (the banquet terrace), and `causeway()` lays a Bézier tombolo whose crest and width wander, with shallows fading to the deep. `sea_before` records where the bar crosses former sea, and `measure_causeway()` measures it there.
+- Option extras go through the overrides dict: `round_radius`, `round_saddle`, and `causeway` as `(ctrl, sea_before)`.
+- The town is insulae on a street grid squared to the cothon, with an open agora. Badges search for a spot that clears every symbol and sits nearer their own site than any other.
 - Known rough edges:
-  - Map number badges can overlap where sites cluster (for example, 11 and 12 in B).
-  - The town is scattered random blocks.
-  - Option B's Round ended up on the peninsula neck rather than a col between the lobes.
   - The search results depend on the rough positions passed in.
+  - B's town climbs the slope between the cothon and the Round, and the agora rect is partly hidden under badge 10 and the walk.
+  - The causeway still reads fairly straight at map scale.
 
 ## Blender import spec (from the page)
 - **Grid:** 641 × 441 vertices, 8000 × 5500 m, so one face per heightmap pixel.
@@ -78,7 +84,8 @@ Also still open:
 - **Check this on the first import:** option B's citadel empty must land on the northern peninsula, on land. If it lands in water to the south, the image V axis is flipped.
 
 ## Next steps
-1. Done: decisions locked (see above).
-2. Refine the chosen map. Adjust the terrain in its option function, tidy label placement, and optionally add names for the town, bays and capes. Then republish the Artifact (read it first, then publish with `url`).
-3. Stage 2: write the painted-map prompt with the chosen SVG as the layout reference (Gemini image model, as in `paxos-illustrated/tools/gen_panel.py`).
-4. Stage 3: build the Blender scene from the heightmap and sites JSON, following the spec above. `.blend` files are gitignored (G07).
+1. Done: decisions locked, and map B refined and republished.
+2. Get the user's answer on G06 (Volume IX off-island, or the east-lobe monastery). If it goes on the island, add a site to `SITES`/`RULES` and to option B.
+3. Optional: names for the town, bays and capes on map B.
+4. Stage 2: write the painted-map prompt with the chosen SVG as the layout reference (Gemini image model, as in `paxos-illustrated/tools/gen_panel.py`).
+5. Stage 3: build the Blender scene from the heightmap and sites JSON, following the spec above. `.blend` files are gitignored (G07).
