@@ -239,7 +239,12 @@ def island():
     R, T = ROUND_COL, PORT                                                       # keep the quays in view from the Round's tiers
     h = open_sightline(h, (*R, h_at(h, *R) + 8), (*T, h_at(h, *T) + 2), 10.0, 140.0)
     h = channel(h, AXIS, .31, 150, 9.0, seed=62, feather=320, wander=120)                               # the neck the causeway crosses
-    cw = [at(.29, -20), at(.31, 90), at(.33, -20)]
+    def landfall(direction):                                                     # walk out from the neck until the ground is 3 m up
+        t = .31
+        while h_at(h, *at(t, -20)) < 3 and abs(t - .31) < .12: t += direction * 10 / L
+        return t + direction * 40 / L
+    t0, t1 = landfall(-1), landfall(1)
+    cw = [at(t0, -20), at((t0 + t1) / 2, 90), at(t1, -20)]                          # the causeway always reaches land at both ends
     sea_before = h < 0
     h = causeway(h, cw, seed=61)
     h = channel(h, AXIS, .905, 170, 18.0, seed=63, feather=380, wander=260)                             # the strait to the Raft islet
@@ -277,6 +282,7 @@ def build():
         lo, hi, coast = rules[skey]
         loc[skey] = [snap(h, p, lo, hi, coast) for p in v] if isinstance(v, list) else snap(h, v, lo, hi, coast)
     place_by_sight(h, loc, rough, rules)
+    loc["_tracks"] = track_network(h, loc, rules)
     return h, loc, rules
 
 def candidates(h, centre, radius, lo, hi, step=50.0):
@@ -374,6 +380,53 @@ def land_component(h, p):
                 seen[ii, jj] = True; stack.append((ii, jj))
     return seen
 
+# The track network: spurs to every mainland site, joined hub to hub in walking order. Hamlets hang off different
+# hubs (press, oracle, beacon) so no track runs straight from one hamlet to another. min_z 0.5 lets tracks use the causeway.
+TRACKS = [("hamA", "press"), ("press", "beacons:0"), ("press", "oracle"), ("oracle", "hamK"), ("hamM", "beacons:1"),
+          ("oracle", "cothon"), ("beacons:1", "cothon"), ("cothon", "strait"), ("strait", "drummers:0"), ("strait", "drummers:1"),
+          ("strait", "port"), ("port", "town"), ("round", "banquet"), ("town", "city"), ("city", "camps:0"),
+          ("town", "granary:0"), ("granary:0", "granary:1"), ("granary:1", "granary:2"), ("granary:0", "granary2"),
+          ("granary2", "citadel"), ("citadel", "seawall"), ("granary2", "hall"), ("hall", "locks:0"), ("locks:0", "locks:4"), ("hall", "cliffs")]
+
+TRACK_SLOPE_K = 150.0                                                            # mule tracks accept 15-25% grades rather than detour for kilometres
+
+def site_point(h, loc, ref):
+    key, _, k = ref.partition(":")
+    v = loc[key]
+    p = v[int(k or 0)] if isinstance(v, list) else v
+    if key == "strait":                                                          # onto the causeway's crest
+        best = max(((p[0] + dx, p[1] + dy) for dx in range(-100, 101, 12) for dy in range(-100, 101, 12)), key=lambda q: h_at(h, *q) - math.hypot(q[0] - p[0], q[1] - p[1]) / 50)
+        p = best
+    if key == "cothon":                                                          # the site point is the lighthouse islet; tracks end on the quay ring
+        ring = [(p[0] + 205 * math.cos(a), p[1] + 205 * math.sin(a)) for a in np.linspace(0, math.tau, 72, endpoint=False)]
+        ring = [q for q in ring if 2 <= h_at(h, *q) <= 30]
+        p = min(ring, key=lambda q: h_at(h, *q)) if ring else p
+    return p
+
+def track_network(h, loc, rules):
+    """Least-cost paths for TRACKS, plus the Statue Walk from the town to the Round. The causeway corridor is passable
+    even where its 25 m samples dip below the land threshold."""
+    passable = None
+    if "causeway" in rules:
+        line = bezier(rules["causeway"][0], 80)
+        dist = np.full(h.shape, np.inf)
+        for q0, q1 in zip(line, line[1:]): dist = np.minimum(dist, seg_dist(*q0, *q1, X0, Y0)[0])
+        passable = dist < 30
+    out = [(a, b, least_cost_path(h, site_point(h, loc, a), site_point(h, loc, b), slope_k=TRACK_SLOPE_K, min_z=.5, passable=passable)) for a, b in TRACKS]
+    return out, least_cost_path(h, loc["town"], loc["round"])
+
+def tracks_connected(loc, edges):
+    """Every mainland site sits in one connected network (the Round via the Statue Walk; IX is on its islet)."""
+    parent = {}
+    def find(x):
+        parent.setdefault(x, x)
+        while parent[x] != x: x = parent[x]
+        return x
+    for a, b in list(edges) + [("town", "round")]:
+        parent[find(a.split(":")[0])] = find(b.split(":")[0])
+    keys = {k for k in loc if k not in ("monastery",) and not k.startswith("_")}
+    return len({find(k) for k in keys}) == 1, sorted(k for k in keys if find(k) != find("town"))
+
 def open_water_reaches_edge(h, p):
     """The cothon basin's water connects to the open sea at the edge of the world."""
     water = land_component(-h, p)
@@ -399,10 +452,13 @@ def dependency_order(loc, axis, sites):
     return {"edges_ok": not broken, "broken_edges": broken, "bands_ok": band_ok,
             "spans": {VOL_ROMAN[v]: span[v] for v in sorted(span)}}
 
-def least_cost_path(h, a, b, slope_k=900.0):
-    """Dijkstra on the 12.5 m grid; roads avoid water and steep ground."""
+def least_cost_path(h, a, b, slope_k=900.0, min_z=1.5, passable=None):
+    """Dijkstra on a 25 m grid; roads avoid water (ground below min_z, unless `passable` says otherwise) and steep ground.
+    Returns [] when b can't be reached."""
     step = 2                                                                      # 25 m moves
     hs = h[::step, ::step]; ny, nx = hs.shape; c = CELL * step
+    ok = hs >= min_z
+    if passable is not None: ok |= passable[::step, ::step][:ny, :nx]
     s = (int(a[1] / c), int(a[0] / c)); g = (int(b[1] / c), int(b[0] / c))
     dist = np.full(hs.shape, np.inf); prev = {}
     dist[s] = 0; pq = [(0.0, s)]
@@ -414,11 +470,12 @@ def least_cost_path(h, a, b, slope_k=900.0):
         for di, dj in nb:
             ii, jj = i + di, j + dj
             if not (0 <= ii < ny and 0 <= jj < nx): continue
-            if hs[ii, jj] < 1.5 and (ii, jj) != g: continue
+            if not ok[ii, jj] and (ii, jj) != g: continue
             run = c * math.hypot(di, dj); grade = abs(hs[ii, jj] - hs[i, j]) / run
             nd = dd + run * (1 + slope_k * grade * grade)
             if nd < dist[ii, jj]:
                 dist[ii, jj] = nd; prev[(ii, jj)] = (i, j); heapq.heappush(pq, (nd, (ii, jj)))
+    if g != s and g not in prev: return []
     path, cur = [], g
     while cur in prev: path.append(((cur[1] + .5) * c, (cur[0] + .5) * c)); cur = prev[cur]
     path.append(a); path.reverse(); path[-1] = b
@@ -486,6 +543,10 @@ def checks(h, loc, rules):
             "banquet_offset_m": [round(loc["banquet"][0] - loc["round"][0]), round(loc["banquet"][1] - loc["round"][1])],
             **({"causeway": measure_causeway(h, rules["causeway"])} if "causeway" in rules else {}),
             **({"dependency_order": dependency_order(loc, rules["axis"], rules["sites"])} if "axis" in rules else {}),
+            "tracks_connect_every_mainland_site": tracks_connected(loc, [(a, b) for a, b, p in loc["_tracks"][0] if len(p) >= 2])[0],
+            "tracks_unreachable": [f"{a}–{b}" for a, b, p in loc["_tracks"][0] if len(p) < 2],
+            "tracks_hamlet_to_hamlet": [f"{a}–{b}" for a, b in TRACKS if a.startswith("ham") and b.startswith("ham")],
+            "causeway_joins_the_neck": bool(land_component(h, loc["oracle"])[int(loc["round"][1] / CELL), int(loc["round"][0] / CELL)]),
             "cothon_open_to_sea": bool(open_water_reaches_edge(h, (loc["cothon"][0] + 100, loc["cothon"][1]))),   # start in the basin, not on the islet
             **({"monastery_detached": not land_component(h, loc["round"])[int(loc["monastery"][1] / CELL), int(loc["monastery"][0] / CELL)]}
                if "monastery" in loc else {})}
@@ -612,15 +673,12 @@ def svg_for(title, h, site_list, loc, zones=(), clean=False):
         S.append(f'<path class="land{k}{" coast" if k == 0 else " contour"}" fill-rule="evenodd" d="{d}"/>')
     for z, zx, zy in ([] if clean else zones):                                   # volume zones along the dependency axis
         S.append(f'<text class="zone" x="{zx / U:.0f}" y="{zy / U:.0f}">{z}</text>')
-    # roads (least-cost), statue walk first
-    town, rnd = loc["town"], loc["round"]
-    S.append(f'<path class="road walk" d="{smooth_d(least_cost_path(h, town, rnd))}"/>')
-    if not clean: S.append(f'<path class="road walk-dots" d="{smooth_d(least_cost_path(h, town, rnd))}"/>')
-    for tgt in [k for k in ("banquet", "hamA", "hamK", "hamM", "citadel", "press", "granary2", "oracle", "city", "hall") if k in loc]:
-        p = loc[tgt][0] if isinstance(loc[tgt][0], tuple) else loc[tgt]
-        if h_at(h, *p) < 1.5: continue
-        path = least_cost_path(h, rnd if tgt == "banquet" else town, p)
+    # tracks (least-cost network), then the Statue Walk on top
+    tracks, walk = loc["_tracks"]
+    for a, b, path in tracks:
         if len(path) > 2: S.append(f'<path class="road track" d="{smooth_d(path)}"/>')
+    S.append(f'<path class="road walk" d="{smooth_d(walk)}"/>')
+    if not clean: S.append(f'<path class="road walk-dots" d="{smooth_d(walk)}"/>')
     # town: insulae on a street grid squared to the harbour, agora left open at the centre
     agora, blocks = town_layout(h, loc)
     tx, ty, adeg = agora
@@ -764,7 +822,8 @@ def main():
                         "channel_bearing_deg_from_x_toward_y": round(rules["cothon_channel_deg"], 1)},
              "town": {"agora_m_deg": [round(agora[0]), round(agora[1]), round(agora[2], 1)], "insula_m": [44, 30],
                       "insulae_m_deg": [[round(x), round(y), round(d, 1)] for x, y, d in blocks]},
-             "statue_walk_m": [[round(x), round(y)] for x, y in least_cost_path(h, loc["town"], loc["round"])]}
+             "statue_walk_m": [[round(x), round(y)] for x, y in loc["_tracks"][1]],
+             "tracks_m": [{"from": a, "to": b, "path": [[round(x), round(y)] for x, y in path]} for a, b, path in loc["_tracks"][0]]}
     meta = {"title": TITLE, "world_m": [W, H], "cell_m": CELL, "built": built,
             "height_png_range_m": [HMIN, HMAX], "land_km2": round(land, 2),
             "summit_m": round(float(h.max())), "checks": ck, "sites": report}
@@ -788,7 +847,10 @@ def main():
             rows += [("Each volume after the ones it builds on (9 links)", ck["dependency_order"]["edges_ok"]),
                      ("The graph's five bands run NW → SE without overlapping", ck["dependency_order"]["bands_ok"])]
         if "monastery_detached" in ck: rows += [("Raft monastery on its own island", ck["monastery_detached"])]
-        rows += [("The lantern harbour's basin opens to the sea", ck["cothon_open_to_sea"])]
+        rows += [("The causeway joins the neck in calm weather", ck["causeway_joins_the_neck"]),
+                 ("The lantern harbour's basin opens to the sea", ck["cothon_open_to_sea"]),
+                 ("Tracks connect every mainland site", ck["tracks_connect_every_mainland_site"]),
+                 ("No track runs straight from one hamlet to another", not ck["tracks_hamlet_to_hamlet"])]
         if cw: rows += [("Causeway dry in calm weather", cw["dry_in_calm"]),
                         ("Winter seas break over it (crest ≤ 3 m)", cw["winter_seas_break_over"])]
         stats = (f'<dl class="stats"><div><dt>Land</dt><dd>{land:.1f} km²</dd></div>'

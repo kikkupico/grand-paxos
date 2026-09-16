@@ -20,6 +20,7 @@ import blender_terrain as bt
 
 from blender_kit import *                                                                          # noqa: F401,F403
 import blender_sites as bs
+import blender_nature as bn
 
 # ---------------------------------------------------------------- the buildings
 def great_round(ground, M, coll, report):
@@ -374,6 +375,23 @@ def main():
                    ("The breakwater stands mostly in the sea (≥70%)", res["breakwater_mostly_over_water"]),
                    ("No hero footprints overlap", not overlaps)])
 
+    # vegetation, fields and tracks (tools/blender_nature.py)
+    PX_, PY_ = site("port"); BX_, BY_ = site("banquet")
+    sightlines = [((RX, RY, rim + 8), (PX_, PY_, ground.z(PX_, PY_) + 2)), ((RX, RY, rim + 8), (BX_, BY_, ground.z(BX_, BY_) + 4)),
+                  tuple(fires), tuple(decks)]
+    exclusions = [(*B(x, y), r) for key, r in bn.EXCLUDE_M.items() for x, y, _ in SITES["sites"][key]["points_m"]]
+    vres = bn.build(ctx, ground, bs.smooth_path, sightlines, exclusions)
+    (bt.OUT / "vegetation-checks.json").write_text(json.dumps(vres, indent=1))
+    print("VEGETATION CHECKS", json.dumps(vres))
+    ic = vres["instances"]
+    bt.page_block("VEGETATION",
+                  [("Olive trees", f"{ic['olive groves']:,}"), ("Maquis shrubs", f"{ic['maquis']:,}"), ("Umbrella pines", f"{ic['umbrella pines']:,}"),
+                   ("Cypresses (placed by hand)", str(vres["cypresses"])), ("Wheat and fallow parcels", f"{vres['wheat_and_fallow_km2']} km²"),
+                   ("Track ribbons", f"{vres['track_ribbons_m']:,} m")],
+                  [("No trees standing in water", vres["trees_standing_in_water"] == 0),
+                   ("No tall trees on building footprints", vres["tall_trees_on_building_footprints"] == 0),
+                   ("No tall trees on the story's sightlines (Round to quays and banquet house, beacons, drums)", vres["tall_trees_on_story_sightlines"] == 0)])
+
     look = ctx["look"]
     def cam_at(name, target, frm, height, lens=35):
         return bt.camera(name, (target[0] + frm[0], target[1] + frm[1], target[2] + height), target, look, lens=lens)
@@ -406,6 +424,10 @@ def main():
         bt.RENDERS.mkdir(exist_ok=True); bt.use_eevee(scene)
         for key, cam in cams.items():
             bt.render(scene, cam, bt.RENDERS / f"buildings-{key}.png", (1600, 900))
+        hAX_, hAY_ = site("hamA")
+        close = cam_at("Cam · olive groves above hamlet A", (hAX_, hAY_, ground.z(hAX_, hAY_)), (-230, -150), 55, lens=30)
+        for key, cam in (("overview", ctx["cams"]["overview"]), ("parliament", cams["parliament"]), ("plain", cams["granaries"]), ("groves", close)):
+            bt.render(scene, cam, bt.RENDERS / f"nature-{key}.png", (1600, 900))
         scene.camera = ctx["cams"]["overview"]
         bpy.ops.wm.save_as_mainfile(filepath=str(bt.OUT / "paxos.blend"), compress=True)
 

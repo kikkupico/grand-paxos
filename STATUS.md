@@ -12,10 +12,10 @@ _Last updated 16 Sep 2026._
 1. Rough map: done. The island is a generated elevation field with all 23 sites placed and every check passing.
 2. Painted map: tried once (16 Sep 2026) and **kept only as a record** of how it didn't turn out as expected: symbol-sized buildings, invented features, no usable surface detail. It is not used downstream. It lives in §3 of the page (`maps/island-painted.jpg`, with scores measured before the terrain smoothing below).
 3. Island blockout in Blender: terrain built (16 Sep 2026). `tools/blender_terrain.py` builds `blender/paxos.blend` (gitignored) straight from the heightmap. Checks are in `blender/terrain-checks.json` and §4 of the page.
-4. **Hero architecture: every site placed as a true-scale blockout (16 Sep 2026).**
-   - `tools/blender_buildings.py` builds the terrain, the key buildings, and (through `tools/blender_sites.py`) every other gazetteer site plus the Statue Walk.
-   - All checks pass: `blender/buildings-checks.json`, `blender/sites-checks.json`, §5 of the page.
-   - **Next:** vegetation (olive groves, maquis, pines, wheat), roads and tracks, and detailing the hero buildings. Tripo is used only for props (statues, amphorae, ships, the hourglass).
+4. **Hero architecture: every site placed as a true-scale blockout, with vegetation, fields and tracks (16 Sep 2026).**
+   - `tools/blender_buildings.py` builds the whole scene: terrain, key buildings, every other site (`blender_sites.py`), and vegetation, fields and tracks (`blender_nature.py`).
+   - All checks pass: `blender/{terrain,buildings,sites,vegetation}-checks.json`, §4–6 of the page.
+   - **Next:** detailing the hero buildings (openings, roof tiles, statue figures) and props. Tripo is used only for props (statues, amphorae, ships, the hourglass). Then stage 5, shot pre-vis cameras.
 5. Shot pre-vis: one camera per panel, rendered as clay plus a line pass.
 6. Comic pass: ligne claire over the pre-vis, checked against the asset sheets.
 
@@ -121,6 +121,22 @@ The sections are:
   - The monastery jetty reaches water (−8.4 m).
 - **Found on the way:** the first self-test's "blocked" ray ran underground, where no surface can block it, so it failed for the wrong reason. Smoothing the switchback path cut corners and raised the steepest grade until the bed was graded.
 
+## Vegetation, fields and tracks (`tools/blender_nature.py`)
+- **Track network (map generator):** `TRACKS` lists hub-to-hub links in walking order. Hamlets hang off different hubs (press, oracle, beacon), so no track runs hamlet to hamlet.
+  - Paths use `least_cost_path(slope_k=150, min_z=.5, passable=causeway corridor)`, which returns `[]` when a target is unreachable.
+  - The cothon's site point is its islet, so tracks end on its quay ring. The strait point snaps to the causeway crest.
+  - Exported as `built["tracks_m"]` and drawn on the 2D map in place of the old star from the town.
+  - Map checks: `tracks_connect_every_mainland_site` counts only reachable tracks and fails when a link is removed; `tracks_unreachable`; `tracks_hamlet_to_hamlet`.
+- **Causeway regression found and fixed:** widening the neck channel's banks (for natural coasts) had made the gap longer than the causeway, so the neck wasn't joined. `island()` now walks out from the neck to find landfall at both ends. The new map check `causeway_joins_the_neck` (land flood fill from the oracle reaches the Round) is False on the previous heightmap and True now.
+- **Masks per terrain vertex**, stored as mesh attributes `veg_olive`, `veg_maquis`, `veg_pine`, `field`, `track`:
+  - Inputs: elevation, slope, chamfer distance to the sea, distance to settlements, value noise.
+  - Exclusions: `EXCLUDE_M` circles per site, town insulae, agora, within 7 m of tracks, one cell in from the coast.
+  - Tall trees (olives, pines) are zeroed within 30 m of the story sightlines: Round to quays, Round to banquet house, the beacon pair, the drum pair. At 18 m, one tree slipped in through face interpolation.
+- **Scatter:** one Geometry Nodes object per species reads the terrain through Object Info, runs Distribute Points on Faces (density = attribute × per-m²) and Instance on Points with random rotation and scale. Low-poly prototypes sit at z = −3000. Cypresses are placed by hand at the oracle, the banquet house and the monastery. About 19k olives, 237k maquis, 9k pines, 25 cypresses.
+- **Terrain shader:** farmland parcels (95 × 62 m, rotated 0.6 rad) come from Position → Floor → White Noise → constant ramp, with hedge lines from Fraction, masked by `field`. The `track` attribute adds a dirt tint. Per-vertex parcels had rendered as blobs. Tracks are also draped ribbons (3.6 m, +0.22 m), about 28.7 km.
+- **Checks:** from the evaluated instances, no trees in water, no tall trees on building footprints (75% radius), and no tall trees within 8 m of the story sightlines.
+- **Renders:** `renders/nature-{overview,parliament,plain,groves}.png`. The full build and render takes about 1 minute.
+
 ## Stage 2 files
 - `maps/island-reference.svg` is written by `island_maps.py` in its clean mode. It has no numbers, zone numerals, dots, compass, scale bar or offshore depth bands. Built sites are shown as terracotta rectangles.
 - `maps/island-reference.png` is written by `painted_map.py reference`: 2200 × 1650, with the 11:8 map letterboxed with 25 units of sea top and bottom to make 4:3, the nearest aspect ratio the image model offers.
@@ -129,7 +145,7 @@ The sections are:
 - Storage decision: commit `island-painted.jpg` and its JSON as spec. Keep the full-size download out of Git.
 
 ## Next steps
-1. Vegetation: olive groves, maquis and pines by elevation and slope, and wheat on the south-east plain.
-2. Roads and tracks between the sites.
+1. Detailing the hero buildings (openings, roof tiles, statue figures) and props (ships in the harbours, amphorae, the hourglass), with Tripo for props only.
+2. Stage 5: shot pre-vis, one camera per panel.
 3. Optional: re-lay the Statue Walk with switchbacks or steps on its steep stretch.
 4. Optional: names for the town, bays and capes.
