@@ -28,13 +28,24 @@ _Last updated 16 Sep 2026._
 - **Time:** one terrain and one generation in five phases, one per graph band and island zone, with buildings only added. See `ERAS.md`.
 - **Every site belongs to one volume.** Kinds of place several volumes need are built per volume: III's cothon (the lantern harbour), IV's merchant quays and town, VII's walled harbour, VIII's guild hall, I's beacons and III's drummers.
 - **3D files:** `.blend`, `.glb` and renders are gitignored, and renders go to R2.
-- **The ledger is a parchment scroll on two rods (16 Sep 2026)**, replacing the codex. It is one continuous strip, written in order and wound from rod to rod, and it is the same object in every volume: IV's legislators' ledgers, VI's granary ledger, and the statues' scroll pose. The gazetteer's ledger cliffs are now "layered strata", not "stacked tablets", so they don't suggest a different ledger form.
+- **The ledger is a parchment scroll on two rods (16 Sep 2026)**, replacing the codex. It is one continuous strip, written in order and wound from rod to rod, and it is the same object in every volume: IV's legislators' ledgers, VI's granary ledger, and the statues' scroll pose. The gazetteer's ledger cliffs are now "layered strata", not "stacked tablets", so they don't suggest a different ledger form. A law book (IV §3.3.2) is a capsa of two-rod subject scrolls, each tagged with the last decree it reflects.
 
 Canon for the period, the Great Round and the Parliament's port is in §5 of the page.
 
 Still open:
+- **The Synod's timeline.** In the paper, the Synod of priests is centuries older than Parliament, but `ERAS.md` has the Round built for IV. Panel IV-09 stages the Synod in the Round; decide whether the Round predates Parliament or the Synod met elsewhere before that panel is generated.
 - The comic style isn't defined beyond "Franco-Belgian". One candidate is Jacques Martin's *Alix*, which is ligne claire set in antiquity.
 - The contents of the common and per-volume asset sheets aren't defined yet.
+
+## Volume pages (`volumes/`)
+- **`volumes/IV-part-time-parliament.html`:** the Paxos paper (Volume IV), set with the text, footnotes, proofs and four interactive widgets. It uses `volumes/volume.css` and is a full standalone document; the Artifact page contract applies only to the art-direction page.
+- **Images removed:** every earlier image is gone. In their place are 25 fresh panel placeholders (IV-00 cover to IV-24), chosen for narrative, not one per old slot. Each names its shape (splash 3:2, strip 12:5, wide 16:9, half 4:3, tall 3:4), its Blender sites and its reference sheets.
+- **Staging:** most panels use places already built in Blender:
+  - the Round's verandah, windows, gates, stairways and statue row;
+  - the agora's cheese stalls, goat pen, sundial and stoa;
+  - the merchant quays and the outbound merchantman;
+  - the Statue Walk and the banquet house.
+- **Source of truth:** `volumes/IV-panels.json`. `python3 tools/volume_panels.py IV` renders the placeholders between `<!-- PANEL id -->` markers (never hand-edit between them) and writes the full briefs to `prompts/volume-IV-panels.md`, the input for image generation.
 
 ## The page (`art-direction-grand-island-shape.html`)
 The sections are:

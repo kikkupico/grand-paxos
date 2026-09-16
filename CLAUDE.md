@@ -9,6 +9,7 @@ This is a standalone project. Don't reference or pull material from any other re
 ## Layout
 - `art-direction-grand-island-shape.html` is the main document: the reading order, the map, the measured checks, the 23-site gazetteer, the places each volume builds, the canon, the decisions and the Blender spec. Open it in a browser.
 - `ERAS.md` is the story timeline: five phases in one generation, walked from the north-west.
+- `volumes/` holds the volume pages: `IV-part-time-parliament.html` (the Paxos paper) with `volume.css`. Its image panels are placeholders rendered from `volumes/IV-panels.json` by `python3 tools/volume_panels.py IV` between `<!-- PANEL id -->` markers (never hand-edit between them), which also writes the briefs to `prompts/volume-IV-panels.md`.
 - `tools/island_maps.py` generates the island and writes the map, measured checks and reading-order table into the page between `<!-- MAP -->`, `<!-- STATS -->` and `<!-- ORDER -->` markers. Never hand-edit the content between those markers.
 - `maps/island.svg`, `maps/island-height.png` and `maps/island-sites.json` are generator outputs. Commit them, because they are the spec.
 - `prompts/painted-map.md` is the stage 2 image prompt. The painting it produced is kept only as a record and isn't used downstream. Image generation is done by the user in the Gemini web UI; don't call image APIs. `tools/painted_map.py` makes the upload (`reference`) and registers the result (`register <file>`).
@@ -29,6 +30,6 @@ This is a standalone project. Don't reference or pull material from any other re
 
 ## Conventions
 - House palette and type, inlined in the HTML: ink `#1c1512`, paper `#f2e7cd`, paper-hi `#faf3e0`, aegean `#136f9e`, terra `#bf4a26`, olive `#66722c`, gold `#c1912b`, caption `#ffe36e`. Headings use Optima/Gill Sans; body text uses Georgia.
-- The HTML has no `<!doctype>`, `<html>`, `<head>` or `<body>` tags and no viewport meta, and `<title>` comes first.
+- The art-direction page has no `<!doctype>`, `<html>`, `<head>` or `<body>` tags and no viewport meta, and `<title>` comes first. Volume pages are ordinary full documents.
 - Volumes are numbered I–IX in walking order from the north-west, which is also dependency and story order.
 - World coordinates are metres on an 11000 × 8000 m world, with x pointing east and y pointing south. One SVG unit is 5 m. The heightmap maps −120 m to 0 and +480 m to 65535.
