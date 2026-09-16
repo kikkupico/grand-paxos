@@ -34,7 +34,7 @@ In Blender, the eras are small additive collections on one scene, not separate i
 - **II:** "three centuries before the citadel of Volume VII" becomes "a generation before".
 - **VII:** "For five hundred years the 3f+1 Law…" becomes "since the siege": the law was correct but unaffordable for a generation.
 - **VIII:** the "Roman engineers" become the resident Italian merchant guild's engineers.
-- **IX:** "sailed north" becomes a withdrawal to the north shore of the east lobe, cut off by the causeway in winter. Only do this if IX moves onto the island; otherwise G06 A (off-island misty north coast) stands. **Still open.**
+- **IX:** "sailed north" becomes a withdrawal to the north shore of the east lobe, cut off by the causeway in winter. **Decided 16 Sep 2026: IX stays off-island (G06 A),** so ignore this rewrite.
 - **D05's present-day dig site and "Paxos in decline":** keep them only as a narrator's frame (a few sepia panels), not a modelled era.
 
 ## What to update in this repo

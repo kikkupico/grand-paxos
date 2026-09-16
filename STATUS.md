@@ -54,7 +54,7 @@ The page text now follows ERAS.md: the scope table rows VII and VIII, site 16 re
 - **G03 Circular harbour: A, a cothon inside the main port.**
 - **G04 World scale: B, 8 × 5.5 km as drafted.**
 - **G05 Time across volumes: A, one terrain with era collections.** Ruins are variants.
-- **G06 Volume IX: A, off-island on a misty northern coast.** Reopened by ERAS.md: the alternative is a monastery on the east lobe's north shore, cut off when the causeway is awash. Waiting for the user.
+- **G06 Volume IX: A, off-island on a misty northern coast.** Confirmed after ERAS.md: the east-lobe monastery was turned down.
 - **G07 3D files: gitignored.** `.blend`, `.glb` and renders stay out of Git, and renders go to R2 as in the old repo.
 
 Also still open:
@@ -84,8 +84,8 @@ Also still open:
 - **Check this on the first import:** option B's citadel empty must land on the northern peninsula, on land. If it lands in water to the south, the image V axis is flipped.
 
 ## Next steps
-1. Done: decisions locked, and map B refined. **Not yet republished.** The live Artifact is still draft 0.1, byte-identical to commit cdc025b apart from the service wrapper. The Artifact tool refuses a republish until the saved live copy has been Read line by line, and because of the inline map SVGs that's about 265k tokens. Options: do that read once, publish to a new URL (then update CLAUDE.md), or slim the page first by moving the SVGs out into `files`.
-2. Get the user's answer on G06 (Volume IX off-island, or the east-lobe monastery). If it goes on the island, add a site to `SITES`/`RULES` and to option B.
+1. Done: decisions locked and map B refined. The page is the local `art-direction-grand.html`, and Artifact publishing has been dropped (see CLAUDE.md).
+2. Done: G06 confirmed as A, Volume IX off-island.
 3. Optional: names for the town, bays and capes on map B.
 4. Stage 2: write the painted-map prompt with the chosen SVG as the layout reference (Gemini image model, as in `paxos-illustrated/tools/gen_panel.py`).
 5. Stage 3: build the Blender scene from the heightmap and sites JSON, following the spec above. `.blend` files are gitignored (G07).

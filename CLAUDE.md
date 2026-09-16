@@ -5,7 +5,7 @@ This is the grand art direction for *Distributed Algorithms of Ancient Greece*, 
 **Read `STATUS.md` before doing anything.** It has the current stage, the decisions still open, how the work got here, and what to do next.
 
 ## Layout
-- `art-direction-grand.html` is the decision document. It is also published as a private Artifact: https://claude.ai/artifact/1HDedXGor4CoRNoi8aQ7ho. To update that URL from a new session, read it first with `action: "read"`, then publish with `url` set.
+- `art-direction-grand.html` is the decision document. The local file is the canonical copy: open it in a browser. The user dropped Artifact publishing on 16 Sep 2026. The old private Artifact (https://claude.ai/artifact/1HDedXGor4CoRNoi8aQ7ho) is stuck at draft 0.1, so don't republish it unless asked.
 - `tools/island_maps.py` generates the island options and injects them into the HTML between `<!-- MAP:k -->`, `<!-- STATS:k -->` and `<!-- THUMB:k -->` markers. Never hand-edit the content between those markers.
 - `maps/option-{a,b,c,d}{.svg,-height.png,-sites.json}` are generator outputs. Commit them, because they are the spec.
 - `sources/` holds the original papers as PDFs (gitignored). Its `README.md` indexes them by volume.
