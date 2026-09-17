@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volume II: The Curse of the Sleeping Guard — Distributed Algorithms of Ancient Greece</title>
+<link rel="stylesheet" href="volume.css">
+<link rel="stylesheet" href="simulator.css">
+</head>
+<body>
+<nav class="series-nav">
+  <div class="series-nav-inner">
+    <a href="../art-direction-grand-island-shape.html" class="nav-back">← Art direction</a>
+    <span class="nav-current">Volume II</span>
+  </div>
+</nav>
+<div id="tip" role="tooltip"></div>
+<div class="page">
+
+<!-- ================= COVER ================= -->
+<header class="cover">
+  <div class="kicker">Distributed Algorithms of Ancient Greece · Volume II</div><br>
+  <!-- PANEL II-00 -->
+  <div class="frame-cover" id="panel-II-00" data-panel="II-00" data-shape="splash" data-refs="I-characters I-props"><div class="img-placeholder ph-splash" role="img" aria-label="Sails on the horizon: From the parapet of a high coastal watchtower at dusk, a guard spots dark sails on the horizon; below in the cove, the island&#x27;s war galleys sit moored at the stone quays."><span class="ph-label">II-00 · splash 3:2</span><span class="ph-title">Sails on the horizon</span><span class="ph-desc">From the parapet of a high coastal watchtower at dusk, a guard spots dark sails on the horizon; below in the cove, the island&#x27;s war galleys sit moored at the stone quays.</span><span class="ph-meta">Blender: North Bluff watchtower; harbor cove · Sheets: I-characters, I-props</span></div></div>
+  <!-- /PANEL II-00 -->
+  <p class="sub display">An illustrated chronicle of the coastal watchtowers of Paxos — and the
+  proof, nine columns long, that no defense rite can promise both to never divide the fleet and to
+  always act in time.</p>
+  <p class="pub">After M.&nbsp;J. Fischer, N.&nbsp;A. Lynch &amp; M.&nbsp;S. Paterson, "Impossibility of
+  Distributed Consensus with One Faulty Process," <em>JACM</em> 32, 2 (April 1985), 374–382. The
+  complete proof, retold.</p>
+</header>
+
+<nav class="toc">
+  <h6 id="table-of-contents"><a href="#table-of-contents" class="hlink">Table of Contents</a></h6>
+  <ol>
+    <li><a href="#preface">The Translator's Preface</a></li>
+    <li><a href="#s1">The Watchtowers of the Headlands</a></li>
+    <li><a href="#s2">The Rules of the Defense Rite</a></li>
+    <li><a href="#s3">The Curse of the Sleepy Guard</a></li>
+    <li><a href="#s4">The Bivalent Trap</a></li>
+    <li><a href="#s5">The Endless Vigil</a></li>
+    <li><a href="#s6">The Guards Who Never Answered</a></li>
+    <li><a href="#s7">What the Curse Does Not Say</a></li>
+    <li><a href="#s8">Relevance to Computer Science</a></li>
+    <li><a href="#refs">References</a></li>
+  </ol>
+</nav>
+
+<!-- ================= PREFACE ================= -->
+<section id="preface">
+  <div class="editor-note">
+    <span class="tag">The translator's preface</span>
+    <p>Most military prophecies are famous for their ambiguity. This one is famous for having none. It was
+    delivered by three scholars of strategy —
+    <span class="paxon" data-real="Michael J. Fischer" data-note="Yale University. The F of FLP.">Φίσερ</span>,
+    <span class="paxon" data-real="Nancy A. Lynch" data-note="MIT. The L of FLP; also a legislator in Volume IV’s Paxon Parliament.">Λίντς</span>
+    and
+    <span class="paxon" data-real="Michael S. Paterson" data-note="University of Warwick. The P of FLP.">Πάτερσον</span>
+    — in the form of a mathematical demonstration, nine columns long, which the commanders of the coastal
+    watchtowers at first refused to believe, and later carved into the living rock above the harbor.</p>
+    <p>I have translated the proof in full. It is one of the shortest and most consequential documents in this
+    series, casting its shadow across every later volume. Readers of Volumes&nbsp;IV through&nbsp;IX who wonder why
+    each island council is so careful to promise only that it will <em>eventually</em> decide, and only when
+    the weather is fair, will find the reason here.</p>
+    <p class="sig">— The Translator</p>
+  </div>
+
+  <div class="narr">Guards on the coastal watchtowers of Paxos sought a defense rite by which their scattered headlands could always act in unison against an invading fleet, even if a single watchman might fall asleep upon his parapet and never answer. The three scholars proved that no such rite exists — not if the coastal fog may delay a runner for as long as it pleases, and not even if every message eventually arrives. What follows is their proof.</div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER I ================= -->
+<section id="s1">
+  <div class="issue">
+    <span class="no">Chapter I</span>
+    <h2 id="the-watchtowers-of-the-headlands"><a href="#the-watchtowers-of-the-headlands" class="hlink">The Watchtowers of the Headlands</a></h2>
+  </div>
+
+  <!-- PANEL II-01 -->
+  <figure class="panel mid tilt-l" id="panel-II-01" data-panel="II-01" data-shape="half" data-refs="I-characters">
+    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="The sleepy guard: Inside the stone watchtower at South Crag: an oil lamp gutters in the draft; the lone guard has slumped face-down over his unsealed wax slates, fast asleep, while the dark sea churns outside."><span class="ph-label">II-01 · half 4:3</span><span class="ph-title">The sleepy guard</span><span class="ph-desc">Inside the stone watchtower at South Crag: an oil lamp gutters in the draft; the lone guard has slumped face-down over his unsealed wax slates, fast asleep, while the dark sea churns outside.</span><span class="ph-meta">Blender: South Crag watchtower (interior) · Sheets: I-characters</span></div></div>
+    <figcaption>THE SLEEPY GUARD: ASLEEP FOR AN HOUR, OR STRUCK DOWN FOR GOOD? NO ONE ON THE OTHER HEADLANDS CAN TELL.</figcaption>
+  </figure>
+  <!-- /PANEL II-01 -->
+
+  <div class="prose">
+    <p>The island of Paxos rises from the sea in steep limestone bluffs. To protect its sheltered coves from
+    sudden sea raiders, the islanders built watchtowers high upon the coastal headlands: North Bluff, East Cape,
+    South Crag, and West Point. Each tower overlooks a different quarter of the horizon, and each commands a
+    squadron of slim wooden war galleys moored in the cove below.</p>
+    <p>There was no supreme admiral on the island. Authority was held equally by the guards stationed on the
+    towers. When strange sails appear on the twilight sea, the watchtower that spots them first must inspect the
+    invaders and make an initial judgment:</p>
+    <ul>
+      <li><b>ATTACK (1):</b> Launch the war galleys from the coves into the open water to ram the enemy before
+      they reach the shoals.</li>
+      <li><b>DEFEND (0):</b> Draw the galleys behind the heavy iron harbor boom, man the stone ramparts, and hold
+      the high ground.</li>
+    </ul>
+    <p>Because the island's naval forces are split among separate coves, they must act strictly in unison. If half
+    the towers signal to attack while the others bar their gates, the attacking galleys row out alone and are
+    surrounded and sunk piecemeal. Whatever the towers choose, all must choose the same. A split verdict is
+    annihilation.</p>
+    <p>The tower that first spots the fleet writes its assessment on clay slates and dispatches swift runners
+    along the cliffside tracks to every other watchtower. Other towers, upon sighting sails or receiving reports,
+    exchange their own slates in turn. With perfectly tireless guards and clear weather, agreement is easy.
+    Every guard exchanges his observations with his peers, and all sound their war-horns together.</p>
+    <p>But real guards grow exhausted beneath heavy helmets, suffer sunstroke on the rocks, or succumb to a
+    stray arrow from a raider skiff. The three scholars proved that no defense rite, if it relies on messages
+    carried along asynchronous cliff paths, can tolerate even a <b>single sleepy guard</b>. They did not consider
+    traitors or spies. They assumed that every runner who is sent eventually arrives, and that no slate is ever
+    broken. And still, the unannounced sleeping of one guard upon his parapet can prevent the coastal defense
+    from ever sounding a signal.</p>
+  </div>
+
+  <h3 id="1-1-what-asynchronous-means" class="sect"><a href="#1-1-what-asynchronous-means" class="hlink">1.1 · What the Scholars Took Away</a></h3>
+  <div class="prose">
+    <p>Crucial to the proof is that the island's communications are completely <em>asynchronous</em>. Nothing is
+    assumed about how fast a guard reads a slate or how long a runner takes to scramble through the coastal gorges.
+    High tides flood the beach tracks, falling rocks block the paths, and thick sea fog frequently rolls over the
+    headlands. The watchtowers possess no synchronized water-clocks, so no defense rule may say: "if no runner
+    has reached this tower by midnight, assume the sender is dead."<sup>1</sup></p>
+  </div>
+  <aside class="fn"><b>1.</b> In particular, the scholars note, the commit rites of
+  <span class="paxon" data-real="Danny Dolev &amp; H. Raymond Strong" data-note="“Distributed Commit with Bounded Waiting” (1982), which relies on timeouts.">Ντόλεβ and Στρονγκ</span>,
+  which rely on timeouts, cannot be used here. The reader will recall the insight of
+  <span class="paxon" data-real="Leslie Lamport" data-note="Author of the 1978 paper retold in Volume I.">Λέσλι</span>
+  from Volume&nbsp;I: the concept of failure is only meaningful in the context of physical time. The three scholars
+  have stripped physical time away.</aside>
+
+  <div class="prose">
+    <p>Because there are no clocks and runner delays are unbounded, no guard can detect that another has fallen
+    asleep. It is fundamentally impossible for a guard on North Bluff to tell whether his peer on South Crag has
+    collapsed, or whether his runner is merely climbing slowly through the dark.</p>
+    <p>The result applies even to the simplest decision. Each guard begins with an initial observation: a white
+    pebble (Attack) or a black pebble (Defend). A waking guard commits to an action by striking a heavy bronze
+    beacon-gong in his courtyard, which drops the harbor chain and cannot be un-rung. All guards who strike their
+    gong must choose the same signal. For the purpose of the proof, the scholars required only that <em>some</em>
+    waking guard eventually strike a gong — for if not even one can safely signal, the entire fleet remains frozen.
+    The trivial rule where everyone always defends regardless of the threat is excluded by requiring that both
+    outcomes be possible from different initial sightings.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER II ================= -->
+<section id="s2">
+  <div class="issue">
+    <span class="no">Chapter II</span>
+    <h2 id="the-rules-of-the-defense-rite"><a href="#the-rules-of-the-defense-rite" class="hlink">The Rules of the Defense Rite</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>The three scholars described the watchtowers in terms deliberately generous to the defenders, so that
+    their impossibility theorem would bind as many defense rites as possible. A guard may keep as many notes as he
+    likes on his chalk boards and execute any deterministic calculation. He may dispatch slates to all peers
+    simultaneously. Slates are never lost or corrupted. The only weapon granted to the weather is that the cliff
+    runners may take their time.</p>
+  </div>
+
+  <h3 id="2-1-watchtowers-and-slates" class="sect"><a href="#2-1-watchtowers-and-slates" class="hlink">2.1 · Watchtowers, Slates, and the Cliff Paths</a></h3>
+  <div class="prose">
+    <p>A <em>defense network</em> is an asynchronous system of <var>N</var> ≥ 2 watchtowers. Each watchtower
+    <var>p</var> has an initial observation <var>x</var><sub><var>p</var></sub> ∈ {0, 1} (Defend or Attack), an
+    output gong <var>y</var><sub><var>p</var></sub> with values in {<var>b</var>, 0, 1} starting un-struck
+    (<var>b</var>), and an unbounded slate board for notes. Together these make up the tower's <em>state</em>.
+    States in which the gong holds 0 or 1 are <em>decision states</em>. A guard acts <b>deterministically</b>,
+    according to a fixed rulebook, and the rulebook cannot un-strike a gong once sounded.</p>
+    <p>Slates are pairs (<var>p</var>, <var>m</var>): a destination watchtower and a written message. All slates
+    dispatched but not yet delivered are in flight along the cliff paths — a collection (a multiset) of
+    slates carried by runners. The network supports two operations:</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">The Cliff Paths</span>
+    <ul>
+      <li><b>send</b>(<var>p</var>, <var>m</var>): hands slate (<var>p</var>, <var>m</var>) to a runner.</li>
+      <li><b>receive</b>(<var>p</var>): a runner delivers <em>some</em> slate (<var>p</var>, <var>m</var>) to watchtower <var>p</var> and returns <var>m</var> — or the runner arrives empty-handed, returning marker ∅ and leaving the paths unchanged.</li>
+    </ul>
+  </div>
+  <div class="prose">
+    <p>The cliff paths deliver slates nondeterministically, subject to one fairness condition: if
+    <b>receive</b>(<var>p</var>) is attempted infinitely often, every slate sent to <var>p</var> is eventually
+    delivered. In particular, a runner may stumble or be held back by sea fog a finite number of times even while
+    carrying an urgent slate.</p>
+    <p>A <em>configuration</em> is the state of every watchtower together with the slates currently in transit
+    along the paths. A <em>step</em> is taken by one watchtower <var>p</var>: the guard performs
+    <b>receive</b>(<var>p</var>), obtaining some slate <var>m</var> (or ∅), and then, depending on his state and
+    <var>m</var>, updates his chalk board and sends a finite set of slates to other towers. Because guards are
+    deterministic, the step is fully determined by the <em>event</em> <var>e</var> = (<var>p</var>, <var>m</var>)
+    — the delivery of slate <var>m</var> to tower <var>p</var> — and we write <var>e</var>(<var>C</var>) for the
+    resulting configuration. The empty event (<var>p</var>, ∅) can always occur, so any waking guard can always
+    take another step. A <em>schedule</em> is a sequence of events applied in turn; its steps form a <em>run</em>;
+    and any configuration reached from the initial sighting is <em>accessible</em>.</p>
+  </div>
+
+  <h3 id="2-2-commuting" class="sect"><a href="#2-2-commuting" class="hlink">2.2 · Deeds on Independent Headlands Commute</a></h3>
+  <div class="slab">
+    <div class="slab-head">Lemma 1 · Commutativity</div>
+    <p class="stmt">Suppose that from a configuration <var>C</var> the schedules σ<sub>1</sub>, σ<sub>2</sub> lead to configurations <var>C</var><sub>1</sub>, <var>C</var><sub>2</sub>. If the sets of watchtowers taking steps in σ<sub>1</sub> and σ<sub>2</sub> are disjoint, then σ<sub>2</sub> can be applied to <var>C</var><sub>1</sub> and σ<sub>1</sub> to <var>C</var><sub>2</sub>, and both lead to the same configuration <var>C</var><sub>3</sub>.</p>
+  </div>
+  <figure class="panel narrow" id="fig-diamond">
+    <div class="frame" style="background:#fbf6e6; padding:10px 8px 28px">
+      <svg viewBox="0 0 360 250" role="img" aria-label="Commutativity diamond: from C, schedule sigma-1 leads to C1 and sigma-2 leads to C2; applying the other schedule to each leads to the same C3." style="display:block; width:100%; height:auto; font-family:Georgia,serif">
+        <defs><marker id="ar3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#1c1512"/></marker></defs>
+        <g stroke="#1c1512" stroke-width="2.4" fill="none" marker-end="url(#ar3)">
+          <line x1="165" y1="42" x2="88" y2="108"/><line x1="195" y1="42" x2="272" y2="108"/>
+          <line x1="88" y1="142" x2="165" y2="208"/><line x1="272" y1="142" x2="195" y2="208"/>
+        </g>
+        <g font-size="20" font-style="italic" text-anchor="middle" fill="#1c1512">
+          <text x="180" y="34">C</text><text x="70" y="132">C<tspan font-size="13" dy="4">1</tspan></text>
+          <text x="290" y="132">C<tspan font-size="13" dy="4">2</tspan></text><text x="180" y="232">C<tspan font-size="13" dy="4">3</tspan></text>
+        </g>
+        <g font-size="15" font-style="italic" fill="#136f9e" text-anchor="middle">
+          <text x="108" y="68">σ<tspan font-size="11" dy="3">1</tspan></text><text x="252" y="68">σ<tspan font-size="11" dy="3">2</tspan></text>
+          <text x="108" y="192">σ<tspan font-size="11" dy="3">2</tspan></text><text x="252" y="192">σ<tspan font-size="11" dy="3">1</tspan></text>
+        </g>
+      </svg>
+    </div>
+    <figcaption>LEMMA 1: WHAT A GUARD ON THE NORTH BLUFF DOES AND WHAT ONE ON THE SOUTH CRAG DOES CAN BE DONE IN EITHER ORDER.</figcaption>
+  </figure>
+  <div class="prose">
+    <p>The proof is direct: σ<sub>1</sub> and σ<sub>2</sub> involve separate watchtowers on separate headlands.
+    A runner reaching North Bluff changes only North Bluff's board; a runner reaching South Crag changes only
+    South Crag's board. They do not interact. It is the independence of separate coves from Volume&nbsp;I in military form.</p>
+  </div>
+
+  <hr class="meander">
+
+  <!-- ================= WIDGET 1: THE COMMUTATIVITY DIAMOND ================= -->
+  <div class="interactive-workshop" id="sim-diamond">
+    <div class="sim-container">
+      <div class="sim-header">
+        <div class="sim-header-top">
+          <div>
+            <span class="sim-kicker">Interactive Demonstration · Chapter 2.2 &amp; Lemma 1</span>
+            <h3 class="sim-title">The Commutativity Diamond (Independent Headlands)</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-body">
+        <div class="sim-toolbar">
+          <div class="sim-btn-group">
+            <span class="sim-label-tag">Schedules:</span>
+            <button type="button" class="sim-btn primary" id="dia-btn-path-a">▶ Run Path A (σ₁ then σ₂)</button>
+            <button type="button" class="sim-btn primary" id="dia-btn-path-b">▶ Run Path B (σ₂ then σ₁)</button>
+            <button type="button" class="sim-btn" id="dia-btn-step">⏭ Step Event</button>
+            <button type="button" class="sim-btn" id="dia-btn-reset">↺ Reset to C</button>
+          </div>
+        </div>
+
+        <div class="diamond-deck">
+          <div class="diamond-svg-wrap">
+            <svg class="diamond-svg" id="diamond-svg" viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg">
+              <!-- Rendered via JS -->
+            </svg>
+          </div>
+
+          <div class="diamond-compare-grid" id="dia-compare-grid">
+            <!-- Node state comparisons rendered via JS -->
+          </div>
+
+          <div class="contradiction-box" id="dia-verdict-box" style="margin-top:14px; background:#f4fbf2; border-color:#2b772a; border-left-color:#2b772a;">
+            <strong>Lemma 1 Verified:</strong> <span id="dia-verdict-text">Events on disjoint headlands (North Bluff and South Crag) commute: σ₂(σ₁(C)) = σ₁(σ₂(C)) = C₃. The final chalkboards and cliff path message multisets match identically!</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <h3 id="2-3-correctness" class="sect"><a href="#2-3-correctness" class="hlink">2.3 · What Counts as a Good Defense Rite</a></h3>
+  <div class="prose">
+    <p>A configuration has <em>decision value</em> <var>v</var> if some watchtower's gong has been struck for <var>v</var>.</p>
+  </div>
+  <div class="decree rules">
+    <span class="rhead">Partial Correctness (Safety &amp; Validity)</span>
+    <ol>
+      <li><b>Agreement:</b> No accessible configuration has more than one decision value. (The fleet is never divided: no two towers signal opposite actions).</li>
+      <li><b>Validity:</b> For each <var>v</var> ∈ {0, 1}, some accessible configuration has decision value <var>v</var>. (If all spot an ambush, they defend; if all spot an open flank, they attack).</li>
+    </ol>
+  </div>
+  <div class="prose">
+    <p>A guard is <em>awake</em> (nonfaulty) in a run if he takes infinitely many steps, and <em>asleep</em>
+    (faulty) otherwise. A run is <em>admissible</em> if at most one guard falls asleep, and every slate dispatched
+    to a waking guard is eventually delivered. A run is <em>deciding</em> if some watchtower strikes its gong. A
+    defense rite is <em>totally correct in spite of one fault</em> if it is partially correct and every admissible
+    run is deciding.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER III ================= -->
+<section id="s3">
+  <div class="issue">
+    <span class="no">Chapter III</span>
+    <h2 id="the-curse-of-the-sleepy-guard"><a href="#the-curse-of-the-sleepy-guard" class="hlink">The Curse of the Sleepy Guard</a></h2>
+  </div>
+
+  <div class="slab">
+    <div class="slab-head">Theorem 1 · The Curse</div>
+    <p class="stmt" style="font-size:1.12rem">No coastal defense consensus rite is totally correct in spite of one sleepy guard.</p>
+  </div>
+
+  <div class="prose">
+    <p>Assume, to the contrary, that some defense rite <var>P</var> is totally correct in spite of one fault. The
+    three scholars set out their trap in two stages. First, show that there must be some initial arrangement of
+    dusk sightings from which the fate of the island is not yet sealed. Second, show how the coastal fog can
+    schedule runners along the cliffs so as to keep the watchtowers hovering forever on that knife-edge.</p>
+    <p>Let <var>C</var> be a configuration and <var>V</var> the set of decision values reachable from <var>C</var>.
+    <var>C</var> is <b>bivalent</b> (in <em>Suspended Vigil</em>) if |<var>V</var>| = 2 — both Attack and Defend
+    are still possible outcomes. <var>C</var> is <b>univalent</b> (a <em>Sealed Verdict</em>) if |<var>V</var>| = 1,
+    and then <em>0-valent</em> (locked to Defend) or <em>1-valent</em> (locked to Attack) accordingly.</p>
+  </div>
+
+  <!-- PANEL II-02 -->
+  <figure class="panel" id="panel-II-02" data-panel="II-02" data-shape="wide" data-refs="">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The balanced scales of war: An allegorical vision: two signal braziers balanced on a wooden beam atop the cliffs; one burns white (ATTACK), one burns black (DEFEND), perfectly level as coastal mist swirls around them."><span class="ph-label">II-02 · wide 16:9</span><span class="ph-title">The balanced scales of war</span><span class="ph-desc">An allegorical vision: two signal braziers balanced on a wooden beam atop the cliffs; one burns white (ATTACK), one burns black (DEFEND), perfectly level as coastal mist swirls around them.</span><span class="ph-meta">Blender: none (allegorical: the balanced braziers) · Sheets: </span></div></div>
+    <figcaption>A BIVALENT DEFENSE: BOTH SIGNALS BALANCED ON THE RIDGE. THE PROOF SHOWS HOW DELAY KEEPS THEM HOVERING FOREVER.</figcaption>
+  </figure>
+  <!-- /PANEL II-02 -->
+
+  <h3 id="3-1-an-undecided-beginning" class="sect"><a href="#3-1-an-undecided-beginning" class="hlink">3.1 · An Undecided Beginning</a></h3>
+  <div class="slab">
+    <div class="slab-head">Lemma 2</div>
+    <p class="stmt"><var>P</var> has a bivalent initial configuration.</p>
+  </div>
+  <details class="proof" open>
+    <summary>Proof</summary>
+    <ol class="proofsteps">
+      <li>Suppose not. By validity, <var>P</var> must have both 0-valent (all Defend) and 1-valent (all Attack) initial configurations.</li>
+      <li>Call two initial configurations <em>adjacent</em> if they differ only in the initial dusk observation of a single watchtower. Any two initial configurations are joined by a chain of adjacent ones — flip one tower's sighting at a time. So somewhere along the chain, a 0-valent initial configuration <var>C</var><sub>0</sub> is adjacent to a 1-valent one <var>C</var><sub>1</sub>. Let <var>p</var> be the watchtower whose sighting differs.</li>
+      <li>Now consider an admissible deciding run from <var>C</var><sub>0</sub> in which the guard at tower <var>p</var> <em>takes no steps</em> — he fell fast asleep over his parapet at sunset and never woke. This run is admissible because the rite promises to tolerate one sleeper. Its schedule σ can also be applied to <var>C</var><sub>1</sub>, and corresponding configurations in the two runs are identical except for <var>p</var>'s state, which no other tower can inspect.</li>
+      <li>Both runs must reach the identical verdict, because all other towers observe the same messages. If that verdict is Attack (1), then <var>C</var><sub>0</sub> was not 0-valent; if Defend (0), then <var>C</var><sub>1</sub> was not 1-valent. Either way, a contradiction. <span class="qed">∎</span></li>
+    </ol>
+  </details>
+
+  <!-- PANEL II-03 -->
+  <figure class="panel" id="panel-II-03" data-panel="II-03" data-shape="wide" data-refs="I-characters">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The chain of watchtowers: Four watchtowers perched along the rocky headlands in silhouette; from left to right, signal braziers change from white flame to black smoke, while at the pivotal tower, the brazier is dark and silent."><span class="ph-label">II-03 · wide 16:9</span><span class="ph-title">The chain of watchtowers</span><span class="ph-desc">Four watchtowers perched along the rocky headlands in silhouette; from left to right, signal braziers change from white flame to black smoke, while at the pivotal tower, the brazier is dark and silent.</span><span class="ph-meta">Blender: coastal headlands (four watchtowers) · Sheets: I-characters</span></div></div>
+    <figcaption>CHANGE ONE SIGHTING AT A TIME FROM ALL-ATTACK TO ALL-DEFEND. SOMEWHERE THE FATE FLIPS — AND THE GUARD WHOSE WORD FLIPPED IT MAY SIMPLY BE ASLEEP.</figcaption>
+  </figure>
+  <!-- /PANEL II-03 -->
+
+  <hr class="meander">
+
+  <!-- ================= WIDGET 2: THE BIVALENT CHAIN & SLEEPING SENTRY ================= -->
+  <div class="interactive-workshop" id="sim-bivalent">
+    <div class="sim-container">
+      <div class="sim-header">
+        <div class="sim-header-top">
+          <div>
+            <span class="sim-kicker">Interactive Demonstration · Chapter 3.1 &amp; Lemma 2</span>
+            <h3 class="sim-title">The Bivalent Chain &amp; The Sleeping Sentry</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-body">
+        <div class="sim-toolbar">
+          <div class="sim-btn-group">
+            <span class="sim-label-tag">Chain Steps:</span>
+            <button type="button" class="sim-btn preset active" id="biv-step-0" title="All towers spot 0 (Defend)">0000 (All Defend)</button>
+            <button type="button" class="sim-btn preset" id="biv-step-1" title="North Bluff flips to 1">1000 (North Flips)</button>
+            <button type="button" class="sim-btn preset" id="biv-step-2" title="East Cape flips to 1">1100 (East Flips)</button>
+            <button type="button" class="sim-btn preset" id="biv-step-3" title="South Crag flips to 1">1110 (South Flips)</button>
+            <button type="button" class="sim-btn preset" id="biv-step-4" title="West Point flips to 1">1111 (All Attack)</button>
+          </div>
+          <div class="sim-btn-group">
+            <button type="button" class="sim-btn action" id="biv-btn-sleep">😴 Sleep East Cape &amp; Run Waking Towers</button>
+            <button type="button" class="sim-btn" id="biv-btn-reset">↺ Reset Chain</button>
+          </div>
+        </div>
+
+        <div class="bivalent-chain-deck">
+          <div class="chain-svg-wrap">
+            <svg class="chain-svg" id="chain-svg" viewBox="0 0 840 280" xmlns="http://www.w3.org/2000/svg">
+              <!-- Rendered via JS -->
+            </svg>
+          </div>
+
+          <div class="contradiction-box" id="biv-contradiction-box">
+            <!-- Dynamic proof step commentary -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER IV ================= -->
+<section id="s4">
+  <div class="issue">
+    <span class="no">Chapter IV</span>
+    <h2 id="the-bivalent-trap"><a href="#the-bivalent-trap" class="hlink">The Bivalent Trap</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>The second lemma is the heart of the impossibility. It proves that from any undecided configuration, no
+    single runner's arrival can be forced to settle the verdict: the weather can always hold back that runner
+    until a moment when delivering his slate leaves the watchtowers still undecided.</p>
+  </div>
+  <div class="slab">
+    <div class="slab-head">Lemma 3</div>
+    <p class="stmt">Let <var>C</var> be a bivalent configuration of <var>P</var>, and let <var>e</var> = (<var>p</var>, <var>m</var>) be an event applicable to <var>C</var>. Let 𝒞 be the set of configurations reachable from <var>C</var> <em>without</em> applying <var>e</var>, and let 𝒟 = <var>e</var>(𝒞) = {<var>e</var>(<var>E</var>) | <var>E</var> ∈ 𝒞}. Then 𝒟 contains a bivalent configuration.</p>
+  </div>
+  <details class="proof" open>
+    <summary>Proof</summary>
+    <ol class="proofsteps">
+      <li>Because runners may be delayed arbitrarily on cliff paths, <var>e</var> remains applicable to every <var>E</var> ∈ 𝒞. Assume, for contradiction, that every configuration in 𝒟 is univalent.</li>
+      <li><b>𝒟 contains both outcomes.</b> Since <var>C</var> is bivalent, for <var>i</var> = 0, 1 there is an <var>i</var>-valent configuration <var>E</var><sub><var>i</var></sub> reachable from <var>C</var>. If <var>E</var><sub><var>i</var></sub> ∈ 𝒞, let <var>F</var><sub><var>i</var></sub> = <var>e</var>(<var>E</var><sub><var>i</var></sub>) ∈ 𝒟. Otherwise <var>e</var> was applied along the path to <var>E</var><sub><var>i</var></sub>, so some <var>F</var><sub><var>i</var></sub> ∈ 𝒟 precedes <var>E</var><sub><var>i</var></sub>. Either way, one of <var>E</var><sub><var>i</var></sub>, <var>F</var><sub><var>i</var></sub> is reachable from the other; since <var>F</var><sub><var>i</var></sub> is univalent, it is <var>i</var>-valent. Thus 𝒟 contains both 0-valent and 1-valent configurations.</li>
+      <li><b>A pair of neighbors.</b> Call two configurations <em>neighbors</em> if one follows from the other in a single step. By stepping through 𝒞, there must exist neighbors <var>C</var><sub>0</sub>, <var>C</var><sub>1</sub> ∈ 𝒞 such that <var>D</var><sub>0</sub> = <var>e</var>(<var>C</var><sub>0</sub>) is 0-valent and <var>D</var><sub>1</sub> = <var>e</var>(<var>C</var><sub>1</sub>) is 1-valent. Say <var>C</var><sub>1</sub> = <var>e′</var>(<var>C</var><sub>0</sub>), where <var>e′</var> = (<var>p′</var>, <var>m′</var>).</li>
+      <li><b>Case 1: <var>p′</var> ≠ <var>p</var>.</b> The two events involve different watchtowers on different headlands. By Lemma 1, <var>D</var><sub>1</sub> = <var>e′</var>(<var>D</var><sub>0</sub>). But every successor of a 0-valent configuration must remain 0-valent, yet <var>D</var><sub>1</sub> is 1-valent. Contradiction.</li>
+      <li><b>Case 2: <var>p′</var> = <var>p</var>.</b> Both slates are delivered to the <em>same</em> watchtower <var>p</var>. Take a finite deciding run from <var>C</var><sub>0</sub> in which tower <var>p</var> takes <em>no steps</em> (the guard falls asleep), with schedule σ, and let <var>A</var> = σ(<var>C</var><sub>0</sub>). By Lemma 1, σ applies equally to <var>D</var><sub>0</sub> and <var>D</var><sub>1</sub>, yielding <var>E</var><sub>0</sub> = σ(<var>D</var><sub>0</sub>) (0-valent) and <var>E</var><sub>1</sub> = σ(<var>D</var><sub>1</sub>) (1-valent). Furthermore, <var>e</var>(<var>A</var>) = <var>E</var><sub>0</sub> and <var>e</var>(<var>e′</var>(<var>A</var>)) = <var>E</var><sub>1</sub>. Thus configuration <var>A</var> can still reach both verdicts: <var>A</var> is bivalent! But the run to <var>A</var> was deciding, so some waking tower already struck its gong, making <var>A</var> univalent. Contradiction.</li>
+      <li>Both cases are impossible, so 𝒟 must contain a bivalent configuration. <span class="qed">∎</span></li>
+    </ol>
+  </details>
+
+  <!-- PANEL II-04 -->
+  <figure class="panel narrow tilt-r" id="panel-II-04" data-panel="II-04" data-shape="tall" data-refs="I-characters">
+    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="The crossroads on the cliffs: A messenger pauses at a fork in the coastal cliff path, holding two sealed leather message cylinders, while below in the dark harbor the crews wait by their galleys."><span class="ph-label">II-04 · tall 3:4</span><span class="ph-title">The crossroads on the cliffs</span><span class="ph-desc">A messenger pauses at a fork in the coastal cliff path, holding two sealed leather message cylinders, while below in the dark harbor the crews wait by their galleys.</span><span class="ph-meta">Blender: cliff path fork above the sea · Sheets: I-characters</span></div></div>
+    <figcaption>CASE 2: IF THE FATE OF THE ISLAND HANGS ON WHICH SLATE ONE GUARD READS FIRST, THE REST MUST BE ABLE TO DECIDE WITHOUT HIM — AND THEN IT HANGS ON NOTHING.</figcaption>
+  </figure>
+  <!-- /PANEL II-04 -->
+
+  <div class="prose">
+    <p>Case 2 reveals the fundamental flaw of any asynchronous protocol. The only way a single slate could
+    definitively lock the island into Attack or Defend is if the choice depends entirely on which of two messages
+    guard <var>p</var> unseals first. But the defense rite is sworn to work even if one guard sleeps. Therefore,
+    the remaining watchtowers must be capable of striking their gongs while <var>p</var> is asleep — and their
+    decision cannot depend on what <var>p</var> has not yet read. The other towers would have committed to a
+    battle plan that, a moment later, could still be contradicted.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER V ================= -->
+<section id="s5">
+  <div class="issue">
+    <span class="no">Chapter V</span>
+    <h2 id="the-endless-vigil"><a href="#the-endless-vigil" class="hlink">The Endless Vigil</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>Any deciding run from a bivalent start must, at some specific step, transition from an undecided
+    configuration to a decided one; that single step seals the fate of the fleet. The three scholars now proved
+    that the coastal weather can always schedule runners so as to avoid every such step, while keeping the run
+    completely admissible.</p>
+    <p>The weather builds the run in stages, starting from the bivalent initial sighting guaranteed by Lemma 2.
+    It keeps a queue of all watchtowers in any cyclic order, and considers each tower's incoming slates in the
+    order sent. Each stage ends with the watchtower at the head of the queue receiving its earliest pending slate;
+    that tower then moves to the back of the queue. In an infinite sequence of such stages, every watchtower
+    takes infinitely many steps and receives every slate dispatched to it. The run is perfectly admissible:
+    <em>not a single guard has fallen asleep</em>.</p>
+    <p>Suppose a stage begins at a bivalent configuration <var>C</var>, with watchtower <var>p</var> at the head
+    of the queue and <var>m</var> its earliest pending slate (or ∅). Let <var>e</var> = (<var>p</var>, <var>m</var>).
+    By Lemma 3, some bivalent configuration <var>C′</var> is reachable from <var>C</var> by a sequence of steps
+    whose final event is <var>e</var>. Those steps form the stage. Every stage begins and ends bivalent; every
+    stage delivers a pending message; and no decision gong is ever struck. <span class="qed">∎</span></p>
+  </div>
+
+  <!-- PANEL II-05 -->
+  <figure class="panel" id="panel-II-05" data-panel="II-05" data-shape="wide" data-refs="III-props">
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The endless vigil: Midnight over the island: runners jog along coastal paths, delivering slates from tower to tower under the moon; inside the towers, guards argue over their boards while the war galleys remain chained in the dark harbor."><span class="ph-label">II-05 · wide 16:9</span><span class="ph-title">The endless vigil</span><span class="ph-desc">Midnight over the island: runners jog along coastal paths, delivering slates from tower to tower under the moon; inside the towers, guards argue over their boards while the war galleys remain chained in the dark harbor.</span><span class="ph-meta">Blender: headlands and coves at night · Sheets: III-props</span></div></div>
+    <figcaption>NO SLATE IS LOST. NO TOWER CRUMBLES. EVERY RUNNER ARRIVES. AND THE FLEET NEVER LAUNCHES.</figcaption>
+  </figure>
+  <!-- /PANEL II-05 -->
+
+  <div class="prose">
+    <p>Notice the tragedy of the result. The run constructed by the scholars is not one in which a guard is
+    struck dead. The mere <em>possibility</em> that one guard might fall asleep forces the rite to be willing to
+    decide without him, and that willingness is what the weather exploits. No runner is lost; every slate
+    arrives. Nor is the defense made to contradict itself: the watchtowers maintain <b>Safety</b> unconditionally
+    — they never launch a divided fleet. It is <b>Liveness</b>, the guarantee that the galleys will ever launch at
+    all, that cannot be preserved.<sup>3</sup></p>
+  </div>
+
+  <hr class="meander">
+
+  <!-- ================= WIDGET 3: THE ADVERSARY'S TRAP ================= -->
+  <div class="interactive-workshop" id="sim-flp">
+    <div class="sim-container">
+      <div class="sim-header">
+        <div class="sim-header-top">
+          <div>
+            <span class="sim-kicker">Interactive Demonstration · Chapter 4 &amp; 5 (FLP 1985)</span>
+            <h3 class="sim-title">The Adversary's Trap (The Endless Vigil)</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-body">
+        <div class="sim-toolbar">
+          <div class="sim-btn-group">
+            <span class="sim-label-tag">Adversary Tactics:</span>
+            <button type="button" class="sim-btn action" id="flp-btn-adv" title="Weather delays critical runner, delivering an alternate message that preserves bivalence">🌪️ Adversary Step (Preserve Bivalence)</button>
+            <button type="button" class="sim-btn primary" id="flp-btn-fifo" title="Runners delivered promptly in FIFO order">☀️ Calm Weather (Honest FIFO)</button>
+            <button type="button" class="sim-btn" id="flp-btn-play">▶ Auto Vigil</button>
+            <button type="button" class="sim-btn" id="flp-btn-reset">↺ Reset Vigil</button>
+          </div>
+        </div>
+
+        <div class="flp-deck">
+          <div class="flp-svg-wrap">
+            <svg class="flp-svg" id="flp-svg" viewBox="0 0 840 450" xmlns="http://www.w3.org/2000/svg">
+              <!-- Rendered via JS -->
+            </svg>
+          </div>
+
+          <div class="flp-status-bar">
+            <div class="valence-meter-box">
+              <span class="valence-meter-label">Island Valence:</span>
+              <span class="valence-indicator bivalent" id="flp-valence-badge">⚖️ BIVALENT (Suspended Vigil)</span>
+            </div>
+            <div style="font-size:.85rem; font-family:Optima, sans-serif;">
+              <strong>Rounds of Vigil:</strong> <span id="flp-round-tally">0</span> &nbsp;|&nbsp;
+              <strong>Fleet Action:</strong> <span id="flp-fleet-status" style="color:var(--terra); font-weight:700;">Chained in Harbour (Undecided)</span>
+            </div>
+          </div>
+
+          <!-- Pending runner slates in the fog -->
+          <div class="flp-runner-pool">
+            <span class="sim-label-tag">Runners in the Coastal Fog (Click to deliver):</span>
+            <div class="flp-runner-list" id="flp-runners-list">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Dynamic Proof Log -->
+          <div class="sim-log-wrap" id="flp-log">
+            <div class="sim-log-entry"><span class="log-step">INIT</span> Initial state is bivalent (Lemma 2). War galleys wait in dark harbor. Coastal fog rolls over cliff paths.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="fn"><b>3.</b> The scholars observed that every distributed coordination rite in use among the
+  ancient leagues had a "window of vulnerability" — an interval where the hesitation of a single runner could
+  make the entire league stall. Their theorem proved that this window is not an engineering flaw: it is an
+  ineluctable law of nature.</aside>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VI ================= -->
+<section id="s6">
+  <div class="issue">
+    <span class="no">Chapter VI</span>
+    <h2 id="the-guards-who-never-answered"><a href="#the-guards-who-never-answered" class="hlink">The Guards Who Never Answered</a></h2>
+  </div>
+
+  <div class="prose">
+    <p>Lest the coastal defenders despair completely, the scholars showed what <em>can</em> be accomplished if
+    the failure is restricted to guards who were already asleep before the fleet was sighted. Suppose a strict
+    majority of watchtowers are awake at sunset, and no guard falls asleep during the deliberations, though no one
+    knows in advance which towers are silent. Let <var>L</var> = ⌈(<var>N</var> + 1)/2⌉.</p>
+  </div>
+
+  <!-- PANEL II-06 -->
+  <figure class="panel mid tilt-r" id="panel-II-06" data-panel="II-06" data-shape="half" data-refs="I-characters">
+    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="Dawn on the headlands: Sunrise over the sea: the coastal fog clears, and guards at the waking towers blow their bronze horns across the bay, seeing clearly who answered the dawn roll-call before the battle begins."><span class="ph-label">II-06 · half 4:3</span><span class="ph-title">Dawn on the headlands</span><span class="ph-desc">Sunrise over the sea: the coastal fog clears, and guards at the waking towers blow their bronze horns across the bay, seeing clearly who answered the dawn roll-call before the battle begins.</span><span class="ph-meta">Blender: eastern headlands at sunrise · Sheets: I-characters</span></div></div>
+    <figcaption>THE GUARDS WHO NEVER ANSWERED: IF THOSE WHO SLEEP WERE ALREADY ASLEEP AT DUSK, THE WAKING TOWERS CAN SAFELY SOUND THE CALL.</figcaption>
+  </figure>
+  <!-- /PANEL II-06 -->
+
+  <div class="decree rules">
+    <span class="rhead">The Two-Stage Dawn Roll-Call</span>
+    <ol>
+      <li><b>First Stage:</b> Every watchtower broadcasts its name and waits to receive reports from <var>L</var> − 1 others. Draw a directed graph <var>G</var> with an arrow from <var>i</var> to <var>j</var> if tower <var>j</var> heard from <var>i</var>. Every node has <var>L</var> − 1 incoming arrows.</li>
+      <li><b>Second Stage:</b> Every watchtower broadcasts its name, its dusk sighting (Attack or Defend), and the names of the <var>L</var> − 1 peers it heard from. Each guard then waits until he has received second-stage slates from every <em>ancestor</em> in <var>G</var> he knows of. He now knows the transitive closure <var>G</var><sup>+</sup> among all his ancestors.</li>
+      <li><b>Verdict:</b> Each guard identifies the <em>initial clique</em> of <var>G</var><sup>+</sup> — a set of towers with no arrows entering from outside. Because every tower heard from a majority, there is only one initial clique, of size at least <var>L</var>. All waking guards discover the identical roster of towers and apply the same deterministic rule to their sightings.</li>
+    </ol>
+  </div>
+  <div class="slab">
+    <div class="slab-head">Theorem 2</div>
+    <p class="stmt">There is a partially correct consensus rite in which all waking watchtowers always reach a decision, provided no guard falls asleep during deliberations and a strict majority are awake initially.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VII ================= -->
+<section id="s7">
+  <div class="issue">
+    <span class="no">Chapter VII</span>
+    <h2 id="what-the-curse-does-not-say"><a href="#what-the-curse-does-not-say" class="hlink">What the Curse Does Not Say</a></h2>
+  </div>
+  <div class="prose">
+    <p>The three scholars were careful about what they had shown. A fundamental problem of coordinated defense
+    cannot be solved in a <em>totally</em> asynchronous world. This does not mean coordinated defense is
+    impossible in practice. It means the headlands must rely on richer physical realities — descriptions that
+    bound how long a runner really takes — and less stringent guarantees, such as deciding with probability one.</p>
+    <p>Between the announcement of the curse and its carving upon the rocks, progress was made along two
+    vital paths:</p>
+    <ol>
+      <li><b>Water-Clocks &amp; Partial Synchrony:</b> If the defenders establish water-clocks and agree that during
+      calm weather, any runner takes at most Δ hours, the curse is broken. A tower may safely declare a peer asleep
+      once the deadline passes. This partial synchrony is the subject of Volume&nbsp;III.</li>
+      <li><b>Casting Lots:</b> If guards cast lots when hovering on the knife-edge, no deterministic scheduler
+      can predict their next move, and consensus is reached with probability 1.<sup>4</sup></li>
+    </ol>
+    <p>Finally, the scholars noted a deeper shadow on the horizon. We have seen what honest fatigue and coastal
+    mist can do to an alliance of watchtowers. But what if the guard on the high crag is not asleep at all, but
+    in the pay of the invading admiral? That darker question — of traitorous commanders who send contradictory
+    words to different peers — belongs to Volume&nbsp;V.</p>
+  </div>
+  <aside class="fn"><b>4.</b> Among them
+  <span class="paxon" data-real="Michael Ben-Or" data-note="“Another Advantage of Free Choice: Completely Asynchronous Agreement Protocols” (1983) — randomized consensus.">Μπεν-Ορ</span>,
+  <span class="paxon" data-real="Michael Rabin" data-note="“Randomized Byzantine Generals” (1983).">Ράμπιν</span>,
+  and
+  <span class="paxon" data-real="Gabriel Bracha &amp; Sam Toueg" data-note="“Resilient Consensus Protocols” (1983) and related randomized work.">Μπράχα and Τωυεγ</span>.
+  The casting of lots is a story for another volume.</aside>
+</section>
+
+<hr class="meander">
+
+<!-- ================= CHAPTER VIII ================= -->
+<section id="s8">
+  <div class="issue">
+    <span class="no">Chapter VIII</span>
+    <h2 id="relevance-to-computer-science"><a href="#relevance-to-computer-science" class="hlink">Relevance to Computer Science</a></h2>
+  </div>
+  <div class="table-wrap">
+    <table class="chron">
+      <thead><tr><th>On the coastal headlands</th><th>In the paper (Fischer, Lynch &amp; Paterson 1985)</th></tr></thead>
+      <tbody>
+        <tr><td>Watchtower / guard</td><td>Deterministic process (automaton)</td></tr>
+        <tr><td>Dusk sighting / bronze gong</td><td>Input register <var>x</var><sub><var>p</var></sub> / write-once output register <var>y</var><sub><var>p</var></sub></td></tr>
+        <tr><td>Cliff paths, runners, coastal fog</td><td>Message buffer; adversarial asynchronous scheduler</td></tr>
+        <tr><td>Sleepy guard</td><td>Crash-stop (fail-stop) process that is never detected</td></tr>
+        <tr><td>No water-clocks</td><td>Fully asynchronous model: no bounds on delay, no clocks, no failure detection</td></tr>
+        <tr><td>Suspended vigil (both braziers level)</td><td>Bivalent configuration</td></tr>
+        <tr><td>The endless fair vigil</td><td>The admissible non-deciding run constructed from Lemma 3</td></tr>
+        <tr><td>Coordinated fleet sortie</td><td>Distributed consensus / atomic transaction commit</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="prose">
+    <p>The FLP result is the foundational impossibility theorem of distributed computing. It explains why every
+    practical consensus protocol relaxes one of its premises. Paxos (Volume&nbsp;IV), Viewstamped Replication
+    (VI), PBFT (VII) and Raft (IX) are all <em>always safe</em> and <em>live only under partial synchrony</em>
+    (Volume&nbsp;III): they use timeouts to suspect failures and elect leaders, and they may pause progress while
+    the network is partitioned. Randomized protocols instead guarantee termination with probability 1. Neither
+    "violates" FLP; both decline a promise that FLP proved cannot be kept.</p>
+  </div>
+</section>
+
+<hr class="meander">
+
+<!-- ================= REFERENCES ================= -->
+<section id="refs">
+  <div class="issue">
+    <span class="no">The Library</span>
+    <h2 id="references"><a href="#references" class="hlink">References</a></h2>
+  </div>
+  <ol class="refs prose">
+    <li>Ben-Or, M. 1983. Another advantage of free choice: Completely asynchronous agreement protocols. In <em>Proceedings of the 2nd ACM Symposium on Principles of Distributed Computing</em>, 27–30.</li>
+    <li>Bracha, G. and Toueg, S. 1983. Resilient consensus protocols. In <em>Proceedings of the 2nd ACM Symposium on Principles of Distributed Computing</em>, 12–26.</li>
+    <li>Dolev, D. and Strong, H. R. 1982. Distributed commit with bounded waiting. In <em>Proceedings of the 2nd IEEE Symposium on Reliability in Distributed Software and Database Systems</em>, 53–60.</li>
+    <li>Dwork, C., Lynch, N., and Stockmeyer, L. 1984. Consensus in the presence of partial synchrony. In <em>Proceedings of the 3rd ACM Symposium on Principles of Distributed Computing</em>, 103–118.</li>
+    <li>Fischer, M. J., Lynch, N. A., and Paterson, M. S. 1985. Impossibility of distributed consensus with one faulty process. <em>Journal of the ACM 32</em>, 2 (April), 374–382.</li>
+    <li>Lamport, L., Shostak, R., and Pease, M. 1982. The Byzantine generals problem. <em>ACM Transactions on Programming Languages and Systems 4</em>, 3 (July), 382–401.</li>
+    <li>Rabin, M. 1983. Randomized Byzantine generals. In <em>Proceedings of the 24th IEEE Symposium on Foundations of Computer Science</em>, 403–409.</li>
+  </ol>
+</section>
+
+<div>
+  <hr class="meander">
+  <div class="paper-card">
+      <h4>🏛️ Foundational Research Papers</h4>
+      <p style="font-size:.9rem; margin-top:0; color:#5c4e3b">The original paper this volume retells:</p>
+      <div class="paper-item">
+          <div style="font-weight:700">Impossibility of Distributed Consensus with One Faulty Process</div>
+          <div style="font-size:.88rem; color:#5c4e3b; margin:2px 0">Michael J. Fischer, Nancy A. Lynch, Michael S. Paterson (1985) · <em>Journal of the ACM, 32(2):374–382</em></div>
+          <a href="https://groups.csail.mit.edu/tds/papers/Lynch/jacm85.pdf" class="paper-btn" target="_blank" rel="noopener">📄 Read the Paper (PDF)</a>
+        </div>
+    </div>
+</div>
+
+<footer class="colophon">
+  <hr class="meander">
+  <p>An allegorical retelling of Fischer, Lynch &amp; Paterson (1985), with the proof of Lemmas 1–3 and
+  the non-deciding run preserved step for step. The coastal watchtowers and cliffside runners are an interpolation.
+  The panels describe the imagery of the coastal defense. For the original mathematics, consult the original paper.</p>
+  <nav class="bottom-nav">
+    <a href="../art-direction-grand-island-shape.html" class="bottom-btn all">🏛️ Art direction</a>
+  </nav>
+</footer>
+
+</div><!--/page-->
+<script>
+"use strict";
+/* ================= hidden-name tooltips ================= */
+(function(){
+  const tip = document.getElementById('tip');
+  function show(el){
+    tip.innerHTML = '<span class="who">' + el.dataset.real + '</span>' + (el.dataset.note || '');
+    tip.style.display = 'block';
+    const r = el.getBoundingClientRect();
+    const tw = tip.offsetWidth;
+    let x = window.scrollX + r.left + r.width/2 - tw/2;
+    x = Math.max(8, Math.min(x, window.scrollX + document.documentElement.clientWidth - tw - 8));
+    tip.style.left = x + 'px';
+    tip.style.top = (window.scrollY + r.bottom + 8) + 'px';
+  }
+  document.querySelectorAll('.paxon').forEach(el=>{
+    el.addEventListener('mouseenter', ()=>show(el));
+    el.addEventListener('mouseleave', ()=>{ tip.style.display='none'; });
+    el.addEventListener('click', (e)=>{ e.stopPropagation(); show(el); });
+  });
+  document.addEventListener('click', ()=>{ tip.style.display='none'; });
+})();
+
+/* ================================================================
+   INTERACTIVE EXPLAINER ENGINES: VOLUME II
+   ================================================================ */
+(function(){
+  /* ================= WIDGET 1: THE COMMUTATIVITY DIAMOND ================= */
+  const Diamond = (function(){
+    const svg = document.getElementById('diamond-svg');
+    const compareGrid = document.getElementById('dia-compare-grid');
+    const verdictText = document.getElementById('dia-verdict-text');
+    if (!svg || !compareGrid) return null;
+
+    let currentNode = 'C';
+    let pathHistory = ['C'];
+
+    // Node configurations
+    const nodes = {
+      C: {
+        id: 'C', label: 'C (Initial)', x: 380, y: 45,
+        north: 'Observation: [ATTACK 1] · Received: None',
+        south: 'Observation: [DEFEND 0] · Received: None',
+        paths: '{ e₁: [North, m₁], e₂: [South, m₂] }'
+      },
+      C1: {
+        id: 'C1', label: 'C₁ = e₁(C)', x: 200, y: 155,
+        north: 'Observation: [ATTACK 1] · Received: [m₁] · Dispatched: [Ack North]',
+        south: 'Observation: [DEFEND 0] · Received: None (Untouched!)',
+        paths: '{ e₂: [South, m₂], [Ack North] }'
+      },
+      C2: {
+        id: 'C2', label: 'C₂ = e₂(C)', x: 560, y: 155,
+        north: 'Observation: [ATTACK 1] · Received: None (Untouched!)',
+        south: 'Observation: [DEFEND 0] · Received: [m₂] · Dispatched: [Ack South]',
+        paths: '{ e₁: [North, m₁], [Ack South] }'
+      },
+      C3: {
+        id: 'C3', label: 'C₃ (Final Outcome)', x: 380, y: 260,
+        north: 'Observation: [ATTACK 1] · Received: [m₁] · Dispatched: [Ack North]',
+        south: 'Observation: [DEFEND 0] · Received: [m₂] · Dispatched: [Ack South]',
+        paths: '{ [Ack North], [Ack South] }'
+      }
+    };
+
+    function render() {
+      svg.innerHTML = '';
+
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      defs.innerHTML = `
+        <marker id="arDia" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0 0 L10 5 L0 10 z" fill="#1c1512"/>
+        </marker>
+        <marker id="arDiaActive" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0 0 L10 5 L0 10 z" fill="#d4a017"/>
+        </marker>
+        <filter id="diaGlow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+      `;
+      svg.appendChild(defs);
+
+      // Edges: (C -> C1), (C -> C2), (C1 -> C3), (C2 -> C3)
+      const edges = [
+        { from: 'C', to: 'C1', label: 'σ₁ = e₁ (North Bluff receives m₁)', pathKey: 'A1' },
+        { from: 'C', to: 'C2', label: 'σ₂ = e₂ (South Crag receives m₂)', pathKey: 'B1' },
+        { from: 'C1', to: 'C3', label: 'σ₂ = e₂ (South Crag receives m₂)', pathKey: 'A2' },
+        { from: 'C2', to: 'C3', label: 'σ₁ = e₁ (North Bluff receives m₁)', pathKey: 'B2' }
+      ];
+
+      edges.forEach(ed => {
+        const n1 = nodes[ed.from];
+        const n2 = nodes[ed.to];
+        const isTraversed = (pathHistory.includes(ed.from) && pathHistory.includes(ed.to) && pathHistory.indexOf(ed.to) === pathHistory.indexOf(ed.from) + 1);
+
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', n1.x); line.setAttribute('y1', n1.y);
+        line.setAttribute('x2', n2.x); line.setAttribute('y2', n2.y);
+        line.setAttribute('stroke', isTraversed ? '#d4a017' : '#8a7d68');
+        line.setAttribute('stroke-width', isTraversed ? '3.5' : '2');
+        line.setAttribute('marker-end', `url(#${isTraversed ? 'arDiaActive' : 'arDia'})`);
+        svg.appendChild(line);
+
+        // Edge label
+        const midX = (n1.x + n2.x) / 2;
+        const midY = (n1.y + n2.y) / 2;
+        const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        txt.setAttribute('x', ed.to === 'C1' || ed.from === 'C1' ? midX - 16 : midX + 16);
+        txt.setAttribute('y', midY);
+        txt.setAttribute('font-family', 'Optima, sans-serif');
+        txt.setAttribute('font-size', '11.5');
+        txt.setAttribute('font-weight', '700');
+        txt.setAttribute('fill', isTraversed ? '#b28704' : '#136f9e');
+        txt.setAttribute('text-anchor', ed.to === 'C1' || ed.from === 'C1' ? 'end' : 'start');
+        txt.textContent = ed.label.split(' ')[0] + ' ' + ed.label.split(' ')[1];
+        svg.appendChild(txt);
+      });
+
+      // Nodes
+      Object.values(nodes).forEach(n => {
+        const isCurrent = n.id === currentNode;
+        const isVisited = pathHistory.includes(n.id);
+
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.style.cursor = 'pointer';
+        g.onclick = () => {
+          currentNode = n.id;
+          pathHistory = [n.id];
+          render();
+        };
+
+        if (isCurrent) {
+          const aura = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          aura.setAttribute('cx', n.x); aura.setAttribute('cy', n.y);
+          aura.setAttribute('r', '26');
+          aura.setAttribute('fill', 'rgba(218, 165, 32, 0.25)');
+          aura.setAttribute('stroke', '#d4a017');
+          aura.setAttribute('stroke-width', '2');
+          aura.setAttribute('filter', 'url(#diaGlow)');
+          g.appendChild(aura);
+        }
+
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', n.x); circle.setAttribute('cy', n.y);
+        circle.setAttribute('r', '18');
+        circle.setAttribute('fill', isCurrent ? '#ffd54f' : isVisited ? '#f5eedc' : '#fdfaf2');
+        circle.setAttribute('stroke', isCurrent ? '#b28704' : '#1c1512');
+        circle.setAttribute('stroke-width', isCurrent ? '3' : '2');
+        g.appendChild(circle);
+
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', n.x); label.setAttribute('y', n.y + 5);
+        label.setAttribute('font-family', 'Optima, sans-serif');
+        label.setAttribute('font-size', '13');
+        label.setAttribute('font-weight', '700');
+        label.setAttribute('fill', '#1c1512');
+        label.setAttribute('text-anchor', 'middle');
+        label.textContent = n.id;
+        g.appendChild(label);
+
+        svg.appendChild(g);
+      });
+
+      updateCards();
+    }
+
+    function updateCards() {
+      const cur = nodes[currentNode];
+      compareGrid.innerHTML = `
+        <div class="diamond-node-card">
+          <span class="diamond-node-title">🦅 North Bluff (p₁) State in ${cur.id}</span>
+          <div style="font-size:.85rem; line-height:1.5;">${cur.north}</div>
+        </div>
+        <div class="diamond-node-card">
+          <span class="diamond-node-title">🌊 South Crag (p₂) State in ${cur.id}</span>
+          <div style="font-size:.85rem; line-height:1.5;">${cur.south}</div>
+        </div>
+        <div class="diamond-node-card">
+          <span class="diamond-node-title">📜 In-Flight Slates along Cliff Paths</span>
+          <div style="font-size:.85rem; line-height:1.5; font-family:'Courier New', monospace;">${cur.paths}</div>
+        </div>
+      `;
+
+      if (currentNode === 'C3') {
+        verdictText.innerHTML = `<strong>Conclusive Verification:</strong> Applying σ₁ then σ₂ reaches C₃. Applying σ₂ then σ₁ also reaches C₃. North Bluff's board, South Crag's board, and the multiset of slates are <strong>100% identical</strong> in both paths: σ₂(σ₁(C)) = σ₁(σ₂(C)). Deeds on independent headlands commute!`;
+      } else if (currentNode === 'C1') {
+        verdictText.innerHTML = `<strong>Notice:</strong> In C₁, only North Bluff updated its board upon receiving m₁. South Crag's board remains completely untouched and identical to initial configuration C!`;
+      } else if (currentNode === 'C2') {
+        verdictText.innerHTML = `<strong>Notice:</strong> In C₂, only South Crag updated its board upon receiving m₂. North Bluff's board remains completely untouched and identical to initial configuration C!`;
+      } else {
+        verdictText.innerHTML = `Initial configuration C. Two disjoint events e₁ (North Bluff) and e₂ (South Crag) are ready to be delivered. Choose Path A or Path B above.`;
+      }
+    }
+
+    // Path handlers
+    document.getElementById('dia-btn-path-a')?.addEventListener('click', () => {
+      pathHistory = ['C', 'C1', 'C3'];
+      currentNode = 'C3';
+      render();
+    });
+
+    document.getElementById('dia-btn-path-b')?.addEventListener('click', () => {
+      pathHistory = ['C', 'C2', 'C3'];
+      currentNode = 'C3';
+      render();
+    });
+
+    document.getElementById('dia-btn-step')?.addEventListener('click', () => {
+      if (currentNode === 'C') {
+        currentNode = 'C1';
+        pathHistory = ['C', 'C1'];
+      } else if (currentNode === 'C1' || currentNode === 'C2') {
+        currentNode = 'C3';
+        pathHistory.push('C3');
+      } else {
+        currentNode = 'C';
+        pathHistory = ['C'];
+      }
+      render();
+    });
+
+    document.getElementById('dia-btn-reset')?.addEventListener('click', () => {
+      currentNode = 'C';
+      pathHistory = ['C'];
+      render();
+    });
+
+    render();
+
+    return { render };
+  })();
+
+  /* ================= WIDGET 2: THE BIVALENT CHAIN & SLEEPING SENTRY ================= */
+  const BivalentChain = (function(){
+    const svg = document.getElementById('chain-svg');
+    const boxEl = document.getElementById('biv-contradiction-box');
+    if (!svg || !boxEl) return null;
+
+    const towers = [
+      { id: 'N', name: 'North Bluff', x: 130 },
+      { id: 'E', name: 'East Cape',   x: 320 },
+      { id: 'S', name: 'South Crag',  x: 510 },
+      { id: 'W', name: 'West Point',  x: 700 }
+    ];
+
+    let currentSightings = [1, 1, 0, 0]; // 1100
+    let sleepingTower = null; // 'E' when sleepy experiment runs
+    let experimentActive = false;
+
+    function render() {
+      svg.innerHTML = '';
+
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      defs.innerHTML = `
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#16232e"/>
+          <stop offset="100%" stop-color="#0b131a"/>
+        </linearGradient>
+      `;
+      svg.appendChild(defs);
+
+      // Sky & Sea background
+      const bg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      bg.setAttribute('width', '840'); bg.setAttribute('height', '280');
+      bg.setAttribute('fill', 'url(#skyGrad)');
+      svg.appendChild(bg);
+
+      // Coastal cliff silhouette
+      const cliffs = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      cliffs.setAttribute('d', 'M 0 240 Q 130 180 230 230 T 420 200 T 610 230 T 840 190 L 840 280 L 0 280 Z');
+      cliffs.setAttribute('fill', '#1a2732');
+      cliffs.setAttribute('stroke', '#0d151c');
+      cliffs.setAttribute('stroke-width', '2');
+      svg.appendChild(cliffs);
+
+      // Render each tower
+      towers.forEach((t, i) => {
+        const val = currentSightings[i];
+        const isSleeping = sleepingTower === t.id;
+
+        const tg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        tg.style.cursor = 'pointer';
+        tg.onclick = () => {
+          currentSightings[i] = currentSightings[i] === 1 ? 0 : 1;
+          experimentActive = false;
+          sleepingTower = null;
+          render();
+        };
+
+        // Stone watchtower
+        const towerBody = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        towerBody.setAttribute('points', `${t.x - 24},210 ${t.x - 18},110 ${t.x + 18},110 ${t.x + 24},210`);
+        towerBody.setAttribute('fill', '#2c3c48');
+        towerBody.setAttribute('stroke', '#0f171e');
+        towerBody.setAttribute('stroke-width', '2');
+        tg.appendChild(towerBody);
+
+        // Parapet top
+        const parapet = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        parapet.setAttribute('x', t.x - 22); parapet.setAttribute('y', '98');
+        parapet.setAttribute('width', '44'); parapet.setAttribute('height', '14');
+        parapet.setAttribute('fill', '#394e5e');
+        parapet.setAttribute('stroke', '#0f171e');
+        parapet.setAttribute('stroke-width', '1.5');
+        tg.appendChild(parapet);
+
+        // Brazier flame / smoke atop parapet
+        const flame = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        flame.setAttribute('cx', t.x);
+        flame.setAttribute('cy', '84');
+        flame.setAttribute('r', '10');
+        if (isSleeping) {
+          flame.setAttribute('fill', '#47545e');
+          flame.setAttribute('stroke', '#1c242b');
+        } else if (val === 1) {
+          flame.setAttribute('fill', '#fff2b8'); // White flame (Attack)
+          flame.setAttribute('stroke', '#e09819');
+          flame.setAttribute('stroke-width', '2');
+        } else {
+          flame.setAttribute('fill', '#1c1512'); // Dark pitch smoke (Defend)
+          flame.setAttribute('stroke', '#594539');
+          flame.setAttribute('stroke-width', '2');
+        }
+        tg.appendChild(flame);
+
+        // Tower title
+        const nameTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        nameTxt.setAttribute('x', t.x); nameTxt.setAttribute('y', '235');
+        nameTxt.setAttribute('font-family', 'Optima, sans-serif');
+        nameTxt.setAttribute('font-size', '12');
+        nameTxt.setAttribute('font-weight', '700');
+        nameTxt.setAttribute('fill', '#f5eedc');
+        nameTxt.setAttribute('text-anchor', 'middle');
+        nameTxt.textContent = t.name;
+        tg.appendChild(nameTxt);
+
+        // Sighting pebble & status
+        const pebbleTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        pebbleTxt.setAttribute('x', t.x); pebbleTxt.setAttribute('y', '258');
+        pebbleTxt.setAttribute('font-family', 'Optima, sans-serif');
+        pebbleTxt.setAttribute('font-size', '12');
+        pebbleTxt.setAttribute('font-weight', '700');
+        pebbleTxt.setAttribute('text-anchor', 'middle');
+
+        if (isSleeping) {
+          pebbleTxt.setAttribute('fill', '#df7768');
+          pebbleTxt.textContent = '😴 ASLEEP';
+        } else if (val === 1) {
+          pebbleTxt.setAttribute('fill', '#ffd54f');
+          pebbleTxt.textContent = '⚪ ATTACK (1)';
+        } else {
+          pebbleTxt.setAttribute('fill', '#9ec5e8');
+          pebbleTxt.textContent = '⚫ DEFEND (0)';
+        }
+        tg.appendChild(pebbleTxt);
+
+        svg.appendChild(tg);
+      });
+
+      updateContradictionBox();
+    }
+
+    function updateContradictionBox() {
+      const sum = currentSightings.reduce((a, b) => a + b, 0);
+      const chainStr = currentSightings.join('');
+
+      let valenceHtml = '';
+      if (sum === 0) {
+        valenceHtml = '<strong style="color:#2b772a;">0-VALENT (Locked Defend)</strong>: All 4 towers sighted DEFEND. By Validity, the defense rite MUST decide 0.';
+      } else if (sum === 4) {
+        valenceHtml = '<strong style="color:var(--aegean);">1-VALENT (Locked Attack)</strong>: All 4 towers sighted ATTACK. By Validity, the defense rite MUST decide 1.';
+      } else {
+        valenceHtml = '<strong style="color:var(--gold);">BIVALENT (Suspended Knife-Edge)</strong>: Both Attack (1) and Defend (0) are reachable. The fate of the fleet is undecided!';
+      }
+
+      let expHtml = '';
+      if (experimentActive) {
+        expHtml = `
+          <div style="margin-top:10px; padding:10px 14px; background:#fffdf5; border-left:4px solid var(--terra); font-family:Georgia, serif; font-size:.88rem; line-height:1.6;">
+            <strong>The Contradiction of the Sleeping Sentry (Lemma 2 Proof):</strong><br>
+            Suppose the boundary pair between 0-valent and 1-valent differed at <strong>East Cape</strong>.
+            We put the guard at East Cape fast asleep over his parapet at sunset (he dispatches zero slates).<br>
+            • The remaining waking towers (North, South, West) receive the <strong>exact same incoming slates</strong> in both initial sightings (since East Cape never sends anything).<br>
+            • Therefore, the waking towers take the identical schedule σ and strike their gong for the <em>same verdict</em>.<br>
+            • <em>Contradiction:</em> If they strike DEFEND, then the 1-valent sighting was not 1-valent! If they strike ATTACK, the 0-valent sighting was not 0-valent!<br>
+            <strong>Conclusion:</strong> No protocol can start purely univalent. Paxos MUST possess an initial <strong>BIVALENT</strong> configuration where the island's fate hovers in suspense! <span style="font-weight:700;">∎</span>
+          </div>
+        `;
+      } else {
+        expHtml = `
+          <div style="margin-top:6px; font-size:.88rem; color:#4a3f30;">
+            Click any watchtower above to toggle its dusk sighting (⚪ Attack 1 / ⚫ Defend 0), or run the <strong>Sleeping Sentry Experiment</strong> to observe the contradiction.
+          </div>
+        `;
+      }
+
+      boxEl.innerHTML = `
+        <div style="font-family:Optima, sans-serif; font-size:.95rem; margin-bottom:4px;">
+          Configuration: <b>${chainStr}</b> &nbsp;|&nbsp; Valence: ${valenceHtml}
+        </div>
+        ${expHtml}
+      `;
+    }
+
+    // Chain preset buttons
+    const presets = [
+      [0, 0, 0, 0],
+      [1, 0, 0, 0],
+      [1, 1, 0, 0],
+      [1, 1, 1, 0],
+      [1, 1, 1, 1]
+    ];
+
+    presets.forEach((p, idx) => {
+      document.getElementById(`biv-step-${idx}`)?.addEventListener('click', (e) => {
+        document.querySelectorAll('#sim-bivalent .sim-btn.preset').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        currentSightings = [...p];
+        experimentActive = false;
+        sleepingTower = null;
+        render();
+      });
+    });
+
+    document.getElementById('biv-btn-sleep')?.addEventListener('click', () => {
+      sleepingTower = 'E';
+      experimentActive = true;
+      render();
+    });
+
+    document.getElementById('biv-btn-reset')?.addEventListener('click', () => {
+      currentSightings = [1, 1, 0, 0];
+      sleepingTower = null;
+      experimentActive = false;
+      document.querySelectorAll('#sim-bivalent .sim-btn.preset').forEach(b => b.classList.remove('active'));
+      document.getElementById('biv-step-2')?.classList.add('active');
+      render();
+    });
+
+    render();
+
+    return { render };
+  })();
+
+  /* ================= WIDGET 3: THE ADVERSARY'S TRAP ================= */
+  const FlpEngine = (function(){
+    const svg = document.getElementById('flp-svg');
+    const badgeEl = document.getElementById('flp-valence-badge');
+    const tallyEl = document.getElementById('flp-round-tally');
+    const fleetEl = document.getElementById('flp-fleet-status');
+    const listEl = document.getElementById('flp-runners-list');
+    const logEl = document.getElementById('flp-log');
+    if (!svg || !badgeEl) return null;
+
+    const towers = {
+      N: { id: 'N', name: 'North Bluff', x: 420, y: 75,  sight: 1, gong: 'b', steps: 0 },
+      E: { id: 'E', name: 'East Cape',   x: 700, y: 240, sight: 1, gong: 'b', steps: 0 },
+      S: { id: 'S', name: 'South Crag',  x: 420, y: 385, sight: 0, gong: 'b', steps: 0 },
+      W: { id: 'W', name: 'West Point',  x: 140, y: 240, sight: 0, gong: 'b', steps: 0 }
+    };
+
+    let runners = [];
+    let roundsSurvived = 0;
+    let autoTimer = null;
+    let isAuto = false;
+    let currentValence = 'bivalent'; // 'bivalent', '0-valent', '1-valent'
+
+    function addLog(step, msg) {
+      if (!logEl) return;
+      const entry = document.createElement('div');
+      entry.className = 'sim-log-entry';
+      entry.innerHTML = `<span class="log-step">${step}</span> ${msg}`;
+      logEl.appendChild(entry);
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    function reset() {
+      towers.N.sight = 1; towers.N.gong = 'b'; towers.N.steps = 0;
+      towers.E.sight = 1; towers.E.gong = 'b'; towers.E.steps = 0;
+      towers.S.sight = 0; towers.S.gong = 'b'; towers.S.steps = 0;
+      towers.W.sight = 0; towers.W.gong = 'b'; towers.W.steps = 0;
+
+      runners = [
+        { id: 'r1', from: 'N', to: 'S', val: 1, critical: true },
+        { id: 'r2', from: 'S', to: 'N', val: 0, critical: true },
+        { id: 'r3', from: 'E', to: 'W', val: 1, critical: false },
+        { id: 'r4', from: 'W', to: 'E', val: 0, critical: false }
+      ];
+
+      roundsSurvived = 0;
+      currentValence = 'bivalent';
+      if (logEl) logEl.innerHTML = '';
+      addLog('STAGE 0', 'Initial state is bivalent (Lemma 2). Attack (1) and Defend (0) sighting slates are in flight across the coastal cliffs.');
+      render();
+    }
+
+    // Adversary step (Lemma 3 construction)
+    function adversaryStep() {
+      if (currentValence !== 'bivalent') return;
+      roundsSurvived++;
+
+      // In FLP construction: if delivering the head of queue runner would cause valence collapse,
+      // the weather delays that runner and delivers an alternate runner that keeps the configuration bivalent!
+      // Find a safe runner to deliver
+      let safeIdx = runners.findIndex(r => !r.critical);
+      if (safeIdx === -1) safeIdx = 0; // fallback
+
+      const chosen = runners.splice(safeIdx, 1)[0];
+      const targetTower = towers[chosen.to];
+      targetTower.steps++;
+
+      // Replenish runner to keep cycle active and admissible
+      const nextDest = chosen.to === 'N' ? 'E' : chosen.to === 'E' ? 'S' : chosen.to === 'S' ? 'W' : 'N';
+      runners.push({
+        id: `r_${Date.now()}`,
+        from: chosen.to,
+        to: nextDest,
+        val: chosen.val,
+        critical: Math.random() > 0.6
+      });
+
+      addLog(`ADVERSARY`, `🌪️ <strong>Weather Delay:</strong> Critical runner held back in coastal mist. Delivered slate <em>${chosen.from} → ${chosen.to}</em>. Watchtower ${targetTower.name} took a step, but configuration remains <strong>BIVALENT</strong>!`);
+      render();
+    }
+
+    // Calm weather (Honest FIFO delivery leading to decision)
+    function fifoStep() {
+      if (runners.length === 0) return;
+      roundsSurvived++;
+
+      const chosen = runners.shift();
+      const targetTower = towers[chosen.to];
+      targetTower.steps++;
+
+      // In FIFO calm weather, un-delayed messages quickly push towers to agreement
+      if (roundsSurvived >= 3) {
+        currentValence = '1-valent';
+        towers.N.gong = '1';
+        towers.E.gong = '1';
+        towers.S.gong = '1';
+        towers.W.gong = '1';
+        addLog(`CONSENSUS`, `☀️ <strong>Calm Weather:</strong> With runner delays bounded, all 4 watchtowers strike their bronze gongs for <strong>ATTACK (1)</strong>! Consensus reached in round ${roundsSurvived}!`);
+      } else {
+        addLog(`FIFO STEP`, `Runner delivered to ${targetTower.name}. System transitioning toward decision...`);
+      }
+      render();
+    }
+
+    function render() {
+      svg.innerHTML = '';
+
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      defs.innerHTML = `
+        <radialGradient id="fogGrad" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#415e73" stop-opacity="0.8"/>
+          <stop offset="60%" stop-color="#243745" stop-opacity="0.5"/>
+          <stop offset="100%" stop-color="#14212b" stop-opacity="0"/>
+        </radialGradient>
+      `;
+      svg.appendChild(defs);
+
+      // Central Harbor water
+      const harbor = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+      harbor.setAttribute('cx', '420'); harbor.setAttribute('cy', '240');
+      harbor.setAttribute('rx', '240'); harbor.setAttribute('ry', '140');
+      harbor.setAttribute('fill', '#0d1d28');
+      harbor.setAttribute('stroke', '#28465c');
+      harbor.setAttribute('stroke-width', '2');
+      svg.appendChild(harbor);
+
+      // Moored Galleys in Harbor
+      const shipG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      shipG.innerHTML = `
+        <path d="M 380 240 Q 420 225 460 240 Q 420 255 380 240 Z" fill="#4d2f1d" stroke="#8a5e3e" stroke-width="1.5"/>
+        <line x1="420" y1="215" x2="420" y2="240" stroke="#8a5e3e" stroke-width="2"/>
+        <text x="420" y="270" font-family="Optima, sans-serif" font-size="11.5" font-weight="700" fill="#a4b8c7" text-anchor="middle">
+          WAR FLEET AT QUAY (${currentValence === 'bivalent' ? 'CHAINED' : 'LAUNCHED!'})
+        </text>
+      `;
+      svg.appendChild(shipG);
+
+      // Swirling Coastal Fog (Adversary Zone)
+      const fog = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+      fog.setAttribute('cx', '420'); fog.setAttribute('cy', '240');
+      fog.setAttribute('rx', '220'); fog.setAttribute('ry', '125');
+      fog.setAttribute('fill', 'url(#fogGrad)');
+      svg.appendChild(fog);
+
+      // Connecting tracks between towers
+      const tracks = [
+        'M 420 75 L 700 240',
+        'M 700 240 L 420 385',
+        'M 420 385 L 140 240',
+        'M 140 240 L 420 75',
+        'M 420 75 L 420 385',
+        'M 140 240 L 700 240'
+      ];
+      tracks.forEach(d => {
+        const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        p.setAttribute('d', d);
+        p.setAttribute('stroke', 'rgba(218, 196, 150, 0.25)');
+        p.setAttribute('stroke-width', '2');
+        p.setAttribute('stroke-dasharray', '4 4');
+        p.setAttribute('fill', 'none');
+        svg.appendChild(p);
+      });
+
+      // Render the 4 Towers
+      Object.values(towers).forEach(t => {
+        const tg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+        // Watchtower circle
+        const c = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        c.setAttribute('cx', t.x); c.setAttribute('cy', t.y);
+        c.setAttribute('r', '28');
+        c.setAttribute('fill', t.gong === '1' ? '#197ca9' : t.gong === '0' ? '#2b772a' : '#233644');
+        c.setAttribute('stroke', '#d4a017');
+        c.setAttribute('stroke-width', '2.5');
+        tg.appendChild(c);
+
+        // Icon
+        const iconTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        iconTxt.setAttribute('x', t.x); iconTxt.setAttribute('y', t.y + 6);
+        iconTxt.setAttribute('font-size', '18');
+        iconTxt.setAttribute('text-anchor', 'middle');
+        iconTxt.textContent = t.gong === '1' ? '🔔1' : t.gong === '0' ? '🔔0' : '🏰';
+        tg.appendChild(iconTxt);
+
+        // Label
+        const nameTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        nameTxt.setAttribute('x', t.x);
+        nameTxt.setAttribute('y', t.y > 200 ? t.y + 42 : t.y - 34);
+        nameTxt.setAttribute('font-family', 'Optima, sans-serif');
+        nameTxt.setAttribute('font-size', '12');
+        nameTxt.setAttribute('font-weight', '700');
+        nameTxt.setAttribute('fill', '#f5eedc');
+        nameTxt.setAttribute('text-anchor', 'middle');
+        nameTxt.textContent = `${t.name} (Steps: ${t.steps})`;
+        tg.appendChild(nameTxt);
+
+        svg.appendChild(tg);
+      });
+
+      // Render runner glyphs along tracks
+      runners.forEach((r, idx) => {
+        const fromT = towers[r.from];
+        const toT = towers[r.to];
+        const midX = (fromT.x + toT.x) / 2 + (idx % 2 === 0 ? 15 : -15);
+        const midY = (fromT.y + toT.y) / 2 + (idx % 2 === 0 ? -12 : 12);
+
+        const rg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        rg.style.cursor = 'pointer';
+        rg.onclick = () => deliverRunner(idx);
+
+        const rRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rRect.setAttribute('x', midX - 28); rRect.setAttribute('y', midY - 11);
+        rRect.setAttribute('width', '56'); rRect.setAttribute('height', '22');
+        rRect.setAttribute('rx', '3');
+        rRect.setAttribute('fill', r.critical ? '#8f3322' : '#234a61');
+        rRect.setAttribute('stroke', '#dfd5be');
+        rRect.setAttribute('stroke-width', '1.2');
+        rg.appendChild(rRect);
+
+        const rTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        rTxt.setAttribute('x', midX); rTxt.setAttribute('y', midY + 4);
+        rTxt.setAttribute('font-family', 'Optima, sans-serif');
+        rTxt.setAttribute('font-size', '10.5');
+        rTxt.setAttribute('font-weight', '700');
+        rTxt.setAttribute('fill', '#fff');
+        rTxt.setAttribute('text-anchor', 'middle');
+        rTxt.textContent = `${r.from}→${r.to} [${r.val}]`;
+        rg.appendChild(rTxt);
+
+        svg.appendChild(rg);
+      });
+
+      // Update UI bar
+      if (tallyEl) tallyEl.textContent = roundsSurvived;
+      if (badgeEl) {
+        if (currentValence === 'bivalent') {
+          badgeEl.className = 'valence-indicator bivalent';
+          badgeEl.innerHTML = '⚖️ BIVALENT (Suspended Vigil)';
+          if (fleetEl) {
+            fleetEl.textContent = 'Chained in Harbour (Undecided)';
+            fleetEl.style.color = 'var(--terra)';
+          }
+        } else if (currentValence === '1-valent') {
+          badgeEl.className = 'valence-indicator one-valent';
+          badgeEl.innerHTML = '⚔️ 1-VALENT (Consensus: ATTACK!)';
+          if (fleetEl) {
+            fleetEl.textContent = 'FLEET LAUNCHED TO RAM ENEMY!';
+            fleetEl.style.color = 'var(--aegean)';
+          }
+        } else {
+          badgeEl.className = 'valence-indicator zero-valent';
+          badgeEl.innerHTML = '🛡️ 0-VALENT (Consensus: DEFEND)';
+          if (fleetEl) {
+            fleetEl.textContent = 'BOOM DRAWN & RAMPARTS MANNED';
+            fleetEl.style.color = '#2b772a';
+          }
+        }
+      }
+
+      // Render runner buttons list
+      if (listEl) {
+        listEl.innerHTML = '';
+        runners.forEach((r, idx) => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = `flp-runner-btn ${r.critical ? 'adversary-danger' : 'adversary-safe'}`;
+          btn.innerHTML = `🏃 <b>${r.from} → ${r.to}</b> (${r.val === 1 ? 'Attack' : 'Defend'}) · ${r.critical ? '⚠️ Critical' : '✓ Safe'}`;
+          btn.onclick = () => deliverRunner(idx);
+          listEl.appendChild(btn);
+        });
+      }
+    }
+
+    function deliverRunner(idx) {
+      if (idx >= runners.length || currentValence !== 'bivalent') return;
+      const chosen = runners.splice(idx, 1)[0];
+      const targetTower = towers[chosen.to];
+      targetTower.steps++;
+      roundsSurvived++;
+
+      if (chosen.critical) {
+        // If critical runner delivered without adversary delay, commits system
+        currentValence = chosen.val === 1 ? '1-valent' : '0-valent';
+        Object.values(towers).forEach(t => t.gong = String(chosen.val));
+        addLog(`COLLAPSE`, `⚠️ Critical runner delivered to ${targetTower.name}! Valence collapsed to <strong>${currentValence.toUpperCase()}</strong>! All towers strike bronze gongs for ${chosen.val === 1 ? 'ATTACK' : 'DEFEND'}.`);
+      } else {
+        // Safe runner maintains bivalence
+        const nextDest = chosen.to === 'N' ? 'E' : chosen.to === 'E' ? 'S' : chosen.to === 'S' ? 'W' : 'N';
+        runners.push({
+          id: `r_${Date.now()}`,
+          from: chosen.to,
+          to: nextDest,
+          val: chosen.val,
+          critical: Math.random() > 0.5
+        });
+        addLog(`DELIVER`, `Delivered runner ${chosen.from} → ${chosen.to}. Target tower took a step. System remains <strong>BIVALENT</strong>.`);
+      }
+
+      render();
+    }
+
+    // Button controls
+    document.getElementById('flp-btn-adv')?.addEventListener('click', () => adversaryStep());
+    document.getElementById('flp-btn-fifo')?.addEventListener('click', () => fifoStep());
+    document.getElementById('flp-btn-reset')?.addEventListener('click', () => reset());
+
+    document.getElementById('flp-btn-play')?.addEventListener('click', (e) => {
+      isAuto = !isAuto;
+      e.target.textContent = isAuto ? '⏸ Pause Vigil' : '▶ Auto Vigil';
+      e.target.classList.toggle('action', isAuto);
+      if (isAuto) {
+        autoTimer = setInterval(() => {
+          if (currentValence === 'bivalent') {
+            adversaryStep();
+          } else {
+            isAuto = false;
+            e.target.textContent = '▶ Auto Vigil';
+            e.target.classList.remove('action');
+            clearInterval(autoTimer);
+          }
+        }, 1100);
+      } else {
+        clearInterval(autoTimer);
+      }
+    });
+
+    reset();
+
+    return { render, reset };
+  })();
+})();
+</script>
+</body>
+</html>

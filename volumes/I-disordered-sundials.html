@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Volume I: The Disordered Sundials — Distributed Algorithms of Ancient Greece</title>
 <link rel="stylesheet" href="volume.css">
+<link rel="stylesheet" href="simulator.css">
 </head>
 <body>
 <nav class="series-nav">
@@ -20,11 +21,11 @@
 <header class="cover">
   <div class="kicker">Distributed Algorithms of Ancient Greece · Volume I</div><br>
   <!-- PANEL I-00 -->
-  <div class="frame-cover" id="panel-I-00" data-panel="I-00" data-shape="splash" data-refs="I-characters I-props"><div class="img-placeholder ph-splash" role="img" aria-label="Three hamlets, hidden from one another: Bird&#x27;s-eye over the first lobe: three stone hamlets, each screened by its own ridge, with the olive press on its hill between them and unlit beacons on the headland beyond."><span class="ph-label">I-00 · splash 3:2</span><span class="ph-title">Three hamlets, hidden from one another</span><span class="ph-desc">Bird&#x27;s-eye over the first lobe: three stone hamlets, each screened by its own ridge, with the olive press on its hill between them and unlit beacons on the headland beyond.</span><span class="ph-meta">Blender: hamA; hamK; hamM; press; beacons · Sheets: I-characters, I-props</span></div></div>
+  <div class="frame-cover" id="panel-I-00" data-panel="I-00" data-shape="splash" data-refs="I-characters I-props"><div class="img-placeholder ph-splash" role="img" aria-label="Three traders, hidden from one another: Bird&#x27;s-eye over the first lobe: three coastal trading posts, each screened by its own ridge, with the communal olive press on its hill between them and unlit beacons on the headland beyond."><span class="ph-label">I-00 · splash 3:2</span><span class="ph-title">Three traders, hidden from one another</span><span class="ph-desc">Bird&#x27;s-eye over the first lobe: three coastal trading posts, each screened by its own ridge, with the communal olive press on its hill between them and unlit beacons on the headland beyond.</span><span class="ph-meta">Blender: hamA; hamK; hamM; press; beacons · Sheets: I-characters, I-props</span></div></div>
   <!-- /PANEL I-00 -->
-  <p class="sub display">An illustrated chronicle of Paxos's first hamlets — hidden from one
-  another by their own ridges — and the beads, beacons and water-clocks that let them agree
-  on an order of events without ever agreeing on the time.</p>
+  <p class="sub display">An illustrated chronicle of Paxos's first traders — hidden from one
+  another in their separate coves — and the beads, beacons and water-clocks that let them agree
+  on an order of deeds without ever agreeing on the time.</p>
   <p class="pub">After Leslie Lamport, "Time, Clocks, and the Ordering of Events in a Distributed
   System," <em>Communications of the ACM</em> 21, 7 (July 1978), 558–565; with the marginal glosses
   of C.&nbsp;J. Fidge and F. Mattern (1988). The complete paper, retold.</p>
@@ -34,10 +35,10 @@
   <h6 id="table-of-contents"><a href="#table-of-contents" class="hlink">Table of Contents</a></h6>
   <ol>
     <li><a href="#preface">The Translator's Preface</a></li>
-    <li><a href="#s1">The Quarrel of the Shepherds</a></li>
+    <li><a href="#s1">The Quarrel of the Traders</a></li>
     <li><a href="#s2">Happened-Before</a></li>
     <li><a href="#s3">The Law of the Monotonic Bead</a></li>
-    <li><a href="#s4">The Order of the Hamlets &amp; the Olive Press</a></li>
+    <li><a href="#s4">The Order of the Traders &amp; the Olive Press</a></li>
     <li><a href="#s5">The Beacon Fires</a></li>
     <li><a href="#s6">The Water-Clocks</a></li>
     <li><a href="#s7">Glosses in a Later Hand</a></li>
@@ -54,19 +55,19 @@
     a jar that also held three bronze sundials, none of which agree. It predates the Paxon
     Parliament by several centuries; indeed, the Paxon mathematicians of Volume&nbsp;IV cite it,
     though they seem to have read only the first half.</p>
-    <p>The author is a wandering scholar the hamlets called
-    <span class="paxon" data-real="Leslie Lamport" data-note="Author of “Time, Clocks, and the Ordering of Events in a Distributed System” (1978), the paper this volume retells.">Leslie</span>.
-    He was summoned to settle a shepherds' feud and left behind, instead, a treatise on what it
-    means for one thing to happen before another. Readers who want only the algorithm may skip
+    <p>The author is a wandering scholar the coves called
+    <span class="paxon" data-real="Leslie Lamport" data-note="Author of “Time, Clocks, and the Ordering of Events in a Distributed System” (1978), the paper this volume retells.">Λέσλι</span>.
+    He was summoned to settle a dispute between rival traders and left behind, instead, a treatise on what it
+    means for one deed to happen before another. Readers who want only the algorithm may skip
     to Chapter&nbsp;III. Readers who want to know why it is <em>not</em> an algorithm for telling
-    which thing truly happened first should begin at Chapter&nbsp;I and read slowly.</p>
+    which deed truly occurred first in physical time should begin at Chapter&nbsp;I and read slowly.</p>
     <p>The second half of the scroll, on the regulation of water-clocks, has been neglected by
     later copyists. I have restored it. A set of marginal notes added some ten generations later
     by two unrelated scribes appears in Chapter&nbsp;VII.</p>
     <p class="sig">— The Translator</p>
   </div>
 
-  <div class="narr">Among the first hamlets of Paxos, the notion of "before" had always been taken for granted — until the hillfolk tried to use it in court. What follows is the scholar's account of why "before" is only a partial ordering of the deeds of men who live in hamlets hidden from one another, how an agreed total ordering may nonetheless be built from simple beads, how that ordering governs a shared olive press, and how closely a set of water-clocks can be kept in step.</div>
+  <div class="narr">Among the early traders of Paxos, the notion of "before" had always been taken for granted — until merchants in different coves tried to place orders for goods with only a single piece in stock. What follows is the scholar's account of why "before" is only a partial ordering of the deeds of men who trade across hills and waters, how an agreed total ordering may nonetheless be built from simple abacus beads, how that timestamped booking system was adopted by the common folk to share the island's single olive press, and how closely a set of water-clocks must be kept in step. If the deeds of men in distant coves are hidden by hills and fog, what does it mean to ask whose order was dispatched first — and can any shadow upon a bronze dial answer it?</div>
 </section>
 
 <hr class="meander">
@@ -75,58 +76,59 @@
 <section id="s1">
   <div class="issue">
     <span class="no">Chapter I</span>
-    <h2 id="the-quarrel-of-the-shepherds"><a href="#the-quarrel-of-the-shepherds" class="hlink">The Quarrel of the Shepherds</a></h2>
+    <h2 id="the-quarrel-of-the-traders"><a href="#the-quarrel-of-the-traders" class="hlink">The Quarrel of the Traders</a></h2>
   </div>
 
-  <h3 id="1-1-the-three-hamlets" class="sect"><a href="#1-1-the-three-hamlets" class="hlink">1.1 · The Three Hamlets</a></h3>
+  <h3 id="1-1-the-three-traders" class="sect"><a href="#1-1-the-three-traders" class="hlink">1.1 · The Three Traders</a></h3>
   <!-- PANEL I-01 -->
   <figure class="panel" id="panel-I-01" data-panel="I-01" data-shape="wide" data-refs="I-props">
-    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The hamlets at dawn: Establishing panorama: the three hamlets on their separate hillsides, none able to see the others, a track and terraces of olives between them."><span class="ph-label">I-01 · wide 16:9</span><span class="ph-title">The hamlets at dawn</span><span class="ph-desc">Establishing panorama: the three hamlets on their separate hillsides, none able to see the others, a track and terraces of olives between them.</span><span class="ph-meta">Blender: hamA; hamK; hamM · Sheets: I-props</span></div></div>
-    <figcaption>PAXOS&#x27;S FIRST HAMLETS SPOKE TO ONE ANOTHER ONLY BY RUNNER ON THE HILL TRACK — AND NO TWO SUNDIALS AGREED.</figcaption>
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The traders at dawn: Establishing panorama: the three traders on their separate hillsides, none able to see the others, a track between them."><span class="ph-label">I-01 · wide 16:9</span><span class="ph-title">The traders at dawn</span><span class="ph-desc">Establishing panorama: the three traders on their separate hillsides, none able to see the others, a track between them.</span><span class="ph-meta">Blender: hamA; hamK; hamM · Sheets: I-props</span></div></div>
+    <figcaption>PAXOS&#x27;S FIRST TRADERS SPOKE TO ONE ANOTHER ONLY BY RUNNER ON THE HILL TRACK — AND NO TWO SUNDIALS AGREED.</figcaption>
   </figure>
   <!-- /PANEL I-01 -->
   <div class="prose">
-    <p>Paxos's first hamlets were three distinct settlements, each screened from the others by a
-    fold of hillside, whose people communicated only by sending one another messages by runner
-    on the hill track. The scholar observed at the outset that a single household can be regarded
-    in the same way — the kitchen, the storeroom and the goat-pen are separate places between
-    which the servants run — but it was the hamlets that concerned him. Paxos, he wrote, is
-    <em>distributed</em> wherever the time a runner takes between two hamlets is not negligible
-    compared with the time between the deeds of a single shepherd. A shepherd who does twenty
-    things while one message crosses the ridge track lives among distributed hamlets whether he
-    likes it or not.</p>
-    <p>The concept of time is fundamental to our way of thinking, and it is derived from a more
-    basic concept: the order in which things happen. We say a sheep was shorn at the third hour if
-    the shearing happened after the sundial showed the third hour and before it showed the fourth.
-    The hamlets built their commerce on such orderings. Whoever tended the shared olive press, for
-    example, had been told that a request to use it must be granted <em>if it was made before the
-    press was freed</em>. The scholar's first lesson was that this rule, which sounds perfectly
-    definite, must be carefully reexamined when the requests are made from different hamlets.</p>
+    <p>Paxos's first traders were three distinct merchants — Trader A of Andros, Trader K of Kea, and
+    Trader M of Milos — each situated in his own cove and screened from the others by a fold of rocky hillside.
+    They communicated only by sending messages by runner over the hill tracks or by skiff across the water.
+    The scholar observed at the outset that a single trading house can be regarded in the same way — the
+    counting room, the warehouse and the loading dock are separate places between which clerks run — but it was
+    the separated traders that concerned him. Paxos, he wrote, is <em>distributed</em> wherever the time a runner
+    takes between two traders is not negligible compared with the time between the deeds of a single trader.
+    A trader who signs twenty contracts while a single order crosses the ridge is a distributed trader whether
+    he likes it or not.</p>
+    <p>The concept of time is fundamental to our way of thinking, and it is derived from a more basic concept:
+    the order in which transactions happen. We say an order was signed at the third hour if the signing happened
+    after the sundial showed the third hour and before it showed the fourth. The traders had built their commerce
+    on an order-slate system, timestamping every dispatch with the current sundial reading to ensure a fair,
+    first-come-first-served market. An incoming shipment, for instance, was to be awarded to whichever merchant
+    ordered it first. The scholar's first lesson was that this rule, which sounds perfectly definite, collapses
+    when orders are dispatched by different traders on overcast days.</p>
   </div>
 
-  <h3 id="1-2-the-feud" class="sect"><a href="#1-2-the-feud" class="hlink">1.2 · The Feud of Aristides and Leonidas</a></h3>
+  <h3 id="1-2-the-overcast-day" class="sect"><a href="#1-2-the-overcast-day" class="hlink">1.2 · The Feud of Aristides and Leonidas</a></h3>
   <!-- PANEL I-02 -->
   <figure class="panel mid tilt-r" id="panel-I-02" data-panel="I-02" data-shape="half" data-refs="I-characters">
-    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="The quarrel at the press: At the olive press yard: Aristides with a shorn goat and Leonidas with a freshly branded ram shout at each other, while the wandering scholar arrives up the track behind them."><span class="ph-label">I-02 · half 4:3</span><span class="ph-title">The quarrel at the press</span><span class="ph-desc">At the olive press yard: Aristides with a shorn goat and Leonidas with a freshly branded ram shout at each other, while the wandering scholar arrives up the track behind them.</span><span class="ph-meta">Blender: press · Sheets: I-characters</span></div></div>
-    <figcaption>“I SHEARED MY GOAT FIRST!” “YOU LIE — I BRANDED MY RAM BEFORE THE SHADOW MOVED!” ENTER THE WANDERING SCHOLAR.</figcaption>
+    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="The quarrel over the single consignment: At the storehouse quay: Aristides (Trader A) and Leonidas (Trader M) shout over their order slates for the single item in stock, while the wandering scholar arrives up the track behind them."><span class="ph-label">I-02 · half 4:3</span><span class="ph-title">The quarrel over the single consignment</span><span class="ph-desc">At the storehouse quay: Aristides (Trader A) and Leonidas (Trader M) shout over their order slates for the single item in stock, while the wandering scholar arrives up the track behind them.</span><span class="ph-meta">Blender: hamA · Sheets: I-characters</span></div></div>
+    <figcaption>“I DISPATCHED MY ORDER FIRST!” “THE SUN WAS CLOUDED — MY RUNNER ARRIVED BEFORE YOUR SLATE WAS FIRED!” ENTER THE WANDERING SCHOLAR.</figcaption>
   </figure>
   <!-- /PANEL I-02 -->
   <div class="prose">
-    <p>The occasion of the treatise was a feud. Aristides of Hamlet A claimed he had sheared his
-    goat before Leonidas of Hamlet M had branded his ram, and the precedence mattered for reasons
-    of a wager that the scroll does not record in full. Each man produced a sundial reading. The
-    readings disagreed with each other, and the sundials disagreed with the sun, because the fog
-    and mountain shadows of the hillside made every sundial a matter of opinion.</p>
-    <p>Leslie listened to both men and gave a verdict neither expected:</p>
+    <p>The occasion of the treatise was a feud over a single prized consignment. Aristides (Trader A) claimed he had
+    dispatched his purchase order for a solitary shipment of Phoenician timber before Leonidas (Trader M) had dispatched his.
+    With only one piece in stock in the harbor warehouse, precedence meant the difference between a fortunes-making contract
+    and bitter disappointment. Each trader produced a clay slate stamped with a sundial reading.
+    The readings disagreed with each other, and the sundials disagreed with the sun, because the coastal fog and
+    mountain shadows of the overcast morning made every sundial a matter of opinion.</p>
+    <p>Λέσλι listened to both traders and delivered a verdict neither expected:</p>
   </div>
-  <div class="decree bad">"Neither of you can be answered. You live in hamlets hidden from one another and no runner passed between you. There is no fact of the matter here that any assembly of mortals could recover."</div>
+  <div class="decree bad">"Neither of you can be answered. You are traders stationed in coves hidden from one another, and no runner passed between you before you bid. There is no fact of the matter here that any assembly of mortals could recover."</div>
   <div class="prose">
-    <p>He did not claim that the shearing and the branding happened at the same moment. He claimed
-    something more unsettling: that if a specification — a wager, a law, a press-keeper's rule — is
-    to be judged correct, it must be stated in terms of things observable <em>within</em> the
-    hamlets. A rule stated in terms of the sun's true position requires true sundials, and even the
-    best bronze sundial is not perfectly accurate. He therefore set out to define "happened before"
-    without using sundials at all.</p>
+    <p>He did not claim that the two orders were written at the identical physical second. He claimed something
+    more unsettling: that if a specification — a contract, a trade law, a merchant agreement — is to be judged
+    correct, it must be stated strictly in terms of things observable <em>by the traders themselves</em>. A rule
+    stated in terms of the sun's true position requires true sundials, and even the best bronze sundial is not
+    perfectly accurate. He therefore set out to define "happened before" without using sundials at all.</p>
+    <p>If our sundials are blinded by clouds and the universe itself has not decided who came first, how can local merchants, knowing only their own deeds, define what it means for one event to happen before another?</p>
   </div>
 </section>
 
@@ -140,46 +142,43 @@
   </div>
 
   <div class="prose">
-    <p>The scholar began by describing the hamlets more precisely. Each is a collection of
-    shepherds — the scroll uses a word better rendered <em>households</em>, but I have kept to
-    shepherds. Each shepherd's life is a sequence of deeds. What counts as a single deed depends
-    on the purpose: an entire day at market may be one deed, or a single stroke of the shears may
-    be one. The essential assumption is that the deeds of one shepherd form a sequence, so that for
-    any two of them it is known which came first. That, Leslie remarks, is simply what is meant by
-    a shepherd.</p>
-    <p>Dispatching a runner is a deed of the sender. Receiving him is a deed of the receiver. With
-    these two facts he defined the relation he wrote with an arrow, "→", and read aloud as
-    <em>happened before</em>.</p>
+    <p>The scholar began by describing the traders more precisely. Each trader is an independent process of
+    commerce. Each trader's life is a sequence of deeds. What counts as a single deed depends on the purpose: an
+    internal calculation of grain tallies, the signing of a consignment contract, the dispatch of an order, or the
+    arrival of a runner from another cove. For any single trader, his own deeds are totally ordered: deed <var>a</var>
+    preceded deed <var>b</var> if he performed <var>a</var> before <var>b</var>, and he can never be in doubt which came
+    first. That, Λέσλι remarks, is simply what is meant by a trader.</p>
+    <p>Dispatching an order by runner is a deed of the sender. Receiving that runner is a deed of the receiver.
+    With these two facts he defined the relation he wrote with an arrow, "→", and read aloud as <em>happened before</em>.</p>
   </div>
 
   <div class="slab">
     <div class="slab-head">Definition · Happened-Before</div>
-    <p class="stmt">The relation → on the deeds of the hamlets is the smallest relation satisfying
+    <p class="stmt">The relation → on the deeds of the traders is the smallest relation satisfying
     the following three conditions:</p>
     <ol class="stmt">
-      <li>If <var>a</var> and <var>b</var> are deeds of the same shepherd, and <var>a</var> comes before <var>b</var>, then <var>a</var> → <var>b</var>.</li>
-      <li>If <var>a</var> is the dispatch of a runner by one shepherd and <var>b</var> is the receipt of that same runner by another, then <var>a</var> → <var>b</var>.</li>
+      <li>If <var>a</var> and <var>b</var> are deeds of the same trader, and <var>a</var> comes before <var>b</var>, then <var>a</var> → <var>b</var>.</li>
+      <li>If <var>a</var> is the dispatch of an order by one trader and <var>b</var> is the receipt of that same order by another, then <var>a</var> → <var>b</var>.</li>
       <li>If <var>a</var> → <var>b</var> and <var>b</var> → <var>c</var>, then <var>a</var> → <var>c</var>.</li>
     </ol>
     <p class="stmt">Two distinct deeds <var>a</var> and <var>b</var> are said to be <b>concurrent</b> if neither <var>a</var> → <var>b</var> nor <var>b</var> → <var>a</var>.</p>
   </div>
 
   <div class="prose">
-    <p>He further assumed that no deed happens before itself — "hamlets in which a deed can
-    precede itself do not seem to be physically meaningful" — which makes → an irreflexive
-    partial ordering. It is <em>partial</em> because concurrent deeds exist. The shearing and the
-    branding were concurrent. That was the whole of his verdict.</p>
-    <p>He found it helpful to draw the relation on what the press-keepers called a
-    <em>crossing chart</em>, reproduced below. Each hamlet is a vertical line, with later times
-    higher on the page. Each deed is a dot on its hamlet's line. Each dispatch is a line slanting
-    upward from the dot of its sending to the dot of its receipt. Then <var>a</var> → <var>b</var>
-    means precisely that one can travel from <var>a</var> to <var>b</var> on the chart by moving
-    only upward along a hamlet's line and along dispatch lines.</p>
+    <p>He further assumed that no deed happens before itself — "a market in which an order can precede its
+    own conception does not seem to be physically meaningful" — which makes → an irreflexive partial ordering.
+    It is <em>partial</em> because concurrent deeds exist. The order of Aristides and the order of Leonidas were
+    concurrent. That was the whole of his verdict.</p>
+    <p>He found it helpful to draw the relation on what the merchants called a <em>crossing chart</em>,
+    reproduced below. Each trader is a vertical line, with later times higher on the page. Each deed is a dot
+    on that trader's line. Each dispatch is a line slanting upward from the dot of its sending to the dot of its
+    receipt. Then <var>a</var> → <var>b</var> means precisely that one can travel from <var>a</var> to <var>b</var>
+    on the chart by moving only upward along a trader's line and along dispatch lines.</p>
   </div>
 
   <figure class="panel mid" id="fig-chart">
     <div class="frame" style="background:#fbf6e6; padding:8px 6px 26px">
-      <svg viewBox="0 0 560 330" role="img" aria-label="Crossing chart: three hamlets, Andros, Kea and Milos, drawn as vertical lines with deeds as dots and dispatches as slanted arrows. Bead counts appear beside each deed." style="display:block; width:100%; height:auto; font-family:Georgia,serif">
+      <svg viewBox="0 0 560 330" role="img" aria-label="Crossing chart: three traders, Andros, Kea and Milos, drawn as vertical lines with deeds as dots and dispatches as slanted arrows. Bead counts appear beside each deed." style="display:block; width:100%; height:auto; font-family:Georgia,serif">
         <defs>
           <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#136f9e"/></marker>
         </defs>
@@ -187,7 +186,7 @@
           <line x1="110" y1="300" x2="110" y2="30"/><line x1="280" y1="300" x2="280" y2="30"/><line x1="450" y1="300" x2="450" y2="30"/>
         </g>
         <g font-family="Optima,'Gill Sans',sans-serif" font-size="14" font-weight="700" fill="#1c1512" text-anchor="middle">
-          <text x="110" y="322">HAMLET A · ANDROS</text><text x="280" y="322">HAMLET K · KEA</text><text x="450" y="322">HAMLET M · MILOS</text>
+          <text x="110" y="322">TRADER A · ANDROS</text><text x="280" y="322">TRADER K · KEA</text><text x="450" y="322">TRADER M · MILOS</text>
         </g>
         <text x="22" y="40" font-size="12" fill="#5a4a33" font-style="italic">later ↑</text>
         <g stroke="#136f9e" stroke-width="2.2" fill="none" stroke-dasharray="6 4" marker-end="url(#arr)">
@@ -217,24 +216,23 @@
         </g>
       </svg>
     </div>
-    <figcaption>THE CROSSING CHART. <i>a</i>₁ → <i>k</i>₂ → <i>k</i>₃, SO A DEED IN HAMLET A HAPPENED BEFORE ONE IN HAMLET K. BUT <i>a</i>₂ AND <i>k</i>₃ (RED) ARE CONCURRENT — AND SO ARE <i>a</i>₁ AND <i>m</i>₃, HOWEVER FAR APART THEY ARE DRAWN.</figcaption>
+    <figcaption>THE CROSSING CHART. <i>a</i>₁ → <i>k</i>₂ → <i>k</i>₃, SO A DEED OF TRADER A HAPPENED BEFORE ONE OF TRADER K. BUT <i>a</i>₂ AND <i>k</i>₃ (RED) ARE CONCURRENT — AND SO ARE <i>a</i>₁ AND <i>m</i>₃, HOWEVER FAR APART THEY ARE DRAWN.</figcaption>
   </figure>
 
   <div class="prose">
     <p>Another way of reading the definition, the scholar wrote, is that <var>a</var> → <var>b</var>
-    means it was <em>possible</em> for <var>a</var> to causally affect <var>b</var>. Two deeds are
-    concurrent if neither could have affected the other. On the chart, <var>a</var><sub>2</sub>
-    and <var>k</var><sub>3</sub> are concurrent even though the chart has been drawn to suggest that
-    <var>a</var><sub>2</sub> happened earlier by the sun. The shepherd of Hamlet A cannot know what
-    was done in Hamlet K at <var>k</var><sub>3</sub> until the runner arrives at
-    <var>a</var><sub>3</sub>; before that, he could at most know what the man of Hamlet K had been
-    <em>planning</em> to do.</p>
-    <p>The scholar noted that this definition would seem natural to the astronomers of Alexandria
-    who had described the ordering of events in terms of the light signals that <em>could</em>
-    be sent between them.<sup>1</sup> He took a more pragmatic path, considering only the dispatches
-    that <em>actually were</em> sent. One ought to be able to judge whether the hamlets behaved
-    correctly by knowing only the deeds that did occur, without knowing which deeds could have
-    occurred.</p>
+    means it was <em>possible</em> for <var>a</var> to causally affect <var>b</var>. Two deeds are concurrent
+    if neither could have affected the other. On the chart, <var>a</var><sub>2</sub> and <var>k</var><sub>3</sub>
+    are concurrent even though the chart has been drawn to suggest that <var>a</var><sub>2</sub> happened
+    earlier by the sun. Trader A cannot know what was done by Trader K at <var>k</var><sub>3</sub> until the
+    runner arrives at <var>a</var><sub>3</sub>; before that, he could at most know what Trader K had been
+    planning to do.</p>
+    <p>The scholar noted that this definition would seem natural to the astronomers of Alexandria who had
+    described the ordering of events in terms of the light signals that <em>could</em> be sent between them.<sup>1</sup>
+    He took a more pragmatic path, considering only the dispatches that <em>actually were</em> sent. One ought
+    to be able to judge whether the traders behaved correctly by knowing only the deeds that did occur, without
+    knowing which deeds could have occurred.</p>
+    <p>If "happened-before" is only a partial order with vast stretches of concurrency, how can men who trade across the hills count their deeds with simple tokens, so that every cause faithfully precedes its effect without ever consulting the sky?</p>
   </div>
   <aside class="fn"><b>1.</b> The scroll cites two treatises of the Alexandrian school,
   <em>Relativity in Illustrations</em> by
@@ -255,16 +253,16 @@
   </div>
 
   <div class="prose">
-    <p>Having set the sundials aside, Leslie introduced clocks of a humbler kind. A clock, for his
+    <p>Having set the sundials aside, Λέσλι introduced clocks of a humbler kind. A clock, for his
     purposes, is only a way of assigning a number to each deed, the number being thought of as the
-    time at which the deed occurred. Each shepherd <var>P</var><sub><var>i</var></sub> keeps a clock
-    <var>C</var><sub><var>i</var></sub> that assigns a number
-    <var>C</var><sub><var>i</var></sub>(<var>a</var>) to each of his own deeds <var>a</var>. Nothing
-    whatever is assumed about the relation of these numbers to the sun. They may be kept on an
-    abacus with no timing mechanism at all.</p>
-    <p>What does it mean for such a system of clocks to be <em>correct</em>? It cannot mean that
-    they agree with the sun, since that would require true sundials. It must be based on the order
-    in which deeds occur, and the strongest reasonable requirement is this:</p>
+    logical time at which the deed occurred. Each trader <var>P</var><sub><var>i</var></sub> keeps a clock
+    <var>C</var><sub><var>i</var></sub> that assigns a number <var>C</var><sub><var>i</var></sub>(<var>a</var>)
+    to each of his own deeds <var>a</var>. Nothing whatever is assumed about the relation of these numbers
+    to the sun. They may be kept on a wooden board strung with wooden beads — an abacus with no timing
+    mechanism at all.</p>
+    <p>What does it mean for such a system of clocks to be <em>correct</em>? It cannot mean that they agree
+    with the sun, since that would require true sundials. It must be based purely on the order in which deeds
+    occur, and the strongest reasonable requirement is this:</p>
   </div>
 
   <div class="slab">
@@ -273,37 +271,35 @@
   </div>
 
   <div class="prose">
-    <p>The converse cannot be required as well. If it were, any two concurrent deeds would have to
-    carry the same number. On the crossing chart of Chapter&nbsp;II, <var>a</var><sub>1</sub> and
-    <var>a</var><sub>2</sub> are both concurrent with <var>m</var><sub>3</sub>, so both would need the
-    same number as <var>m</var><sub>3</sub> — and hence as each other — which contradicts the Clock
-    Condition, because <var>a</var><sub>1</sub> → <var>a</var><sub>2</sub>.</p>
+    <p>The converse cannot be required as well. If it were, any two concurrent deeds would have to carry the
+    exact same number. On the crossing chart of Chapter&nbsp;II, <var>a</var><sub>1</sub> and <var>a</var><sub>2</sub>
+    are both concurrent with <var>m</var><sub>3</sub>, so both would need the same number as <var>m</var><sub>3</sub> —
+    and hence as each other — which contradicts the Clock Condition, because <var>a</var><sub>1</sub> → <var>a</var><sub>2</sub>.</p>
     <p>The Clock Condition follows from two simpler conditions:</p>
   </div>
 
   <div class="decree rules">
     <span class="rhead">Conditions C1 &amp; C2</span>
     <ol>
-      <li><b>C1.</b> If <var>a</var> and <var>b</var> are deeds of shepherd <var>P</var><sub><var>i</var></sub>, and <var>a</var> comes before <var>b</var>, then <var>C</var><sub><var>i</var></sub>(<var>a</var>) &lt; <var>C</var><sub><var>i</var></sub>(<var>b</var>).</li>
-      <li><b>C2.</b> If <var>a</var> is the dispatch of a runner by <var>P</var><sub><var>i</var></sub> and <var>b</var> is its receipt by <var>P</var><sub><var>j</var></sub>, then <var>C</var><sub><var>i</var></sub>(<var>a</var>) &lt; <var>C</var><sub><var>j</var></sub>(<var>b</var>).</li>
+      <li><b>C1.</b> If <var>a</var> and <var>b</var> are deeds of trader <var>P</var><sub><var>i</var></sub>, and <var>a</var> comes before <var>b</var>, then <var>C</var><sub><var>i</var></sub>(<var>a</var>) &lt; <var>C</var><sub><var>i</var></sub>(<var>b</var>).</li>
+      <li><b>C2.</b> If <var>a</var> is the dispatch of an order by trader <var>P</var><sub><var>i</var></sub> and <var>b</var> is its receipt by trader <var>P</var><sub><var>j</var></sub>, then <var>C</var><sub><var>i</var></sub>(<var>a</var>) &lt; <var>C</var><sub><var>j</var></sub>(<var>b</var>).</li>
     </ol>
   </div>
 
   <div class="prose">
-    <p>On the crossing chart one may picture each shepherd's abacus "ticking" through every number,
-    the ticks falling between his deeds, and draw a dashed <em>tick line</em> through all the
-    like-numbered ticks of the different hamlets. C1 says there must be a tick line between any two
-    deeds on a hamlet's line. C2 says every dispatch line must cross a tick line. The tick lines
-    can be taken as the time coordinates of the chart and straightened — and the straightened
-    chart is an equally valid picture of the same hamlets. Without sundials, the scholar
-    insisted, there is no way to decide which picture is the better one.</p>
-    <p>To guarantee C1 and C2, he gave the shepherds two rules, which the later copyists called the
-    Law of the Monotonic Bead:</p>
+    <p>On the crossing chart one may picture each trader's abacus "ticking" through every number, the
+    ticks falling between his deeds, and draw a dashed <em>tick line</em> through all the like-numbered ticks
+    of the different traders. C1 says there must be a tick line between any two deeds on a trader's line.
+    C2 says every dispatch line must cross a tick line. The tick lines can be taken as the time coordinates
+    of the chart and straightened — and the straightened chart is an equally valid picture of the same market.
+    Without sundials, the scholar insisted, there is no way to decide which picture is the better one.</p>
+    <p>To guarantee C1 and C2, he gave the traders two rules, which the later copyists called the Law of the
+    Monotonic Bead:</p>
   </div>
 
   <!-- PANEL I-03 -->
   <figure class="panel narrow tilt-l" id="panel-I-03" data-panel="I-03" data-shape="tall" data-refs="I-props">
-    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="Flicking the bead: Close-up at a hamlet gate: a weathered shepherd flicks his abacus forward as a runner hands him a stamped clay slate."><span class="ph-label">I-03 · tall 3:4</span><span class="ph-title">Flicking the bead</span><span class="ph-desc">Close-up at a hamlet gate: a weathered shepherd flicks his abacus forward as a runner hands him a stamped clay slate.</span><span class="ph-meta">Blender: hamK · Sheets: I-props</span></div></div>
+    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="Flicking the bead: Close-up at a trader&#x27;s gate: a weathered trader flicks his abacus forward as a runner hands him a stamped clay slate."><span class="ph-label">I-03 · tall 3:4</span><span class="ph-title">Flicking the bead</span><span class="ph-desc">Close-up at a trader&#x27;s gate: a weathered trader flicks his abacus forward as a runner hands him a stamped clay slate.</span><span class="ph-meta">Blender: hamK · Sheets: I-props</span></div></div>
     <figcaption>THE LAW OF THE MONOTONIC BEAD: FLICK A BEAD FOR EVERY DEED, AND PUSH PAST THE COUNT ON EVERY SLATE YOU RECEIVE.</figcaption>
   </figure>
   <!-- /PANEL I-03 -->
@@ -311,18 +307,88 @@
   <div class="decree rules">
     <span class="rhead">The Law of the Monotonic Bead</span>
     <ol>
-      <li><b>IR1.</b> Each shepherd <var>P</var><sub><var>i</var></sub> flicks his abacus <var>C</var><sub><var>i</var></sub> forward between any two successive deeds.</li>
-      <li><b>IR2.</b> (a) If deed <var>a</var> is the dispatch of runner <var>m</var> by <var>P</var><sub><var>i</var></sub>, he carries a slate stamped <var>T</var><sub><var>m</var></sub> = <var>C</var><sub><var>i</var></sub>(<var>a</var>). (b) Upon receiving runner <var>m</var>, shepherd <var>P</var><sub><var>j</var></sub> sets <var>C</var><sub><var>j</var></sub> greater than or equal to its present value <em>and</em> greater than <var>T</var><sub><var>m</var></sub>.</li>
+      <li><b>IR1.</b> Each trader <var>P</var><sub><var>i</var></sub> flicks his abacus <var>C</var><sub><var>i</var></sub> forward between any two successive deeds.</li>
+      <li><b>IR2.</b> (a) If deed <var>a</var> is the dispatch of order <var>m</var> by <var>P</var><sub><var>i</var></sub>, the runner carries a slate stamped <var>T</var><sub><var>m</var></sub> = <var>C</var><sub><var>i</var></sub>(<var>a</var>). (b) Upon receiving order <var>m</var>, trader <var>P</var><sub><var>j</var></sub> sets <var>C</var><sub><var>j</var></sub> greater than or equal to its present value <em>and</em> greater than <var>T</var><sub><var>m</var></sub>.</li>
     </ol>
   </div>
 
   <div class="prose">
-    <p>IR1 obviously ensures C1 and IR2 ensures C2; together they guarantee a correct system of
-    logical clocks. The numbers beside each dot on the crossing chart were obtained this way,
-    flicking one bead per deed. Notice that <var>a</var><sub>2</sub> bears 2 and
-    <var>k</var><sub>3</sub> bears 3. The lower count in Hamlet A does not mean Hamlet A acted
-    first. It means nothing at all. <b>The abacus can prove ancestry; it cannot detect
-    concurrency.</b></p>
+    <p>IR1 obviously ensures C1 and IR2 ensures C2; together they guarantee a correct system of logical clocks.
+    The numbers beside each dot on the crossing chart were obtained this way, flicking one bead per deed.
+    Notice that <var>a</var><sub>2</sub> bears 2 and <var>k</var><sub>3</sub> bears 3. The lower count of
+    Trader A does not mean Trader A acted first. It means nothing at all. <b>The abacus can prove ancestry;
+    it cannot detect concurrency.</b></p>
+    <p>We have beads that advance with every deed, but when two concurrent orders carry the exact same bead count — or when their counts differ without prior communication — which trader's claim takes precedence? How do we build an agreed total order from a partial sky, and can an agreed fiction serve justice?</p>
+  </div>
+
+  <hr class="meander">
+
+  <!-- ================= WIDGET 1: THE SPACE-TIME LOOM ================= -->
+  <div class="interactive-workshop" id="sim-spacetime">
+    <div class="sim-container">
+      <div class="sim-header">
+        <div class="sim-header-top">
+          <div>
+            <span class="sim-kicker">Interactive Demonstration · Chapter 3.1 &amp; IR1 / IR2</span>
+            <h3 class="sim-title">The Space-Time Loom &amp; The Monotonic Bead</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-body">
+        <div class="sim-toolbar">
+          <div class="sim-btn-group">
+            <span class="sim-label-tag">Presets:</span>
+            <button type="button" class="sim-btn preset active" id="st-pre-lamport" title="Exact crossing chart from Lamport (1978) Fig. 1">📜 Lamport 1978 (Fig. 1)</button>
+            <button type="button" class="sim-btn preset" id="st-pre-feud" title="Aristides and Leonidas issue concurrent orders">⚔️ Overcast Feud</button>
+            <button type="button" class="sim-btn preset" id="st-pre-cascade" title="Cascade of dispatches advancing clocks rapidly">⚡ Causal Cascade</button>
+          </div>
+          <div class="sim-btn-group">
+            <span class="sim-label-tag">Add Deed:</span>
+            <button type="button" class="sim-btn" id="st-btn-add-a" title="Trader A (Aristides) performs a local deed (+1 bead)">+ Aristides (A)</button>
+            <button type="button" class="sim-btn" id="st-btn-add-k" title="Trader K (Kallistos) performs a local deed (+1 bead)">+ Kallistos (K)</button>
+            <button type="button" class="sim-btn" id="st-btn-add-m" title="Trader M (Leonidas) performs a local deed (+1 bead)">+ Leonidas (M)</button>
+          </div>
+          <div class="sim-btn-group">
+            <span class="sim-label-tag">Runner:</span>
+            <button type="button" class="sim-btn action" id="st-btn-run-ak">🏃 A → K</button>
+            <button type="button" class="sim-btn action" id="st-btn-run-ka">🏃 K → A</button>
+            <button type="button" class="sim-btn action" id="st-btn-run-km">🏃 K → M</button>
+            <button type="button" class="sim-btn action" id="st-btn-run-mk">🏃 M → K</button>
+          </div>
+          <div class="sim-btn-group">
+            <button type="button" class="sim-btn" id="st-btn-ticks" title="Toggle between physical time and straightened logical tick lines">📐 Straighten Ticks</button>
+            <button type="button" class="sim-btn" id="st-btn-reset">↺ Reset</button>
+          </div>
+        </div>
+
+        <div class="spacetime-deck">
+          <div class="spacetime-svg-wrap">
+            <svg class="spacetime-svg" id="spacetime-svg" viewBox="0 0 840 460" xmlns="http://www.w3.org/2000/svg">
+              <!-- Rendered via JS -->
+            </svg>
+          </div>
+
+          <div class="cone-inspector" id="st-inspector">
+            <div class="cone-inspector-header">
+              <div class="cone-inspector-title" id="st-insp-title">Click any deed on the loom to inspect its causal cone</div>
+              <div class="causal-chip-row" id="st-insp-badges">
+                <span class="causal-chip past">Past (→ e)</span>
+                <span class="causal-chip selected">Selected (e)</span>
+                <span class="causal-chip future">Future (e →)</span>
+                <span class="causal-chip concurrent">Concurrent (e ∥ x)</span>
+              </div>
+            </div>
+            <div id="st-insp-content">
+              <p style="margin:4px 0; font-size:.9rem; color:#5a4a33;">Click on any deed (dot) above to illuminate its causal ancestors, descendants, and concurrent transactions. You can also add deeds or dispatch runners along the hill tracks.</p>
+            </div>
+            <div class="total-order-slate" id="st-total-order">
+              <strong>Agreed Total Ordering (⇒) by (C, Trader ID):</strong> <span id="st-order-list">—</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -332,116 +398,174 @@
 <section id="s4">
   <div class="issue">
     <span class="no">Chapter IV</span>
-    <h2 id="the-order-of-the-hamlets"><a href="#the-order-of-the-hamlets" class="hlink">The Order of the Hamlets</a></h2>
+    <h2 id="the-order-of-the-traders"><a href="#the-order-of-the-traders" class="hlink">The Order of the Traders &amp; the Olive Press</a></h2>
   </div>
 
   <h3 id="4-1-a-total-order" class="sect"><a href="#4-1-a-total-order" class="hlink">4.1 · An Agreed Fiction</a></h3>
   <div class="prose">
-    <p>For the feuding shepherds, Leslie prescribed a second, cruder remedy. Order all deeds by their
-    bead counts, and where two deeds bear the same count, break the tie by some arbitrary but fixed
-    ranking ≺ of the hamlets — alphabetical by their letter, A before K before M, which suited
-    everyone except the herders of Milos. He wrote the resulting relation with a double arrow, ⇒:</p>
+    <p>For the feuding traders, Λέσλι prescribed a second, cruder remedy. Order all deeds by their bead counts,
+    and where two deeds bear the same count, break the tie by some arbitrary but fixed ranking ≺ of the traders —
+    alphabetical by their initial letter, Trader A before Trader K before Trader M, which suited Trader A admirably
+    and displeased only Trader M. He wrote the resulting relation with a double arrow, ⇒:</p>
   </div>
   <div class="slab">
     <div class="slab-head">The Total Ordering ⇒</div>
-    <p class="stmt">If <var>a</var> is a deed of <var>P</var><sub><var>i</var></sub> and <var>b</var> a deed of <var>P</var><sub><var>j</var></sub>, then <var>a</var> ⇒ <var>b</var> if and only if either</p>
+    <p class="stmt">If <var>a</var> is a deed of Trader <var>P</var><sub><var>i</var></sub> and <var>b</var> a deed of Trader <var>P</var><sub><var>j</var></sub>, then <var>a</var> ⇒ <var>b</var> if and only if either</p>
     <div class="mathblock">(i) &nbsp;<var>C</var><sub><var>i</var></sub>(<var>a</var>) &lt; <var>C</var><sub><var>j</var></sub>(<var>b</var>) &nbsp;&nbsp;<span class="rm">or</span>&nbsp;&nbsp; (ii) &nbsp;<var>C</var><sub><var>i</var></sub>(<var>a</var>) = <var>C</var><sub><var>j</var></sub>(<var>b</var>) <span class="rm">and</span> <var>P</var><sub><var>i</var></sub> ≺ <var>P</var><sub><var>j</var></sub>.</div>
   </div>
   <div class="prose">
-    <p>This is a total ordering, and by the Clock Condition, <var>a</var> → <var>b</var> implies
-    <var>a</var> ⇒ <var>b</var>: it completes the partial order "happened before" into a total one.
-    But it is not unique. Different clocks satisfying the Clock Condition give different orderings
-    ⇒, and any total ordering that extends → can be produced by <em>some</em> system of clocks. Only
-    the partial ordering → is uniquely determined by what actually happened. The total order is
-    arbitrary — but it is <em>identically</em> arbitrary in every hamlet, and an agreed fiction
-    serves a court better than an irrecoverable truth.<sup>3</sup></p>
+    <p>This is a total ordering, and by the Clock Condition, <var>a</var> → <var>b</var> implies <var>a</var> ⇒ <var>b</var>:
+    it completes the partial order "happened before" into a total one. But it is not unique. Different clocks
+    satisfying the Clock Condition give different orderings ⇒, and any total ordering that extends → can be
+    produced by <em>some</em> system of clocks. Only the partial ordering → is uniquely determined by what
+    actually happened. The total order is arbitrary — but it is <em>identically</em> arbitrary for every trader,
+    and an agreed fiction serves a market better than an irrecoverable truth.<sup>3</sup></p>
   </div>
-  <aside class="fn"><b>3.</b> The herders of Milos proposed that the ranking should rotate
-  with the bead count, so that each hamlet took its turn at the head of ties. The scroll records
+  <aside class="fn"><b>3.</b> The merchants of Milos proposed that the ranking should rotate
+  with the bead count, so that each trader took his turn at the head of ties. The scroll records
   that this "fairer" method is equally correct, and gives the formula, which I omit out of respect
-  for the herders of Milos, who still lost most ties.</aside>
+  for the traders of Milos, who still lost most ties.</aside>
 
-  <h3 id="4-2-the-olive-press" class="sect"><a href="#4-2-the-olive-press" class="hlink">4.2 · The Olive Press</a></h3>
+  <h3 id="4-2-the-olive-press" class="sect"><a href="#4-2-the-olive-press" class="hlink">4.2 · The Communal Olive Press</a></h3>
   <!-- PANEL I-04 -->
   <figure class="panel mid tilt-r" id="panel-I-04" data-panel="I-04" data-shape="half" data-refs="I-props">
-    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="Paxos&#x27;s one olive press: At the press: one shepherd works it while others wait with baskets, each holding a wax tablet queue and a stamped slate."><span class="ph-label">I-04 · half 4:3</span><span class="ph-title">Paxos&#x27;s one olive press</span><span class="ph-desc">At the press: one shepherd works it while others wait with baskets, each holding a wax tablet queue and a stamped slate.</span><span class="ph-meta">Blender: press · Sheets: I-props</span></div></div>
-    <figcaption>PAXOS HAD ONE OLIVE PRESS. ONLY ONE SHEPHERD COULD USE IT AT A TIME — AND NO ONE WAS IN CHARGE OF THE QUEUE.</figcaption>
+    <div class="frame"><div class="img-placeholder ph-half" role="img" aria-label="Paxos&#x27;s one olive press: At the communal press: one grower works the beam while common folk wait with baskets, each holding a wax tablet queue and a stamped slate."><span class="ph-label">I-04 · half 4:3</span><span class="ph-title">Paxos&#x27;s one olive press</span><span class="ph-desc">At the communal press: one grower works the beam while common folk wait with baskets, each holding a wax tablet queue and a stamped slate.</span><span class="ph-meta">Blender: press · Sheets: I-props</span></div></div>
+    <figcaption>PAXOS HAD ONE COMMUNAL OLIVE PRESS. ONLY ONE GROWER COULD USE IT AT A TIME — AND NO ONE WAS IN CHARGE OF THE QUEUE.</figcaption>
   </figure>
   <!-- /PANEL I-04 -->
   <div class="prose">
-    <p>The usefulness of the fiction was demonstrated on Paxos's single olive press, which could be
-    used by only one shepherd at a time. Leslie asked for a method of granting the press that
-    satisfied three conditions:</p>
+    <p>The traders used the beads of Λέσλι to sequence their private contracts and commercial dispatches. But the
+    true test of the agreed fiction came when news of the method climbed out of the coastal coves and reached
+    the common folk of Paxos — the olive growers, pressers, and villagers scattered across the island's rocky ridges.</p>
+    <p>Every autumn, the hillside groves ripened together. Olives, once picked, begin to spoil in the heat
+    within days, turning sweet virgin oil to rancid grease. Yet Paxos had only a single communal olive press,
+    perched high upon the central ridge between the coves. Only one grower could press fruit at a time. For
+    generations, the harvest had been marred by shouting matches, bribes, and fistfights in the press yard as
+    rival farmers raced up the hills. Seeing how the merchants had ended their quarrels through stamped slates and
+    monotonic beads, the common folk adopted the timestamp-based booking system to govern access to the shared press.</p>
+    <p>Λέσλι formulated the problem as three conditions that any fair booking system must satisfy:</p>
   </div>
   <div class="decree rules">
     <span class="rhead">Requirements for the Press</span>
     <ol type="I">
-      <li>A shepherd who has been granted the press must release it before it can be granted to another.</li>
+      <li>A grower who has been granted the press must release it before it can be granted to another.</li>
       <li>Different requests for the press must be granted in the order in which they are made.</li>
-      <li>If every shepherd granted the press eventually releases it, then every request is eventually granted.</li>
+      <li>If every grower granted the press eventually releases it, then every request is eventually granted.</li>
     </ol>
   </div>
   <div class="prose">
-    <p>The press was initially granted to exactly one shepherd. Observe, the scholar wrote, how the
+    <p>The press was initially granted to exactly one grower. Observe, the scholar wrote, how the
     conditions involve the ordering of deeds — and that condition II says nothing about which of two
     <em>concurrently</em> made requests should be granted first.</p>
-    <p>The obvious solution — appoint a keeper at the press itself to grant requests in the order
-    his runners arrive — does not work. Suppose the shepherd of Hamlet A sends a request to the
-    keeper and then sends a runner to Hamlet K. Upon receiving that runner, the shepherd of Hamlet K
-    sends his own request to the keeper. The Hamlet K request can easily reach the press first,
-    since runners are not all equally fast. Granting it first violates condition II, for the
-    Hamlet A request happened before the Hamlet K request.</p>
-    <p>Instead, every shepherd keeps the Law of the Monotonic Bead and uses ⇒ to order all requests
-    and releases. To avoid distracting detail, Leslie assumed that runners between any two hamlets
-    arrive in the order sent, that every runner eventually arrives, and that any shepherd can send
-    directly to any other. (Numbered dispatches and acknowledgments would remove these assumptions.)
-    Each shepherd keeps his own <em>request tablet</em>, which no one else ever sees. Initially
-    every tablet holds the single entry "<var>T</var><sub>0</sub>:<var>P</var><sub>0</sub> requests
-    the press", where <var>P</var><sub>0</sub> is the shepherd first granted it and
-    <var>T</var><sub>0</sub> is less than any bead count. Then there are five rules, each carried out
-    as a single deed:</p>
+    <p>The obvious solution — appoint a keeper at the press itself to grant requests in the order his runners
+    arrive — does not work. Suppose Grower A sends a request to the keeper and then sends a runner to Grower K.
+    Upon receiving that runner, Grower K sends his own request to the keeper. The Grower K request can easily reach
+    the press first, since runners do not all travel at the same speed along the rocky tracks. Granting it first
+    violates condition II, for the Grower A request happened before the Grower K request.</p>
+    <p>Instead, the common folk adopted the Law of the Monotonic Bead and used ⇒ to order all requests and
+    releases. To avoid distracting detail, Λέσλι assumed that runners between any two coves arrive in the
+    order sent, that every runner eventually arrives, and that any grower can send directly to any other. Each
+    participant keeps a private <em>request tablet</em>, which no one else ever sees. Initially every tablet
+    holds the starting entry "<var>T</var><sub>0</sub>:<var>P</var><sub>0</sub> requests the press", where
+    <var>P</var><sub>0</sub> is the grower first granted it and <var>T</var><sub>0</sub> is less than any bead
+    count. Then there are five rules, each carried out as a single deed:</p>
   </div>
   <div class="decree rules">
     <span class="rhead">The Five Rules of the Press</span>
     <ol>
-      <li>To request the press, <var>P</var><sub><var>i</var></sub> sends the slate "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests the press" to every other shepherd, and writes it on his own tablet, where <var>T</var><sub><var>m</var></sub> is the slate's stamp.</li>
-      <li>When <var>P</var><sub><var>j</var></sub> receives "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests the press", he writes it on his tablet and sends a (stamped) acknowledgment to <var>P</var><sub><var>i</var></sub>.</li>
-      <li>To release the press, <var>P</var><sub><var>i</var></sub> erases any "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests" entry from his tablet and sends a (stamped) "<var>P</var><sub><var>i</var></sub> releases the press" slate to every other shepherd.</li>
+      <li>To request the press, participant <var>P</var><sub><var>i</var></sub> sends the slate "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests the press" to every other participant, and writes it on his own tablet, where <var>T</var><sub><var>m</var></sub> is the slate's stamp.</li>
+      <li>When participant <var>P</var><sub><var>j</var></sub> receives "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests the press", he writes it on his tablet and sends a (stamped) acknowledgment to <var>P</var><sub><var>i</var></sub>.</li>
+      <li>To release the press, <var>P</var><sub><var>i</var></sub> erases any "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests" entry from his tablet and sends a (stamped) "<var>P</var><sub><var>i</var></sub> releases the press" slate to every other participant.</li>
       <li>When <var>P</var><sub><var>j</var></sub> receives "<var>P</var><sub><var>i</var></sub> releases the press", he erases any "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests" entry from his tablet.</li>
-      <li><var>P</var><sub><var>i</var></sub> is granted the press when both (i) his own "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests" entry precedes every other request on his tablet in the ordering ⇒, and (ii) he has received a slate from every other shepherd stamped later than <var>T</var><sub><var>m</var></sub>.</li>
+      <li><var>P</var><sub><var>i</var></sub> is granted the press when both (i) his own "<var>T</var><sub><var>m</var></sub>:<var>P</var><sub><var>i</var></sub> requests" entry precedes every other request on his tablet in the ordering ⇒, and (ii) he has received a slate from every other participant stamped later than <var>T</var><sub><var>m</var></sub>.</li>
     </ol>
   </div>
   <div class="prose">
-    <p>Both parts of rule 5 are tested by <var>P</var><sub><var>i</var></sub> alone, in his own
-    hamlet, looking at his own tablet. The proof is short. Part (ii), with runners arriving in
-    order, ensures that <var>P</var><sub><var>i</var></sub> has learned of every request that
-    preceded his; since only rules 3 and 4 erase entries, condition I follows. Condition II follows
-    because ⇒ extends →. Rule 2 guarantees that part (ii) of rule 5 eventually holds, and rules 3
-    and 4 guarantee that part (i) eventually holds if every holder eventually releases — which is
-    condition III.</p>
-    <p>There is no press-keeper and no central tablet. And the method generalizes. Any form of
-    coordination among the hamlets can be described as a <em>state machine</em>: a set of possible
-    commands, a set of possible states, and a function telling how each command changes the state.
-    For the press, the commands are the requests and releases, and the state is a queue of waiting
-    requests, with the request at the head being the one granted. If every shepherd simulates the
-    machine, executing all commands in the order ⇒, then every shepherd executes the same sequence
-    of commands and arrives at the same state. A shepherd may execute a command stamped
-    <var>T</var> once he has learned of all commands from all hamlets stamped <var>T</var> or
-    less.</p>
+    <p>Both parts of rule 5 are tested by <var>P</var><sub><var>i</var></sub> alone, in his own olive grove,
+    looking at his own tablet. The proof is short. Part (ii), with runners arriving in order, ensures that
+    <var>P</var><sub><var>i</var></sub> has learned of every request that preceded his; since only rules 3 and 4
+    erase entries, condition I follows. Condition II follows because ⇒ extends →. Rule 2 guarantees that part (ii)
+    of rule 5 eventually holds, and rules 3 and 4 guarantee that part (i) eventually holds if every holder
+    eventually releases — which is condition III.</p>
+    <p>There is no keeper and no central queue. And the method generalizes. Any form of coordination
+    among the islanders can be described as a <em>state machine</em>: a set of possible commands, a set of
+    possible states, and a function telling how each command changes the state. For the press, the commands
+    are the requests and releases, and the state is a queue of waiting requests, with the request at the head
+    being the one granted. If every participant simulates the machine, executing all commands in the order ⇒, then
+    every participant executes the same sequence of commands and arrives at the same state. A participant may execute a command
+    stamped <var>T</var> once he has learned of all commands from all others stamped <var>T</var> or less.</p>
   </div>
   <div class="slab">
     <div class="slab-head">The Scholar's Warning</div>
-    <p class="stmt">The method requires the active participation of every shepherd. Each must learn
-    every command issued by the others, so the failure of a single shepherd halts every hamlet.</p>
+    <p class="stmt">The method requires the active participation of every participant. Each must learn every command
+    issued by the others, so the failure of a single participant halts all work at the press.</p>
   </div>
   <div class="prose">
-    <p>Leslie declined to treat failure in this scroll. He made one observation, which the later
-    volumes of this series spend a great deal of parchment rediscovering: <em>the entire concept of
-    failure is only meaningful in the context of physical time.</em> Without a sundial, there is no
-    way to distinguish a shepherd who has fallen from a cliff from one who is merely resting between
-    deeds. A shepherd can tell that his neighbour has "crashed" only because he has been waiting too
-    long for a reply.<sup>4</sup></p>
+    <p>Λέσλι declined to treat failure in this scroll. He made one observation, which the later volumes of this
+    series spend a great deal of parchment rediscovering: <em>the entire concept of failure is only meaningful
+    in the context of physical time.</em> Without a sundial, there is no way to distinguish a grower who has
+    fallen from a cliff from one who is merely resting between deeds. A participant can tell that a counterpart has
+    "crashed" only because he has been waiting too long for a reply.<sup>4</sup></p>
+    <p>The press rules governed all requests carried by honest runners trudging along the hill tracks. But what if cunning folk on the high cliffs devised a way to jump the queue ahead of messengers who were already in flight across the island? Can our beads preserve justice when fire outruns feet, and news travels faster than our system?</p>
   </div>
+
+  <hr class="meander">
+
+  <!-- ================= WIDGET 2: THE COMMUNAL OLIVE PRESS ================= -->
+  <div class="interactive-workshop" id="sim-press">
+    <div class="sim-container">
+      <div class="sim-header">
+        <div class="sim-header-top">
+          <div>
+            <span class="sim-kicker">Interactive Demonstration · Chapter 4.2 &amp; Lamport's 5 Rules</span>
+            <h3 class="sim-title">The Communal Olive Press (Distributed Mutual Exclusion)</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-body">
+        <div class="sim-toolbar">
+          <div class="sim-btn-group">
+            <span class="sim-label-tag">Scenarios:</span>
+            <button type="button" class="sim-btn preset active" id="pr-pre-contention">⚖️ Concurrent Contention</button>
+            <button type="button" class="sim-btn preset" id="pr-pre-delay">🌪️ Delayed Hill Runner</button>
+            <button type="button" class="sim-btn preset" id="pr-pre-crash">💤 The Sleeping Grower</button>
+          </div>
+          <div class="sim-btn-group">
+            <span class="sim-label-tag">Requests:</span>
+            <button type="button" class="sim-btn" id="pr-btn-req-a">🫒 Aristides (A)</button>
+            <button type="button" class="sim-btn" id="pr-btn-req-k">🫒 Kallistos (K)</button>
+            <button type="button" class="sim-btn" id="pr-btn-req-m">🫒 Leonidas (M)</button>
+          </div>
+          <div class="sim-btn-group">
+            <button type="button" class="sim-btn action" id="pr-btn-release">🌾 Release Press</button>
+            <button type="button" class="sim-btn primary" id="pr-btn-play">▶ Play</button>
+            <button type="button" class="sim-btn" id="pr-btn-step">⏭ Step Runner</button>
+            <button type="button" class="sim-btn" id="pr-btn-reset">↺ Reset</button>
+          </div>
+        </div>
+
+        <div class="press-deck">
+          <div class="press-svg-wrap">
+            <svg class="press-svg" id="press-svg" viewBox="0 0 840 400" xmlns="http://www.w3.org/2000/svg">
+              <!-- Rendered via JS -->
+            </svg>
+          </div>
+
+          <!-- Grower Stations Grid -->
+          <div class="grower-grid" id="pr-grower-cards">
+            <!-- Rendered via JS -->
+          </div>
+
+          <!-- Comic Logbook -->
+          <div class="sim-log-wrap" id="pr-log">
+            <div class="sim-log-entry"><span class="log-step">INIT</span> The press on the central ridge is vacant. All three request tablets are clear.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <aside class="fn"><b>4.</b> The priestesses of the summit oracle, one volume hence, will turn this
   remark into a curse.</aside>
 </section>
@@ -457,25 +581,38 @@
 
   <!-- PANEL I-05 -->
   <figure class="panel" id="panel-I-05" data-panel="I-05" data-shape="wide" data-refs="I-props">
-    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="Beacon across the bay: Night scene at the beacon headlands: a shepherd hands a slate to a runner and lights a beacon fire; on the far headland, his friend sees the flame and sends a faster runner of his own."><span class="ph-label">I-05 · wide 16:9</span><span class="ph-title">Beacon across the bay</span><span class="ph-desc">Night scene at the beacon headlands: a shepherd hands a slate to a runner and lights a beacon fire; on the far headland, his friend sees the flame and sends a faster runner of his own.</span><span class="ph-meta">Blender: beacons · Sheets: I-props</span></div></div>
-    <figcaption>A BEACON FIRE CROSSES THE BAY FASTER THAN ANY RUNNER — AND THE BEADS KNOW NOTHING OF IT.</figcaption>
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="Beacon across the bay: Night scene at the beacon headlands: cunning folk jump the queue with fire across the water while a messenger is in flight on the hill track."><span class="ph-label">I-05 · wide 16:9</span><span class="ph-title">Beacon across the bay</span><span class="ph-desc">Night scene at the beacon headlands: cunning folk jump the queue with fire across the water while a messenger is in flight on the hill track.</span><span class="ph-meta">Blender: beacons · Sheets: I-props</span></div></div>
+    <figcaption>A BEACON FIRE CROSSES THE BAY FASTER THAN ANY RUNNER — CUNNING FOLK JUMP THE QUEUE WHILE MESSENGERS ARE IN FLIGHT.</figcaption>
   </figure>
   <!-- /PANEL I-05 -->
   <div class="prose">
-    <p>The press was granted in the order ⇒, and this permitted a kind of behaviour the scholar called
-    <em>anomalous</em>. A shepherd on the near beacon headland makes request <var>A</var> by runner,
-    and then lights a beacon fire to signal a friend on the far headland to make request
-    <var>B</var>. It is quite possible for <var>B</var> to receive the lower bead count and be
-    granted first. The beads cannot know that <var>A</var> preceded <var>B</var>, because the
-    precedence was carried by fire, and fire is not part of the system.<sup>5</sup></p>
-    <p>Let <var>S</var> be the set of all deeds of the hamlets, and let <b><var>S</var></b> be the larger set that also
-    contains every relevant deed outside it — beacon fires, shouts across the bay. Let <b>⟶</b> be the happened-before relation on the larger set. In the example, <var>A</var> <b>⟶</b> <var>B</var>
-    but not <var>A</var> → <var>B</var>. No method based entirely on the deeds of <var>S</var>, and unrelated
-    to the other deeds of <b><var>S</var></b>, can guarantee that <var>A</var> is ordered before <var>B</var>.</p>
-    <p>There are two ways out. The first is to put the missing information into the system: the
-    shepherd of the near headland could shout his request's bead count along with the beacon, and
-    his friend could insist on a later one. This hands the shepherds the responsibility of avoiding
-    anomalies. The second is to build clocks that satisfy a stronger condition:</p>
+    <p>The press was granted in the order ⇒, and for a season peace returned to the olive groves. But wherever there
+    is an agreed queue, there are minds scheming to subvert it. Certain cunning folk across the bays soon discovered
+    a way to jump the queue ahead of messengers who were already in flight along the arduous hill tracks, long before
+    those runners could reach the other coves or the olive press.</p>
+    <p>Suppose an honest grower in a distant cove dispatches a runner with booking request <var>A</var> over the
+    mountain pass. While that runner is still in flight along the rocky track, a watcher on the heights touches a torch
+    to a beacon frame. Across the bay, where light crosses the water in an instant, an accomplice on the far headland
+    sees the blaze flare against the night sky and immediately dispatches booking request <var>B</var>. Because no
+    runner had yet arrived from the first cove to advance his beads, the accomplice's abacus still showed an earlier,
+    lower count. When both requests eventually reached every grower's tablet, <var>B</var> bore a lower timestamp
+    than <var>A</var>, and the cunning accomplice was granted the press first — jumping clean ahead of the runner
+    who was already on the road!</p>
+    <p>This behaviour the scholar called <em>anomalous</em>. The beads could not know that <var>A</var> had preceded
+    <var>B</var>, because the precedence had been signaled by fire across the sea, and fire was not part of the runner
+    system.<sup>5</sup></p>
+    <p>Let <var>S</var> be the set of all deeds of the islanders (dispatches, receipts, and pressings), and let
+    <b><var>S</var></b> be the larger set that also contains every deed outside the runner network — beacon fires,
+    flags waved from cliff-tops, shouts across the water. Let <b>⟶</b> be the true happened-before relation on the
+    larger set. In the cunning folk's scheme, <var>A</var> <b>⟶</b> <var>B</var> in the real world of men, but not
+    <var>A</var> → <var>B</var> in the logical world of beads. No method based entirely on the internal deeds of
+    <var>S</var>, and blind to the outer deeds of <b><var>S</var></b>, can guarantee that <var>A</var> is ordered
+    before <var>B</var>.</p>
+    <p>There were two ways out. The first was to force the outside signal into the bookkeeping: the watcher on the
+    near headland would have to signal the bead count of request <var>A</var> alongside his beacon, and his accomplice
+    would be bound to set his abacus higher. But this relied on the good faith of the very queue-jumpers trying to cheat
+    the system. The second way, the scholar saw, was to bind the island to physical time, and build clocks that satisfy
+    a stronger condition:</p>
   </div>
   <aside class="fn"><b>5.</b> The use of stamps to order requests, and the very notion of anomalous
   behaviour, the scholar credits to two press clerks,
@@ -487,10 +624,10 @@
     <div class="mathblock">For any deeds <var>a</var>, <var>b</var> in <var>S</var>: &nbsp; if <var>a</var> <b>⟶</b> <var>b</var> then <var>C</var>(<var>a</var>) &lt; <var>C</var>(<var>b</var>).</div>
   </div>
   <div class="prose">
-    <p>Beads do not in general satisfy this. But, the scholar wrote, it is one of the mysteries of
-    the universe that it is possible to construct physical clocks which, running quite
-    independently of one another, will satisfy the Strong Clock Condition. So after half a scroll
-    spent setting sundials aside, he returned to them.</p>
+    <p>Beads do not in general satisfy this. But, the scholar wrote, it is one of the mysteries of the universe
+    that it is possible to construct physical clocks which, running quite independently of one another, will
+    satisfy the Strong Clock Condition. So after half a scroll spent setting sundials aside, he returned to them.</p>
+    <p>If out-of-band signals can outrun our logical beads, how closely must physical clocks be synchronized to ensure that cause always precedes effect in the eyes of all observers — and what is the exact toll that geography exacts upon time?</p>
   </div>
 </section>
 
@@ -505,34 +642,32 @@
 
   <!-- PANEL I-06 -->
   <figure class="panel narrow tilt-l" id="panel-I-06" data-panel="I-06" data-shape="tall" data-refs="I-props">
-    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="The water-clock reform: In the counting shed by the press: a row of bronze water-clocks, each dripping at a slightly different rate; a clerk nudges one forward on a fresh slate, never back."><span class="ph-label">I-06 · tall 3:4</span><span class="ph-title">The water-clock reform</span><span class="ph-desc">In the counting shed by the press: a row of bronze water-clocks, each dripping at a slightly different rate; a clerk nudges one forward on a fresh slate, never back.</span><span class="ph-meta">Blender: press (counting shed) · Sheets: I-props</span></div></div>
+    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="The water-clock reform: In the counting shed by the olive press: a row of bronze water-clocks, each dripping at a slightly different rate; a clerk nudges one forward on a fresh slate, never back."><span class="ph-label">I-06 · tall 3:4</span><span class="ph-title">The water-clock reform</span><span class="ph-desc">In the counting shed by the olive press: a row of bronze water-clocks, each dripping at a slightly different rate; a clerk nudges one forward on a fresh slate, never back.</span><span class="ph-meta">Blender: press (counting shed) · Sheets: I-props</span></div></div>
     <figcaption>THE WATER-CLOCK REFORM: A CLOCK MAY BE PUSHED FORWARD WHEN A SLATE ARRIVES — NEVER BACK.</figcaption>
   </figure>
   <!-- /PANEL I-06 -->
   <div class="prose">
-    <p>The bronze sundials were replaced, in the reform, by water-clocks, which run continuously
-    rather than in beads. Let <var>C</var><sub><var>i</var></sub>(<var>t</var>) be the reading of
-    shepherd <var>i</var>'s clock at true time <var>t</var>, running smoothly except for isolated
-    jumps where it is reset. For it to be a true clock, it must run at approximately the correct
-    rate, and all the clocks must approximately agree:</p>
+    <p>The bronze sundials were replaced, in the reform, by water-clocks, which run continuously rather than
+    in beads. Let <var>C</var><sub><var>i</var></sub>(<var>t</var>) be the reading of trader <var>i</var>'s
+    clock at true time <var>t</var>, running smoothly except for isolated jumps where it is reset. For it to be
+    a true clock, it must run at approximately the correct rate, and all the clocks must approximately agree:</p>
   </div>
   <div class="slab">
     <div class="slab-head">Conditions PC1 &amp; PC2</div>
-    <p class="stmt"><b>PC1.</b> There exists a constant κ ≪ 1 such that for all <var>i</var>:</p>
+    <p class="stmt"><b>PC1.</b> There exists a constant κ ≪ 1 such that for all traders <var>i</var>:</p>
     <div class="mathblock">| <var>dC</var><sub><var>i</var></sub>(<var>t</var>)/<var>dt</var> − 1 | &lt; κ</div>
-    <p class="stmt"><b>PC2.</b> For all <var>i</var>, <var>j</var>:</p>
+    <p class="stmt"><b>PC2.</b> For all traders <var>i</var>, <var>j</var>:</p>
     <div class="mathblock">| <var>C</var><sub><var>i</var></sub>(<var>t</var>) − <var>C</var><sub><var>j</var></sub>(<var>t</var>) | &lt; ε</div>
   </div>
   <div class="prose">
     <p>For the finest water-clocks of the reform, the scroll gives κ ≤ 10<sup>−6</sup>.<sup>6</sup>
-    How small must κ and ε be to prevent anomalous behaviour? Let μ be a number such that if deed
-    <var>a</var> happens at true time <var>t</var> and deed <var>b</var> in another hamlet satisfies
-    <var>a</var> <b>⟶</b> <var>b</var>, then <var>b</var> happens later than <var>t</var> + μ. In other words,
-    μ is less than the shortest crossing time — the shortest distance between hamlets divided by the
-    speed of the fastest possible signal, which, for beacon fires, is very small indeed. To prevent
-    anomalies we need <var>C</var><sub><var>i</var></sub>(<var>t</var> + μ) −
-    <var>C</var><sub><var>j</var></sub>(<var>t</var>) &gt; 0. Assuming clocks are only ever set
-    forward, PC1 and PC2 give this whenever</p>
+    How small must κ and ε be to prevent anomalous behaviour? Let μ be a number such that if deed <var>a</var>
+    happens at true time <var>t</var> and deed <var>b</var> of another trader satisfies <var>a</var> <b>⟶</b> <var>b</var>,
+    then <var>b</var> happens later than <var>t</var> + μ. In other words, μ is less than the shortest crossing
+    time — the shortest distance between traders divided by the speed of the fastest possible signal, which,
+    for beacon fires, is very small indeed. To prevent anomalies we need <var>C</var><sub><var>i</var></sub>(<var>t</var> + μ) −
+    <var>C</var><sub><var>j</var></sub>(<var>t</var>) &gt; 0. Assuming clocks are only ever set forward, PC1 and
+    PC2 give this whenever</p>
   </div>
   <div class="mathblock">ε / (1 − κ) ≤ μ.</div>
   <aside class="fn"><b>6.</b> The original gives this figure for "typical crystal controlled clocks".
@@ -540,30 +675,29 @@
   likeliest sense.</aside>
 
   <div class="prose">
-    <p>Now suppose runner <var>m</var> is dispatched at true time <var>t</var> and received at
-    <var>t′</var>. His total delay ν<sub><var>m</var></sub> = <var>t′</var> − <var>t</var> is unknown to
-    the receiver, but he knows some minimum delay μ<sub><var>m</var></sub> ≥ 0 — no runner from Hamlet A
-    ever reached Hamlet K in less than an hour. The difference ξ<sub><var>m</var></sub> =
-    ν<sub><var>m</var></sub> − μ<sub><var>m</var></sub> is the <em>unpredictable</em> delay. The Law of
-    the Monotonic Bead becomes:</p>
+    <p>Now suppose runner <var>m</var> is dispatched at true time <var>t</var> and received at <var>t′</var>.
+    His total delay ν<sub><var>m</var></sub> = <var>t′</var> − <var>t</var> is unknown to the receiver, but he
+    knows some minimum delay μ<sub><var>m</var></sub> ≥ 0 — no runner from Trader A ever reached Trader K in less
+    than an hour. The difference ξ<sub><var>m</var></sub> = ν<sub><var>m</var></sub> − μ<sub><var>m</var></sub> is
+    the <em>unpredictable</em> delay. The Law of the Monotonic Bead becomes:</p>
   </div>
   <div class="decree rules">
     <span class="rhead">The Law, for Water-Clocks</span>
     <ol>
-      <li><b>IR1′.</b> For each <var>i</var>, if <var>P</var><sub><var>i</var></sub> receives no runner at time <var>t</var>, then <var>C</var><sub><var>i</var></sub> is differentiable at <var>t</var> and <var>dC</var><sub><var>i</var></sub>(<var>t</var>)/<var>dt</var> &gt; 0.</li>
-      <li><b>IR2′.</b> (a) If <var>P</var><sub><var>i</var></sub> dispatches runner <var>m</var> at time <var>t</var>, he carries the stamp <var>T</var><sub><var>m</var></sub> = <var>C</var><sub><var>i</var></sub>(<var>t</var>). (b) Upon receiving <var>m</var> at time <var>t′</var>, <var>P</var><sub><var>j</var></sub> sets <var>C</var><sub><var>j</var></sub>(<var>t′</var>) equal to maximum(<var>C</var><sub><var>j</var></sub>(<var>t′</var> − 0), <var>T</var><sub><var>m</var></sub> + μ<sub><var>m</var></sub>).</li>
+      <li><b>IR1′.</b> For each <var>i</var>, if trader <var>P</var><sub><var>i</var></sub> receives no runner at time <var>t</var>, then <var>C</var><sub><var>i</var></sub> is differentiable at <var>t</var> and <var>dC</var><sub><var>i</var></sub>(<var>t</var>)/<var>dt</var> &gt; 0.</li>
+      <li><b>IR2′.</b> (a) If trader <var>P</var><sub><var>i</var></sub> dispatches runner <var>m</var> at time <var>t</var>, he carries the stamp <var>T</var><sub><var>m</var></sub> = <var>C</var><sub><var>i</var></sub>(<var>t</var>). (b) Upon receiving <var>m</var> at time <var>t′</var>, trader <var>P</var><sub><var>j</var></sub> sets <var>C</var><sub><var>j</var></sub>(<var>t′</var>) equal to maximum(<var>C</var><sub><var>j</var></sub>(<var>t′</var> − 0), <var>T</var><sub><var>m</var></sub> + μ<sub><var>m</var></sub>).</li>
     </ol>
   </div>
   <div class="prose">
-    <p>A shepherd needs to know only his own clock reading and the stamps on the slates he receives.
-    Suppose the hamlets are joined by a web of tracks, and say a runner is sent over a route
-    "every τ hours" if for any <var>t</var> at least one runner leaves between <var>t</var> and
-    <var>t</var> + τ. The <em>diameter</em> of the web is the smallest <var>d</var> such that any
-    hamlet can be reached from any other in at most <var>d</var> crossings. Then:</p>
+    <p>A trader needs to know only his own clock reading and the stamps on the slates he receives.
+    Suppose the traders are joined by a web of tracks, and say a runner is sent over a route
+    "every τ hours" if for any <var>t</var> at least one runner leaves between <var>t</var> and <var>t</var> + τ.
+    The <em>diameter</em> of the web is the smallest <var>d</var> such that any trader can be reached from any
+    other in at most <var>d</var> crossings. Then:</p>
   </div>
   <div class="slab">
     <div class="slab-head">The Theorem of the Water-Clocks</div>
-    <p class="stmt">Assume a strongly connected web of hamlets with diameter <var>d</var> that always
+    <p class="stmt">Assume a strongly connected web of traders with diameter <var>d</var> that always
     obeys IR1′ and IR2′. Assume that for every runner μ<sub><var>m</var></sub> ≤ μ for some constant μ,
     and that for all <var>t</var> ≥ <var>t</var><sub>0</sub>: (a) PC1 holds; (b) there are constants τ
     and ξ such that every τ hours a runner with unpredictable delay less than ξ is sent over every route.
@@ -582,25 +716,25 @@
     </ol>
   </details>
   <div class="prose">
-    <p>The scroll notes that the requirement that clocks are <em>never set back</em> distinguishes
-    this problem from those studied by earlier press-keepers, and claims the theorem as new. It
-    also observes, almost in passing, a quick way of initializing the clocks or resynchronizing them
-    if they should drift apart for any reason: any shepherd sends a slate that is relayed to every
-    other, and synchronization is achieved in less than 2<var>d</var>(τ + ν) hours.</p>
-    <p>Leslie, then, never claimed physical time was an illusion. He claimed it was expensive — and
-    showed exactly what it costs.</p>
+    <p>The scroll notes that the requirement that clocks are <em>never set back</em> distinguishes this problem
+    from those studied by earlier press-keepers, and claims the theorem as new. It also observes, almost in passing,
+    a quick way of initializing the clocks or resynchronizing them if they should drift apart for any reason:
+    any trader sends a slate that is relayed to every other, and synchronization is achieved in less than
+    2<var>d</var>(τ + ν) hours.</p>
+    <p>Λέσλι, then, never claimed physical time was an illusion. He claimed it was expensive — and showed exactly
+    what it costs.</p>
   </div>
 
   <h3 id="6-1-conclusion" class="sect"><a href="#6-1-conclusion" class="hlink">6.1 · The Scholar's Conclusion</a></h3>
   <div class="prose">
-    <p>The concept of "happening before" defines an invariant partial ordering of the deeds of the
-    hamlets. It can be extended to a somewhat arbitrary total ordering, which is enough to share
-    an olive press without a press-keeper. The arbitrariness can produce anomalous behaviour when
-    it disagrees with what the shepherds perceive, and that can be prevented by properly regulated
-    water-clocks, whose possible agreement the theorem bounds. But above all, he wrote, it is
-    important to realize that the order in which things happen among the hamlets is <em>only a
-    partial ordering</em> — an idea useful for understanding the basic problems of the hamlets
+    <p>The concept of "happening before" defines an invariant partial ordering of the deeds of the traders.
+    It can be extended to a somewhat arbitrary total ordering, which is enough to share an olive press
+    without a keeper. The arbitrariness can produce anomalous behaviour when it disagrees with what the traders
+    perceive, and that can be prevented by properly regulated water-clocks, whose possible agreement the theorem
+    bounds. But above all, he wrote, it is important to realize that the order in which things happen among the
+    traders is <em>only a partial ordering</em> — an idea useful for understanding the basic problems of coordination
     independently of whatever mechanism is used to solve them.</p>
+    <p>Our water-clocks are synchronized and anomalous beacons can no longer cheat the market. But what if Merchant A bids at hour 3, and Merchant M bids at hour 4? Did M see A's courier pass the crossroad and front-run the trade, or did M act in complete isolation? Can a single number prove whether two bids were causally entangled or truly independent?</p>
   </div>
 </section>
 
@@ -623,36 +757,36 @@
     together, noting where they differ.</p>
   </div>
 
-  <h3 id="7-1-one-bead-per-hamlet" class="sect"><a href="#7-1-one-bead-per-hamlet" class="hlink">7.1 · One Row of Beads per Hamlet</a></h3>
+  <h3 id="7-1-one-bead-per-trader" class="sect"><a href="#7-1-one-bead-per-trader" class="hlink">7.1 · One Row of Beads per Trader</a></h3>
   <!-- PANEL I-07 -->
   <figure class="panel narrow tilt-r" id="panel-I-07" data-panel="I-07" data-shape="tall" data-refs="I-characters">
-    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="The many-rowed abacus: A scribe at a lamp-lit desk with an abacus that has one row of beads per hamlet, copying the greater of each row from a received slate onto his own."><span class="ph-label">I-07 · tall 3:4</span><span class="ph-title">The many-rowed abacus</span><span class="ph-desc">A scribe at a lamp-lit desk with an abacus that has one row of beads per hamlet, copying the greater of each row from a received slate onto his own.</span><span class="ph-meta">Blender: none (interior close-up) · Sheets: I-characters</span></div></div>
-    <figcaption>THE LATER HAND: CARRY ONE ROW OF BEADS PER HAMLET, NOT ONE IN TOTAL — AND CONCURRENCY BECOMES VISIBLE.</figcaption>
+    <div class="frame"><div class="img-placeholder ph-tall" role="img" aria-label="The many-rowed abacus: A scribe at a lamp-lit desk with an abacus that has one row of beads per trader, copying the greater of each row from a received slate onto his own."><span class="ph-label">I-07 · tall 3:4</span><span class="ph-title">The many-rowed abacus</span><span class="ph-desc">A scribe at a lamp-lit desk with an abacus that has one row of beads per trader, copying the greater of each row from a received slate onto his own.</span><span class="ph-meta">Blender: none (interior close-up) · Sheets: I-characters</span></div></div>
+    <figcaption>THE LATER HAND: CARRY ONE ROW OF BEADS PER TRADER, NOT ONE IN TOTAL — AND CONCURRENCY BECOMES VISIBLE.</figcaption>
   </figure>
   <!-- /PANEL I-07 -->
   <div class="prose">
     <p>Both scribes begin from the same complaint. The scholar's beads map a partially ordered set
     of deeds onto a single row of numbers, and in doing so they lose information: deeds that could
     have happened in either order receive different counts, as though they happened in a definite
-    order. For sharing an olive press this does not matter. For the hill judges who must ask
-    "could this deed have caused that one?", it matters a great deal.</p>
-    <p>Their remedy is to carry not one count but a row of counts, one for every hamlet — a vector of
-    beads. Each shepherd's abacus holds his best knowledge of how far every other shepherd has
+    order. For sharing an olive press this does not matter. For the market
+    judges who must ask "did this trader front-run that one?", it matters a great deal.</p>
+    <p>Their remedy is to carry not one count but a row of counts, one for every trader — a vector of
+    beads. Each trader's abacus holds his best knowledge of how far every other trader has
     counted:</p>
   </div>
   <div class="decree rules">
     <span class="rhead">The Rules of the Many-Rowed Abacus</span>
     <ol>
       <li>Initially every row reads zero.</li>
-      <li>Before each deed, shepherd <var>i</var> flicks forward his <em>own</em> row: <var>C</var><sub><var>i</var></sub>[<var>i</var>] := <var>C</var><sub><var>i</var></sub>[<var>i</var>] + 1.</li>
+      <li>Before each deed, trader <var>i</var> flicks forward his <em>own</em> row: <var>C</var><sub><var>i</var></sub>[<var>i</var>] := <var>C</var><sub><var>i</var></sub>[<var>i</var>] + 1.</li>
       <li>Every runner carries a copy of the sender's entire abacus.</li>
-      <li>Upon receipt, the shepherd sets each row to the larger of his own and the one received: <var>C</var><sub><var>i</var></sub> := sup(<var>C</var><sub><var>i</var></sub>, <var>t</var>).</li>
+      <li>Upon receipt, trader <var>j</var> sets each row to the larger of his own and the one received: <var>C</var><sub><var>j</var></sub> := sup(<var>C</var><sub><var>j</var></sub>, <var>t</var>).</li>
       <li>No row is ever moved back.</li>
     </ol>
   </div>
   <div class="prose">
-    <p>Because of the transitivity of the scheme, a shepherd learns of the counts of hamlets he has
-    never traded with. Rows are compared as follows: <var>u</var> ≤ <var>v</var> if every row of
+    <p>Because of the transitivity of the scheme, a trader learns of the counts of traders he has
+    never directly dealt with. Rows are compared as follows: <var>u</var> ≤ <var>v</var> if every row of
     <var>u</var> is at most the same row of <var>v</var>; <var>u</var> &lt; <var>v</var> if also
     <var>u</var> ≠ <var>v</var>; and <var>u</var> ∥ <var>v</var> if neither <var>u</var> &lt; <var>v</var>
     nor <var>v</var> &lt; <var>u</var>. The northern scribe's central theorem is that this comparison
@@ -661,11 +795,11 @@
   <div class="slab">
     <div class="slab-head">The Northern Scribe's Theorem</div>
     <div class="mathblock"><var>e</var> → <var>e′</var> &nbsp;<span class="rm">if and only if</span>&nbsp; <var>C</var>(<var>e</var>) &lt; <var>C</var>(<var>e′</var>), &nbsp;&nbsp;<span class="rm">and</span>&nbsp;&nbsp; <var>e</var> ∥ <var>e′</var> &nbsp;<span class="rm">if and only if</span>&nbsp; <var>C</var>(<var>e</var>) ∥ <var>C</var>(<var>e′</var>).</div>
-    <p class="stmt">Moreover, if <var>e</var> is a deed of shepherd <var>i</var>, the test needs only one row: for <var>e′</var> ≠ <var>e</var>, <var>e</var> → <var>e′</var> iff <var>C</var>(<var>e</var>)[<var>i</var>] ≤ <var>C</var>(<var>e′</var>)[<var>i</var>].</p>
+    <p class="stmt">Moreover, if <var>e</var> is a deed of trader <var>i</var>, the test needs only one row: for <var>e′</var> ≠ <var>e</var>, <var>e</var> → <var>e′</var> iff <var>C</var>(<var>e</var>)[<var>i</var>] ≤ <var>C</var>(<var>e′</var>)[<var>i</var>].</p>
   </div>
   <div class="table-wrap">
     <table class="chron">
-      <thead><tr><th>Deed</th><th class="c">One bead (Chapter III)</th><th class="c">Many rows [Andros, Kea, Milos]</th></tr></thead>
+      <thead><tr><th>Transaction</th><th class="c">One bead (Chapter III)</th><th class="c">Many rows [Trader A, Trader K, Trader M]</th></tr></thead>
       <tbody>
         <tr><td><var>a</var><sub>1</sub></td><td class="c">1</td><td class="c">[1, 0, 0]</td></tr>
         <tr><td><var>a</var><sub>2</sub></td><td class="c">2</td><td class="c">[2, 0, 0]</td></tr>
@@ -674,54 +808,109 @@
         <tr><td><var>m</var><sub>3</sub></td><td class="c">4</td><td class="c">[0, 1, 3]</td></tr>
         <tr><td><var>k</var><sub>4</sub></td><td class="c">4</td><td class="c">[1, 4, 2]</td></tr>
       </tbody>
-      <caption>Deeds from the crossing chart of Chapter II. With one bead, 2 &lt; 3 suggests <var>a</var>₂ came first. With many rows, [2,0,0] and [1,3,0] are incomparable: <var>a</var>₂ ∥ <var>k</var>₃. And [1,3,0] &lt; [3,3,0] proves <var>k</var>₃ → <var>a</var>₃.</caption>
+      <caption>Transactions from the crossing chart of Chapter II. With one bead, 2 &lt; 3 suggests <var>a</var>₂ came first. With many rows, [2,0,0] and [1,3,0] are incomparable: <var>a</var>₂ ∥ <var>k</var>₃. And [1,3,0] &lt; [3,3,0] proves <var>k</var>₃ → <var>a</var>₃.</caption>
     </table>
   </div>
   <div class="prose">
     <p>The southern scribe adds two refinements. For runners who may overtake one another on the
     track, the receiver must take care in updating the sender's own row, lest a late slate falsely
-    suggest ancestry. And for shepherds who meet face to face — a handshake at the olive press
-    rather than a slate carried by a runner — both parties exchange abaci and both take the larger
-    rows, since a meeting is a single shared deed. Both scribes admit the cost. The abacus grows
-    with the empire: one row for every hamlet, whether or not you ever trade with it.</p>
+    suggest ancestry. And for traders who meet face to face — a handshake at the quay rather than a slate
+    carried by a runner — both traders exchange abaci and both take the larger rows, since a meeting is a
+    single shared deed. Both scribes admit the cost. The abacus grows with the market: one row for every
+    trader, whether or not you ever trade directly with him.</p>
+    <p>With our multi-wired abacus, no front-runner can conceal their guilt. But what if the Port Magistrates demand an island-wide financial audit at year's end? How can we tally every coin in every vault and every consignment aboard skiffs in transit, without bringing all commerce on Paxos to a dead halt?</p>
   </div>
 
-  <h3 id="7-2-the-census" class="sect"><a href="#7-2-the-census" class="hlink">7.2 · The Census and the Colour of Seals</a></h3>
+  <h3 id="7-2-the-island-audit" class="sect"><a href="#7-2-the-island-audit" class="hlink">7.2 · The Island Audit and the Colour of Seals</a></h3>
   <!-- PANEL I-08 -->
   <figure class="panel" id="panel-I-08" data-panel="I-08" data-shape="wide" data-refs="I-characters I-props">
-    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The census: Across the three hamlets at once: clerks count flocks and families, runners carry slates sealed white or red, and a clerk switches his own seal the instant a red slate arrives."><span class="ph-label">I-08 · wide 16:9</span><span class="ph-title">The census</span><span class="ph-desc">Across the three hamlets at once: clerks count flocks and families, runners carry slates sealed white or red, and a clerk switches his own seal the instant a red slate arrives.</span><span class="ph-meta">Blender: hamA; hamK; hamM · Sheets: I-characters, I-props</span></div></div>
-    <figcaption>WHITE SEALS BEFORE, RED SEALS AFTER. THE FIRST RED SLATE A SHEPHERD SEES, HE COUNTS HIS FLOCK.</figcaption>
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The island audit: Across the three traders at once: clerks count vaults and cargo, runners carry slates sealed white or red, and a trader switches his own seal the instant a red slate arrives."><span class="ph-label">I-08 · wide 16:9</span><span class="ph-title">The island audit</span><span class="ph-desc">Across the three traders at once: clerks count vaults and cargo, runners carry slates sealed white or red, and a trader switches his own seal the instant a red slate arrives.</span><span class="ph-meta">Blender: hamA; hamK; hamM · Sheets: I-characters, I-props</span></div></div>
+    <figcaption>WHITE SEALS BEFORE, RED SEALS AFTER. THE FIRST RED SLATE A TRADER SEES, HE AUDITS HIS VAULT.</figcaption>
   </figure>
   <!-- /PANEL I-08 -->
   <div class="prose">
-    <p>The northern scribe pressed further. In an ordinary village all in one place, a consistent
-    census is easy: everyone agrees upon a moment far enough in the future and is counted at that
-    moment. Among hamlets hidden from one another there is no such moment. What can be had is a
-    <em>cut</em> — a zigzag line across the crossing chart, separating each hamlet's past from its
-    future. A cut is <b>consistent</b> if every runner received on the past side was also dispatched
-    on the past side (though not necessarily vice versa). An inconsistent cut counts a sheep as
-    arrived that was never sent.</p>
+    <p>The northern scribe pressed further. In an ordinary marketplace all in one town square, a consistent
+    audit is easy: everyone agrees upon a moment far enough in the future and opens their strongboxes at that moment.
+    Among traders scattered in distant coves there is no such moment. What can be had is a <em>cut</em> — a zigzag
+    line across the crossing chart, separating each trader's past from his future. A cut is <b>consistent</b> if
+    every runner received on the past side was also dispatched on the past side (though not necessarily vice versa).
+    An inconsistent cut counts coins as received that were never sent.</p>
     <p>His "rubber band test" is memorable: imagine the cut line is elastic, and stretch it until it
-    stands straight up. If any dispatch line then crosses it from future to past, the cut is
+    stands straight up. If any runner's dispatch line then crosses it from future to past, the cut is
     inconsistent. Otherwise, there is an equally valid chart on which all the cut's deeds happened at
-    the same instant — a census that <em>could have</em> been taken at a single moment, which is as
-    good as any census can be. The consistent cuts form a lattice under union and intersection, and
+    the same instant — an audit that <em>could have</em> been taken at a single moment, which is as
+    good as any audit can be. The consistent cuts form a lattice under union and intersection, and
     that lattice, he proved, is <em>isomorphic</em> to the lattice of possible rows of beads.</p>
-    <p>From this he derived a census that works even when runners overtake one another. Every
-    shepherd and every slate is either <em>white</em> (before the census) or <em>red</em> (after).
-    The initiator turns red and ensures, by relaying red slates, that eventually everyone does. A
-    shepherd counts his flock and turns red the first time he receives a red slate — <em>before</em>
-    reading it — so no red slate is ever received in a white hamlet, and the white deeds form a
-    consistent cut. A white slate arriving in a red hamlet was in transit across the cut; the
-    receiver sends a copy to the initiator. To know when the last such copy has arrived, each
-    shepherd keeps a tally of slates sent minus slates received, counted along with his flock. When
-    the tallies are in, the initiator knows exactly how many copies to wait for.<sup>7</sup></p>
+    <p>From this he derived an audit that works even when runners overtake one another. Every
+    trader and every slate is either <em>white</em> (before the audit) or <em>red</em> (after).
+    The initiator turns red and ensures, by relaying red slates, that eventually every trader does. A
+    trader counts his vault and turns red the first time he receives a red slate — <em>before</em>
+    reading it — so no red slate is ever received by a white trader, and the white deeds form a
+    consistent cut. A white slate arriving at a red trader was in transit across the cut; the
+    receiver logs it as wealth in transit and sends a copy to the initiator. To know when the last
+    such copy has arrived, each trader keeps a tally of slates sent minus slates received, counted along
+    with his vault. When the tallies are in, the initiator knows exactly how many copies to wait for.<sup>7</sup></p>
+    <p>Our books balance to the last obol, and our cut is consistent across the sea. But look upon the mountain path: Aristides (Trader A) has collapsed beneath the mid-day sun and answers no runners. Under Rule 5 of our press, must all work on Paxos freeze because one trader sleeps?</p>
   </div>
-  <aside class="fn"><b>7.</b> The northern scribe acknowledges a closely related census devised
+
+  <hr class="meander">
+
+  <!-- ================= WIDGET 3: THE VECTOR CLOCK ABACUS ================= -->
+  <div class="interactive-workshop" id="sim-vector">
+    <div class="sim-container">
+      <div class="sim-header">
+        <div class="sim-header-top">
+          <div>
+            <span class="sim-kicker">Interactive Demonstration · Chapter 7.1 &amp; 7.2 (Fidge &amp; Mattern 1988)</span>
+            <h3 class="sim-title">The Multi-Rowed Abacus &amp; The Island Audit</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-body">
+        <div class="sim-toolbar">
+          <div class="sim-btn-group">
+            <span class="sim-label-tag">Mode:</span>
+            <button type="button" class="sim-btn preset active" id="vec-mode-clock">📊 Vector Clocks (Fidge-Mattern)</button>
+            <button type="button" class="sim-btn preset" id="vec-mode-cut">✂️ Island Audit (Consistent Cut)</button>
+          </div>
+          <div class="sim-btn-group" id="vec-cut-presets" style="display:none;">
+            <span class="sim-label-tag">Audit Cuts:</span>
+            <button type="button" class="sim-btn preset active" id="vec-pre-valid">🟢 Consistent Audit Cut</button>
+            <button type="button" class="sim-btn preset" id="vec-pre-invalid">🔴 Ghost Cargo (Inconsistent)</button>
+          </div>
+          <div class="sim-btn-group">
+            <button type="button" class="sim-btn" id="vec-btn-step">+ Local Deed</button>
+            <button type="button" class="sim-btn" id="vec-btn-msg">🏃 Send Runner</button>
+            <button type="button" class="sim-btn" id="vec-btn-reset">↺ Reset</button>
+          </div>
+        </div>
+
+        <div class="vector-deck">
+          <div class="vector-svg-wrap">
+            <svg class="vector-svg" id="vector-svg" viewBox="0 0 840 440" xmlns="http://www.w3.org/2000/svg">
+              <!-- Rendered via JS -->
+            </svg>
+          </div>
+
+          <div id="vec-banner" class="cut-status-banner consistent" style="display:none;">
+            <span id="vec-banner-icon">🟢</span>
+            <span id="vec-banner-text">Consistent Cut: Every received runner was dispatched before the cut. Valid Island Audit!</span>
+          </div>
+
+          <div class="vector-compare-card" id="vec-card">
+            <!-- Dynamic comparison content -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="fn"><b>7.</b> The northern scribe acknowledges a closely related snapshot algorithm devised
   earlier by
-  <span class="paxon" data-real="K. Mani Chandy &amp; Leslie Lamport" data-note="“Distributed Snapshots: Determining Global States of Distributed Systems” (1985), which assumes FIFO channels.">Τσάντι and the scholar himself</span>,
+  <span class="paxon" data-real="K. Mani Chandy &amp; Leslie Lamport" data-note="“Distributed Snapshots: Determining Global States of Distributed Systems” (1985), which assumes FIFO channels.">Τσάντι and Λέσλι</span>,
   which required that runners never overtake one another. He also mentions the judges' doctrine of
-  the <em>alibi</em>: a man far enough from the scene of a crime at a moment close enough to it
+  the <em>alibi</em>: a trader far enough from the scene of a fraud at a moment close enough to it
   cannot be the culprit — the same light cone the Alexandrians drew, and the same partial order.</aside>
 </section>
 
@@ -734,35 +923,35 @@
     <h2 id="relevance-to-computer-science"><a href="#relevance-to-computer-science" class="hlink">Relevance to Computer Science</a></h2>
   </div>
   <div class="prose">
-    <p>Stripped of its goats, the scroll is Leslie Lamport's 1978 paper, and its key terms translate
-    directly:</p>
+    <p>Stripped of its olive press and clay slates, the scroll is Leslie Lamport's seminal 1978 paper,
+    and its key terms translate directly:</p>
   </div>
   <div class="table-wrap">
     <table class="chron">
-      <thead><tr><th>In the hamlets</th><th>In the paper</th></tr></thead>
+      <thead><tr><th>In the market</th><th>In the paper</th></tr></thead>
       <tbody>
-        <tr><td>Hamlet / shepherd</td><td>Process <var>P</var><sub><var>i</var></sub></td></tr>
-        <tr><td>Deed</td><td>Event</td></tr>
+        <tr><td>Trader <var>P</var><sub><var>i</var></sub></td><td>Process <var>P</var><sub><var>i</var></sub></td></tr>
+        <tr><td>Deed (contract, dispatch, receipt)</td><td>Event</td></tr>
         <tr><td>Runner carrying a stamped slate</td><td>Message carrying timestamp <var>T</var><sub><var>m</var></sub></td></tr>
         <tr><td>Crossing chart</td><td>Space-time diagram</td></tr>
         <tr><td>Happened-before, →</td><td>Causal partial order ("happened before")</td></tr>
         <tr><td>Law of the Monotonic Bead</td><td>Logical (Lamport) clocks, rules IR1 and IR2</td></tr>
-        <tr><td>Alphabetical rank of hamlets</td><td>Arbitrary total order ≺ on processes used to break ties</td></tr>
-        <tr><td>Olive press</td><td>Distributed mutual exclusion over a single shared resource</td></tr>
-        <tr><td>Every shepherd simulating the press queue</td><td>The state machine approach (replicated state machine)</td></tr>
-        <tr><td>Beacon fire</td><td>Causal channel external to the system (the paper's telephone call)</td></tr>
+        <tr><td>Alphabetical rank of traders</td><td>Arbitrary total order ≺ on processes used to break ties</td></tr>
+        <tr><td>Shared communal olive press</td><td>Distributed mutual exclusion over a single shared resource</td></tr>
+        <tr><td>Every participant simulating the press queue</td><td>The state machine approach (replicated state machine)</td></tr>
+        <tr><td>Beacon fire across the bay</td><td>Causal channel external to the system (the paper's telephone call)</td></tr>
         <tr><td>Water-clocks, κ, ε, μ, ξ</td><td>Physical clock synchronization with bounded drift and unpredictable delay</td></tr>
         <tr><td>Many-rowed abacus</td><td>Vector clocks (Fidge 1988; Mattern 1988)</td></tr>
-        <tr><td>White and red seals</td><td>Mattern's snapshot algorithm for non-FIFO channels</td></tr>
+        <tr><td>White and red seals</td><td>Distributed snapshots &amp; consistent cuts (Chandy-Lamport 1985; Mattern 1988)</td></tr>
       </tbody>
     </table>
   </div>
   <div class="prose">
     <p>Three observations from the paper echo through every later volume of this series. First, the
-    replicated state machine — every process executing the same commands in the same order — is
+    replicated state machine — every trader executing the same sequence of commands in the same order — is
     exactly the object that Paxos, Viewstamped Replication, PBFT and Raft exist to maintain in the
-    face of failures. Second, Lamport's algorithm has no fault tolerance at all: one crashed process
-    halts it. Third, the remark that <em>failure is only meaningful in the context of physical
+    face of failures. Second, Lamport's algorithm has no fault tolerance at all: one crashed trader
+    halts every trader. Third, the remark that <em>failure is only meaningful in the context of physical
     time</em> is the seed of the FLP impossibility result (Volume&nbsp;II) and of the timing
     assumptions of partial synchrony (Volume&nbsp;III) that every practical consensus protocol
     relies on.</p>
@@ -844,6 +1033,1356 @@
     el.addEventListener('click', (e)=>{ e.stopPropagation(); show(el); });
   });
   document.addEventListener('click', ()=>{ tip.style.display='none'; });
+})();
+
+/* ================================================================
+   INTERACTIVE EXPLAINER ENGINES: VOLUME I
+   ================================================================ */
+(function(){
+  /* ================= WIDGET 1: THE SPACE-TIME LOOM ================= */
+  const SpaceTime = (function(){
+    const svg = document.getElementById('spacetime-svg');
+    if (!svg) return null;
+
+    const traders = [
+      { id: 'A', name: 'Aristides', island: 'Andros', x: 180 },
+      { id: 'K', name: 'Kallistos', island: 'Kea',    x: 420 },
+      { id: 'M', name: 'Leonidas',  island: 'Milos',  x: 660 }
+    ];
+
+    let events = [];
+    let messages = [];
+    let selectedEventId = 'k3';
+    let straightenedTicks = false;
+
+    function resetLamportPreset() {
+      events = [
+        { id: 'a1', p: 'A', y: 350, c: 1, label: 'a₁' },
+        { id: 'a2', p: 'A', y: 270, c: 2, label: 'a₂' },
+        { id: 'a3', p: 'A', y: 170, c: 4, label: 'a₃' },
+        { id: 'a4', p: 'A', y: 90,  c: 5, label: 'a₄' },
+
+        { id: 'k1', p: 'K', y: 360, c: 1, label: 'k₁' },
+        { id: 'k2', p: 'K', y: 290, c: 2, label: 'k₂' },
+        { id: 'k3', p: 'K', y: 230, c: 3, label: 'k₃' },
+        { id: 'k4', p: 'K', y: 150, c: 4, label: 'k₄' },
+        { id: 'k5', p: 'K', y: 70,  c: 5, label: 'k₅' },
+
+        { id: 'm1', p: 'M', y: 310, c: 2, label: 'm₁' },
+        { id: 'm2', p: 'M', y: 220, c: 3, label: 'm₂' },
+        { id: 'm3', p: 'M', y: 110, c: 4, label: 'm₃' }
+      ];
+
+      messages = [
+        { from: 'a1', to: 'k2', t: 1 },
+        { from: 'k1', to: 'm1', t: 1 },
+        { from: 'k3', to: 'a3', t: 3 },
+        { from: 'm2', to: 'k4', t: 3 }
+      ];
+
+      selectedEventId = 'k3';
+      recalcClocks();
+      render();
+    }
+
+    function resetFeudPreset() {
+      events = [
+        { id: 'a1', p: 'A', y: 340, c: 1, label: 'a₁ (Phoenician Slate)' },
+        { id: 'm1', p: 'M', y: 340, c: 1, label: 'm₁ (Phoenician Slate)' },
+        { id: 'k1', p: 'K', y: 230, c: 2, label: 'k₁ (Storehouse Quay)' },
+        { id: 'k2', p: 'K', y: 140, c: 3, label: 'k₂ (Verdict Slate)' }
+      ];
+      messages = [
+        { from: 'a1', to: 'k1', t: 1 },
+        { from: 'm1', to: 'k2', t: 1 }
+      ];
+      selectedEventId = 'a1';
+      recalcClocks();
+      render();
+    }
+
+    function resetCascadePreset() {
+      events = [
+        { id: 'a1', p: 'A', y: 360, c: 1, label: 'a₁' },
+        { id: 'k1', p: 'K', y: 280, c: 2, label: 'k₁' },
+        { id: 'm1', p: 'M', y: 200, c: 3, label: 'm₁' },
+        { id: 'a2', p: 'A', y: 120, c: 4, label: 'a₂' }
+      ];
+      messages = [
+        { from: 'a1', to: 'k1', t: 1 },
+        { from: 'k1', to: 'm1', t: 2 },
+        { from: 'm1', to: 'a2', t: 3 }
+      ];
+      selectedEventId = 'm1';
+      recalcClocks();
+      render();
+    }
+
+    function recalcClocks() {
+      // Sort events by y descending (earlier physical time first)
+      const sorted = [...events].sort((e1, e2) => e2.y - e1.y);
+      const curClocks = { A: 0, K: 0, M: 0 };
+      
+      // Graph edges: local sequence and message receipts
+      sorted.forEach(ev => {
+        // IR1: local tick
+        curClocks[ev.p] = curClocks[ev.p] + 1;
+        
+        // IR2: check incoming message
+        const incoming = messages.filter(m => m.to === ev.id);
+        incoming.forEach(m => {
+          const senderEv = events.find(e => e.id === m.from);
+          if (senderEv) {
+            curClocks[ev.p] = Math.max(curClocks[ev.p], senderEv.c + 1);
+            m.t = senderEv.c;
+          }
+        });
+        ev.c = curClocks[ev.p];
+      });
+    }
+
+    // Graph reachability: Transitive Closure for ->
+    function computeCausalCone(targetId) {
+      // Build adjacency list
+      const adj = {};
+      events.forEach(e => adj[e.id] = []);
+
+      // Local succession
+      ['A', 'K', 'M'].forEach(p => {
+        const pEvs = events.filter(e => e.p === p).sort((e1, e2) => e2.y - e1.y);
+        for (let i = 0; i < pEvs.length - 1; i++) {
+          adj[pEvs[i].id].push(pEvs[i + 1].id);
+        }
+      });
+
+      // Message edges
+      messages.forEach(m => {
+        if (adj[m.from]) adj[m.from].push(m.to);
+      });
+
+      // BFS to find all reachable from u
+      function reachableFrom(startId) {
+        const visited = new Set();
+        const queue = [startId];
+        while (queue.length > 0) {
+          const curr = queue.shift();
+          (adj[curr] || []).forEach(nxt => {
+            if (!visited.has(nxt)) {
+              visited.add(nxt);
+              queue.push(nxt);
+            }
+          });
+        }
+        return visited;
+      }
+
+      // Future: reachable from target
+      const future = reachableFrom(targetId);
+
+      // Past: all nodes u such that target is reachable from u
+      const past = new Set();
+      events.forEach(e => {
+        if (e.id !== targetId) {
+          if (reachableFrom(e.id).has(targetId)) {
+            past.add(e.id);
+          }
+        }
+      });
+
+      // Concurrent: neither past nor future nor self
+      const concurrent = new Set();
+      events.forEach(e => {
+        if (e.id !== targetId && !past.has(e.id) && !future.has(e.id)) {
+          concurrent.add(e.id);
+        }
+      });
+
+      return { past, future, concurrent };
+    }
+
+    function render() {
+      svg.innerHTML = '';
+
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      defs.innerHTML = `
+        <marker id="arrST" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#136f9e"/>
+        </marker>
+        <marker id="arrPast" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#d4a017"/>
+        </marker>
+        <marker id="arrFut" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0 0 L10 5 L0 10 z" fill="#0e577a"/>
+        </marker>
+        <filter id="glowSel" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+        </filter>
+      `;
+      svg.appendChild(defs);
+
+      // Calculate max clock
+      const maxC = events.reduce((max, e) => Math.max(max, e.c), 1);
+
+      // Tick lines (if straightened)
+      if (straightenedTicks) {
+        for (let c = 1; c <= maxC; c++) {
+          const y = 390 - (c - 1) * (330 / Math.max(1, maxC - 1 || 1));
+          const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+          line.setAttribute('x1', '90');
+          line.setAttribute('y1', y);
+          line.setAttribute('x2', '750');
+          line.setAttribute('y2', y);
+          line.setAttribute('stroke', '#c8bd9f');
+          line.setAttribute('stroke-width', '1.5');
+          line.setAttribute('stroke-dasharray', '5 4');
+          svg.appendChild(line);
+
+          const tText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+          tText.setAttribute('x', '65');
+          tText.setAttribute('y', y + 4);
+          tText.setAttribute('font-family', 'Optima, sans-serif');
+          tText.setAttribute('font-size', '12');
+          tText.setAttribute('font-weight', '700');
+          tText.setAttribute('fill', '#8c7b64');
+          tText.setAttribute('text-anchor', 'end');
+          tText.textContent = `C = ${c}`;
+          svg.appendChild(tText);
+        }
+      } else {
+        // Physical time axis indication
+        const axisText = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        axisText.setAttribute('x', '35');
+        axisText.setAttribute('y', '50');
+        axisText.setAttribute('font-family', 'Georgia, serif');
+        axisText.setAttribute('font-size', '13');
+        axisText.setAttribute('font-style', 'italic');
+        axisText.setAttribute('fill', '#7a6850');
+        axisText.textContent = 'Physical Time (Later ↑)';
+        svg.appendChild(axisText);
+      }
+
+      // Draw lifelines
+      traders.forEach(tr => {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', tr.x);
+        line.setAttribute('y1', '405');
+        line.setAttribute('x2', tr.x);
+        line.setAttribute('y2', '55');
+        line.setAttribute('stroke', '#2c221e');
+        line.setAttribute('stroke-width', '3');
+        svg.appendChild(line);
+
+        // Header label
+        const title = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        title.setAttribute('x', tr.x);
+        title.setAttribute('y', '40');
+        title.setAttribute('font-family', 'Optima, sans-serif');
+        title.setAttribute('font-size', '13');
+        title.setAttribute('font-weight', '700');
+        title.setAttribute('fill', '#1c1512');
+        title.setAttribute('text-anchor', 'middle');
+        title.textContent = `TRADER ${tr.id} · ${tr.island.toUpperCase()}`;
+        svg.appendChild(title);
+
+        const sub = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        sub.setAttribute('x', tr.x);
+        sub.setAttribute('y', '428');
+        sub.setAttribute('font-family', 'Georgia, serif');
+        sub.setAttribute('font-size', '12');
+        sub.setAttribute('font-style', 'italic');
+        sub.setAttribute('fill', '#5a4a33');
+        sub.setAttribute('text-anchor', 'middle');
+        sub.textContent = tr.name;
+        svg.appendChild(sub);
+      });
+
+      // Get cone relations
+      const cone = selectedEventId ? computeCausalCone(selectedEventId) : { past: new Set(), future: new Set(), concurrent: new Set() };
+
+      // Helper for event coordinate
+      function getEvCoord(ev) {
+        const tr = traders.find(t => t.id === ev.p);
+        let y = ev.y;
+        if (straightenedTicks) {
+          y = 390 - (ev.c - 1) * (330 / Math.max(1, maxC - 1 || 1));
+        }
+        return { x: tr.x, y };
+      }
+
+      // Draw messages
+      messages.forEach(m => {
+        const fromEv = events.find(e => e.id === m.from);
+        const toEv = events.find(e => e.id === m.to);
+        if (!fromEv || !toEv) return;
+
+        const cFrom = getEvCoord(fromEv);
+        const cTo = getEvCoord(toEv);
+
+        const isPast = cone.past.has(fromEv.id) && (cone.past.has(toEv.id) || toEv.id === selectedEventId);
+        const isFut = (fromEv.id === selectedEventId || cone.future.has(fromEv.id)) && cone.future.has(toEv.id);
+
+        let strokeColor = '#136f9e';
+        let markerId = 'arrST';
+        let strokeWidth = '2.2';
+
+        if (isPast) {
+          strokeColor = '#d4a017';
+          markerId = 'arrPast';
+          strokeWidth = '2.8';
+        } else if (isFut) {
+          strokeColor = '#0e577a';
+          markerId = 'arrFut';
+          strokeWidth = '2.8';
+        }
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        const dx = cTo.x - cFrom.x;
+        const dy = cTo.y - cFrom.y;
+        const ctrlX = cFrom.x + dx * 0.5;
+        const ctrlY = cFrom.y + dy * 0.35 - 10;
+        path.setAttribute('d', `M ${cFrom.x} ${cFrom.y} Q ${ctrlX} ${ctrlY} ${cTo.x} ${cTo.y}`);
+        path.setAttribute('stroke', strokeColor);
+        path.setAttribute('stroke-width', strokeWidth);
+        path.setAttribute('stroke-dasharray', isPast || isFut ? 'none' : '5 4');
+        path.setAttribute('fill', 'none');
+        path.setAttribute('marker-end', `url(#${markerId})`);
+        svg.appendChild(path);
+
+        // Slate stamp badge
+        const badgeG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        const midX = (cFrom.x + cTo.x) / 2;
+        const midY = (cFrom.y + cTo.y) / 2 - 8;
+
+        const badgeBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        badgeBg.setAttribute('x', midX - 16);
+        badgeBg.setAttribute('y', midY - 9);
+        badgeBg.setAttribute('width', '32');
+        badgeBg.setAttribute('height', '18');
+        badgeBg.setAttribute('rx', '3');
+        badgeBg.setAttribute('fill', '#f5edd6');
+        badgeBg.setAttribute('stroke', strokeColor);
+        badgeBg.setAttribute('stroke-width', '1.2');
+        badgeG.appendChild(badgeBg);
+
+        const badgeTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        badgeTxt.setAttribute('x', midX);
+        badgeTxt.setAttribute('y', midY + 4);
+        badgeTxt.setAttribute('font-family', 'Optima, sans-serif');
+        badgeTxt.setAttribute('font-size', '10.5');
+        badgeTxt.setAttribute('font-weight', '700');
+        badgeTxt.setAttribute('fill', '#1c1512');
+        badgeTxt.setAttribute('text-anchor', 'middle');
+        badgeTxt.textContent = `T:${fromEv.c}`;
+        badgeG.appendChild(badgeTxt);
+
+        svg.appendChild(badgeG);
+      });
+
+      // Draw events
+      events.forEach(ev => {
+        const coord = getEvCoord(ev);
+        const isSel = ev.id === selectedEventId;
+        const isPast = cone.past.has(ev.id);
+        const isFut = cone.future.has(ev.id);
+        const isConc = cone.concurrent.has(ev.id);
+
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.style.cursor = 'pointer';
+        g.onclick = (e) => {
+          e.stopPropagation();
+          selectedEventId = ev.id;
+          render();
+        };
+
+        // Outer aura ring for selected
+        if (isSel) {
+          const aura = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          aura.setAttribute('cx', coord.x);
+          aura.setAttribute('cy', coord.y);
+          aura.setAttribute('r', '17');
+          aura.setAttribute('fill', 'rgba(218, 165, 32, 0.25)');
+          aura.setAttribute('stroke', '#d4a017');
+          aura.setAttribute('stroke-width', '2');
+          aura.setAttribute('filter', 'url(#glowSel)');
+          g.appendChild(aura);
+        } else if (isConc) {
+          const concRing = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+          concRing.setAttribute('cx', coord.x);
+          concRing.setAttribute('cy', coord.y);
+          concRing.setAttribute('r', '14');
+          concRing.setAttribute('fill', 'rgba(226, 135, 106, 0.15)');
+          concRing.setAttribute('stroke', '#e2876a');
+          concRing.setAttribute('stroke-width', '1.8');
+          concRing.setAttribute('stroke-dasharray', '3 2');
+          g.appendChild(concRing);
+        }
+
+        // Main bead circle
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', coord.x);
+        circle.setAttribute('cy', coord.y);
+        circle.setAttribute('r', '8.5');
+
+        if (isSel) {
+          circle.setAttribute('fill', '#ffd54f');
+          circle.setAttribute('stroke', '#b28704');
+          circle.setAttribute('stroke-width', '2.5');
+        } else if (isPast) {
+          circle.setAttribute('fill', '#d4a017');
+          circle.setAttribute('stroke', '#805b00');
+          circle.setAttribute('stroke-width', '2');
+        } else if (isFut) {
+          circle.setAttribute('fill', '#197ca9');
+          circle.setAttribute('stroke', '#0c4763');
+          circle.setAttribute('stroke-width', '2');
+        } else if (isConc) {
+          circle.setAttribute('fill', '#e2876a');
+          circle.setAttribute('stroke', '#9c3516');
+          circle.setAttribute('stroke-width', '2');
+        } else {
+          circle.setAttribute('fill', '#2c221e');
+          circle.setAttribute('stroke', '#1c1512');
+          circle.setAttribute('stroke-width', '1.5');
+        }
+        g.appendChild(circle);
+
+        // Deed name and clock label
+        const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        const onRight = ev.p !== 'M';
+        const labelX = onRight ? coord.x + 16 : coord.x - 16;
+        txt.setAttribute('x', labelX);
+        txt.setAttribute('y', coord.y + 4);
+        txt.setAttribute('text-anchor', onRight ? 'start' : 'end');
+        txt.setAttribute('font-family', 'Georgia, serif');
+        txt.setAttribute('font-size', '13');
+        txt.setAttribute('font-weight', isSel ? '700' : 'normal');
+        txt.setAttribute('fill', isSel ? '#b28704' : '#1c1512');
+        txt.innerHTML = `${ev.label} · <tspan font-family="Optima, sans-serif" font-weight="700" fill="${isSel ? '#805b00' : '#5a4a33'}">C:${ev.c}</tspan>`;
+        g.appendChild(txt);
+
+        svg.appendChild(g);
+      });
+
+      updateInspector();
+    }
+
+    function updateInspector() {
+      const titleEl = document.getElementById('st-insp-title');
+      const contentEl = document.getElementById('st-insp-content');
+      const orderListEl = document.getElementById('st-order-list');
+
+      const selEv = events.find(e => e.id === selectedEventId);
+      if (!selEv) {
+        if (titleEl) titleEl.textContent = 'Click any deed on the loom to inspect its causal cone';
+        return;
+      }
+
+      const tr = traders.find(t => t.id === selEv.p);
+      const cone = computeCausalCone(selectedEventId);
+
+      const pastLabels = [...cone.past].map(id => events.find(e => e.id === id)?.label).filter(Boolean);
+      const futLabels = [...cone.future].map(id => events.find(e => e.id === id)?.label).filter(Boolean);
+      const concLabels = [...cone.concurrent].map(id => events.find(e => e.id === id)?.label).filter(Boolean);
+
+      if (titleEl) {
+        titleEl.innerHTML = `Deed <b>${selEv.label}</b> (Trader ${tr.id} · ${tr.name} of ${tr.island}) — Lamport Bead: <b>C = ${selEv.c}</b>`;
+      }
+
+      let explanationHtml = `
+        <div style="font-size:.88rem; line-height:1.55; margin-top:6px;">
+          <div><b>Causal Past (→ ${selEv.label}):</b> ${pastLabels.length ? pastLabels.join(', ') : '<i>None (Initial root event)</i>'}</div>
+          <div><b>Causal Future (${selEv.label} →):</b> ${futLabels.length ? futLabels.join(', ') : '<i>None (Terminal event)</i>'}</div>
+          <div><b>Concurrent (${selEv.label} ∥ x):</b> ${concLabels.length ? concLabels.join(', ') : '<i>None (Totally causally linked)</i>'}</div>
+        </div>
+      `;
+
+      // Didactic callout
+      if (concLabels.length > 0) {
+        const concExample = events.find(e => cone.concurrent.has(e.id));
+        if (concExample) {
+          const compSym = selEv.c < concExample.c ? '<' : selEv.c > concExample.c ? '>' : '=';
+          explanationHtml += `
+            <div style="margin-top:8px; padding:6px 10px; background:#f4ede0; border-left:4px solid #e2876a; font-size:.84rem; font-family:Georgia,serif;">
+              <strong>Didactic Lesson:</strong> Notice that C(${selEv.label}) ${compSym} C(${concExample.label}) (${selEv.c} ${compSym} ${concExample.c}), yet they are <strong>concurrent (${selEv.label} ∥ ${concExample.label})</strong>!
+              The scalar clock condition states that <em>a → b ⟹ C(a) &lt; C(b)</em>, but the converse is false. A lower bead count does not prove that a deed happened first in physical time.
+            </div>
+          `;
+        }
+      }
+
+      if (contentEl) contentEl.innerHTML = explanationHtml;
+
+      // Compute total order =>
+      const sortedTotal = [...events].sort((e1, e2) => {
+        if (e1.c !== e2.c) return e1.c - e2.c;
+        return e1.p.localeCompare(e2.p);
+      });
+
+      if (orderListEl) {
+        orderListEl.innerHTML = sortedTotal.map(e => {
+          const isSel = e.id === selectedEventId;
+          return `<span style="${isSel ? 'background:var(--gold); font-weight:700; padding:1px 5px; border-radius:2px;' : ''}">${e.label} (${e.c}, ${e.p})</span>`;
+        }).join(' &nbsp;⇒&nbsp; ');
+      }
+    }
+
+    // Event listeners
+    document.getElementById('st-pre-lamport')?.addEventListener('click', () => {
+      resetActivePreset('st-pre-lamport');
+      resetLamportPreset();
+    });
+    document.getElementById('st-pre-feud')?.addEventListener('click', () => {
+      resetActivePreset('st-pre-feud');
+      resetFeudPreset();
+    });
+    document.getElementById('st-pre-cascade')?.addEventListener('click', () => {
+      resetActivePreset('st-pre-cascade');
+      resetCascadePreset();
+    });
+
+    function resetActivePreset(id) {
+      document.querySelectorAll('#sim-spacetime .sim-btn.preset').forEach(b => b.classList.remove('active'));
+      document.getElementById(id)?.classList.add('active');
+    }
+
+    document.getElementById('st-btn-ticks')?.addEventListener('click', (e) => {
+      straightenedTicks = !straightenedTicks;
+      e.target.classList.toggle('active', straightenedTicks);
+      e.target.textContent = straightenedTicks ? '📐 Physical View' : '📐 Straighten Ticks';
+      render();
+    });
+
+    document.getElementById('st-btn-reset')?.addEventListener('click', () => {
+      resetLamportPreset();
+    });
+
+    // Add local deeds
+    function addLocalDeed(p) {
+      const pEvs = events.filter(e => e.p === p).sort((e1, e2) => e1.y - e2.y);
+      const lastY = pEvs.length > 0 ? pEvs[0].y : 380;
+      const newY = Math.max(60, lastY - 45);
+      const nextIdx = pEvs.length + 1;
+      const subLetter = p.toLowerCase();
+      const newId = `${subLetter}_dyn_${Date.now()}`;
+      events.push({
+        id: newId,
+        p: p,
+        y: newY,
+        c: 1,
+        label: `${subLetter}${nextIdx}`
+      });
+      selectedEventId = newId;
+      recalcClocks();
+      render();
+    }
+
+    document.getElementById('st-btn-add-a')?.addEventListener('click', () => addLocalDeed('A'));
+    document.getElementById('st-btn-add-k')?.addEventListener('click', () => addLocalDeed('K'));
+    document.getElementById('st-btn-add-m')?.addEventListener('click', () => addLocalDeed('M'));
+
+    // Runner dispatches
+    function dispatchRunner(fromP, toP) {
+      const fromEvs = events.filter(e => e.p === fromP).sort((e1, e2) => e1.y - e2.y);
+      const toEvs = events.filter(e => e.p === toP).sort((e1, e2) => e1.y - e2.y);
+
+      const sendY = fromEvs.length > 0 ? Math.max(70, fromEvs[0].y - 30) : 340;
+      const recvY = Math.max(50, sendY - 40);
+
+      const sendId = `${fromP.toLowerCase()}_snd_${Date.now()}`;
+      const recvId = `${toP.toLowerCase()}_rcv_${Date.now()}`;
+
+      events.push({ id: sendId, p: fromP, y: sendY, c: 1, label: `${fromP.toLowerCase()}*` });
+      events.push({ id: recvId, p: toP, y: recvY, c: 2, label: `${toP.toLowerCase()}*` });
+
+      messages.push({ from: sendId, to: recvId, t: 1 });
+      selectedEventId = recvId;
+      recalcClocks();
+      render();
+    }
+
+    document.getElementById('st-btn-run-ak')?.addEventListener('click', () => dispatchRunner('A', 'K'));
+    document.getElementById('st-btn-run-ka')?.addEventListener('click', () => dispatchRunner('K', 'A'));
+    document.getElementById('st-btn-run-km')?.addEventListener('click', () => dispatchRunner('K', 'M'));
+    document.getElementById('st-btn-run-mk')?.addEventListener('click', () => dispatchRunner('M', 'K'));
+
+    // Initial load
+    resetLamportPreset();
+
+    return { render, resetLamportPreset };
+  })();
+
+  /* ================= WIDGET 2: THE COMMUNAL OLIVE PRESS ================= */
+  const Press = (function(){
+    const svg = document.getElementById('press-svg');
+    const cardsEl = document.getElementById('pr-grower-cards');
+    const logEl = document.getElementById('pr-log');
+    if (!svg || !cardsEl) return null;
+
+    const growers = {
+      A: { id: 'A', name: 'Aristides', island: 'Andros', x: 170, y: 310, clock: 1, state: 'idle', tablet: [], acks: {}, reqTime: 0 },
+      K: { id: 'K', name: 'Kallistos', island: 'Kea',    x: 420, y: 330, clock: 1, state: 'idle', tablet: [], acks: {}, reqTime: 0 },
+      M: { id: 'M', name: 'Leonidas',  island: 'Milos',  x: 670, y: 310, clock: 1, state: 'idle', tablet: [], acks: {}, reqTime: 0 }
+    };
+
+    let pressOccupant = null;
+    let runners = [];
+    let isPlaying = false;
+    let playTimer = null;
+
+    function addLog(step, msg) {
+      if (!logEl) return;
+      const entry = document.createElement('div');
+      entry.className = 'sim-log-entry';
+      entry.innerHTML = `<span class="log-step">${step}</span> ${msg}`;
+      logEl.appendChild(entry);
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+
+    function reset(scenario = 'contention') {
+      growers.A.clock = 1; growers.A.state = 'idle'; growers.A.tablet = []; growers.A.acks = {}; growers.A.reqTime = 0;
+      growers.K.clock = 1; growers.K.state = 'idle'; growers.K.tablet = []; growers.K.acks = {}; growers.K.reqTime = 0;
+      growers.M.clock = 1; growers.M.state = 'idle'; growers.M.tablet = []; growers.M.acks = {}; growers.M.reqTime = 0;
+      pressOccupant = null;
+      runners = [];
+      if (logEl) logEl.innerHTML = '';
+
+      if (scenario === 'contention') {
+        addLog('INIT', 'Scenario: Concurrent Contention. Both Aristides (A) and Leonidas (M) request simultaneously.');
+        // Trigger concurrent requests
+        requestPress('A');
+        requestPress('M');
+      } else if (scenario === 'delay') {
+        addLog('INIT', 'Scenario: Delayed Hill Runner. Tests why Condition 5(ii) prevents premature grant when runners are delayed.');
+        requestPress('A');
+        // Slow down A's runner to K
+        const r = runners.find(run => run.from === 'A' && run.to === 'K');
+        if (r) r.progress = -0.8;
+      } else if (scenario === 'crash') {
+        addLog('INIT', 'Scenario: The Sleeping Grower. Leonidas falls asleep at Milos and answers no messages.');
+        growers.M.state = 'sleeping';
+        requestPress('A');
+      } else {
+        addLog('INIT', 'The press on the central ridge is vacant. All request tablets are clear.');
+      }
+
+      render();
+    }
+
+    // Rule 1: Request press
+    function requestPress(gid) {
+      const g = growers[gid];
+      if (g.state === 'sleeping' || g.state === 'in_press') return;
+
+      g.clock++;
+      const reqTimestamp = g.clock;
+      g.reqTime = reqTimestamp;
+      g.state = 'requesting';
+      g.acks = {};
+      g.acks[gid] = reqTimestamp; // self ack
+
+      // Add to own tablet
+      insertTablet(g, { t: reqTimestamp, p: gid });
+      addLog(`RULE 1`, `<strong>${g.name} (${gid})</strong> writes (T:${reqTimestamp}, ${gid}) on his tablet and dispatches request runners to all peers.`);
+
+      // Send to other growers
+      ['A', 'K', 'M'].forEach(otherId => {
+        if (otherId !== gid) {
+          runners.push({
+            from: gid,
+            to: otherId,
+            type: 'REQ',
+            t: reqTimestamp,
+            origP: gid,
+            progress: 0
+          });
+        }
+      });
+    }
+
+    // Rule 3: Release press
+    function releasePress() {
+      if (!pressOccupant) return;
+      const gid = pressOccupant;
+      const g = growers[gid];
+      g.clock++;
+      const relTime = g.clock;
+      g.state = 'idle';
+      pressOccupant = null;
+
+      // Remove self request
+      g.tablet = g.tablet.filter(entry => entry.p !== gid);
+      addLog(`RULE 3`, `<strong>${g.name} (${gid})</strong> finishes pressing, erases own request from tablet, and dispatches RELEASE(T:${relTime}) runners.`);
+
+      // Send release to all peers
+      ['A', 'K', 'M'].forEach(otherId => {
+        if (otherId !== gid) {
+          runners.push({
+            from: gid,
+            to: otherId,
+            type: 'REL',
+            t: relTime,
+            origP: gid,
+            progress: 0
+          });
+        }
+      });
+
+      render();
+    }
+
+    function insertTablet(grower, entry) {
+      // Avoid duplicate
+      if (grower.tablet.some(e => e.t === entry.t && e.p === entry.p)) return;
+      grower.tablet.push(entry);
+      // Sort by total order =>
+      grower.tablet.sort((a, b) => {
+        if (a.t !== b.t) return a.t - b.t;
+        return a.p.localeCompare(b.p);
+      });
+    }
+
+    // Step runner deliveries
+    function step() {
+      if (runners.length === 0) {
+        // If someone is in press, auto-prompt release or wait
+        return;
+      }
+
+      // Deliver the first runner that can make progress
+      const runner = runners.shift();
+      const receiver = growers[runner.to];
+
+      if (receiver.state === 'sleeping') {
+        addLog('LOST', `A runner reached Milos, but Leonidas is fast asleep and never reads the slate!`);
+        render();
+        return;
+      }
+
+      // Update receiver's Lamport clock (IR2)
+      receiver.clock = Math.max(receiver.clock, runner.t) + 1;
+
+      if (runner.type === 'REQ') {
+        // Rule 2
+        insertTablet(receiver, { t: runner.t, p: runner.origP });
+        addLog(`RULE 2`, `<strong>${receiver.name} (${receiver.id})</strong> receives REQ(T:${runner.t}, ${runner.origP}), writes it on tablet, and returns ACK(T:${receiver.clock}).`);
+        // Send ACK back
+        runners.push({
+          from: receiver.id,
+          to: runner.origP,
+          type: 'ACK',
+          t: receiver.clock,
+          origP: receiver.id,
+          progress: 0
+        });
+      } else if (runner.type === 'ACK') {
+        // Receiver of ACK is runner.to
+        receiver.acks[runner.from] = runner.t;
+        addLog(`ACK`, `<strong>${receiver.name} (${receiver.id})</strong> receives ACK from ${runner.from} stamped T:${runner.t}.`);
+      } else if (runner.type === 'REL') {
+        // Rule 4
+        receiver.tablet = receiver.tablet.filter(entry => entry.p !== runner.origP);
+        addLog(`RULE 4`, `<strong>${receiver.name} (${receiver.id})</strong> receives RELEASE from ${runner.origP} and erases (${runner.origP}) from tablet.`);
+      }
+
+      // Check Rule 5 for all requesting growers
+      checkRule5();
+      render();
+    }
+
+    function checkRule5() {
+      if (pressOccupant) return; // press is occupied
+
+      ['A', 'K', 'M'].forEach(gid => {
+        const g = growers[gid];
+        if (g.state !== 'requesting') return;
+
+        // Condition 5(i): own request precedes all others in tablet
+        const isHead = g.tablet.length > 0 && g.tablet[0].p === gid && g.tablet[0].t === g.reqTime;
+
+        // Condition 5(ii): received message later than reqTime from every other grower
+        const peers = ['A', 'K', 'M'].filter(id => id !== gid);
+        const heardAll = peers.every(otherId => (g.acks[otherId] || 0) > g.reqTime);
+
+        if (isHead && heardAll) {
+          g.state = 'in_press';
+          pressOccupant = gid;
+          addLog(`RULE 5`, `🎉 <strong>GRANT!</strong> Both conditions satisfied for <strong>${g.name} (${gid})</strong>! Request (T:${g.reqTime}, ${gid}) is at head of tablet, and messages &gt; ${g.reqTime} received from all peers. ${g.name} climbs the central ridge to press his harvest!`);
+        }
+      });
+    }
+
+    function render() {
+      // Draw SVG scene
+      svg.innerHTML = '';
+
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      defs.innerHTML = `
+        <linearGradient id="hillGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#93a884"/>
+          <stop offset="100%" stop-color="#69825a"/>
+        </linearGradient>
+        <radialGradient id="pressWood" cx="40%" cy="40%" r="60%">
+          <stop offset="0%" stop-color="#8a532d"/>
+          <stop offset="100%" stop-color="#4d2810"/>
+        </radialGradient>
+      `;
+      svg.appendChild(defs);
+
+      // Central Hill
+      const hill = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      hill.setAttribute('d', 'M 220 220 Q 420 50 620 220 L 780 390 L 60 390 Z');
+      hill.setAttribute('fill', 'url(#hillGrad)');
+      svg.appendChild(hill);
+
+      // Paths between coves
+      const pathPaths = [
+        'M 170 310 Q 295 360 420 330', // A to K
+        'M 420 330 Q 545 360 670 310', // K to M
+        'M 170 310 Q 420 400 670 310', // A to M
+        'M 170 310 Q 270 200 400 140', // A to Press
+        'M 420 330 Q 420 230 420 150', // K to Press
+        'M 670 310 Q 570 200 440 140'  // M to Press
+      ];
+      pathPaths.forEach(d => {
+        const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        p.setAttribute('d', d);
+        p.setAttribute('stroke', '#dfd3b5');
+        p.setAttribute('stroke-width', '4');
+        p.setAttribute('stroke-dasharray', '6 4');
+        p.setAttribute('fill', 'none');
+        svg.appendChild(p);
+      });
+
+      // Communal Olive Press structure at (420, 110)
+      const pressG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+      // Stone press basin
+      const basin = document.createElementNS('http://www.w3.org/2000/svg', 'ellipse');
+      basin.setAttribute('cx', '420');
+      basin.setAttribute('cy', '135');
+      basin.setAttribute('rx', '48');
+      basin.setAttribute('ry', '18');
+      basin.setAttribute('fill', '#cfc8b4');
+      basin.setAttribute('stroke', '#3d342c');
+      basin.setAttribute('stroke-width', '3');
+      pressG.appendChild(basin);
+
+      // Pressing Beam
+      const beam = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      beam.setAttribute('x1', '360');
+      beam.setAttribute('y1', pressOccupant ? '115' : '100');
+      beam.setAttribute('x2', '480');
+      beam.setAttribute('y2', pressOccupant ? '130' : '120');
+      beam.setAttribute('stroke', 'url(#pressWood)');
+      beam.setAttribute('stroke-width', '9');
+      beam.setAttribute('stroke-linecap', 'round');
+      pressG.appendChild(beam);
+
+      // Press uprights
+      const post1 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      post1.setAttribute('x1', '375'); post1.setAttribute('y1', '85'); post1.setAttribute('x2', '375'); post1.setAttribute('y2', '130');
+      post1.setAttribute('stroke', '#543118'); post1.setAttribute('stroke-width', '6');
+      pressG.appendChild(post1);
+
+      const post2 = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      post2.setAttribute('x1', '465'); post2.setAttribute('y1', '85'); post2.setAttribute('x2', '465'); post2.setAttribute('y2', '130');
+      post2.setAttribute('stroke', '#543118'); post2.setAttribute('stroke-width', '6');
+      pressG.appendChild(post2);
+
+      // Press status banner
+      const bannerBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      bannerBg.setAttribute('x', '300');
+      bannerBg.setAttribute('y', '38');
+      bannerBg.setAttribute('width', '240');
+      bannerBg.setAttribute('height', '32');
+      bannerBg.setAttribute('rx', '4');
+      bannerBg.setAttribute('fill', pressOccupant ? '#2b772a' : '#1c1512');
+      bannerBg.setAttribute('stroke', '#d4a017');
+      bannerBg.setAttribute('stroke-width', '2');
+      pressG.appendChild(bannerBg);
+
+      const bannerTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      bannerTxt.setAttribute('x', '420');
+      bannerTxt.setAttribute('y', '59');
+      bannerTxt.setAttribute('font-family', 'Optima, sans-serif');
+      bannerTxt.setAttribute('font-size', '12');
+      bannerTxt.setAttribute('font-weight', '700');
+      bannerTxt.setAttribute('fill', '#fff');
+      bannerTxt.setAttribute('text-anchor', 'middle');
+      bannerTxt.textContent = pressOccupant ? `🫒 PRESS IN USE: ${growers[pressOccupant].name.toUpperCase()}` : '🫒 PRESS VACANT ON RIDGE';
+      pressG.appendChild(bannerTxt);
+
+      svg.appendChild(pressG);
+
+      // Draw Growers
+      Object.values(growers).forEach(g => {
+        const gg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+        // Cove ground circle
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', g.x);
+        circle.setAttribute('cy', g.y);
+        circle.setAttribute('r', '32');
+        circle.setAttribute('fill', g.state === 'in_press' ? '#fdf2cc' : g.state === 'sleeping' ? '#5a544f' : '#f7f1e1');
+        circle.setAttribute('stroke', g.state === 'in_press' ? '#d4a017' : '#2b211a');
+        circle.setAttribute('stroke-width', g.state === 'in_press' ? '3.5' : '2');
+        gg.appendChild(circle);
+
+        // Icon
+        const iconTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        iconTxt.setAttribute('x', g.x);
+        iconTxt.setAttribute('y', g.y + 6);
+        iconTxt.setAttribute('font-size', '20');
+        iconTxt.setAttribute('text-anchor', 'middle');
+        iconTxt.textContent = g.state === 'sleeping' ? '😴' : g.state === 'in_press' ? '🫒' : '🏺';
+        gg.appendChild(iconTxt);
+
+        // Name
+        const nameTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        nameTxt.setAttribute('x', g.x);
+        nameTxt.setAttribute('y', g.y + 48);
+        nameTxt.setAttribute('font-family', 'Optima, sans-serif');
+        nameTxt.setAttribute('font-size', '13');
+        nameTxt.setAttribute('font-weight', '700');
+        nameTxt.setAttribute('fill', '#1c1512');
+        nameTxt.setAttribute('text-anchor', 'middle');
+        nameTxt.textContent = `${g.name} (${g.id})`;
+        gg.appendChild(nameTxt);
+
+        svg.appendChild(gg);
+      });
+
+      // Draw runners in flight
+      runners.forEach((r, idx) => {
+        const fromG = growers[r.from];
+        const toG = growers[r.to];
+        // Distribute along path
+        const tStep = Math.min(0.85, 0.2 + (idx % 3) * 0.25);
+        const curX = fromG.x + (toG.x - fromG.x) * tStep;
+        const curY = fromG.y + (toG.y - fromG.y) * tStep - 20;
+
+        const rg = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+
+        const rRect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+        rRect.setAttribute('x', curX - 32);
+        rRect.setAttribute('y', curY - 12);
+        rRect.setAttribute('width', '64');
+        rRect.setAttribute('height', '24');
+        rRect.setAttribute('rx', '3');
+        rRect.setAttribute('fill', r.type === 'REQ' ? '#e8a838' : r.type === 'ACK' ? '#197ca9' : '#438945');
+        rRect.setAttribute('stroke', '#1c1512');
+        rRect.setAttribute('stroke-width', '1.5');
+        rg.appendChild(rRect);
+
+        const rTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        rTxt.setAttribute('x', curX);
+        rTxt.setAttribute('y', curY + 4);
+        rTxt.setAttribute('font-family', 'Optima, sans-serif');
+        rTxt.setAttribute('font-size', '10.5');
+        rTxt.setAttribute('font-weight', '700');
+        rTxt.setAttribute('fill', '#fff');
+        rTxt.setAttribute('text-anchor', 'middle');
+        rTxt.textContent = `${r.type}(${r.t}, ${r.origP})`;
+        rg.appendChild(rTxt);
+
+        svg.appendChild(rg);
+      });
+
+      // Render cards
+      renderCards();
+    }
+
+    function renderCards() {
+      cardsEl.innerHTML = '';
+      Object.values(growers).forEach(g => {
+        const card = document.createElement('div');
+        card.className = `grower-card ${g.state === 'in_press' ? 'active-press' : ''}`;
+
+        let badgeClass = 'idle';
+        let badgeLabel = 'IDLE';
+        if (g.state === 'requesting') { badgeClass = 'req'; badgeLabel = 'REQUESTING'; }
+        else if (g.state === 'in_press') { badgeClass = 'in-press'; badgeLabel = 'IN PRESS'; }
+        else if (g.state === 'sleeping') { badgeClass = 'idle'; badgeLabel = 'SLEEPING'; }
+
+        // Tablet items
+        const tabletHtml = g.tablet.length > 0
+          ? g.tablet.map(e => `<span>(${e.t}, ${e.p})</span>`).join(', ')
+          : '<i>Empty</i>';
+
+        // Condition 5 check
+        const isHead = g.state === 'requesting' && g.tablet.length > 0 && g.tablet[0].p === g.id && g.tablet[0].t === g.reqTime;
+        const peers = ['A', 'K', 'M'].filter(id => id !== g.id);
+        const acksCount = peers.filter(otherId => (g.acks[otherId] || 0) > g.reqTime).length;
+        const condition5Html = g.state === 'requesting' ? `
+          <div class="rule5-status">
+            <div><b>Head of queue:</b> ${isHead ? '✅ Yes' : '⏳ Waiting'}</div>
+            <div><b>Later slates heard:</b> ${acksCount} / ${peers.length} ${acksCount === peers.length ? '✅' : '⏳'}</div>
+          </div>
+        ` : '';
+
+        card.innerHTML = `
+          <div class="grower-card-header">
+            <span class="grower-name">${g.name} (${g.id} · ${g.island})</span>
+            <span class="grower-badge ${badgeClass}">${badgeLabel}</span>
+          </div>
+          <div style="font-size:.82rem; margin-bottom:4px;">
+            <strong>Abacus Bead:</strong> C = ${g.clock}
+          </div>
+          <div class="tablet-box">
+            <span class="tablet-title">Private Request Tablet (Ordered by ⇒):</span>
+            ${tabletHtml}
+          </div>
+          ${condition5Html}
+        `;
+        cardsEl.appendChild(card);
+      });
+    }
+
+    // Button controls
+    document.getElementById('pr-btn-req-a')?.addEventListener('click', () => { requestPress('A'); render(); });
+    document.getElementById('pr-btn-req-k')?.addEventListener('click', () => { requestPress('K'); render(); });
+    document.getElementById('pr-btn-req-m')?.addEventListener('click', () => { requestPress('M'); render(); });
+    document.getElementById('pr-btn-release')?.addEventListener('click', () => { releasePress(); });
+    document.getElementById('pr-btn-step')?.addEventListener('click', () => { step(); });
+    document.getElementById('pr-btn-reset')?.addEventListener('click', () => { reset('contention'); });
+
+    document.getElementById('pr-btn-play')?.addEventListener('click', (e) => {
+      isPlaying = !isPlaying;
+      e.target.textContent = isPlaying ? '⏸ Pause' : '▶ Play';
+      e.target.classList.toggle('action', isPlaying);
+      if (isPlaying) {
+        playTimer = setInterval(() => {
+          if (runners.length > 0) {
+            step();
+          } else if (pressOccupant) {
+            // Auto release after a moment
+            releasePress();
+          } else {
+            // Nothing to do
+            isPlaying = false;
+            e.target.textContent = '▶ Play';
+            e.target.classList.remove('action');
+            clearInterval(playTimer);
+          }
+        }, 900);
+      } else {
+        clearInterval(playTimer);
+      }
+    });
+
+    // Preset buttons
+    document.getElementById('pr-pre-contention')?.addEventListener('click', (e) => {
+      document.querySelectorAll('#sim-press .sim-btn.preset').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      reset('contention');
+    });
+    document.getElementById('pr-pre-delay')?.addEventListener('click', (e) => {
+      document.querySelectorAll('#sim-press .sim-btn.preset').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      reset('delay');
+    });
+    document.getElementById('pr-pre-crash')?.addEventListener('click', (e) => {
+      document.querySelectorAll('#sim-press .sim-btn.preset').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      reset('crash');
+    });
+
+    reset('contention');
+
+    return { render, reset };
+  })();
+
+  /* ================= WIDGET 3: THE VECTOR CLOCK ABACUS ================= */
+  const VectorCut = (function(){
+    const svg = document.getElementById('vector-svg');
+    const bannerEl = document.getElementById('vec-banner');
+    const bannerTxt = document.getElementById('vec-banner-text');
+    const cardEl = document.getElementById('vec-card');
+    if (!svg || !cardEl) return null;
+
+    let mode = 'clock'; // 'clock' or 'cut'
+    let cuts = { A: 220, K: 220, M: 220 }; // Y position of cut on each timeline
+
+    const traders = [
+      { id: 'A', name: 'Aristides', x: 180 },
+      { id: 'K', name: 'Kallistos', x: 420 },
+      { id: 'M', name: 'Leonidas',  x: 660 }
+    ];
+
+    const events = [
+      { id: 'a1', p: 'A', y: 360, v: [1, 0, 0], c: 1, label: 'a₁' },
+      { id: 'a2', p: 'A', y: 280, v: [2, 0, 0], c: 2, label: 'a₂' },
+      { id: 'a3', p: 'A', y: 170, v: [3, 3, 0], c: 4, label: 'a₃' },
+
+      { id: 'k1', p: 'K', y: 370, v: [0, 1, 0], c: 1, label: 'k₁' },
+      { id: 'k2', p: 'K', y: 300, v: [1, 2, 0], c: 2, label: 'k₂' },
+      { id: 'k3', p: 'K', y: 230, v: [1, 3, 0], c: 3, label: 'k₃' },
+      { id: 'k4', p: 'K', y: 130, v: [1, 4, 2], c: 4, label: 'k₄' },
+
+      { id: 'm1', p: 'M', y: 330, v: [0, 0, 1], c: 1, label: 'm₁' },
+      { id: 'm2', p: 'M', y: 210, v: [0, 0, 2], c: 2, label: 'm₂' },
+      { id: 'm3', p: 'M', y: 90,  v: [0, 1, 3], c: 4, label: 'm₃' }
+    ];
+
+    const messages = [
+      { from: 'a1', to: 'k2' },
+      { from: 'k3', to: 'a3' },
+      { from: 'm2', to: 'k4' }
+    ];
+
+    let selEv1 = 'a2';
+    let selEv2 = 'k3';
+
+    function isCutConsistent() {
+      // For every message: if send is in future (y < cut) and recv is in past (y >= cut), violation!
+      // Remember later time is higher up (smaller y). So:
+      // Past: y >= cut[p]
+      // Future: y < cut[p]
+      for (const m of messages) {
+        const sendEv = events.find(e => e.id === m.from);
+        const recvEv = events.find(e => e.id === m.to);
+        if (!sendEv || !recvEv) continue;
+
+        const sendInPast = sendEv.y >= cuts[sendEv.p];
+        const recvInPast = recvEv.y >= cuts[recvEv.p];
+
+        if (!sendInPast && recvInPast) {
+          // Sent in future, received in past -> causal violation!
+          return { consistent: false, badMsg: m };
+        }
+      }
+      return { consistent: true };
+    }
+
+    function render() {
+      svg.innerHTML = '';
+
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      defs.innerHTML = `
+        <marker id="arrVec" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0 0 L10 5 L0 10 z" fill="#136f9e"/>
+        </marker>
+        <marker id="arrViolate" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0 0 L10 5 L0 10 z" fill="#b32414"/>
+        </marker>
+      `;
+      svg.appendChild(defs);
+
+      // In cut mode: draw cut polygon shading (past vs future)
+      if (mode === 'cut') {
+        const pastPoly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        pastPoly.setAttribute('points', `60,400 60,${cuts.A} 180,${cuts.A} 420,${cuts.K} 660,${cuts.M} 780,${cuts.M} 780,400`);
+        pastPoly.setAttribute('fill', 'rgba(216, 235, 212, 0.45)');
+        svg.appendChild(pastPoly);
+
+        const futurePoly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
+        futurePoly.setAttribute('points', `60,50 60,${cuts.A} 180,${cuts.A} 420,${cuts.K} 660,${cuts.M} 780,${cuts.M} 780,50`);
+        futurePoly.setAttribute('fill', 'rgba(250, 220, 213, 0.3)');
+        svg.appendChild(futurePoly);
+
+        // The Cut Line
+        const cutPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        cutPath.setAttribute('d', `M 60 ${cuts.A} L 180 ${cuts.A} L 420 ${cuts.K} L 660 ${cuts.M} L 780 ${cuts.M}`);
+        cutPath.setAttribute('stroke', '#b32414');
+        cutPath.setAttribute('stroke-width', '3');
+        cutPath.setAttribute('stroke-dasharray', '7 4');
+        cutPath.setAttribute('fill', 'none');
+        svg.appendChild(cutPath);
+      }
+
+      // Lifelines
+      traders.forEach(tr => {
+        const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+        line.setAttribute('x1', tr.x); line.setAttribute('y1', '400');
+        line.setAttribute('x2', tr.x); line.setAttribute('y2', '55');
+        line.setAttribute('stroke', '#2c221e'); line.setAttribute('stroke-width', '3');
+        svg.appendChild(line);
+
+        const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        txt.setAttribute('x', tr.x); txt.setAttribute('y', '42');
+        txt.setAttribute('font-family', 'Optima, sans-serif');
+        txt.setAttribute('font-size', '13');
+        txt.setAttribute('font-weight', '700');
+        txt.setAttribute('text-anchor', 'middle');
+        txt.textContent = `TRADER ${tr.id} (${tr.name})`;
+        svg.appendChild(txt);
+      });
+
+      const cutRes = isCutConsistent();
+
+      // Messages
+      messages.forEach(m => {
+        const sendEv = events.find(e => e.id === m.from);
+        const recvEv = events.find(e => e.id === m.to);
+        const isBad = !cutRes.consistent && cutRes.badMsg === m;
+
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        const cFrom = { x: traders.find(t => t.id === sendEv.p).x, y: sendEv.y };
+        const cTo = { x: traders.find(t => t.id === recvEv.p).x, y: recvEv.y };
+        const ctrlX = (cFrom.x + cTo.x) / 2;
+        const ctrlY = (cFrom.y + cTo.y) / 2 - 10;
+        path.setAttribute('d', `M ${cFrom.x} ${cFrom.y} Q ${ctrlX} ${ctrlY} ${cTo.x} ${cTo.y}`);
+        path.setAttribute('stroke', isBad ? '#b32414' : '#136f9e');
+        path.setAttribute('stroke-width', isBad ? '3.5' : '2.2');
+        path.setAttribute('fill', 'none');
+        path.setAttribute('marker-end', `url(#${isBad ? 'arrViolate' : 'arrVec'})`);
+        if (isBad) path.setAttribute('stroke-dasharray', '4 2');
+        svg.appendChild(path);
+      });
+
+      // Events
+      events.forEach(ev => {
+        const tr = traders.find(t => t.id === ev.p);
+        const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+        g.style.cursor = 'pointer';
+        g.onclick = () => {
+          if (ev.id === selEv1) return;
+          selEv2 = selEv1;
+          selEv1 = ev.id;
+          render();
+        };
+
+        const is1 = ev.id === selEv1;
+        const is2 = ev.id === selEv2;
+
+        const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        circle.setAttribute('cx', tr.x);
+        circle.setAttribute('cy', ev.y);
+        circle.setAttribute('r', is1 || is2 ? '10' : '7');
+        circle.setAttribute('fill', is1 ? '#ffd54f' : is2 ? '#197ca9' : '#1c1512');
+        circle.setAttribute('stroke', is1 ? '#b28704' : is2 ? '#0c4763' : '#fff');
+        circle.setAttribute('stroke-width', '2');
+        g.appendChild(circle);
+
+        // Vector badge
+        const txt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        const onRight = ev.p !== 'M';
+        txt.setAttribute('x', onRight ? tr.x + 14 : tr.x - 14);
+        txt.setAttribute('y', ev.y + 4);
+        txt.setAttribute('text-anchor', onRight ? 'start' : 'end');
+        txt.setAttribute('font-family', 'Optima, sans-serif');
+        txt.setAttribute('font-size', '12');
+        txt.setAttribute('font-weight', is1 || is2 ? '700' : 'normal');
+        txt.innerHTML = `${ev.label} · <tspan fill="#6b583f">[${ev.v.join(',')}]</tspan>`;
+        g.appendChild(txt);
+
+        svg.appendChild(g);
+      });
+
+      updateDisplay(cutRes);
+    }
+
+    function updateDisplay(cutRes) {
+      if (mode === 'cut') {
+        if (bannerEl) bannerEl.style.display = 'flex';
+        if (cutRes.consistent) {
+          bannerEl.className = 'cut-status-banner consistent';
+          bannerTxt.innerHTML = '<strong>🟢 CONSISTENT CUT (Valid Island Audit):</strong> Every runner received on the past side was also dispatched on the past side. Vault tallies and transit logs are sound!';
+        } else {
+          bannerEl.className = 'cut-status-banner inconsistent';
+          bannerTxt.innerHTML = '<strong>🔴 INCONSISTENT CUT (Causal Violation):</strong> A runner crossing into the past was dispatched in the future! The audit recorded an effect before its cause ("ghost money")!';
+        }
+
+        // Card summary
+        cardEl.innerHTML = `
+          <div style="font-size:.92rem; line-height:1.6;">
+            <strong>The Northern Scribe's Elastic Band Test:</strong> Imagine the cut line is an elastic cord stretched tight.
+            If any runner's path crosses from the future (upper un-audited region) into the past (lower audited region), the cut violates causality and cannot represent an island-wide instant.
+            Use the preset buttons above to compare a sound audit against an inconsistent cut.
+          </div>
+        `;
+      } else {
+        if (bannerEl) bannerEl.style.display = 'none';
+
+        const e1 = events.find(e => e.id === selEv1);
+        const e2 = events.find(e => e.id === selEv2);
+        if (!e1 || !e2) return;
+
+        // Vector comparison: v1 <= v2
+        const v1 = e1.v;
+        const v2 = e2.v;
+        const le12 = v1.every((x, i) => x <= v2[i]) && v1.some((x, i) => x < v2[i]);
+        const le21 = v2.every((x, i) => x <= v1[i]) && v2.some((x, i) => x < v1[i]);
+
+        let relStr = '';
+        let badgeColor = '';
+        if (le12) {
+          relStr = `${e1.label} → ${e2.label} (Causal Ancestor)`;
+          badgeColor = 'var(--aegean)';
+        } else if (le21) {
+          relStr = `${e2.label} → ${e1.label} (Causal Ancestor)`;
+          badgeColor = 'var(--aegean)';
+        } else {
+          relStr = `${e1.label} ∥ ${e2.label} (Truly Concurrent!)`;
+          badgeColor = '#e2876a';
+        }
+
+        cardEl.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+            <span style="font-family:Optima, sans-serif; font-weight:700; font-size:1.05rem;">
+              Comparing <b>${e1.label}</b> and <b>${e2.label}</b>
+            </span>
+            <span style="font-family:Optima, sans-serif; font-weight:700; font-size:.85rem; padding:3px 10px; border-radius:3px; background:${badgeColor}; color:#fff;">
+              ${relStr}
+            </span>
+          </div>
+          <div style="font-size:.9rem; line-height:1.6;">
+            <div><b>Vector Clock ${e1.label}:</b> [${v1.join(', ')}] &nbsp;|&nbsp; <b>Lamport Scalar C:</b> ${e1.c}</div>
+            <div><b>Vector Clock ${e2.label}:</b> [${v2.join(', ')}] &nbsp;|&nbsp; <b>Lamport Scalar C:</b> ${e2.c}</div>
+            <div style="margin-top:6px; padding:6px 10px; background:#f5ede0; border-left:4px solid var(--gold); font-family:Georgia, serif; font-size:.86rem;">
+              <strong>The Scribes' Theorem:</strong> With scalar beads, comparing <em>C(${e1.label}) = ${e1.c}</em> and <em>C(${e2.label}) = ${e2.c}</em> loses concurrency information.
+              With the 3-row vector abacus, comparing [${v1.join(',')}] and [${v2.join(',')}] gives an <strong>exact</strong> test: <em>e → e′ ⟺ V(e) &lt; V(e′)</em>.
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    // Mode buttons
+    document.getElementById('vec-mode-clock')?.addEventListener('click', (e) => {
+      mode = 'clock';
+      document.getElementById('vec-mode-clock')?.classList.add('active');
+      document.getElementById('vec-mode-cut')?.classList.remove('active');
+      document.getElementById('vec-cut-presets').style.display = 'none';
+      render();
+    });
+
+    document.getElementById('vec-mode-cut')?.addEventListener('click', (e) => {
+      mode = 'cut';
+      document.getElementById('vec-mode-cut')?.classList.add('active');
+      document.getElementById('vec-mode-clock')?.classList.remove('active');
+      document.getElementById('vec-cut-presets').style.display = 'flex';
+      render();
+    });
+
+    document.getElementById('vec-pre-valid')?.addEventListener('click', (e) => {
+      document.querySelectorAll('#vec-cut-presets .sim-btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      // Valid cut: after k3, after a3
+      cuts = { A: 150, K: 180, M: 240 };
+      render();
+    });
+
+    document.getElementById('vec-pre-invalid')?.addEventListener('click', (e) => {
+      document.querySelectorAll('#vec-cut-presets .sim-btn').forEach(b => b.classList.remove('active'));
+      e.target.classList.add('active');
+      // Inconsistent cut: a3 is in past (cuts.A <= 160), but k3 is in future (cuts.K >= 240)
+      cuts = { A: 150, K: 260, M: 200 };
+      render();
+    });
+
+    document.getElementById('vec-btn-reset')?.addEventListener('click', () => {
+      cuts = { A: 220, K: 220, M: 220 };
+      selEv1 = 'a2';
+      selEv2 = 'k3';
+      render();
+    });
+
+    render();
+
+    return { render };
+  })();
 })();
 </script>
 </body>

@@ -1,0 +1,1063 @@
+/* ============ Interactive Explainer: The Cothon Simulator ============ */
+/* Companion visualizer for Volume III: The Passable Season */
+
+.interactive-workshop {
+  margin: 54px auto 30px;
+  position: relative;
+}
+
+.sim-container {
+  background: var(--paper-hi);
+  border: 4px solid var(--ink);
+  box-shadow: 8px 10px 0 var(--shadow);
+  border-radius: 4px;
+  overflow: hidden;
+  margin: 24px auto;
+  position: relative;
+}
+
+/* Header & Tab navigation */
+.sim-header {
+  background: var(--ink);
+  color: var(--paper-hi);
+  padding: 14px 20px;
+  border-bottom: 3px solid var(--gold);
+}
+
+.sim-header-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.sim-kicker {
+  font-family: Optima, 'Gill Sans', sans-serif;
+  letter-spacing: .22em;
+  font-size: .75rem;
+  text-transform: uppercase;
+  color: var(--caption);
+}
+
+.sim-title {
+  margin: 4px 0 0;
+  font-family: Optima, 'Gill Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.3rem;
+  letter-spacing: .04em;
+  color: var(--paper-hi);
+}
+
+.sim-nav-tabs {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.sim-tab-btn {
+  background: rgba(255, 255, 255, .1);
+  color: var(--paper-hi);
+  border: 2px solid rgba(255, 255, 255, .25);
+  padding: 6px 14px;
+  font-family: Optima, 'Gill Sans', sans-serif;
+  font-size: .82rem;
+  letter-spacing: .06em;
+  cursor: pointer;
+  border-radius: 3px;
+  transition: all .15s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sim-tab-btn:hover {
+  background: rgba(255, 255, 255, .2);
+  border-color: var(--caption);
+}
+
+.sim-tab-btn.active {
+  background: var(--gold);
+  color: var(--ink);
+  border-color: var(--caption);
+  font-weight: 700;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, .3);
+}
+
+/* Container Body */
+.sim-body, .sim-view {
+  display: block;
+  padding: 18px 20px 24px;
+}
+
+/* Controls Toolbar */
+.sim-toolbar {
+  background: #eae2cd;
+  border: 2px solid var(--ink);
+  padding: 12px 16px;
+  margin-bottom: 16px;
+  border-radius: 3px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 3px 3px 0 var(--shadow);
+}
+
+.sim-btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.sim-label-tag {
+  font-family: Optima, sans-serif;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #615038;
+  font-weight: 700;
+  margin-right: 4px;
+}
+
+.sim-btn {
+  background: var(--paper-hi);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  padding: 6px 13px;
+  font-family: Optima, 'Gill Sans', sans-serif;
+  font-size: .82rem;
+  letter-spacing: .04em;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--shadow);
+  transition: all .1s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 2px;
+}
+
+.sim-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 3px 3px 0 var(--shadow);
+}
+
+.sim-btn:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 var(--shadow);
+}
+
+.sim-btn.primary {
+  background: var(--aegean);
+  color: #fff;
+}
+
+.sim-btn.primary:hover {
+  background: var(--aegean-d);
+}
+
+.sim-btn.action {
+  background: var(--terra);
+  color: #fff;
+}
+
+.sim-btn.action:hover {
+  background: #a33c1d;
+}
+
+.sim-btn.preset {
+  background: #dfd5be;
+  font-size: .76rem;
+  padding: 4px 10px;
+}
+
+.sim-btn.preset.active {
+  background: var(--ink);
+  color: var(--caption);
+  border-color: var(--ink);
+}
+
+/* Weather Toggle */
+.weather-toggle-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #dfd6c0;
+  padding: 5px 12px;
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+}
+
+.weather-chip {
+  font-family: Optima, sans-serif;
+  font-size: .78rem;
+  letter-spacing: .05em;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 2px;
+}
+
+.weather-chip.calm {
+  background: var(--aegean);
+  color: #fff;
+}
+
+.weather-chip.storm {
+  background: var(--blood);
+  color: #fff;
+}
+
+/* Harbour Layout */
+.harbour-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 18px;
+}
+
+@media (min-width: 860px) {
+  .harbour-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Harbour SVG Frame */
+.harbour-svg-wrap {
+  position: relative;
+  background: #112836;
+  border: 3px solid var(--ink);
+  border-radius: 4px;
+  box-shadow: 4px 5px 0 var(--shadow);
+  overflow: hidden;
+}
+
+.harbour-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+/* Wave & Water Animations */
+@keyframes wavePulse {
+  0% { transform: scale(1); opacity: .4; }
+  50% { transform: scale(1.02); opacity: .7; }
+  100% { transform: scale(1); opacity: .4; }
+}
+
+.ripple-circle {
+  transform-origin: 410px 290px;
+  animation: wavePulse 4s ease-in-out infinite;
+}
+
+.ripple-circle.r2 {
+  animation-delay: 1.3s;
+}
+
+.ripple-circle.r3 {
+  animation-delay: 2.6s;
+}
+
+/* Storm rain animation */
+@keyframes rainDrift {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(-30px, 60px); }
+}
+
+.rain-group {
+  animation: rainDrift .8s linear infinite;
+}
+
+/* Lantern beam animation */
+.lantern-beam {
+  transition: all .6s cubic-bezier(.22, 1, .36, 1);
+  transform-origin: 410px 290px;
+}
+
+/* Skiff moving in water */
+.sim-skiff {
+  transition: transform .6s cubic-bezier(.25, 1, .5, 1), opacity .3s;
+}
+
+/* Quay nodes */
+.quay-node {
+  cursor: pointer;
+}
+
+.quay-node:hover .quay-ring {
+  stroke: var(--caption);
+  stroke-width: 3.5;
+}
+
+/* Telemetry & Monitor Panels */
+.sim-telemetry {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 16px;
+}
+
+@media (min-width: 720px) {
+  .sim-telemetry {
+    grid-template-columns: 1.2fr .8fr;
+  }
+}
+
+.sim-panel-card {
+  background: #ebe4d1;
+  border: 2px solid var(--ink);
+  padding: 14px 16px;
+  border-radius: 3px;
+  box-shadow: 3px 3px 0 var(--shadow);
+  position: relative;
+}
+
+.sim-card-title {
+  margin: 0 0 10px;
+  font-family: Optima, 'Gill Sans', sans-serif;
+  font-size: .88rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--terra);
+  border-bottom: 1px dashed rgba(28, 21, 18, .25);
+  padding-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sim-card-title .card-sub {
+  font-size: .75rem;
+  color: #63533d;
+  font-weight: normal;
+  text-transform: none;
+}
+
+/* Quorum Meter */
+.quorum-meter-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.quorum-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: .84rem;
+  font-family: Optima, sans-serif;
+}
+
+.quorum-bar-track {
+  flex: 1;
+  max-width: 170px;
+  height: 16px;
+  background: #d8cdb2;
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  position: relative;
+  overflow: hidden;
+  margin: 0 10px;
+}
+
+.quorum-bar-fill {
+  height: 100%;
+  background: var(--aegean);
+  width: 0%;
+  transition: width .3s ease, background-color .3s;
+}
+
+.quorum-bar-fill.success {
+  background: var(--olive);
+}
+
+.quorum-bar-fill.blocked {
+  background: var(--blood);
+}
+
+.quorum-target-line {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--blood);
+  z-index: 2;
+}
+
+.captains-pills {
+  display: flex;
+  gap: 5px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+
+.cap-pill {
+  font-family: Optima, sans-serif;
+  font-size: .74rem;
+  padding: 2px 7px;
+  border: 1.5px solid var(--ink);
+  border-radius: 2px;
+  background: var(--marble);
+  color: var(--ink);
+}
+
+.cap-pill.flagship {
+  background: var(--caption);
+  font-weight: 700;
+  border-color: var(--ink);
+}
+
+.cap-pill.locked {
+  border-color: var(--terra);
+  background: #faeade;
+}
+
+.cap-pill.overlap {
+  background: var(--gold);
+  color: var(--ink);
+  font-weight: 700;
+  box-shadow: 0 0 6px var(--gold);
+}
+
+/* Captains Quick-Inspector Table */
+.captains-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .82rem;
+  margin-top: 8px;
+}
+
+.captains-table th {
+  font-family: Optima, sans-serif;
+  font-size: .7rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #55442f;
+  text-align: left;
+  border-bottom: 2px solid var(--ink);
+  padding: 4px 6px;
+  background: #ded3b9;
+}
+
+.captains-table td {
+  padding: 5px 6px;
+  border-bottom: 1px solid rgba(28, 21, 18, .15);
+  vertical-align: middle;
+}
+
+.cap-toggle-btn {
+  font-size: .72rem;
+  padding: 2px 6px;
+  border: 1px solid var(--ink);
+  background: var(--marble);
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.cap-toggle-btn:hover {
+  background: var(--caption);
+}
+
+/* Comic Logbook */
+.sim-log-wrap {
+  margin-top: 14px;
+  background: var(--caption);
+  border: 3px solid var(--ink);
+  padding: 10px 14px;
+  box-shadow: 4px 4px 0 var(--shadow);
+  transform: rotate(-.3deg);
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.sim-log-entry {
+  font-family: 'Chalkboard SE', Chalkboard, 'Comic Sans MS', sans-serif;
+  font-size: .85rem;
+  line-height: 1.4;
+  margin-bottom: 6px;
+  padding-bottom: 5px;
+  border-bottom: 1px dashed rgba(28, 21, 18, .2);
+}
+
+.sim-log-entry:last-child {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+  font-weight: 700;
+  color: #1a130f;
+}
+
+.sim-log-entry .log-step {
+  font-family: Optima, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: .75rem;
+  color: var(--terra);
+  margin-right: 5px;
+}
+
+/* ================= Tab 2: The Growing Hourglass ================= */
+.hourglass-deck {
+  background: #eae2cb;
+  border: 2px solid var(--ink);
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.hourglass-stage {
+  background: linear-gradient(180deg, #dce9f0, #bad6e5);
+  border: 3px solid var(--ink);
+  border-radius: 4px;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+  margin: 18px 0;
+}
+
+.hourglass-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 14px;
+}
+
+.hourglass-slider-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: Optima, sans-serif;
+  font-size: .88rem;
+}
+
+.hourglass-slider-box input[type=range] {
+  accent-color: var(--aegean);
+}
+
+/* ================= Tab 3: The Causeway Partition ================= */
+.partition-deck {
+  background: #eae2cb;
+  border: 2px solid var(--ink);
+  padding: 20px;
+  border-radius: 3px;
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.partition-stage {
+  background: linear-gradient(180deg, #1c2e3d, #0f1c26);
+  border: 3px solid var(--ink);
+  border-radius: 4px;
+  padding: 16px;
+  margin: 18px 0;
+}
+
+.partition-narrative {
+  background: var(--paper-hi);
+  border: 2px solid var(--ink);
+  padding: 14px 18px;
+  border-radius: 3px;
+  font-size: .9rem;
+  line-height: 1.5;
+  box-shadow: 3px 3px 0 var(--shadow);
+  margin-top: 14px;
+}
+
+/* ================================================================
+   VOLUME I: THE DISORDERED SUNDIALS (Lamport 1978; Fidge & Mattern 1988)
+   ================================================================ */
+
+/* Widget 1: The Space-Time Loom */
+.spacetime-deck {
+  background: #eae2cb;
+  border: 2px solid var(--ink);
+  padding: 16px;
+  border-radius: 3px;
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.spacetime-svg-wrap {
+  position: relative;
+  background: #fdfaf0;
+  border: 3px solid var(--ink);
+  border-radius: 4px;
+  box-shadow: 4px 5px 0 var(--shadow);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.spacetime-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+.cone-inspector {
+  background: var(--paper-hi);
+  border: 2px solid var(--ink);
+  padding: 14px 18px;
+  border-radius: 3px;
+  box-shadow: 3px 3px 0 var(--shadow);
+  margin-top: 12px;
+}
+
+.cone-inspector-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 2px solid #dfd5be;
+  padding-bottom: 8px;
+  margin-bottom: 10px;
+}
+
+.cone-inspector-title {
+  font-family: Optima, 'Gill Sans', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--ink);
+}
+
+.causal-chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0;
+  align-items: center;
+}
+
+.causal-chip {
+  font-family: Optima, sans-serif;
+  font-size: .8rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1.5px solid var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.causal-chip.selected {
+  background: var(--gold);
+  color: var(--ink);
+}
+
+.causal-chip.past {
+  background: #d4a017;
+  color: #fff;
+}
+
+.causal-chip.future {
+  background: var(--aegean);
+  color: #fff;
+}
+
+.causal-chip.concurrent {
+  background: #e2876a;
+  color: #fff;
+  border-style: dashed;
+}
+
+.total-order-slate {
+  background: #f6efe1;
+  border: 2px solid var(--ink);
+  padding: 10px 14px;
+  border-radius: 3px;
+  font-family: Georgia, serif;
+  font-size: .88rem;
+  margin-top: 10px;
+  line-height: 1.6;
+}
+
+/* Widget 2: The Communal Olive Press */
+.press-deck {
+  background: #eae2cb;
+  border: 2px solid var(--ink);
+  padding: 16px;
+  border-radius: 3px;
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.press-svg-wrap {
+  position: relative;
+  background: linear-gradient(180deg, #dce8ef, #c8dcdd);
+  border: 3px solid var(--ink);
+  border-radius: 4px;
+  box-shadow: 4px 5px 0 var(--shadow);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.press-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+.grower-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.grower-card {
+  background: var(--paper-hi);
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+  padding: 12px;
+  box-shadow: 3px 3px 0 var(--shadow);
+  position: relative;
+}
+
+.grower-card.active-press {
+  border-color: var(--gold);
+  background: #fffdf5;
+  box-shadow: 0 0 0 2px var(--gold), 3px 3px 0 var(--shadow);
+}
+
+.grower-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #d5cbb3;
+  padding-bottom: 6px;
+  margin-bottom: 8px;
+}
+
+.grower-name {
+  font-family: Optima, 'Gill Sans', sans-serif;
+  font-weight: 700;
+  font-size: .95rem;
+  color: var(--ink);
+}
+
+.grower-badge {
+  font-size: .72rem;
+  font-family: Optima, sans-serif;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 2px;
+  border: 1px solid var(--ink);
+}
+
+.grower-badge.idle { background: #dfd6c0; color: #5a4b37; }
+.grower-badge.req { background: #e8a838; color: #1c1512; }
+.grower-badge.in-press { background: #438945; color: #fff; }
+.grower-badge.rel { background: #6892a8; color: #fff; }
+
+.tablet-box {
+  background: #fbf5e6;
+  border: 1.5px solid #8e806a;
+  border-radius: 2px;
+  padding: 6px 8px;
+  font-family: 'Chalkboard SE', Chalkboard, 'Comic Sans MS', sans-serif;
+  font-size: .8rem;
+  min-height: 54px;
+  margin: 6px 0;
+}
+
+.tablet-title {
+  font-family: Optima, sans-serif;
+  font-size: .7rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: #79664d;
+  font-weight: 700;
+  margin-bottom: 4px;
+  display: block;
+}
+
+.rule5-status {
+  font-size: .76rem;
+  margin-top: 6px;
+  padding: 4px 6px;
+  background: #eae2cd;
+  border-radius: 2px;
+}
+
+/* Widget 3: Vector Clock Abacus & Consistent Cut */
+.vector-deck {
+  background: #eae2cb;
+  border: 2px solid var(--ink);
+  padding: 16px;
+  border-radius: 3px;
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.vector-svg-wrap {
+  position: relative;
+  background: #fdfaf0;
+  border: 3px solid var(--ink);
+  border-radius: 4px;
+  box-shadow: 4px 5px 0 var(--shadow);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.vector-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+.cut-status-banner {
+  padding: 10px 14px;
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+  margin-top: 10px;
+  font-family: Optima, sans-serif;
+  font-weight: 700;
+  font-size: .9rem;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cut-status-banner.consistent {
+  background: #d8ebd4;
+  color: #1e5c1d;
+  border-color: #2b772a;
+}
+
+.cut-status-banner.inconsistent {
+  background: #fadcd5;
+  color: #8f2316;
+  border-color: #a82e20;
+}
+
+.vector-compare-card {
+  background: var(--paper-hi);
+  border: 2px solid var(--ink);
+  padding: 12px 16px;
+  border-radius: 3px;
+  box-shadow: 3px 3px 0 var(--shadow);
+  margin-top: 12px;
+  font-size: .9rem;
+}
+
+/* ================================================================
+   VOLUME II: THE CURSE OF THE SLEEPING GUARD (Fischer, Lynch & Paterson 1985)
+   ================================================================ */
+
+/* Widget 1: The Commutativity Diamond */
+.diamond-deck {
+  background: #eae2cb;
+  border: 2px solid var(--ink);
+  padding: 16px;
+  border-radius: 3px;
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.diamond-svg-wrap {
+  position: relative;
+  background: #fcf8ee;
+  border: 3px solid var(--ink);
+  border-radius: 4px;
+  box-shadow: 4px 5px 0 var(--shadow);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.diamond-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+.diamond-compare-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.diamond-node-card {
+  background: var(--paper-hi);
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+  padding: 12px;
+  box-shadow: 3px 3px 0 var(--shadow);
+}
+
+.diamond-node-title {
+  font-family: Optima, sans-serif;
+  font-weight: 700;
+  font-size: .92rem;
+  color: var(--aegean);
+  margin-bottom: 6px;
+  display: block;
+  border-bottom: 1px solid #dfd5be;
+  padding-bottom: 4px;
+}
+
+/* Widget 2: The Bivalent Chain & Knife-Edge */
+.bivalent-chain-deck {
+  background: #eae2cb;
+  border: 2px solid var(--ink);
+  padding: 16px;
+  border-radius: 3px;
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.chain-svg-wrap {
+  position: relative;
+  background: linear-gradient(180deg, #1b2a38, #0e1720);
+  border: 3px solid var(--ink);
+  border-radius: 4px;
+  box-shadow: 4px 5px 0 var(--shadow);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.chain-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+.contradiction-box {
+  background: #fff8eb;
+  border: 2px solid var(--gold);
+  border-left: 6px solid var(--terra);
+  padding: 12px 16px;
+  border-radius: 3px;
+  margin-top: 12px;
+  box-shadow: 3px 3px 0 var(--shadow);
+  font-size: .9rem;
+  line-height: 1.5;
+}
+
+/* Widget 3: The Adversary's Trap (FLP Vigil) */
+.flp-deck {
+  background: #eae2cb;
+  border: 2px solid var(--ink);
+  padding: 16px;
+  border-radius: 3px;
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.flp-svg-wrap {
+  position: relative;
+  background: radial-gradient(circle at 50% 50%, #203a4b 0%, #0d1a22 100%);
+  border: 3px solid var(--ink);
+  border-radius: 4px;
+  box-shadow: 4px 5px 0 var(--shadow);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.flp-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  user-select: none;
+}
+
+.flp-status-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  background: var(--paper-hi);
+  border: 2px solid var(--ink);
+  padding: 10px 16px;
+  border-radius: 3px;
+  box-shadow: 3px 3px 0 var(--shadow);
+  margin-top: 10px;
+}
+
+.valence-meter-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.valence-meter-label {
+  font-family: Optima, sans-serif;
+  font-size: .8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #63533d;
+}
+
+.valence-indicator {
+  font-family: Optima, sans-serif;
+  font-weight: 700;
+  font-size: .85rem;
+  padding: 4px 10px;
+  border-radius: 2px;
+  border: 1.5px solid var(--ink);
+}
+
+.valence-indicator.bivalent {
+  background: var(--gold);
+  color: #1c1512;
+}
+
+.valence-indicator.zero-valent {
+  background: #2b772a;
+  color: #fff;
+}
+
+.valence-indicator.one-valent {
+  background: var(--aegean);
+  color: #fff;
+}
+
+.flp-runner-pool {
+  background: #fdfaf2;
+  border: 2px solid var(--ink);
+  border-radius: 3px;
+  padding: 10px 14px;
+  margin-top: 10px;
+}
+
+.flp-runner-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.flp-runner-btn {
+  background: #f0e6ce;
+  border: 1.5px solid var(--ink);
+  border-radius: 3px;
+  padding: 5px 10px;
+  font-family: Optima, sans-serif;
+  font-size: .8rem;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 var(--shadow);
+  transition: all .1s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.flp-runner-btn:hover {
+  background: #faefd8;
+  transform: translateY(-1px);
+}
+
+.flp-runner-btn.adversary-safe {
+  border-color: #2b772a;
+}
+
+.flp-runner-btn.adversary-danger {
+  border-color: #a82e20;
+  background: #f8ded9;
+}

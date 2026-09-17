@@ -10,7 +10,7 @@
 ## Phases
 | Phase | Years | Zone | Volumes | What happens there |
 |---|---|---|---|---|
-| 1 · The hamlets | 0–8 | First lobe, 0–2.3 km | I Disordered Sundials, II Sleeping Shepherd | Hamlets with no common clock, each hidden from the others (I). The shepherd's curse at the summit oracle (II). The neck is still empty. In the col already stands the Great Round, older than anything else in the story (see below). |
+| 1 · The hamlets | 0–8 | First lobe, 0–2.3 km | I Disordered Sundials, II Sleeping Guard | Hamlets with no common clock, each hidden from the others (I). The guard's curse on the coastal watchtowers (II). The neck is still empty. In the col already stands the Great Round, older than anything else in the story (see below). |
 | 2 · The passable season | 8–14 | The neck, 2.6–3.6 km | III Passable Season | The navigators' doctrine at the lantern harbour. The island splits in two at the neck whenever winter seas cover the causeway. |
 | 3 · The Parliament | 14–22 | The col, 4.8–5.5 km | IV Part-time Parliament | Parliament takes over the old Round in the col. The Statue Walk, the merchant quays and the town are built. |
 | 4 · Siege and ledger | 22–30 | Either side of the spine, 6.3–7.1 km | V Generals Before the Walls, VI Ledger of Many Decrees | Two things happen at once, facing each other across the spine. Traitor commanders besiege the headland city, which proves the 3f+1 bound (V). The granary clerks keep the ledger under a standing consul (VI). |

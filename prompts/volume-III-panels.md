@@ -15,11 +15,11 @@ High view over the lantern harbour: the round cothon with its seven stone quays 
 
 - **Shape:** wide 16:9
 - **Blender:** cothon (captains' hall)
-- **Cast:** the assembly, three navigators
+- **Cast:** the captains, three navigators
 - **Sheets:** `references/III-characters.jpg`, `references/III-props.jpg`
-- **Caption:** THE ASSEMBLY WEPT FOR THREE YEARS. THEN THE NAVIGATORS ARRIVED WITH THEIR CHARTS.
+- **Caption:** THE CAPTAINS DESPAIRED AS WINTER CLOSED IN. THEN THE NAVIGATORS ARRIVED WITH THEIR CHARTS.
 
-A grey, rain-lashed captains' hall at the cothon, where a despairing assembly sits slumped beneath a carved inscription of the oracle's curse. The doors are thrown open and a delegation of weather-beaten navigators strides in carrying rolled sea charts, knotted sounding ropes and a brass astrolabe, with the storm visibly breaking into sunlight behind them.
+A grey, rain-lashed captains' hall at the cothon, where anxious shipmasters sit in gloom over maps of the stormbound straits. The doors are thrown open and a delegation of weather-beaten navigators strides in carrying rolled sea charts, knotted sounding ropes and a brass astrolabe, with the storm visibly breaking into sunlight behind them.
 
 ## III-02 · Two kinds of in-between sea
 
@@ -85,8 +85,8 @@ At dusk on the twin drummers' headlands across the causeway strait, drummers sta
 
 - **Shape:** wide 16:9
 - **Blender:** cothon
-- **Cast:** captains, a navigator
+- **Cast:** captains, navigators
 - **Sheets:** `references/III-characters.jpg`, `references/III-props.jpg`
-- **Caption:** THE STORM ENDS ON NO ONE’S SCHEDULE — BUT IT ENDS, AND THE COUNCIL DECIDES.
+- **Caption:** THE STORM ENDS ON NO ONE’S SCHEDULE — BUT IT ENDS, AND THE FLEET DECIDES.
 
-A bright, calm summer morning over the lantern harbour: a fleet of messenger skiffs glides in orderly lines between the seven quays on a glassy basin; at the nearest quay, the captains stand around a bronze urn as the last token is dropped in, while a navigator checks a sundial and nods.
+A bright, calm morning over the lantern harbour: a fleet of dispatch skiffs glides in orderly lines between the seven quays on a glassy basin; at the central mole, the captains stand together in agreement as the sailing pennant is raised to the yardarm and the first galleys cast off their moorings.

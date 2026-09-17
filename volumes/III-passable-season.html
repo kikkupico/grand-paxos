@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Volume III: The Passable Season — Distributed Algorithms of Ancient Greece</title>
 <link rel="stylesheet" href="volume.css">
+<link rel="stylesheet" href="simulator.css">
 </head>
 <body>
 <nav class="series-nav">
@@ -23,7 +24,7 @@
   <div class="frame-cover" id="panel-III-00" data-panel="III-00" data-shape="splash" data-refs="III-characters III-props"><div class="img-placeholder ph-splash" role="img" aria-label="The lantern harbour in the calm: The round cothon with its seven quays and lantern islet; beyond it, the causeway crest and the twin drummers&#x27; headlands across the strait."><span class="ph-label">III-00 · splash 3:2</span><span class="ph-title">The lantern harbour in the calm</span><span class="ph-desc">The round cothon with its seven quays and lantern islet; beyond it, the causeway crest and the twin drummers&#x27; headlands across the strait.</span><span class="ph-meta">Blender: cothon; drummers; strait · Sheets: III-characters, III-props</span></div></div>
   <!-- /PANEL III-00 -->
   <p class="sub display">An illustrated chronicle of the navigators' guild, who out-waited the
-  oracle's curse instead of defeating it, and the table of bounds they left behind.</p>
+  winter storm instead of defying it, and the table of bounds they left behind.</p>
   <p class="pub">After C. Dwork, N. Lynch &amp; L. Stockmeyer, "Consensus in the Presence of Partial
   Synchrony," <em>JACM</em> 35, 2 (April 1988), 288–323. The complete bounds, retold.</p>
 </header>
@@ -48,23 +49,23 @@
 <section id="preface">
   <div class="editor-note">
     <span class="tag">The translator's preface</span>
-    <p>After the curse of the summit oracle (Volume II), the assembly was in despair: no rite could
-    be sure of reaching a verdict if the sea might delay a boat without limit. This volume is the
-    logbook of the navigators' guild that ended the despair — not by lifting the curse, which cannot
-    be lifted, but by pointing out that the Aegean is not, in fact, an infinitely capricious sea.</p>
+    <p>If the sea may delay a boat without limit, no rite can guarantee that independent captains reach a
+    verdict in the face of silence. This volume is the logbook of the navigators' guild that ended the
+    despair — not by defying the storm, which cannot be commanded, but by pointing out that the Aegean is not,
+    in fact, an infinitely capricious void.</p>
     <p>The logbook was kept by three navigators,
     <span class="paxon" data-real="Cynthia Dwork" data-note="Then at IBM Almaden. Later co-inventor of differential privacy.">Ντουόρκ</span>,
-    <span class="paxon" data-real="Nancy Lynch" data-note="MIT. Also one of the three priestesses of Volume II — she helped cast the curse and then helped find the way around it.">Λίντς</span>
+    <span class="paxon" data-real="Nancy Lynch" data-note="MIT. Also one of the three scholars of Volume II — she helped prove the impossibility and then helped find the way around it.">Λίντς</span>
     and
     <span class="paxon" data-real="Larry Stockmeyer" data-note="IBM Almaden Research Center.">Στόκμαγιερ</span>.
-    Readers may notice that one of the navigators was also one of the priestesses. The guild records
-    do not comment on this.</p>
-    <p>The logbook is long, technical and thirty-six columns in length. I have kept its central table,
-    its rites, and its lower-bound arguments; its clock constructions I have summarized.</p>
+    Readers will recognize one of the navigators from the headlands of Volume&nbsp;II: having helped demonstrate
+    the boundary of what cannot be promised, she returned to show what can.</p>
+    <p>The logbook is long, technical, and thirty-six columns in length. I have kept its central table, its
+    rites, and its lower-bound arguments; its clock constructions I have summarized.</p>
     <p class="sig">— The Translator</p>
   </div>
 
-  <div class="narr">The priestesses assumed a sea of infinite caprice. The navigators observed that the winter storms, however long, do end — and that thereafter a skiff crosses in some bounded time. A rite can be built that never contradicts itself in any weather and reaches a verdict once the calm arrives. The curse is not defeated. It is out-waited.</div>
+  <div class="narr">An unconstrained sea is one of infinite caprice. The navigators observed that winter storms, however long, do end — and that thereafter a rowed skiff crosses the sound in bounded time. A sailing code can be built that never divides the fleet in any gale and reaches a verdict once the calm arrives. The impossibility is not defied. It is out-waited.</div>
 </section>
 
 <hr class="meander">
@@ -78,37 +79,49 @@
 
   <!-- PANEL III-01 -->
   <figure class="panel" id="panel-III-01" data-panel="III-01" data-shape="wide" data-refs="III-characters III-props">
-    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The navigators arrive: A grey, rain-lashed hall where the assembly sits slumped beneath the oracle&#x27;s carved curse; the doors open and weather-beaten navigators stride in with charts, sounding ropes and an astrolabe."><span class="ph-label">III-01 · wide 16:9</span><span class="ph-title">The navigators arrive</span><span class="ph-desc">A grey, rain-lashed hall where the assembly sits slumped beneath the oracle&#x27;s carved curse; the doors open and weather-beaten navigators stride in with charts, sounding ropes and an astrolabe.</span><span class="ph-meta">Blender: cothon (captains&#x27; hall) · Sheets: III-characters, III-props</span></div></div>
-    <figcaption>THE ASSEMBLY WEPT FOR THREE YEARS. THEN THE NAVIGATORS ARRIVED WITH THEIR CHARTS.</figcaption>
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The navigators arrive: A grey, rain-lashed hall at the cothon where the captains sit anxious over their charts; the doors open and three weather-beaten navigators stride in with charts, sounding ropes and an astrolabe."><span class="ph-label">III-01 · wide 16:9</span><span class="ph-title">The navigators arrive</span><span class="ph-desc">A grey, rain-lashed hall at the cothon where the captains sit anxious over their charts; the doors open and three weather-beaten navigators stride in with charts, sounding ropes and an astrolabe.</span><span class="ph-meta">Blender: cothon (captains&#x27; hall) · Sheets: III-characters, III-props</span></div></div>
+    <figcaption>THE CAPTAINS DESPAIRED AS WINTER CLOSED IN. THEN THE NAVIGATORS ARRIVED WITH THEIR CHARTS.</figcaption>
   </figure>
   <!-- /PANEL III-01 -->
 
-  <h3 id="1-1-two-bounds" class="sect"><a href="#1-1-two-bounds" class="hlink">1.1 · The Two Bounds of the Sea</a></h3>
+  <h3 id="1-1-the-convoys-dilemma" class="sect"><a href="#1-1-the-convoys-dilemma" class="hlink">1.1 · The Convoy's Dilemma &amp; The Bounds of the Sea</a></h3>
   <div class="prose">
-    <p>The navigators studied agreement among <var>N</var> delegates, each starting with a value and all
-    required to decide on the same value — and, if they all start with the same value <var>v</var>, to decide
-    <var>v</var>. Some delegates may be faulty, and the navigators distinguished four kinds of fault, from
-    mildest to worst:</p>
+    <p>A merchant fleet of <var>N</var> vessels — heavy round-hulled freighters, supply barks, and armed
+    galleys — lay moored in the circular lantern harbour (the <em>cothon</em>) at the narrow neck of Paxos.
+    Autumn was dying into winter. Hardtack barrels and freshwater casks were running low, and the seasonal gales
+    had kept the fleet pinned behind the breakwater for weeks.</p>
+    <p>The captains faced an existential choice on which their lives and fortunes hung:</p>
+    <ul>
+      <li><b>SAIL (1):</b> Cast off moorings, raise the yards, and attempt the open sea crossing together as an
+      intact convoy to reach the mainland markets before winter locks the sea.</li>
+      <li><b>WINTER (0):</b> Unrig the masts, haul the hulls onto the dry beach slips, butcher the pack mules, and
+      commit to winter quarters on Paxos until spring.</li>
+    </ul>
+    <p>Ancient seafaring was strictly a convoy enterprise. A lone merchant galley that loses its steering oar or
+    springs a leak in open water is lost; ships relied on sister vessels for towing, rescue, and repelling
+    pirates. If half the captains put to sea while the other half beach their hulls, the departing ships face doom
+    if a squall strikes, while the wintering crews lose half their fighting strength and provisions. Whatever the
+    captains choose, all sound captains must decide the same. A split verdict is disaster.</p>
+    <p>Some captains may fail during deliberations, and the navigators distinguished four kinds of maritime
+    hazard, from mildest to worst:</p>
   </div>
   <div class="decree rules">
-    <span class="rhead">The Four Kinds of Faulty Delegate</span>
+    <span class="rhead">The Four Kinds of Faulty Captain</span>
     <ul>
-      <li><b>The Sleeper</b> (fail-stop): follows the rite correctly, but may stop at any time and never restart.</li>
-      <li><b>The Forgetful</b> (omission): follows the rite, but some letters he sends are never placed in the harbour, and some he receives he ignores.</li>
-      <li><b>The Liar with a Seal</b> (authenticated Byzantine): behaves arbitrarily, but his letters can be sealed so that no one can forge another's seal.</li>
-      <li><b>The Liar</b> (Byzantine): behaves arbitrarily, with no seals — though a receiver always knows who handed him a letter.</li>
+      <li><b>The Stranded Ship</b> (fail-stop / sleeper): follows the code correctly, but runs aground on a shoal, snaps its rudder, or whose crew is felled by marsh fever; it ceases sending skiffs and never replies again.</li>
+      <li><b>The Swamped Skiff</b> (omission): follows the code, but some message pouches carried by its skiffs are lost in the heavy surf, or flares are missed in the rain.</li>
+      <li><b>The Mutinous Captain with a Signet</b> (authenticated Byzantine): behaves deceitfully — proposing Sail to some and Winter to others — but cannot forge another captain's unique bronze signet ring pressed into pitch.</li>
+      <li><b>The Pirate Impostor</b> (Byzantine): behaves arbitrarily with no unforgeable seals, fabricating rumours and impersonating other vessels.</li>
     </ul>
   </div>
   <div class="prose">
-    <p>The weather was described by two bounds. <b>Δ</b> is the longest time a boat takes to deliver a
-    letter. <b>Φ</b> is the most by which one delegate can be slower than another: in any span of Φ
-    moments, every sound delegate takes at least one step. If both bounds exist and are known in
-    advance, the sea is <em>synchronous</em>, and the older rites apply: with seals, any number of faults
-    can be tolerated; without them, the generals of Volume&nbsp;V showed <var>N</var> ≥ 3<var>t</var> + 1
-    is needed. If either bound does not exist at all, the sea is <em>asynchronous</em>, and the oracle's
-    curse, as extended by
-    <span class="paxon" data-real="Dolev, Dwork &amp; Stockmeyer" data-note="“On the Minimal Synchronism Needed for Distributed Consensus” (1987), which extended FLP to show both bounds are needed.">later soothsayers</span>,
-    says no rite tolerates even one sleeper.</p>
+    <p>The weather across the harbour was described by two bounds. <b>Δ</b> is the longest time a rowed dispatch
+    skiff takes to cross the water and deliver a message tube. <b>Φ</b> is the most by which one captain's crew
+    can be slower than another: in any span of Φ moments, every sound crew takes at least one step. If both bounds
+    exist and are known in advance, the sea is <em>synchronous</em>, and older rites apply: with signet seals, any
+    number of faults can be tolerated; without them, the generals of Volume&nbsp;V showed <var>N</var> ≥ 3<var>t</var> + 1
+    is needed. If either bound does not exist at all, the sea is <em>asynchronous</em>, and the curse of
+    Volume&nbsp;II proves that no rite can tolerate even a single stranded vessel.</p>
     <p>The navigators studied the seas in between.</p>
   </div>
 
@@ -120,37 +133,36 @@
   </figure>
   <!-- /PANEL III-02 -->
   <div class="prose">
-    <p>The first natural in-between sea is one where a bound Δ <em>exists</em>, but no one knows what it is.
-    The curse does not apply, since the sea is in fact bounded. But every known rite needs Δ in order to
-    know how long to wait each round. One could guess some Δ and declare anyone whose letter takes longer
-    to be faulty — but guess too small and soon every delegate is "faulty", and the verdicts of faulty
-    delegates need not agree with anyone's. What is wanted is a rite with no Δ built in, correct whenever
-    <em>some</em> fixed Δ holds.</p>
-    <p>The second is one where Δ is known, but the harbour is sometimes unreliable, delivering letters late
-    or not at all. A late letter must not make its sender faulty. Without further constraint this is as
-    bad as a fully asynchronous sea. So the navigators imposed one: for each voyage there is a
-    <b>Global Stabilization Time</b> — the start of the Passable Season, GST — unknown to the delegates,
-    from which point on the harbour respects Δ.<sup>1</sup></p>
+    <p>The first in-between sea is one where a bound Δ <em>exists</em>, but no one knows what it is. The
+    impossibility of pure asynchrony does not apply, because the sea is in fact bounded. But every known rite needs
+    Δ to know how long a captain must wait each round. One could guess some Δ and declare any vessel whose skiff takes
+    longer to be stranded — but guess too small and soon every captain is deemed "faulty", and the decisions of
+    faulty captains need not agree with anyone's. What is wanted is a sailing code with no fixed Δ built in,
+    correct whenever <em>some</em> fixed Δ holds.</p>
+    <p>The second is one where Δ is known, but the harbour is intermittently tossed by storms, delivering skiffs
+    late or holding them in sheltered coves. A late skiff must not cause its captain to be branded dead. So the
+    navigators introduced the central concept of the series: for each voyage there is an unknown
+    <b>Global Stabilization Time</b> — the arrival of the Passable Season, GST — from which point onward the
+    harbour calms and respects Δ.<sup>1</sup></p>
   </div>
-  <aside class="fn"><b>1.</b> The navigators anticipated the objection that no calm lasts for ever. Any
-  good rite reaches its verdict within some span <var>L</var> after GST, so the calm need only last until
-  GST + <var>L</var>; they preferred to state the time bounds for each rite rather than burden the
-  definition.</aside>
+  <aside class="fn"><b>1.</b> The navigators anticipated the objection that no calm lasts forever. Any good
+  rite reaches its verdict within some span <var>L</var> after GST, so the calm need only last until GST + <var>L</var>;
+  they preferred to state the time bounds for each rite rather than burden the definition.</aside>
   <div class="slab">
     <div class="slab-head">Safety in Every Weather</div>
-    <p class="stmt">Separate the requirements into <em>safety</em> — no two sound delegates ever disagree, and
-    none decides an improper value — and <em>termination</em> — every sound delegate eventually decides. A rite
-    that solves consensus whenever Δ holds from some GST onward <b>cannot violate safety even if the sea is
-    completely asynchronous</b>. For a safety violation happens at some finite moment, and there is a
+    <p class="stmt">Separate the requirements into <em>safety</em> — no two sound captains ever hoist conflicting
+    pennants, and none decides an improper action — and <em>liveness</em> — every sound captain eventually decides.
+    A rite that solves consensus whenever Δ holds from some GST onward <b>cannot violate safety even if the sea
+    is completely asynchronous</b>. For a safety violation happens at some finite moment, and there is a
     continuation of that very voyage in which Δ holds afterwards.</p>
   </div>
   <div class="prose">
-    <p>This short observation is the whole bargain of the later volumes: <b>safe always, live
-    eventually</b>. The navigators framed each version as a game between a rite-maker and an adversary. If
-    Δ is known, the adversary names Δ and the rite-maker then supplies a rite. If Δ is unknown, the
-    rite-maker supplies the rite first and the adversary then names Δ. If Δ holds eventually, the adversary
-    names Δ, the rite-maker (knowing it) supplies the rite, and the adversary then picks the day the calm
-    begins. Replacing Δ by Φ gives the same three kinds of weather for the delegates' own speeds.</p>
+    <p>This short observation is the foundational bargain of practical distributed systems: <b>safe always, live
+    eventually</b>. The fleet will never sail on a false calm, nor will half the galleys sail while the other
+    half beach their hulls. The navigators framed each version as a game against the sea. If Δ is known, the sea
+    names Δ and the navigator supplies a rite. If Δ is unknown, the navigator supplies the rite first and the sea
+    then names Δ. If Δ holds eventually, the sea names Δ, the navigator supplies the rite, and the sea then picks
+    the day the calm begins.</p>
   </div>
 </section>
 
@@ -165,8 +177,8 @@
 
   <div class="prose">
     <p>The heart of the logbook is a single table. For each kind of fault and each kind of weather, it
-    gives <var>N</var><sub>min</sub>, the smallest number of delegates for which a rite tolerating
-    <var>t</var> faults exists.</p>
+    gives <var>N</var><sub>min</sub>, the smallest fleet size for which a sailing code tolerating
+    <var>t</var> faulty captains exists.</p>
   </div>
   <div class="table-wrap">
     <table class="chron">
@@ -181,23 +193,21 @@
         </tr>
       </thead>
       <tbody>
-        <tr><td>Sleeper (fail-stop)</td><td class="c"><var>t</var></td><td class="c">∞</td><td class="c">2<var>t</var> + 1</td><td class="c">2<var>t</var> + 1</td><td class="c"><var>t</var></td></tr>
-        <tr><td>Forgetful (omission)</td><td class="c"><var>t</var></td><td class="c">∞</td><td class="c">2<var>t</var> + 1</td><td class="c">2<var>t</var> + 1</td><td class="c">[2<var>t</var>, 2<var>t</var> + 1]</td></tr>
-        <tr><td>Liar with a seal</td><td class="c"><var>t</var></td><td class="c">∞</td><td class="c">3<var>t</var> + 1</td><td class="c">3<var>t</var> + 1</td><td class="c">2<var>t</var> + 1</td></tr>
-        <tr><td>Liar (Byzantine)</td><td class="c">3<var>t</var> + 1</td><td class="c">∞</td><td class="c">3<var>t</var> + 1</td><td class="c">3<var>t</var> + 1</td><td class="c">3<var>t</var> + 1</td></tr>
+        <tr><td>Stranded (fail-stop)</td><td class="c"><var>t</var></td><td class="c">∞</td><td class="c">2<var>t</var> + 1</td><td class="c">2<var>t</var> + 1</td><td class="c"><var>t</var></td></tr>
+        <tr><td>Swamped (omission)</td><td class="c"><var>t</var></td><td class="c">∞</td><td class="c">2<var>t</var> + 1</td><td class="c">2<var>t</var> + 1</td><td class="c">[2<var>t</var>, 2<var>t</var> + 1]</td></tr>
+        <tr><td>Mutinous with a seal</td><td class="c"><var>t</var></td><td class="c">∞</td><td class="c">3<var>t</var> + 1</td><td class="c">3<var>t</var> + 1</td><td class="c">2<var>t</var> + 1</td></tr>
+        <tr><td>Pirate impostor (Byzantine)</td><td class="c">3<var>t</var> + 1</td><td class="c">∞</td><td class="c">3<var>t</var> + 1</td><td class="c">3<var>t</var> + 1</td><td class="c">3<var>t</var> + 1</td></tr>
       </tbody>
-      <caption>Table I of the logbook: smallest <var>N</var> for which a <var>t</var>-resilient consensus rite exists (<var>t</var> ≥ 1). "∞" means no rite exists at all (the oracle's curse). The interval [2<var>t</var>, 2<var>t</var> + 1] means 2<var>t</var> ≤ <var>N</var><sub>min</sub> ≤ 2<var>t</var> + 1.</caption>
+      <caption>Table I of the logbook: smallest <var>N</var> for which a <var>t</var>-resilient consensus rite exists (<var>t</var> ≥ 1). "∞" means no rite exists at all (the impossibility of pure asynchrony). The interval [2<var>t</var>, 2<var>t</var> + 1] means 2<var>t</var> ≤ <var>N</var><sub>min</sub> ≤ 2<var>t</var> + 1.</caption>
     </table>
   </div>
   <div class="prose">
-    <p>Two lessons are drawn from it. First, for sleepers, the forgetful and liars with seals, the
-    resilience in a partially synchronous sea lies <em>strictly between</em> the synchronous and asynchronous
-    cases: a majority of sound delegates (2<var>t</var> + 1) is exactly what is needed to tolerate
-    <var>t</var> sleepers. Second, when boats are partially synchronous, <b>seals do not help</b>: liars need
-    3<var>t</var> + 1 delegates with or without them. Surprisingly, making the rowers partially synchronous
-    as well changes nothing in the table, only the time the rites take. In every case the time to reach a
-    verdict is polynomial in <var>N</var> and Δ (and Φ) when the bounds are unknown, and GST plus such a
-    polynomial when they hold eventually.</p>
+    <p>Two lessons are drawn from it. First, for stranded ships, swamped skiffs, and mutineers with seals, the
+    fleet size needed in a partially synchronous sea lies <em>strictly between</em> the synchronous and
+    asynchronous cases: a strict majority of sound captains (2<var>t</var> + 1) is exactly what is needed to
+    tolerate <var>t</var> failures. Second, when boats are partially synchronous, <b>signet seals do not help
+    against liars</b>: rogue captains require 3<var>t</var> + 1 vessels with or without seals. In every case,
+    the time to reach a verdict is polynomial in <var>N</var> and Δ once GST arrives.</p>
   </div>
 </section>
 
@@ -211,14 +221,14 @@
   </div>
 
   <div class="prose">
-    <p>The navigators first designed their rites in an idealized harbour, the <em>basic round model</em>, and
+    <p>The navigators first designed their rites in an idealized harbor, the <em>basic round model</em>, and
     later showed how real seas can imitate it. In the basic model, time passes in numbered rounds that all
-    delegates share. Each round has a sending part, a receiving part and a thinking part. Letters may be
-    lost — but from some round GST onward, every letter from a sound delegate to a sound delegate arrives in
-    the round it was sent. The delegates do not know which round is GST.</p>
-    <p>All the rites share a common method. A delegate <var>p</var> tries to get the others to switch to some
-    value <var>v</var> he has found acceptable, and decides <var>v</var> once enough of them acknowledge the
-    switch that no different value can ever be found acceptable later.</p>
+    captains share. Each round has a dispatching part, a receiving part, and a calculation part. Skiffs may be
+    delayed during gales — but from round GST onward, every skiff sent from a sound captain to a sound captain
+    arrives in the round it was sent.</p>
+    <p>All the rites share a common method. A captain <var>p</var> tries to get the fleet to lock onto some
+    verdict <var>v</var> (Sail or Winter) that he has found acceptable, and decides <var>v</var> once enough
+    captains acknowledge the lock that no different verdict can ever be agreed upon later.</p>
   </div>
 
   <!-- PANEL III-03 -->
@@ -228,19 +238,18 @@
   </figure>
   <!-- /PANEL III-03 -->
 
-  <h3 id="3-1-rite-one" class="sect"><a href="#3-1-rite-one" class="hlink">3.1 · Rite One: Sleepers and the Forgetful (<var>N</var> ≥ 2<var>t</var> + 1)</a></h3>
+  <h3 id="3-1-rite-one" class="sect"><a href="#3-1-rite-one" class="hlink">3.1 · Rite One: Stranded and Swamped Ships (<var>N</var> ≥ 2<var>t</var> + 1)</a></h3>
   <div class="prose">
-    <p>Each delegate keeps a set PROPER of values he knows to be <em>proper</em>: if all delegates started
-    with the same <var>v</var>, only <var>v</var> is proper; otherwise every value is. PROPER starts as his own
-    starting value, is attached to every letter, and grows with every value he sees in others' PROPER
-    sets.</p>
-    <p>Rounds are grouped into <em>phases</em>, numbered 1, 2, 3, …, each a three-round <em>trying phase</em>
-    followed by a one-round <em>lock-release phase</em>. Phase <var>k</var> <em>belongs</em> to delegate
-    <var>p</var><sub><var>i</var></sub> where <var>k</var> ≡ <var>i</var> (mod <var>N</var>) — the lantern passes round
-    the harbour. A delegate may <em>moor</em> (the logbook says <em>lock</em>) to a value <var>v</var> at phase
-    <var>k</var>; the mooring means "I think the owner of phase <var>k</var> might decide <var>v</var>", and he casts
-    it off only when he learns he was wrong. A value is <em>acceptable</em> to a delegate if he is moored to no
-    other value.</p>
+    <p>Each captain keeps a set PROPER of values he knows to be legitimate: if all captains initially favored
+    <var>v</var>, only <var>v</var> is proper; otherwise both Sail and Winter are. PROPER begins with his own dawn
+    observation, is attached to every message tube, and grows with every value seen in others' reports.</p>
+    <p>Rounds are grouped into <em>phases</em>, numbered 1, 2, 3, …, each comprising a three-round <em>trying
+    phase</em> followed by a one-round <em>lock-release phase</em>. Phase <var>k</var> <em>belongs</em> to captain
+    <var>p</var><sub><var>i</var></sub> where <var>k</var> ≡ <var>i</var> (mod <var>N</var>) — the flagship lantern
+    passes clockwise round the cothon. A captain may <em>moor</em> (the logbook says <em>lock</em>) to a value
+    <var>v</var> at phase <var>k</var>; the mooring means "I believe Flagship <var>k</var> may decide <var>v</var>",
+    and he casts it off only when presented with evidence of a higher phase. A value is <em>acceptable</em> to a
+    captain if he is currently moored to no conflicting value.</p>
   </div>
   <!-- PANEL III-04 -->
   <figure class="panel narrow tilt-l" id="panel-III-04" data-panel="III-04" data-shape="tall" data-refs="III-props">
@@ -248,79 +257,418 @@
     <figcaption>A MOORING IS A PROMISE WITH A PHASE NUMBER ON IT. YOU CAST IT OFF ONLY FOR ANOTHER VALUE WITH AN EQUAL OR HIGHER NUMBER.</figcaption>
   </figure>
   <!-- /PANEL III-04 -->
+
   <div class="decree rules">
-    <span class="rhead">Trying Phase <var>k</var> (owner <var>p</var><sub><var>i</var></sub>), first round <var>s</var> = 4<var>k</var> − 3</span>
+    <span class="rhead">Trying Phase <var>k</var> (Flagship <var>p</var><sub><var>i</var></sub>), first round <var>s</var> = 4<var>k</var> − 3</span>
     <ol>
-      <li><b>Round <var>s</var>.</b> Every delegate sends <var>p</var><sub><var>i</var></sub> the list of values that are both acceptable to him and in his PROPER set.</li>
-      <li><b>Round <var>s</var> + 1.</b> If at least <var>N</var> − <var>t</var> delegates found some <var>v</var> acceptable and proper, <var>p</var><sub><var>i</var></sub> picks such a <var>v</var> and broadcasts (lock <var>v</var>, <var>k</var>).</li>
-      <li><b>Round <var>s</var> + 2.</b> Anyone receiving (lock <var>v</var>, <var>k</var>) moors to <var>v</var> at phase <var>k</var> (casting off any older mooring to <var>v</var>) and sends an acknowledgment. If <var>p</var><sub><var>i</var></sub> receives at least <var>t</var> + 1 acknowledgments, he decides <var>v</var> — and keeps taking part.</li>
-      <li><b>Lock-release, round <var>s</var> + 3.</b> Every delegate broadcasts all his moorings (<var>v</var>, <var>h</var>). A delegate moored to <var>v</var> at phase <var>h</var> who hears of a mooring (<var>w</var>, <var>h′</var>) with <var>w</var> ≠ <var>v</var> and <var>h′</var> ≥ <var>h</var> casts off his mooring to <var>v</var>.</li>
+      <li><b>Round <var>s</var>:</b> Every captain sends Flagship <var>p</var><sub><var>i</var></sub> the list of verdicts (Sail or Winter) that are both acceptable to him and in his PROPER set.</li>
+      <li><b>Round <var>s</var> + 1:</b> If at least <var>N</var> − <var>t</var> captains found some <var>v</var> acceptable and proper, <var>p</var><sub><var>i</var></sub> picks such a <var>v</var> and broadcasts (lock <var>v</var>, <var>k</var>).</li>
+      <li><b>Round <var>s</var> + 2:</b> Anyone receiving (lock <var>v</var>, <var>k</var>) moors to <var>v</var> at phase <var>k</var> (casting off any older mooring) and sends an acknowledgment skiff. If Flagship <var>p</var><sub><var>i</var></sub> receives at least <var>t</var> + 1 acknowledgments, he decides <var>v</var>, hoists his signal pennant, and continues participating to relay his decision.</li>
+      <li><b>Lock-release, round <var>s</var> + 3:</b> Every captain broadcasts his current moorings (<var>v</var>, <var>h</var>). A captain moored to <var>v</var> at phase <var>h</var> who learns of a mooring (<var>w</var>, <var>h′</var>) with <var>w</var> ≠ <var>v</var> and <var>h′</var> ≥ <var>h</var> casts off his mooring to <var>v</var>.</li>
     </ol>
   </div>
   <div class="slab">
     <div class="slab-head">Lemmas 3.1–3.3</div>
-    <p class="stmt"><b>3.1.</b> No two distinct values acquire moorings with the same phase number — the phase's owner would have to send two conflicting lock letters, which a sleeper or forgetful delegate never does.</p>
-    <p class="stmt"><b>3.2.</b> If some delegate decides <var>v</var> at phase <var>k</var>, the first phase with any decision, then at least <var>t</var> + 1 delegates moor to <var>v</var> at phase <var>k</var>, and each of them stays moored to <var>v</var> at phase ≥ <var>k</var> for ever after.</p>
-    <p class="stmt"><b>3.3.</b> Immediately after any lock-release phase at or after GST, the sound delegates are moored to at most one value.</p>
+    <p class="stmt"><b>3.1.</b> No two distinct values acquire moorings with the same phase number — the flagship would have to send two conflicting lock slates, which an honest captain never does.</p>
+    <p class="stmt"><b>3.2.</b> If some captain decides <var>v</var> at phase <var>k</var>, the first phase with any decision, then at least <var>t</var> + 1 captains moor to <var>v</var> at phase <var>k</var>, and each of them stays moored to <var>v</var> at phase ≥ <var>k</var> forever after.</p>
+    <p class="stmt"><b>3.3.</b> Immediately after any lock-release phase at or after GST, the sound captains are moored to at most one value.</p>
   </div>
   <details class="proof">
     <summary>Why a mooring to the decided value is never cast off (Lemma 3.2)</summary>
     <ol class="proofsteps">
       <li>Suppose some mooring to <var>v</var> made at phase <var>k</var> is first cast off, without being replaced by a higher one, at lock-release phase <var>l</var>. Then someone was moored to <var>w</var> ≠ <var>v</var> at some phase <var>h</var> with <var>k</var> ≤ <var>h</var> ≤ <var>l</var>.</li>
-      <li>By Lemma 3.1, <var>h</var> ≠ <var>k</var>, so <var>k</var> &lt; <var>h</var> ≤ <var>l</var>. For <var>w</var> to be moored at phase <var>h</var>, it must have been acceptable to at least <var>N</var> − <var>t</var> delegates at the start of phase <var>h</var> — so at least <var>N</var> − <var>t</var> delegates were not moored to <var>v</var>.</li>
-      <li>But <var>t</var> + 1 delegates were moored to <var>v</var> through the start of phase <var>l</var>, and (<var>N</var> − <var>t</var>) + (<var>t</var> + 1) &gt; <var>N</var>. Impossible. <span class="qed">∎</span></li>
+      <li>By Lemma 3.1, <var>h</var> ≠ <var>k</var>, so <var>k</var> &lt; <var>h</var> ≤ <var>l</var>. For <var>w</var> to be moored at phase <var>h</var>, it must have been acceptable to at least <var>N</var> − <var>t</var> captains at the start of phase <var>h</var> — so at least <var>N</var> − <var>t</var> captains were not moored to <var>v</var>.</li>
+      <li>But <var>t</var> + 1 captains were moored to <var>v</var> through the start of phase <var>l</var>, and (<var>N</var> − <var>t</var>) + (<var>t</var> + 1) &gt; <var>N</var>. Overlapping majorities make this impossible. <span class="qed">∎</span></li>
     </ol>
   </details>
   <div class="slab">
     <div class="slab-head">Theorem 3.1</div>
-    <p class="stmt">In the basic model with sleepers or forgetful delegates and <var>N</var> ≥ 2<var>t</var> + 1, Rite One achieves consistency, strong unanimity and termination for any set of values.</p>
+    <p class="stmt">In the basic model with stranded or swamped ships and <var>N</var> ≥ 2<var>t</var> + 1, Rite One achieves consistency, strong unanimity, and termination for any set of values.</p>
   </div>
   <div class="prose">
-    <p><b>Consistency:</b> after the first decision, <var>t</var> + 1 delegates stay moored to <var>v</var>, so no other
-    value can ever again be acceptable to <var>N</var> − <var>t</var>, and none is decided. <b>Unanimity:</b> if all
-    start with <var>v</var>, only <var>v</var> is ever proper. <b>Termination:</b> take any trying phase owned by a
-    sound delegate that follows a lock-release phase at or after GST. At most one value is moored (Lemma 3.3),
-    it has had time to become proper to everyone, and there are at least <var>t</var> + 1 sound delegates — so a
-    proper, acceptable value is found, locked and acknowledged, and the owner decides. All sound delegates
-    decide by round GST + 4(<var>N</var> + 1).</p>
-  </div>
-
-  <h3 id="3-2-rite-two" class="sect"><a href="#3-2-rite-two" class="hlink">3.2 · Rite Two: Liars with Seals (<var>N</var> ≥ 3<var>t</var> + 1)</a></h3>
-  <div class="prose">
-    <p>Against liars, the owner of a phase may send conflicting lock letters, so the mooring must carry
-    evidence. Rite Two is Rite One with three changes. Each lock letter carries a <em>proof of
-    acceptability</em>: the <var>N</var> − <var>t</var> sealed lists showing <var>v</var> acceptable and proper. The
-    owner decides only on <var>2t</var> + 1 acknowledgments, of which at least <var>t</var> + 1 come from sound
-    delegates. And PROPER grows more cautiously: a value is added only when <var>t</var> + 1 delegates vouch for
-    it, and all values become proper once a delegate has seen 2<var>t</var> + 1 starting values among which no
-    <var>t</var> + 1 agree. Lock-release broadcasts the sealed lock letters themselves. The same lemmas hold
-    for moorings of sound delegates, and all decide by GST + 4(<var>N</var> + 1).</p>
+    <p><b>Consistency:</b> after the first decision, <var>t</var> + 1 captains stay moored to <var>v</var>, so no conflicting
+    value can ever again be acceptable to a quorum of <var>N</var> − <var>t</var>, and no contradictory action is
+    ever decided. <b>Unanimity:</b> if all start favoring Sail, only Sail is ever proper. <b>Termination:</b> take
+    any trying phase owned by a sound flagship that follows a lock-release phase at or after GST. At most one
+    verdict is moored (Lemma 3.3), it has had time to become known to everyone, and there are at least <var>t</var> + 1
+    sound captains — so an acceptable verdict is locked and acknowledged, and the flagship decides. All sound
+    captains decide by round GST + 4(<var>N</var> + 1).</p>
   </div>
 
-  <h3 id="3-3-rite-three" class="sect"><a href="#3-3-rite-three" class="hlink">3.3 · Rite Three: Liars Without Seals (<var>N</var> ≥ 3<var>t</var> + 1)</a></h3>
+  <hr class="meander">
+
+  <!-- ================= WIDGET 1: THE COTHON SIMULATOR ================= -->
+  <div class="interactive-workshop" id="sim-cothon">
+    <div class="sim-container">
+      <div class="sim-header">
+        <div class="sim-header-top">
+          <div>
+            <span class="sim-kicker">Interactive Demonstration · Chapter 3.1</span>
+            <h3 class="sim-title">The Circular Basin &amp; The Rites of the Harbour</h3>
+          </div>
+        </div>
+      </div>
+
+      <div class="sim-body">
+        <div class="sim-toolbar">
+          <div class="sim-btn-group">
+            <span class="sim-label-tag">Scenarios:</span>
+            <button type="button" class="sim-btn preset active" id="btn-pre-calm" title="Standard execution post-GST">☀️ Calm Convoy</button>
+            <button type="button" class="sim-btn preset" id="btn-pre-stranded" title="Flagship 1 is stranded; Flagship 2 recovers">🪨 Stranded Flagship</button>
+            <button type="button" class="sim-btn preset" id="btn-pre-storm" title="Pre-GST storm delays prevent premature verdict">⛈️ Winter Gale</button>
+            <button type="button" class="sim-btn preset" id="btn-pre-overlap" title="Pigeonhole intersection prevents opposite decision">🔒 Quorum Overlap</button>
+          </div>
+          <div class="sim-btn-group">
+            <div class="weather-toggle-box">
+              <span class="sim-label-tag">Sea:</span>
+              <button type="button" class="sim-btn action" id="btn-toggle-sea">Trigger Gale</button>
+              <span class="weather-chip calm" id="sea-status-chip">Passable Season (GST)</span>
+            </div>
+          </div>
+          <div class="sim-btn-group">
+            <button type="button" class="sim-btn primary" id="btn-sim-play">▶ Play</button>
+            <button type="button" class="sim-btn" id="btn-sim-step">⏭ Step Round</button>
+            <button type="button" class="sim-btn" id="btn-sim-reset">↺ Reset</button>
+          </div>
+        </div>
+
+        <div class="harbour-layout">
+          <!-- The SVG Basin -->
+          <div class="harbour-svg-wrap">
+            <svg class="harbour-svg" id="harbour-svg" viewBox="0 0 820 620" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="waterCalm" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#197ca9"/>
+                  <stop offset="65%" stop-color="#0e577a"/>
+                  <stop offset="100%" stop-color="#073349"/>
+                </radialGradient>
+                <radialGradient id="waterStorm" cx="50%" cy="50%" r="50%">
+                  <stop offset="0%" stop-color="#243d4d"/>
+                  <stop offset="65%" stop-color="#142631"/>
+                  <stop offset="100%" stop-color="#0a141b"/>
+                </radialGradient>
+                <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+                  <feGaussianBlur stdDeviation="3" result="blur"/>
+                  <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                </filter>
+              </defs>
+
+              <!-- Basin Backdrop & Outer Breakwater -->
+              <circle cx="410" cy="290" r="260" fill="#ded2b5" stroke="#1c1512" stroke-width="6"/>
+              <circle cx="410" cy="290" r="255" fill="none" stroke="#bdae8c" stroke-width="4" stroke-dasharray="10 8"/>
+              
+              <!-- Water Basin -->
+              <circle id="basin-water-circle" cx="410" cy="290" r="236" fill="url(#waterCalm)" stroke="#1c1512" stroke-width="4"/>
+
+              <!-- Water Wave Rings -->
+              <circle class="ripple-circle r1" cx="410" cy="290" r="75" fill="none" stroke="rgba(255,255,255,0.22)" stroke-width="2" stroke-dasharray="6 6"/>
+              <circle class="ripple-circle r2" cx="410" cy="290" r="145" fill="none" stroke="rgba(255,255,255,0.18)" stroke-width="2" stroke-dasharray="10 8"/>
+              <circle class="ripple-circle r3" cx="410" cy="290" r="215" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="2" stroke-dasharray="14 10"/>
+
+              <!-- Weather FX Layer -->
+              <g id="fx-layer">
+                <g id="rain-streaks" class="rain-group" style="display:none">
+                  <line x1="120" y1="80" x2="90" y2="140" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+                  <line x1="280" y1="90" x2="250" y2="150" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+                  <line x1="450" y1="70" x2="420" y2="130" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+                  <line x1="620" y1="100" x2="590" y2="160" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+                  <line x1="200" y1="240" x2="170" y2="300" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+                  <line x1="380" y1="220" x2="350" y2="280" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+                  <line x1="560" y1="250" x2="530" y2="310" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+                  <line x1="260" y1="390" x2="230" y2="450" stroke="rgba(255,255,255,0.35)" stroke-width="1.5"/>
+                  <line x1="480" y1="380" x2="450" y2="440" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+                </g>
+                <g id="calm-shimmer">
+                  <circle cx="340" cy="190" r="3" fill="#ffe36e" opacity="0.6"/>
+                  <circle cx="490" cy="210" r="2.5" fill="#ffffff" opacity="0.7"/>
+                  <circle cx="380" cy="380" r="3.5" fill="#ffe36e" opacity="0.5"/>
+                  <circle cx="460" cy="360" r="2" fill="#ffffff" opacity="0.8"/>
+                </g>
+              </g>
+
+              <!-- Central Lantern Beam (Rotates to flagship) -->
+              <polygon id="lantern-beam" points="410,290 382,90 438,90" fill="rgba(255,227,110,0.32)" stroke="rgba(193,145,43,0.6)" stroke-width="1.5" stroke-dasharray="4 2"/>
+
+              <!-- Central Lantern Islet -->
+              <g id="center-islet">
+                <polygon points="410,246 448,268 448,312 410,334 372,312 372,268" fill="#eae0c8" stroke="#1c1512" stroke-width="3"/>
+                <circle cx="410" cy="290" r="28" fill="#ded2b5" stroke="#1c1512" stroke-width="2"/>
+                <rect x="398" y="274" width="24" height="26" rx="2" fill="#cfc19f" stroke="#1c1512" stroke-width="2"/>
+                <path d="M400,274 L420,274 L417,268 L403,268 Z" fill="#7a6245" stroke="#1c1512" stroke-width="1.5"/>
+                <path id="lantern-flame" d="M403,268 Q410,252 410,260 Q414,248 417,268 Z" fill="#f5c542" stroke="#bf4a26" stroke-width="1.5" filter="url(#glow)"/>
+                <circle cx="410" cy="262" r="12" fill="#ffe36e" opacity="0.3"/>
+                <text x="410" y="322" text-anchor="middle" font-family="Optima, sans-serif" font-size="8.5" font-weight="700" fill="#1c1512" letter-spacing="1">LANTERN ISLET</text>
+              </g>
+
+              <!-- Active Dispatch Skiffs Layer -->
+              <g id="skiffs-layer"></g>
+
+              <!-- 5 Quays & Docked Galleys (C1 to C5) -->
+              <g id="quays-group">
+                <!-- QUAY 1: Alexios (Top, -90deg, 410, 85) -->
+                <g class="quay-node" id="quay-1" data-id="1">
+                  <path d="M394,40 L426,40 L426,135 L394,135 Z" fill="#eae0c8" stroke="#1c1512" stroke-width="3"/>
+                  <circle class="quay-ring" cx="410" cy="135" r="16" fill="#ded2b5" stroke="#1c1512" stroke-width="2.5"/>
+                  <text x="410" y="139" text-anchor="middle" font-family="Optima, sans-serif" font-size="11" font-weight="bold" fill="#1c1512">I</text>
+                  <g class="galley-ship" id="ship-1" transform="translate(345, 95) rotate(90)">
+                    <path d="M-5,-24 C10,-12 10,12 -5,24 L-15,18 L-15,-18 Z" fill="#8c5836" stroke="#1c1512" stroke-width="2"/>
+                    <line x1="-5" y1="0" x2="-25" y2="0" stroke="#1c1512" stroke-width="2.5"/>
+                    <rect class="galley-sail" x="-22" y="-12" width="6" height="24" fill="#fdfaf0" stroke="#1c1512" stroke-width="1.2"/>
+                  </g>
+                  <circle cx="426" cy="115" r="5" fill="#bf4a26" stroke="#1c1512" stroke-width="1.5"/>
+                  <rect class="mooring-tag-bg" id="tag-bg-1" x="345" y="148" width="130" height="20" rx="3" fill="#ffe36e" stroke="#1c1512" stroke-width="1.5"/>
+                  <text class="mooring-tag-txt" id="tag-txt-1" x="410" y="162" text-anchor="middle" font-family="Optima, sans-serif" font-size="9" font-weight="bold" fill="#1c1512">Mooring: Untied</text>
+                  <g class="cap-card" transform="translate(330, 2)">
+                    <rect width="160" height="34" rx="3" fill="#faf4e3" stroke="#1c1512" stroke-width="2" filter="url(#glow)"/>
+                    <text x="8" y="15" font-family="Optima, sans-serif" font-size="10.5" font-weight="bold" fill="#1c1512">C₁ Alexios</text>
+                    <g class="vote-badge" id="vbadge-1" transform="translate(80, 4)" style="cursor:pointer">
+                      <rect width="36" height="13" rx="2" fill="#136f9e" stroke="#1c1512" stroke-width="1"/>
+                      <text x="18" y="10" text-anchor="middle" font-family="Optima, sans-serif" font-size="8" font-weight="bold" fill="#fff" id="vtxt-1">⛵ SAIL</text>
+                    </g>
+                    <g class="health-badge" id="hbadge-1" transform="translate(120, 4)" style="cursor:pointer">
+                      <rect width="34" height="13" rx="2" fill="#66722c" stroke="#1c1512" stroke-width="1" id="hrect-1"/>
+                      <text x="17" y="10" text-anchor="middle" font-family="Optima, sans-serif" font-size="7.5" font-weight="bold" fill="#fff" id="htxt-1">SOUND</text>
+                    </g>
+                    <text class="cap-status-sub" id="cstatus-1" x="8" y="28" font-family="Georgia, serif" font-style="italic" font-size="8" fill="#66543b">Accepts: Sail, Winter</text>
+                  </g>
+                  <g class="dec-pennant" id="pennant-1" transform="translate(410, 68)" style="display:none">
+                    <polygon points="0,0 35,-6 0,-12" fill="#ffe36e" stroke="#1c1512" stroke-width="1.5"/>
+                    <text id="pennant-txt-1" x="12" y="-4" font-family="Optima, sans-serif" font-size="7" font-weight="bold" fill="#1c1512">SAIL</text>
+                  </g>
+                </g>
+
+                <!-- QUAY 2: Berenike (Top-Right, -18deg, 605, 227) -->
+                <g class="quay-node" id="quay-2" data-id="2">
+                  <path d="M642,204 L652,234 L558,264 L548,234 Z" fill="#eae0c8" stroke="#1c1512" stroke-width="3"/>
+                  <circle class="quay-ring" cx="553" cy="249" r="16" fill="#ded2b5" stroke="#1c1512" stroke-width="2.5"/>
+                  <text x="553" y="253" text-anchor="middle" font-family="Optima, sans-serif" font-size="11" font-weight="bold" fill="#1c1512">II</text>
+                  <g class="galley-ship" id="ship-2" transform="translate(565, 185) rotate(162)">
+                    <path d="M-5,-24 C10,-12 10,12 -5,24 L-15,18 L-15,-18 Z" fill="#8c5836" stroke="#1c1512" stroke-width="2"/>
+                    <line x1="-5" y1="0" x2="-25" y2="0" stroke="#1c1512" stroke-width="2.5"/>
+                    <rect class="galley-sail" x="-22" y="-12" width="6" height="24" fill="#fdfaf0" stroke="#1c1512" stroke-width="1.2"/>
+                  </g>
+                  <circle cx="572" cy="235" r="5" fill="#bf4a26" stroke="#1c1512" stroke-width="1.5"/>
+                  <rect class="mooring-tag-bg" id="tag-bg-2" x="515" y="270" width="130" height="20" rx="3" fill="#ffe36e" stroke="#1c1512" stroke-width="1.5"/>
+                  <text class="mooring-tag-txt" id="tag-txt-2" x="580" y="284" text-anchor="middle" font-family="Optima, sans-serif" font-size="9" font-weight="bold" fill="#1c1512">Mooring: Untied</text>
+                  <g class="cap-card" transform="translate(645, 155)">
+                    <rect width="160" height="34" rx="3" fill="#faf4e3" stroke="#1c1512" stroke-width="2" filter="url(#glow)"/>
+                    <text x="8" y="15" font-family="Optima, sans-serif" font-size="10.5" font-weight="bold" fill="#1c1512">C₂ Berenike</text>
+                    <g class="vote-badge" id="vbadge-2" transform="translate(80, 4)" style="cursor:pointer">
+                      <rect width="36" height="13" rx="2" fill="#136f9e" stroke="#1c1512" stroke-width="1"/>
+                      <text x="18" y="10" text-anchor="middle" font-family="Optima, sans-serif" font-size="8" font-weight="bold" fill="#fff" id="vtxt-2">⛵ SAIL</text>
+                    </g>
+                    <g class="health-badge" id="hbadge-2" transform="translate(120, 4)" style="cursor:pointer">
+                      <rect width="34" height="13" rx="2" fill="#66722c" stroke="#1c1512" stroke-width="1" id="hrect-2"/>
+                      <text x="17" y="10" text-anchor="middle" font-family="Optima, sans-serif" font-size="7.5" font-weight="bold" fill="#fff" id="htxt-2">SOUND</text>
+                    </g>
+                    <text class="cap-status-sub" id="cstatus-2" x="8" y="28" font-family="Georgia, serif" font-style="italic" font-size="8" fill="#66543b">Accepts: Sail, Winter</text>
+                  </g>
+                  <g class="dec-pennant" id="pennant-2" transform="translate(565, 185)" style="display:none">
+                    <polygon points="0,0 35,-6 0,-12" fill="#ffe36e" stroke="#1c1512" stroke-width="1.5"/>
+                    <text id="pennant-txt-2" x="12" y="-4" font-family="Optima, sans-serif" font-size="7" font-weight="bold" fill="#1c1512">SAIL</text>
+                  </g>
+                </g>
+
+                <!-- QUAY 3: Chares (Bottom-Right, +54deg, 530, 456) -->
+                <g class="quay-node" id="quay-3" data-id="3">
+                  <path d="M578,485 L552,504 L480,410 L506,391 Z" fill="#eae0c8" stroke="#1c1512" stroke-width="3"/>
+                  <circle class="quay-ring" cx="493" cy="400" r="16" fill="#ded2b5" stroke="#1c1512" stroke-width="2.5"/>
+                  <text x="493" y="404" text-anchor="middle" font-family="Optima, sans-serif" font-size="11" font-weight="bold" fill="#1c1512">III</text>
+                  <g class="galley-ship" id="ship-3" transform="translate(560, 420) rotate(234)">
+                    <path d="M-5,-24 C10,-12 10,12 -5,24 L-15,18 L-15,-18 Z" fill="#8c5836" stroke="#1c1512" stroke-width="2"/>
+                    <line x1="-5" y1="0" x2="-25" y2="0" stroke="#1c1512" stroke-width="2.5"/>
+                    <rect class="galley-sail" x="-22" y="-12" width="6" height="24" fill="#fdfaf0" stroke="#1c1512" stroke-width="1.2"/>
+                  </g>
+                  <circle cx="512" cy="415" r="5" fill="#bf4a26" stroke="#1c1512" stroke-width="1.5"/>
+                  <rect class="mooring-tag-bg" id="tag-bg-3" x="480" y="445" width="130" height="20" rx="3" fill="#ffe36e" stroke="#1c1512" stroke-width="1.5"/>
+                  <text class="mooring-tag-txt" id="tag-txt-3" x="545" y="459" text-anchor="middle" font-family="Optima, sans-serif" font-size="9" font-weight="bold" fill="#1c1512">Mooring: Untied</text>
+                  <g class="cap-card" transform="translate(570, 520)">
+                    <rect width="160" height="34" rx="3" fill="#faf4e3" stroke="#1c1512" stroke-width="2" filter="url(#glow)"/>
+                    <text x="8" y="15" font-family="Optima, sans-serif" font-size="10.5" font-weight="bold" fill="#1c1512">C₃ Chares</text>
+                    <g class="vote-badge" id="vbadge-3" transform="translate(80, 4)" style="cursor:pointer">
+                      <rect width="36" height="13" rx="2" fill="#136f9e" stroke="#1c1512" stroke-width="1"/>
+                      <text x="18" y="10" text-anchor="middle" font-family="Optima, sans-serif" font-size="8" font-weight="bold" fill="#fff" id="vtxt-3">⛵ SAIL</text>
+                    </g>
+                    <g class="health-badge" id="hbadge-3" transform="translate(120, 4)" style="cursor:pointer">
+                      <rect width="34" height="13" rx="2" fill="#66722c" stroke="#1c1512" stroke-width="1" id="hrect-3"/>
+                      <text x="17" y="10" text-anchor="middle" font-family="Optima, sans-serif" font-size="7.5" font-weight="bold" fill="#fff" id="htxt-3">SOUND</text>
+                    </g>
+                    <text class="cap-status-sub" id="cstatus-3" x="8" y="28" font-family="Georgia, serif" font-style="italic" font-size="8" fill="#66543b">Accepts: Sail, Winter</text>
+                  </g>
+                  <g class="dec-pennant" id="pennant-3" transform="translate(560, 420)" style="display:none">
+                    <polygon points="0,0 35,-6 0,-12" fill="#ffe36e" stroke="#1c1512" stroke-width="1.5"/>
+                    <text id="pennant-txt-3" x="12" y="-4" font-family="Optima, sans-serif" font-size="7" font-weight="bold" fill="#1c1512">SAIL</text>
+                  </g>
+                </g>
+
+                <!-- QUAY 4: Damaris (Bottom-Left, +126deg, 290, 456) -->
+                <g class="quay-node" id="quay-4" data-id="4">
+                  <path d="M242,485 L268,504 L340,410 L314,391 Z" fill="#eae0c8" stroke="#1c1512" stroke-width="3"/>
+                  <circle class="quay-ring" cx="327" cy="400" r="16" fill="#ded2b5" stroke="#1c1512" stroke-width="2.5"/>
+                  <text x="327" y="404" text-anchor="middle" font-family="Optima, sans-serif" font-size="11" font-weight="bold" fill="#1c1512">IV</text>
+                  <g class="galley-ship" id="ship-4" transform="translate(260, 420) rotate(306)">
+                    <path d="M-5,-24 C10,-12 10,12 -5,24 L-15,18 L-15,-18 Z" fill="#8c5836" stroke="#1c1512" stroke-width="2"/>
+                    <line x1="-5" y1="0" x2="-25" y2="0" stroke="#1c1512" stroke-width="2.5"/>
+                    <rect class="galley-sail" x="-22" y="-12" width="6" height="24" fill="#fdfaf0" stroke="#1c1512" stroke-width="1.2"/>
+                  </g>
+                  <circle cx="308" cy="415" r="5" fill="#bf4a26" stroke="#1c1512" stroke-width="1.5"/>
+                  <rect class="mooring-tag-bg" id="tag-bg-4" x="210" y="445" width="130" height="20" rx="3" fill="#ffe36e" stroke="#1c1512" stroke-width="1.5"/>
+                  <text class="mooring-tag-txt" id="tag-txt-4" x="275" y="459" text-anchor="middle" font-family="Optima, sans-serif" font-size="9" font-weight="bold" fill="#1c1512">Mooring: Untied</text>
+                  <g class="cap-card" transform="translate(90, 520)">
+                    <rect width="160" height="34" rx="3" fill="#faf4e3" stroke="#1c1512" stroke-width="2" filter="url(#glow)"/>
+                    <text x="8" y="15" font-family="Optima, sans-serif" font-size="10.5" font-weight="bold" fill="#1c1512">C₄ Damaris</text>
+                    <g class="vote-badge" id="vbadge-4" transform="translate(80, 4)" style="cursor:pointer">
+                      <rect width="36" height="13" rx="2" fill="#bf4a26" stroke="#1c1512" stroke-width="1"/>
+                      <text x="18" y="10" text-anchor="middle" font-family="Optima, sans-serif" font-size="8" font-weight="bold" fill="#fff" id="vtxt-4">⚓ WNTR</text>
+                    </g>
+                    <g class="health-badge" id="hbadge-4" transform="translate(120, 4)" style="cursor:pointer">
+                      <rect width="34" height="13" rx="2" fill="#66722c" stroke="#1c1512" stroke-width="1" id="hrect-4"/>
+                      <text x="17" y="10" text-anchor="middle" font-family="Optima, sans-serif" font-size="7.5" font-weight="bold" fill="#fff" id="htxt-4">SOUND</text>
+                    </g>
+                    <text class="cap-status-sub" id="cstatus-4" x="8" y="28" font-family="Georgia, serif" font-style="italic" font-size="8" fill="#66543b">Accepts: Sail, Winter</text>
+                  </g>
+                  <g class="dec-pennant" id="pennant-4" transform="translate(260, 420)" style="display:none">
+                    <polygon points="0,0 35,-6 0,-12" fill="#bf4a26" stroke="#1c1512" stroke-width="1.5"/>
+                    <text id="pennant-txt-4" x="10" y="-4" font-family="Optima, sans-serif" font-size="6.5" font-weight="bold" fill="#fff">WNTR</text>
+                  </g>
+                </g>
+
+                <!-- QUAY 5: Evander (Top-Left, +198deg, 215, 227) -->
+                <g class="quay-node" id="quay-5" data-id="5">
+                  <path d="M178,204 L168,234 L262,264 L272,234 Z" fill="#eae0c8" stroke="#1c1512" stroke-width="3"/>
+                  <circle class="quay-ring" cx="267" cy="249" r="16" fill="#ded2b5" stroke="#1c1512" stroke-width="2.5"/>
+                  <text x="267" y="253" text-anchor="middle" font-family="Optima, sans-serif" font-size="11" font-weight="bold" fill="#1c1512">V</text>
+                  <g class="galley-ship" id="ship-5" transform="translate(255, 185) rotate(18)">
+                    <path d="M-5,-24 C10,-12 10,12 -5,24 L-15,18 L-15,-18 Z" fill="#8c5836" stroke="#1c1512" stroke-width="2"/>
+                    <line x1="-5" y1="0" x2="-25" y2="0" stroke="#1c1512" stroke-width="2.5"/>
+                    <rect class="galley-sail" x="-22" y="-12" width="6" height="24" fill="#fdfaf0" stroke="#1c1512" stroke-width="1.2"/>
+                  </g>
+                  <circle cx="248" cy="235" r="5" fill="#bf4a26" stroke="#1c1512" stroke-width="1.5"/>
+                  <rect class="mooring-tag-bg" id="tag-bg-5" x="175" y="270" width="130" height="20" rx="3" fill="#ffe36e" stroke="#1c1512" stroke-width="1.5"/>
+                  <text class="mooring-tag-txt" id="tag-txt-5" x="240" y="284" text-anchor="middle" font-family="Optima, sans-serif" font-size="9" font-weight="bold" fill="#1c1512">Mooring: Untied</text>
+                  <g class="cap-card" transform="translate(15, 155)">
+                    <rect width="160" height="34" rx="3" fill="#faf4e3" stroke="#1c1512" stroke-width="2" filter="url(#glow)"/>
+                    <text x="8" y="15" font-family="Optima, sans-serif" font-size="10.5" font-weight="bold" fill="#1c1512">C₅ Evander</text>
+                    <g class="vote-badge" id="vbadge-5" transform="translate(80, 4)" style="cursor:pointer">
+                      <rect width="36" height="13" rx="2" fill="#bf4a26" stroke="#1c1512" stroke-width="1"/>
+                      <text x="18" y="10" text-anchor="middle" font-family="Optima, sans-serif" font-size="8" font-weight="bold" fill="#fff" id="vtxt-5">⚓ WNTR</text>
+                    </g>
+                    <g class="health-badge" id="hbadge-5" transform="translate(120, 4)" style="cursor:pointer">
+                      <rect width="34" height="13" rx="2" fill="#66722c" stroke="#1c1512" stroke-width="1" id="hrect-5"/>
+                      <text x="17" y="10" text-anchor="middle" font-family="Optima, sans-serif" font-size="7.5" font-weight="bold" fill="#fff" id="htxt-5">SOUND</text>
+                    </g>
+                    <text class="cap-status-sub" id="cstatus-5" x="8" y="28" font-family="Georgia, serif" font-style="italic" font-size="8" fill="#66543b">Accepts: Sail, Winter</text>
+                  </g>
+                  <g class="dec-pennant" id="pennant-5" transform="translate(255, 185)" style="display:none">
+                    <polygon points="0,0 35,-6 0,-12" fill="#bf4a26" stroke="#1c1512" stroke-width="1.5"/>
+                    <text id="pennant-txt-5" x="10" y="-4" font-family="Optima, sans-serif" font-size="6.5" font-weight="bold" fill="#fff">WNTR</text>
+                  </g>
+                </g>
+              </g>
+            </svg>
+
+
+          </div>
+
+          <!-- Telemetry & Quorum Intersect Display -->
+          <div class="sim-telemetry">
+            <div class="sim-panel-card">
+              <div class="sim-card-title">
+                <span>🏛️ Quorum &amp; Overlap Monitor</span>
+                <span class="card-sub" id="mon-phase-round">Phase 1 · Round 1 (Proposals)</span>
+              </div>
+              <div class="quorum-meter-container">
+                <div class="quorum-row">
+                  <span>Proposal Quorum (<var>N</var> − <var>t</var> = 3 needed):</span>
+                  <span id="prop-count-badge">0 / 3</span>
+                </div>
+                <div class="quorum-bar-track">
+                  <div class="quorum-target-line" style="left: 60%;"></div>
+                  <div class="quorum-bar-fill" id="prop-bar-fill" style="width: 0%;"></div>
+                </div>
+
+                <div class="quorum-row" style="margin-top: 6px;">
+                  <span>Decision Acks (<var>t</var> + 1 = 3 needed):</span>
+                  <span id="ack-count-badge">0 / 3</span>
+                </div>
+                <div class="quorum-bar-track">
+                  <div class="quorum-target-line" style="left: 60%;"></div>
+                  <div class="quorum-bar-fill" id="ack-bar-fill" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <!-- Overlap Highlight Card -->
+              <div style="margin-top: 12px; padding: 8px 12px; background: #faeed4; border: 1.5px solid var(--ink); border-radius: 2px;">
+                <div style="font-family: Optima, sans-serif; font-size: .78rem; font-weight: 700; color: var(--terra); letter-spacing: .08em; text-transform: uppercase;">
+                  🛡️ Quorum Overlap Guarantee
+                </div>
+                <div id="overlap-narrative" style="font-size: .84rem; line-height: 1.4; margin-top: 4px; color: #403223;">
+                  Because (N − t) + (t + 1) = 3 + 3 = 6 &gt; 5, any new proposal quorum must share at least one captain with any prior lock. That captain's mooring rope forbids conflicting proposals!
+                </div>
+                <div class="captains-pills" id="overlap-pills">
+                  <!-- dynamically filled with pills -->
+                </div>
+              </div>
+            </div>
+
+            <div class="sim-panel-card">
+              <div class="sim-card-title">
+                <span>📜 Captains' Roster &amp; Moorings</span>
+                <span class="card-sub">N = 5, t = 2</span>
+              </div>
+              <table class="captains-table">
+                <thead>
+                  <tr>
+                    <th>Quay</th>
+                    <th>Captain</th>
+                    <th>Status</th>
+                    <th>Mooring Rope</th>
+                    <th>Verdict</th>
+                  </tr>
+                </thead>
+                <tbody id="captains-tbody">
+                  <!-- Populated dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- The Scribe's Live Comic Logbook -->
+          <div class="sim-log-wrap">
+            <div id="sim-log-stream">
+              <div class="sim-log-entry">
+                <span class="log-step">Dawn</span> The five captains assemble at their quays. Alexios holds the first flagship lantern. Click "Step Round" or "Play" to observe the rite.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="meander">
+
+  <h3 id="3-2-rite-two" class="sect"><a href="#3-2-rite-two" class="hlink">3.2 · Rite Two: Mutineers with Signet Seals (<var>N</var> ≥ 3<var>t</var> + 1)</a></h3>
   <div class="prose">
-    <p>Without seals, the navigators imitated them with a relay borrowed from
+    <p>Against rogue captains who lie, a flagship may send conflicting lock slates to different quays, so the
+    mooring must carry verifiable evidence. Rite Two modifies Rite One with three maritime safeguards. Each lock
+    slate carries a <em>proof of acceptability</em>: the <var>N</var> − <var>t</var> sealed tablets showing <var>v</var>
+    acceptable and proper. The flagship decides only upon receiving 2<var>t</var> + 1 acknowledgments, of which at
+    least <var>t</var> + 1 come from sound captains. And PROPER grows cautiously: a verdict is recognized only when
+    <var>t</var> + 1 captains vouch for it with their signets. The same lemmas hold, and all sound captains decide
+    by GST + 4(<var>N</var> + 1).</p>
+  </div>
+
+  <h3 id="3-3-rite-three" class="sect"><a href="#3-3-rite-three" class="hlink">3.3 · Rite Three: Pirate Impostors (<var>N</var> ≥ 3<var>t</var> + 1)</a></h3>
+  <div class="prose">
+    <p>Without signet seals, the navigators simulated them with a relay borrowed from
     <span class="paxon" data-real="T. K. Srikanth &amp; Sam Toueg" data-note="“Simulating Authenticated Broadcasts to Derive Simple Fault-Tolerant Algorithms” (1987) — the echo broadcast.">Σρικάντ and Τωυεγ</span>:
-    the <em>echo</em>. Time is grouped in superrounds of two rounds. To BROADCAST <var>m</var>, <var>p</var> sends
-    (init, <var>p</var>, <var>m</var>, <var>k</var>). Anyone who received exactly one such init from <var>p</var> echoes it to
-    all. Anyone who has heard an echo from <var>N</var> − 2<var>t</var> delegates keeps echoing it every round
-    thereafter; anyone who has heard it from <var>N</var> − <var>t</var> <em>accepts</em> <var>m</var> from <var>p</var>. This
-    gives three properties that stand in for seals:</p>
-  </div>
-  <div class="decree rules">
-    <span class="rhead">The Echo's Guarantees</span>
-    <ol>
-      <li><b>Correctness.</b> If a sound <var>p</var> broadcasts <var>m</var> in superround <var>k</var> ≥ GST, every sound delegate accepts it in superround <var>k</var>.</li>
-      <li><b>Unforgeability.</b> If a sound <var>p</var> does not broadcast <var>m</var>, no sound delegate ever accepts <var>m</var> from <var>p</var>.</li>
-      <li><b>Relay.</b> If a sound delegate accepts <var>m</var> from <var>p</var> in superround <var>r</var>, every sound delegate accepts it by superround max(<var>r</var> + 1, GST).</li>
-    </ol>
-  </div>
-  <div class="prose">
-    <p>The navigators' one change to the original echo — re-sending it every round rather than once — is
-    needed because letters may be lost before the calm. Rite Three runs Rite Two over echoes instead of seals,
-    with trying phases of three superrounds, and all decide by GST + 6(<var>N</var> + 1). The logbook adds
-    that the time after GST can be cut to <var>O</var>(<var>t</var>) rounds — optimal, since <var>t</var> + 1 rounds
-    are needed even in a synchronous sea — by having deciders repeatedly announce "Decide <var>v</var>".</p>
+    the <em>echo</em>. Time is grouped in superrounds of two rounds. To announce <var>m</var>, captain <var>p</var>
+    sends (init, <var>p</var>, <var>m</var>, <var>k</var>). Anyone who receives an initial message echoes it to all
+    peers. Anyone who hears echoes from <var>N</var> − 2<var>t</var> captains keeps re-echoing it every round;
+    anyone who hears it from <var>N</var> − <var>t</var> captains formally <em>accepts</em> <var>m</var> from
+    <var>p</var>. This ensures that no sound captain ever accepts a forged message, and that if one sound captain
+    accepts a message, all sound captains accept it within one superround after GST.</p>
   </div>
 </section>
 
@@ -333,16 +681,14 @@
     <h2 id="moorings-and-releases"><a href="#moorings-and-releases" class="hlink">Moorings and Releases</a></h2>
   </div>
   <div class="prose">
-    <p>It is worth pausing on the shape of Rite One, for the reader of Volume IV will recognize it. A
-    rotating leader asks a quorum what values it may safely propose; it proposes only a value acceptable
-    to <var>N</var> − <var>t</var> delegates; the delegates attach a phase number to the promise they make; they
-    abandon a promise only for one with an equal or higher phase number; and a decision requires enough
-    acknowledgments that any later quorum must contain someone still bound by it. Two different
-    majorities of 2<var>t</var> + 1 delegates must share a member.</p>
-    <p>The part-time parliament of Paxos, whose account was first submitted a few years after
-    this logbook, arrives at the same geometry by a different road — its own Relevance section notes
-    that its theorems are similar to results of the navigators, though their rites run ballots in
-    separate rounds and seem unrelated to the Synod's.</p>
+    <p>The reader of Volume&nbsp;IV will recognize the architecture of Rite One. A rotating leader asks a quorum
+    what values it may safely propose; it proposes only a value acceptable to <var>N</var> − <var>t</var> participants;
+    the participants attach a phase number to the promise they make; they abandon a promise only for one with an
+    equal or higher phase number; and a decision requires enough acknowledgments that any later quorum must contain
+    someone still bound by it. Two different majorities of 2<var>t</var> + 1 participants must share a member.</p>
+    <p>The Part-Time Parliament of Paxos (Volume&nbsp;IV) arrives at the identical geometry for managing its civic
+    decrees. The navigators proved the fundamental truth that all fault-tolerant consensus systems are quorums
+    that overlap in time and memory.</p>
   </div>
 </section>
 
@@ -356,20 +702,17 @@
   </div>
 
   <div class="prose">
-    <p>Real seas have no shared round numbers. The navigators showed how delegates with steady rowing
-    (Φ = 1, so every delegate can count his own strokes and all counts agree) can imitate the basic round
-    model.</p>
+    <p>Real seas have no shared round numbers. The navigators showed how captains with steady rowing crews
+    (Φ = 1, so every crew counts its own strokes and all counts agree) can imitate the basic round model.</p>
   </div>
   <h3 id="5-1-calm-eventually" class="sect"><a href="#5-1-calm-eventually" class="hlink">5.1 · When the Calm Comes Eventually</a></h3>
   <div class="prose">
-    <p>If Δ is known and holds from GST, let <var>R</var> = <var>N</var> + Δ. Each delegate groups his strokes in
-    <var>R</var>s. In the <var>r</var>-th group he spends the first <var>N</var> strokes sending his round-<var>r</var>
-    letters, one delegate at a time, and the last Δ strokes receiving; his round-<var>r</var> thinking happens at
-    the last stroke. Every letter is tagged with its round, and a letter that arrives in a later round is
-    ignored. Once the calm has come, a group of <var>R</var> strokes is long enough for every letter of the
-    round to arrive, so the voyage imitates a basic-model voyage with the same sound delegates and the same
-    faults. The three rites become Rites 1′–3′, deciding within 4(<var>N</var> + 1)(<var>N</var> + Δ) strokes after
-    GST (6(<var>N</var> + 1)(<var>N</var> + Δ) for Rite 3′).</p>
+    <p>If Δ is known and holds from GST, let <var>R</var> = <var>N</var> + Δ. Each crew groups its strokes in
+    blocks of <var>R</var>. In the <var>r</var>-th group the crew spends the first <var>N</var> strokes sending
+    its round-<var>r</var> dispatch skiffs, one captain at a time, and the last Δ strokes receiving; the
+    round-<var>r</var> deliberation happens at the final stroke. Every slate is tagged with its round number, and
+    slates arriving late are ignored. Once the Passable Season arrives, a block of <var>R</var> strokes is long
+    enough for every skiff to arrive, faithfully imitating the basic model.</p>
   </div>
   <h3 id="5-2-bound-unknown" class="sect"><a href="#5-2-bound-unknown" class="hlink">5.2 · When the Bound Is Unknown</a></h3>
   <!-- PANEL III-05 -->
@@ -379,15 +722,88 @@
   </figure>
   <!-- /PANEL III-05 -->
   <div class="prose">
-    <p>If Δ exists but is unknown, the navigators' trick is charmingly simple: <em>wait a little longer each
-    round</em>. Let the <var>r</var>-th group contain <var>R</var><sub><var>r</var></sub> = <var>N</var> + <var>r</var> strokes. Whatever
-    Δ the sea actually has, every round <var>r</var> ≥ Δ allows enough time for all its letters to arrive — so the
-    voyage imitates a basic-model voyage with GST = Δ. Rites 1″–3″ decide within
-    Δ(<var>N</var> + Δ) + 4(<var>N</var> + 1)(<var>N</var> + Δ + 4(<var>N</var> + 1)) strokes, which is <var>O</var>(<var>N</var>² + Δ²).</p>
-    <p>If, further, no letter is ever lost but letters before GST may arrive late, delegates can even
-    stop: a decider sends a single untagged "Decide <var>v</var>", and others decide on receiving one (or
-    <var>t</var> + 1, against liars). But if letters may be lost before GST, then in any rite tolerating one
-    sleeper, some sound delegate must go on sending letters for ever.</p>
+    <p>If Δ exists but is unknown to the captains, the navigators' solution is disarmingly simple: <em>wait a little
+    longer each round</em>. Let the <var>r</var>-th group of strokes contain <var>R</var><sub><var>r</var></sub> =
+    <var>N</var> + <var>r</var> strokes. Whatever delay bound Δ the sea actually enforces, every round <var>r</var> ≥ Δ
+    allows sufficient time for all skiffs to arrive — so the fleet imitates a basic-model run with GST = Δ. The
+    navigators' growing sandglasses guarantee that patience eventually overtakes the sea.</p>
+  </div>
+
+  <!-- ================= WIDGET 2: THE GROWING HOURGLASS ================= -->
+  <div class="interactive-workshop" id="sim-hourglass">
+    <div class="sim-container">
+      <div class="sim-header">
+        <div class="sim-header-top">
+          <div>
+            <span class="sim-kicker">Interactive Experiment · Chapter 5.2</span>
+            <h3 class="sim-title">The Expanding Sandglass (Unknown Delay Bound Δ)</h3>
+          </div>
+        </div>
+      </div>
+      <div class="sim-body">
+        <div class="hourglass-deck">
+          <p style="font-size: .9rem; margin-top: 0;">
+            No navigator knows how violent the Aegean squall may be, or how long a skiff crossing will take.
+            The navigators’ stroke theorem states: <em>Wait a little longer each round</em>. In round <var>r</var>,
+            the crew waits <var>R</var><sub><var>r</var></sub> = <var>N</var> + <var>r</var> strokes.
+            Whatever delay <var>Δ</var> the sea enforces, round <var>r</var> ≥ <var>Δ</var> will provide sufficient time!
+          </p>
+
+          <div class="hourglass-stage">
+            <svg viewBox="0 0 740 240" style="width:100%; height:auto; display:block;">
+              <!-- Sea Water -->
+              <rect x="0" y="140" width="740" height="100" fill="#1a5a7a" stroke="#1c1512" stroke-width="3"/>
+              <!-- Shore Left & Shore Right -->
+              <polygon points="0,110 120,110 150,240 0,240" fill="#ded2b5" stroke="#1c1512" stroke-width="3"/>
+              <polygon points="620,110 740,110 740,240 590,240" fill="#ded2b5" stroke="#1c1512" stroke-width="3"/>
+              <text x="50" y="100" font-family="Optima, sans-serif" font-weight="bold" font-size="12" fill="#1c1512">PAXOS QUAY</text>
+              <text x="630" y="100" font-family="Optima, sans-serif" font-weight="bold" font-size="12" fill="#1c1512">MAINLAND QUAY</text>
+
+              <!-- Hourglass graphic -->
+              <g id="hg-graphic" transform="translate(80, 20)">
+                <path id="hg-body" d="M0,0 L50,0 L28,40 L50,80 L0,80 L22,40 Z" fill="rgba(255,255,255,0.7)" stroke="#1c1512" stroke-width="2.5"/>
+                <path id="hg-sand-top" d="M4,4 L46,4 L27,38 L23,38 Z" fill="#c1912b"/>
+                <path id="hg-sand-bottom" d="M10,76 L40,76 L25,55 Z" fill="#c1912b"/>
+                <line x1="25" y1="38" x2="25" y2="60" stroke="#c1912b" stroke-width="2" stroke-dasharray="2 2"/>
+                <text x="60" y="30" font-family="Optima, sans-serif" font-size="11" font-weight="bold" fill="#1c1512" id="hg-capacity-txt">Round Capacity: N + 1 = 6 strokes</text>
+                <text x="60" y="50" font-family="Georgia, serif" font-size="11" font-style="italic" fill="#54432d" id="hg-status-sub">Waiting for stroke clock...</text>
+              </g>
+
+              <!-- Dispatch Skiff on Water -->
+              <g id="hg-skiff" transform="translate(130, 160)">
+                <path d="M-15,-6 C5,-10 5,-10 20,-6 C16,6 -12,6 -15,-6 Z" fill="#8c5836" stroke="#1c1512" stroke-width="2"/>
+                <line x1="-3" y1="-12" x2="5" y2="12" stroke="#1c1512" stroke-width="2"/>
+                <rect x="-6" y="-5" width="16" height="8" rx="2" fill="#ffe36e" stroke="#1c1512" stroke-width="1"/>
+                <text x="2" y="1" font-family="Optima, sans-serif" font-size="7" font-weight="bold" fill="#1c1512" text-anchor="middle">DISPATCH</text>
+              </g>
+
+              <!-- Outcome banner -->
+              <g id="hg-outcome-banner" transform="translate(370, 80)" style="display:none">
+                <rect x="-140" y="-16" width="280" height="32" rx="4" fill="#ffe36e" stroke="#1c1512" stroke-width="2" filter="url(#glow)"/>
+                <text id="hg-outcome-text" x="0" y="5" text-anchor="middle" font-family="Optima, sans-serif" font-weight="bold" font-size="11" fill="#1c1512">RESULT</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="hourglass-controls">
+            <div class="hourglass-slider-box">
+              <span><b>Sea Delay Bound Δ:</b></span>
+              <input type="range" id="hg-delta-slider" min="3" max="10" value="7">
+              <span id="hg-delta-val" style="font-weight:bold; color:var(--terra); min-width: 70px;">7 strokes</span>
+            </div>
+            <div class="sim-btn-group">
+              <button type="button" class="sim-btn primary" id="btn-hg-step">⏭ Row Next Round</button>
+              <button type="button" class="sim-btn" id="btn-hg-autorun">⚡ Auto-Advance until Success</button>
+              <button type="button" class="sim-btn" id="btn-hg-reset">↺ Reset Sandglass</button>
+            </div>
+          </div>
+
+          <div class="partition-narrative" id="hg-log-box" style="margin-top: 14px;">
+            <b>The Lesson:</b> Start at Round 1 with capacity <var>R</var><sub>1</sub> = 5 + 1 = 6 strokes. If the sea delay Δ = 7, the dispatch will arrive 1 stroke after the sandglass runs out. Notice how advancing to Round 2 automatically stretches the sandglass to 7 strokes, successfully simulating synchrony!
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -400,11 +816,11 @@
     <h2 id="where-the-bounds-come-from"><a href="#where-the-bounds-come-from" class="hlink">Where the Bounds Come From</a></h2>
   </div>
   <div class="prose">
-    <p>The navigators proved that their rites could not be improved. The arguments are storm stories.</p>
+    <p>The navigators proved that their bounds could not be improved. The proofs are storm stories.</p>
   </div>
   <div class="slab">
     <div class="slab-head">Theorem 4.3</div>
-    <p class="stmt">With sleepers or the forgetful, steady rowers and partially synchronous boats (either kind), if 2 ≤ <var>N</var> ≤ 2<var>t</var>, no <var>t</var>-resilient rite achieves even weak unanimity for two values.</p>
+    <p class="stmt">With stranded or swamped ships, steady rowers and partially synchronous waters, if 2 ≤ <var>N</var> ≤ 2<var>t</var>, no <var>t</var>-resilient rite achieves even weak unanimity for two values.</p>
   </div>
   <!-- PANEL III-06 -->
   <figure class="panel" id="panel-III-06" data-panel="III-06" data-shape="wide" data-refs="III-props">
@@ -415,23 +831,128 @@
   <details class="proof" open>
     <summary>The storm story</summary>
     <ol class="proofsteps">
-      <li>Split the delegates into two groups <var>P</var> and <var>Q</var>, each of at least 1 and at most <var>t</var>.</li>
-      <li><b>Scenario A:</b> all start with 0, <var>Q</var> is dead from the start, letters within <var>P</var> take exactly one moment. <var>P</var> must decide, within some time <var>T</var><sub><var>A</var></sub>. The decision must be 0 — otherwise let <var>Q</var> be alive but its letters to <var>P</var> take longer than <var>T</var><sub><var>A</var></sub>; <var>P</var> still decides 1 while everyone started with 0.</li>
-      <li><b>Scenario B:</b> all start with 1, <var>P</var> is dead, letters within <var>Q</var> take one moment. <var>Q</var> decides 1 within some <var>T</var><sub><var>B</var></sub>.</li>
-      <li><b>Scenario C:</b> <var>P</var> starts with 0, <var>Q</var> with 1, everyone is alive, letters within each group take one moment, and letters between the groups take longer than max(<var>T</var><sub><var>A</var></sub>, <var>T</var><sub><var>B</var></sub>) — a storm before the calm. <var>P</var> behaves exactly as in A and decides 0; <var>Q</var> exactly as in B and decides 1. <span class="qed">∎</span></li>
+      <li>Split the fleet into two groups of captains, <var>P</var> and <var>Q</var>, each having at least 1 and at most <var>t</var> ships.</li>
+      <li><b>Scenario A:</b> All captains start favoring WINTER (0). Group <var>Q</var> is stranded from the start; skiffs within <var>P</var> take exactly one moment. <var>P</var> must decide within some finite time <var>T</var><sub><var>A</var></sub>. That decision must be WINTER (0) — otherwise, if <var>Q</var> were alive but its skiffs to <var>P</var> took longer than <var>T</var><sub><var>A</var></sub>, <var>P</var> would decide Sail while every captain on the island started with Winter.</li>
+      <li><b>Scenario B:</b> All captains start favoring SAIL (1). Group <var>P</var> is stranded; skiffs within <var>Q</var> take one moment. <var>Q</var> decides SAIL (1) within some time <var>T</var><sub><var>B</var></sub>.</li>
+      <li><b>Scenario C:</b> Group <var>P</var> starts with Winter (0) and Group <var>Q</var> with Sail (1). Everyone is alive and sound, skiffs within each group cross swiftly in one moment, but a violent storm surge over the causeway delays skiffs between the two shores longer than max(<var>T</var><sub><var>A</var></sub>, <var>T</var><sub><var>B</var></sub>). Group <var>P</var> observes identical events to Scenario A and decides WINTER (0); Group <var>Q</var> observes identical events to Scenario B and decides SAIL (1). <span class="qed">∎</span></li>
     </ol>
   </details>
+  <div class="prose">
+    <p>When the storm clears, the disaster has happened: Group <var>P</var> has beached its galleys and unrigged
+    its sails, while Group <var>Q</var> has cut its moorings and rowed into the open sea alone. This proves why
+    no protocol can tolerate <var>t</var> failures when <var>N</var> ≤ 2<var>t</var>. A strict majority
+    (2<var>t</var> + 1) is an unyielding mathematical requirement.</p>
+  </div>
+
+  <!-- ================= WIDGET 3: CAUSEWAY STORM PARTITION ================= -->
+  <div class="interactive-workshop" id="sim-partition">
+    <div class="sim-container">
+      <div class="sim-header">
+        <div class="sim-header-top">
+          <div>
+            <span class="sim-kicker">Interactive Experiment · Theorem 4.3</span>
+            <h3 class="sim-title">The Causeway Storm Partition (Why N ≤ 2t Fails)</h3>
+          </div>
+        </div>
+      </div>
+      <div class="sim-body">
+        <div class="partition-deck">
+          <p style="font-size: .9rem; margin-top: 0;">
+            Why does partial synchrony require a strict majority (<var>N</var> ≥ 2<var>t</var> + 1) to tolerate <var>t</var> faults?
+            Witness the catastrophic split: if <var>N</var> = 4 and <var>t</var> = 2, a violent storm surge cuts the causeway strait.
+            Each shore forms a quorum of <var>N</var> − <var>t</var> = 2 in isolation!
+          </p>
+
+          <div class="partition-stage">
+            <svg viewBox="0 0 740 260" style="width:100%; height:auto; display:block;">
+              <!-- East Shore P -->
+              <rect x="20" y="30" width="220" height="200" rx="4" fill="#ebe1cc" stroke="#1c1512" stroke-width="3"/>
+              <text x="130" y="55" text-anchor="middle" font-family="Optima, sans-serif" font-weight="bold" font-size="12" fill="#1c1512">EAST SHORE (P)</text>
+              <text x="130" y="72" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="10" fill="#615039">Starts favoring WINTER (0)</text>
+
+              <!-- Captains on East Shore -->
+              <g transform="translate(45, 90)">
+                <circle cx="20" cy="20" r="14" fill="#ded2b5" stroke="#1c1512" stroke-width="2"/>
+                <text x="20" y="24" text-anchor="middle" font-family="Optima, sans-serif" font-weight="bold" font-size="9">C₁</text>
+                <text x="20" y="44" text-anchor="middle" font-family="Optima, sans-serif" font-size="8">Alexios</text>
+              </g>
+              <g transform="translate(145, 90)">
+                <circle cx="20" cy="20" r="14" fill="#ded2b5" stroke="#1c1512" stroke-width="2"/>
+                <text x="20" y="24" text-anchor="middle" font-family="Optima, sans-serif" font-weight="bold" font-size="9">C₂</text>
+                <text x="20" y="44" text-anchor="middle" font-family="Optima, sans-serif" font-size="8">Berenike</text>
+              </g>
+              <!-- Decision East -->
+              <rect id="part-dec-east" x="40" y="160" width="180" height="34" rx="3" fill="#eae4d6" stroke="#1c1512" stroke-width="1.5"/>
+              <text id="part-dec-east-txt" x="130" y="182" text-anchor="middle" font-family="Optima, sans-serif" font-size="10" font-weight="bold" fill="#615039">East: Undecided</text>
+
+              <!-- West Shore Q -->
+              <rect x="500" y="30" width="220" height="200" rx="4" fill="#ebe1cc" stroke="#1c1512" stroke-width="3"/>
+              <text x="610" y="55" text-anchor="middle" font-family="Optima, sans-serif" font-weight="bold" font-size="12" fill="#1c1512">WEST SHORE (Q)</text>
+              <text x="610" y="72" text-anchor="middle" font-family="Georgia, serif" font-style="italic" font-size="10" fill="#615039">Starts favoring SAIL (1)</text>
+
+              <!-- Captains on West Shore -->
+              <g transform="translate(525, 90)">
+                <circle cx="20" cy="20" r="14" fill="#ded2b5" stroke="#1c1512" stroke-width="2"/>
+                <text x="20" y="24" text-anchor="middle" font-family="Optima, sans-serif" font-weight="bold" font-size="9">C₃</text>
+                <text x="20" y="44" text-anchor="middle" font-family="Optima, sans-serif" font-size="8">Chares</text>
+              </g>
+              <g transform="translate(625, 90)">
+                <circle cx="20" cy="20" r="14" fill="#ded2b5" stroke="#1c1512" stroke-width="2"/>
+                <text x="20" y="24" text-anchor="middle" font-family="Optima, sans-serif" font-weight="bold" font-size="9">C₄</text>
+                <text x="20" y="44" text-anchor="middle" font-family="Optima, sans-serif" font-size="8">Damaris</text>
+              </g>
+              <!-- Decision West -->
+              <rect id="part-dec-west" x="520" y="160" width="180" height="34" rx="3" fill="#eae4d6" stroke="#1c1512" stroke-width="1.5"/>
+              <text id="part-dec-west-txt" x="610" y="182" text-anchor="middle" font-family="Optima, sans-serif" font-size="10" font-weight="bold" fill="#615039">West: Undecided</text>
+
+              <!-- Causeway Strait & Storm Surge -->
+              <rect x="250" y="50" width="240" height="160" fill="#102533" stroke="#1c1512" stroke-width="2"/>
+              <g class="rain-group">
+                <path d="M260,80 Q290,65 320,80 T380,80 T440,80 T480,80" fill="none" stroke="#4886a8" stroke-width="2"/>
+                <path d="M260,120 Q290,105 320,120 T380,120 T440,120 T480,120" fill="none" stroke="#336987" stroke-width="2"/>
+                <path d="M260,160 Q290,145 320,160 T380,160 T440,160 T480,160" fill="none" stroke="#4886a8" stroke-width="2"/>
+                <line x1="310" y1="60" x2="280" y2="120" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+                <line x1="420" y1="100" x2="390" y2="160" stroke="rgba(255,255,255,0.4)" stroke-width="2"/>
+              </g>
+              <text x="370" y="125" text-anchor="middle" font-family="Optima, sans-serif" font-weight="bold" font-size="11" fill="#ffe36e" letter-spacing="1">CAUSEWAY SURGE</text>
+              <text x="370" y="142" text-anchor="middle" font-family="Optima, sans-serif" font-size="8.5" fill="#fcf9ee">Skiffs swamped / delayed &gt; T</text>
+
+              <!-- Optional 5th Captain (Evander) Island Bridge -->
+              <g id="part-c5-bridge" transform="translate(325, 175)" style="display:none">
+                <rect x="-35" y="-15" width="90" height="32" rx="3" fill="#faf4e3" stroke="#1c1512" stroke-width="2" filter="url(#glow)"/>
+                <text x="10" y="4" text-anchor="middle" font-family="Optima, sans-serif" font-weight="bold" font-size="9" fill="#1c1512">C₅ Evander</text>
+                <text x="10" y="14" text-anchor="middle" font-family="Optima, sans-serif" font-size="7.5" fill="#66722c">5th Guard Bridge</text>
+              </g>
+            </svg>
+          </div>
+
+          <div class="sim-toolbar" style="margin-top: 14px;">
+            <div class="sim-btn-group">
+              <button type="button" class="sim-btn action" id="btn-part-run">⚡ Run Storm Partition</button>
+              <button type="button" class="sim-btn primary" id="btn-part-c5">🛡️ Add 5th Captain (Evander)</button>
+              <button type="button" class="sim-btn" id="btn-part-reset">↺ Reset Strait</button>
+            </div>
+          </div>
+
+          <div class="partition-narrative" id="part-narrative-box">
+            <b>Scenario:</b> When <var>N</var> = 4 and <var>t</var> = 2, each shore has 2 captains. Under the fault model, 2 failures must be tolerated, so any 2 captains constitute a valid quorum (<var>N</var> − <var>t</var> = 2). Click "Run Storm Partition" to watch East Shore decide Winter and West Shore decide Sail simultaneously!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <div class="slab">
     <div class="slab-head">Theorem 4.4</div>
-    <p class="stmt">With liars with seals, steady rowers and partially synchronous boats, if 2 ≤ <var>N</var> ≤ 3<var>t</var>, no <var>t</var>-resilient rite achieves weak unanimity for two values.</p>
+    <p class="stmt">With mutineers with seals, steady rowers and partially synchronous waters, if 2 ≤ <var>N</var> ≤ 3<var>t</var>, no <var>t</var>-resilient rite achieves weak unanimity for two values.</p>
   </div>
   <div class="prose">
-    <p>The proof splits the delegates into three groups <var>P</var>, <var>Q</var>, <var>R</var>, each of at most
-    <var>t</var>. In scenario A, <var>R</var> is dead and everyone starts with 0; in B, <var>P</var> is dead and everyone
-    starts with 1. In C, <var>P</var> starts with 0, <var>R</var> with 1, and <var>Q</var> is faulty and plays scenario A
-    toward <var>P</var> and scenario B toward <var>R</var> — seals notwithstanding, since it is only ever sealing its own
-    letters — while a storm holds all letters between <var>P</var> and <var>R</var>. The same bound for liars without
-    seals is already known from the synchronous case of Volume&nbsp;V, so Rite Three is optimal too.</p>
+    <p>The proof splits the fleet into three groups <var>P</var>, <var>Q</var>, <var>R</var>, each of at most
+    <var>t</var> vessels. In Scenario C, Group <var>Q</var> contains mutinous captains who send sealed Winter
+    slates to <var>P</var> and sealed Sail slates to <var>R</var> — their seals are genuine, since they are only
+    sealing their own conflicting messages — while a gale delays all direct communication between <var>P</var>
+    and <var>R</var>. The fleet splits. This demonstrates why 3<var>t</var> + 1 is required whenever Byzantine
+    faults are present in partially synchronous waters, even with cryptographic signets.</p>
   </div>
 </section>
 
@@ -451,34 +972,20 @@
   </figure>
   <!-- /PANEL III-07 -->
   <div class="prose">
-    <p>When the rowers too are only partially synchronous, no delegate can count strokes and trust that
-    others' counts agree. The navigators therefore built <em>distributed clocks</em> — fault-tolerant
-    descendants of the monotonic bead of Volume&nbsp;I — out of two kinds of drumbeat. An <em>i-tick</em> is the
-    message "<var>i</var>". An <em>i-claim</em> is "I have broadcast an <var>i</var>-tick." Each delegate cycles through all
-    <var>N</var> delegates, drumming ticks, then claims, and advancing whenever his own clock has advanced.</p>
-    <p>For liars without seals (<var>N</var> ≥ 3<var>t</var> + 1), the <em>master clock</em> <var>C</var>(<var>s</var>) at real time
-    <var>s</var> is the largest <var>j</var> such that <var>t</var> + 1 sound delegates have broadcast a <var>j</var>-tick; delegate
-    <var>i</var>'s <em>private clock</em> <var>c</var><sub><var>i</var></sub>(<var>s</var>) is the largest <var>j</var> such that he has received either
-    <var>j</var>-or-higher claims from 2<var>t</var> + 1 delegates, or (<var>j</var> + 1)-or-higher ticks or claims from
-    <var>t</var> + 1. Each delegate drums the tick <var>c</var><sub><var>i</var></sub> + 1. The navigators prove that private clocks never
-    run ahead of the master (<var>c</var><sub><var>i</var></sub>(<var>s</var>) ≤ <var>C</var>(<var>s</var>)), that the master advances at most one
-    per moment, and that soon after GST the private clocks trail the master by at most a constant and the
-    master advances at a rate no slower than a constant fraction of real time. A version with seals needs only
-    <var>N</var> ≥ 2<var>t</var> + 1 and serves for sleepers and the forgetful as well.</p>
-    <p>Each delegate then uses two of every three steps to keep the clock and the third to imitate the basic
-    round model, reading the current round from his private clock in groups of <var>R</var> = 3<var>N</var>Φ + 2<var>D</var> + 2
-    ticks, where <var>D</var> = Δ + 3Φ — or <var>R</var><sub><var>r</var></sub> = 3<var>Nr</var> + 8<var>r</var> + 2, growing, when the bounds are
-    unknown. Once again the resiliencies of the table are achieved, with polynomial time.</p>
-    <p>Finally, for steady boats but partially synchronous rowers, the logbook uses a basic model with
-    <em>signals</em> — a signal to a delegate in round <var>r</var> guarantees that every sound delegate received his
-    round-<var>r</var> letters — and obtains the last column of the table: a simple rotating rite tolerating any number
-    of sleepers, and <var>N</var> ≥ 2<var>t</var> + 1 for liars with seals.</p>
+    <p>When rowers too are only partially synchronous, no captain can count strokes and assume other crews'
+    counts agree. The navigators therefore constructed <em>distributed clocks</em> — descendants of the monotonic
+    beads of Volume&nbsp;I — out of two kinds of drumbeat across the sound. An <em>i-tick</em> is the signal
+    "<var>i</var>". An <em>i-claim</em> is "I have drummed an <var>i</var>-tick to everyone." Each captain drums
+    ticks, collects claims from peers, and advances his private clock when a quorum of claims is confirmed.</p>
+    <p>These fault-tolerant drumming protocols ensure that even if some crews are sluggish or mutinous, private
+    clocks never run ahead of real time and advance at a steady rate once GST arrives. The fleet recovers the
+    ability to measure rounds, and the resiliencies of Table&nbsp;I are fully achieved.</p>
   </div>
 
   <!-- PANEL III-08 -->
   <figure class="panel" id="panel-III-08" data-panel="III-08" data-shape="wide" data-refs="III-characters III-props">
-    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The passable season: A bright, calm morning over the cothon: skiffs glide between quays on a glassy basin; the captains stand around a bronze urn as the last token drops in."><span class="ph-label">III-08 · wide 16:9</span><span class="ph-title">The passable season</span><span class="ph-desc">A bright, calm morning over the cothon: skiffs glide between quays on a glassy basin; the captains stand around a bronze urn as the last token drops in.</span><span class="ph-meta">Blender: cothon · Sheets: III-characters, III-props</span></div></div>
-    <figcaption>THE STORM ENDS ON NO ONE’S SCHEDULE — BUT IT ENDS, AND THE COUNCIL DECIDES.</figcaption>
+    <div class="frame"><div class="img-placeholder ph-wide" role="img" aria-label="The passable season: A bright, calm morning over the cothon: skiffs glide between quays on a glassy basin; the captains stand in agreement on the quay as the sailing pennant is raised."><span class="ph-label">III-08 · wide 16:9</span><span class="ph-title">The passable season</span><span class="ph-desc">A bright, calm morning over the cothon: skiffs glide between quays on a glassy basin; the captains stand in agreement on the quay as the sailing pennant is raised.</span><span class="ph-meta">Blender: cothon · Sheets: III-characters, III-props</span></div></div>
+    <figcaption>THE STORM ENDS ON NO ONE’S SCHEDULE — BUT IT ENDS, AND THE FLEET DECIDES.</figcaption>
   </figure>
   <!-- /PANEL III-08 -->
 </section>
@@ -493,27 +1000,29 @@
   </div>
   <div class="table-wrap">
     <table class="chron">
-      <thead><tr><th>In the logbook</th><th>In the paper</th></tr></thead>
+      <thead><tr><th>In the logbook</th><th>In the paper (Dwork, Lynch &amp; Stockmeyer 1988)</th></tr></thead>
       <tbody>
-        <tr><td>Δ, the longest crossing</td><td>Upper bound on message delivery time</td></tr>
-        <tr><td>Φ, the slowest rower</td><td>Upper bound on relative processor speed</td></tr>
-        <tr><td>The Passable Season begins</td><td>Global Stabilization Time (GST)</td></tr>
-        <tr><td>Sleeper, forgetful, liar with a seal, liar</td><td>Fail-stop, omission, authenticated Byzantine, Byzantine faults</td></tr>
-        <tr><td>Phases belonging to captains in turn</td><td>Rotating coordinator</td></tr>
-        <tr><td>Mooring with a phase number</td><td>Lock on a value with an associated phase</td></tr>
-        <tr><td>The echo</td><td>Srikanth–Toueg authenticated-broadcast simulation</td></tr>
-        <tr><td>Waiting longer each round</td><td>Simulation with round length <var>N</var> + <var>r</var> for unknown Δ</td></tr>
+        <tr><td>Captains of the fleet</td><td>Deterministic processes / nodes</td></tr>
+        <tr><td>The choice: SAIL (1) vs. WINTER (0)</td><td>Binary consensus input &amp; decision values</td></tr>
+        <tr><td>Δ, the sandglass crossing</td><td>Upper bound on message delivery time</td></tr>
+        <tr><td>Φ, the crew tempo</td><td>Upper bound on relative processor speed</td></tr>
+        <tr><td>The Passable Season begins (calm arrives)</td><td>Global Stabilization Time (GST)</td></tr>
+        <tr><td>Stranded, swamped, mutinous, pirate impostor</td><td>Fail-stop, omission, authenticated Byzantine, Byzantine faults</td></tr>
+        <tr><td>Flagship of the watch</td><td>Rotating coordinator</td></tr>
+        <tr><td>Mooring with a phase number (bollard tags)</td><td>Lock on a value with an associated phase</td></tr>
+        <tr><td>The echo broadcast</td><td>Srikanth–Toueg authenticated-broadcast simulation</td></tr>
+        <tr><td>Growing hourglasses (waiting longer each round)</td><td>Simulation with round length <var>N</var> + <var>r</var> for unknown Δ</td></tr>
         <tr><td>Drummers' ticks and claims</td><td>Fault-tolerant distributed clocks</td></tr>
       </tbody>
     </table>
   </div>
   <div class="prose">
-    <p>"Partial synchrony" — in particular the GST formulation — is the standard system model for practical
-    consensus. It explains the design pattern shared by Paxos, Viewstamped Replication, PBFT and Raft: never
-    violate safety, no matter how messages are delayed, and guarantee progress only once the network behaves
-    for long enough, typically by retrying leader elections with increasing timeouts — the same idea as the
-    navigators' growing hourglasses. The table's <var>2t</var> + 1 for crash faults and 3<var>t</var> + 1 for Byzantine
-    faults are precisely the replica counts used by Raft and PBFT.</p>
+    <p>Partial synchrony — specifically the GST model — is the foundation of virtually all modern distributed
+    consensus systems. It explains the core architecture of Paxos, Viewstamped Replication, PBFT, and Raft:
+    <strong>guarantee safety unconditionally under any network delay, and guarantee liveness once the network
+    stabilizes for long enough</strong>. The navigators' growing hourglasses correspond directly to the exponential
+    backoff and timeout extensions used in modern leader elections, and Table&nbsp;I's 2<var>t</var> + 1 and
+    3<var>t</var> + 1 thresholds are the exact quorum sizes that govern production systems today.</p>
   </div>
 </section>
 
@@ -550,10 +1059,10 @@
 
 <footer class="colophon">
   <hr class="meander">
-  <p>An allegorical retelling of Dwork, Lynch &amp; Stockmeyer (1988). Table I, Rite One and the
+  <p>An allegorical retelling of Dwork, Lynch &amp; Stockmeyer (1988). Table I, Rite One, and the
   lower-bound scenarios are given in full; the distributed clocks and the signal model are
-  summarized. The panels are placeholders for now, each describing the image to come. For the
-  original mathematics, always consult the original paper.</p>
+  summarized. The panels describe the imagery of the cothon and the navigators. For the
+  original mathematics, consult the original paper.</p>
   <nav class="bottom-nav">
     <a href="../art-direction-grand-island-shape.html" class="bottom-btn all">🏛️ Art direction</a>
   </nav>
@@ -581,6 +1090,906 @@
     el.addEventListener('click', (e)=>{ e.stopPropagation(); show(el); });
   });
   document.addEventListener('click', ()=>{ tip.style.display='none'; });
+})();
+
+/* ================= Interactive Explainer Engines ================= */
+(function(){
+  /* ================= WIDGET 1: COTHON BASIN (RITE ONE) ================= */
+  const Cothon = (function(){
+    const N = 5;
+    const t = 2; // N >= 2t + 1 (5 >= 5)
+    // Quorum for lock: N - t = 3
+    // Acks for decision: t + 1 = 3
+    const quayMeta = [
+      { id: 1, name: 'Alexios', pierX: 410, pierY: 135, angle: -90 },
+      { id: 2, name: 'Berenike', pierX: 553, pierY: 249, angle: -18 },
+      { id: 3, name: 'Chares', pierX: 493, pierY: 400, angle: 54 },
+      { id: 4, name: 'Damaris', pierX: 327, pierY: 400, angle: 126 },
+      { id: 5, name: 'Evander', pierX: 267, pierY: 249, angle: 198 }
+    ];
+
+    let state = {
+      phase: 1,
+      subround: 1, // 1: proposals, 2: lock broadcast, 3: moor & acks, 4: lock-release
+      weather: 'calm', // 'calm' (GST) or 'storm'
+      playing: false,
+      timer: null,
+      captains: [
+        { id: 1, vote: 1, proper: new Set([1]), mooring: null, decided: null, health: 'sound' },
+        { id: 2, vote: 1, proper: new Set([1]), mooring: null, decided: null, health: 'sound' },
+        { id: 3, vote: 1, proper: new Set([1]), mooring: null, decided: null, health: 'sound' },
+        { id: 4, vote: 0, proper: new Set([0]), mooring: null, decided: null, health: 'sound' },
+        { id: 5, vote: 0, proper: new Set([0]), mooring: null, decided: null, health: 'sound' }
+      ],
+      proposedVal: null,
+      proposedPhase: 0,
+      proposalQuorum: [],
+      ackQuorum: [],
+      firstDecidedPhase: null,
+      firstDecidedVal: null
+    };
+
+    function cName(id) {
+      return quayMeta[id - 1].name;
+    }
+
+    function log(step, msg) {
+      const stream = document.getElementById('sim-log-stream');
+      if (!stream) return;
+      const row = document.createElement('div');
+      row.className = 'sim-log-entry';
+      row.innerHTML = '<span class="log-step">' + step + '</span> ' + msg;
+      stream.appendChild(row);
+      stream.scrollTop = stream.scrollHeight;
+    }
+
+    function clearSkiffs() {
+      const layer = document.getElementById('skiffs-layer');
+      if (layer) layer.innerHTML = '';
+    }
+
+    function sendSkiff(fromId, toId, badgeText, isLost, onComplete) {
+      const layer = document.getElementById('skiffs-layer');
+      if (!layer) return;
+
+      const from = quayMeta[fromId - 1];
+      const to = quayMeta[toId - 1];
+
+      const g = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      g.setAttribute('class', 'sim-skiff');
+
+      // Rowboat shape
+      const boat = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      boat.setAttribute('d', 'M-12,-4 C2,-8 2,-8 14,-4 C11,5 -10,5 -12,-4 Z');
+      boat.setAttribute('fill', '#8c5836');
+      boat.setAttribute('stroke', '#1c1512');
+      boat.setAttribute('stroke-width', '1.5');
+
+      // Oars
+      const oars = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      oars.setAttribute('x1', '-3'); oars.setAttribute('y1', '-9');
+      oars.setAttribute('x2', '3'); oars.setAttribute('y2', '9');
+      oars.setAttribute('stroke', '#1c1512');
+      oars.setAttribute('stroke-width', '1.8');
+
+      // Cargo tag
+      const tagBg = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+      tagBg.setAttribute('x', '-20'); tagBg.setAttribute('y', '-18');
+      tagBg.setAttribute('width', '40'); tagBg.setAttribute('height', '12');
+      tagBg.setAttribute('rx', '2');
+      tagBg.setAttribute('fill', isLost ? '#f4d2cc' : '#ffe36e');
+      tagBg.setAttribute('stroke', isLost ? '#8e2323' : '#1c1512');
+      tagBg.setAttribute('stroke-width', '1');
+
+      const tagTxt = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      tagTxt.setAttribute('x', '0'); tagTxt.setAttribute('y', '-9');
+      tagTxt.setAttribute('text-anchor', 'middle');
+      tagTxt.setAttribute('font-family', 'Optima, sans-serif');
+      tagTxt.setAttribute('font-size', '6.8');
+      tagTxt.setAttribute('font-weight', 'bold');
+      tagTxt.setAttribute('fill', isLost ? '#8e2323' : '#1c1512');
+      tagTxt.textContent = isLost ? '✕ SWAMPED' : badgeText;
+
+      g.appendChild(boat);
+      g.appendChild(oars);
+      g.appendChild(tagBg);
+      g.appendChild(tagTxt);
+
+      g.setAttribute('transform', `translate(${from.pierX}, ${from.pierY})`);
+      layer.appendChild(g);
+
+      // Animate movement
+      requestAnimationFrame(() => {
+        let destX = to.pierX;
+        let destY = to.pierY;
+        if (isLost) {
+          // drift into storm basin
+          destX = (from.pierX + to.pierX) / 2 + (Math.random() * 40 - 20);
+          destY = (from.pierY + to.pierY) / 2 + (Math.random() * 40 - 20);
+          g.style.opacity = '0.6';
+        }
+        g.style.transform = `translate(${destX}px, ${destY}px)`;
+      });
+
+      setTimeout(() => {
+        if (g.parentNode) g.parentNode.removeChild(g);
+        if (onComplete) onComplete();
+      }, 700);
+    }
+
+    function updateView() {
+      const flagshipId = ((state.phase - 1) % N) + 1;
+      const flagship = quayMeta[flagshipId - 1];
+
+      // 1. Lantern Beam
+      const beam = document.getElementById('lantern-beam');
+      if (beam) {
+        // Point from center (410, 290) to flagship pier
+        const dx = flagship.pierX - 410;
+        const dy = flagship.pierY - 290;
+        const len = Math.hypot(dx, dy);
+        const ux = dx / len;
+        const uy = dy / len;
+        const perpX = -uy;
+        const perpY = ux;
+        const w = 24;
+        const x1 = flagship.pierX + perpX * w;
+        const y1 = flagship.pierY + perpY * w;
+        const x2 = flagship.pierX - perpX * w;
+        const y2 = flagship.pierY - perpY * w;
+        beam.setAttribute('points', `410,290 ${x1},${y1} ${x2},${y2}`);
+      }
+
+      // 2. Weather
+      const waterCircle = document.getElementById('basin-water-circle');
+      const rainStreaks = document.getElementById('rain-streaks');
+      const calmShimmer = document.getElementById('calm-shimmer');
+      const seaChip = document.getElementById('sea-status-chip');
+      const seaBtn = document.getElementById('btn-toggle-sea');
+
+      if (state.weather === 'storm') {
+        if (waterCircle) waterCircle.setAttribute('fill', 'url(#waterStorm)');
+        if (rainStreaks) rainStreaks.style.display = 'block';
+        if (calmShimmer) calmShimmer.style.display = 'none';
+        if (seaChip) {
+          seaChip.className = 'weather-chip storm';
+          seaChip.textContent = 'Winter Gale (Pre-GST)';
+        }
+        if (seaBtn) seaBtn.textContent = 'Restore Calm (GST)';
+      } else {
+        if (waterCircle) waterCircle.setAttribute('fill', 'url(#waterCalm)');
+        if (rainStreaks) rainStreaks.style.display = 'none';
+        if (calmShimmer) calmShimmer.style.display = 'block';
+        if (seaChip) {
+          seaChip.className = 'weather-chip calm';
+          seaChip.textContent = 'Passable Season (GST)';
+        }
+        if (seaBtn) seaBtn.textContent = 'Trigger Gale';
+      }
+
+      // 3. Quays & Captain Cards
+      state.captains.forEach(c => {
+        const id = c.id;
+
+        // Mooring tag
+        const tagBg = document.getElementById(`tag-bg-${id}`);
+        const tagTxt = document.getElementById(`tag-txt-${id}`);
+        if (tagBg && tagTxt) {
+          if (!c.mooring) {
+            tagBg.setAttribute('fill', '#ffe36e');
+            tagBg.setAttribute('stroke', '#1c1512');
+            tagTxt.textContent = 'Mooring: Untied';
+            tagTxt.setAttribute('fill', '#1c1512');
+          } else {
+            const isSail = c.mooring.val === 1;
+            tagBg.setAttribute('fill', isSail ? '#faeed4' : '#fae3dd');
+            tagBg.setAttribute('stroke', isSail ? '#c1912b' : '#bf4a26');
+            tagTxt.textContent = `Moored: ${isSail ? '⛵ Sail' : '⚓ Winter'} · k=${c.mooring.phase}`;
+            tagTxt.setAttribute('fill', isSail ? '#845e14' : '#8e2323');
+          }
+        }
+
+        // Vote button
+        const vrect = document.querySelector(`#vbadge-${id} rect`);
+        const vtxt = document.getElementById(`vtxt-${id}`);
+        if (vrect && vtxt) {
+          vrect.setAttribute('fill', c.vote === 1 ? '#136f9e' : '#bf4a26');
+          vtxt.textContent = c.vote === 1 ? '⛵ SAIL' : '⚓ WNTR';
+        }
+
+        // Health button
+        const hrect = document.getElementById(`hrect-${id}`);
+        const htxt = document.getElementById(`htxt-${id}`);
+        if (hrect && htxt) {
+          if (c.health === 'sound') {
+            hrect.setAttribute('fill', '#66722c');
+            htxt.textContent = 'SOUND';
+          } else if (c.health === 'stranded') {
+            hrect.setAttribute('fill', '#8e2323');
+            htxt.textContent = 'STRANDED';
+          } else {
+            hrect.setAttribute('fill', '#136f9e');
+            htxt.textContent = 'SWAMPED';
+          }
+        }
+
+        // Status Subtitle
+        const cstatus = document.getElementById(`cstatus-${id}`);
+        if (cstatus) {
+          if (c.health === 'stranded') {
+            cstatus.textContent = 'Dead / Unresponsive';
+            cstatus.style.color = '#8e2323';
+          } else if (c.health === 'swamped') {
+            cstatus.textContent = 'Losing skiffs in surf';
+            cstatus.style.color = '#0b4a6b';
+          } else if (c.mooring) {
+            cstatus.textContent = `Locked on ${c.mooring.val === 1 ? 'Sail' : 'Winter'} (Phase ${c.mooring.phase})`;
+            cstatus.style.color = '#54432d';
+          } else {
+            cstatus.textContent = 'Accepts: Sail, Winter';
+            cstatus.style.color = '#66543b';
+          }
+        }
+
+        // Decision Pennant
+        const pennant = document.getElementById(`pennant-${id}`);
+        const pennantTxt = document.getElementById(`pennant-txt-${id}`);
+        if (pennant && pennantTxt) {
+          if (c.decided !== null) {
+            pennant.style.display = 'block';
+            pennantTxt.textContent = c.decided === 1 ? 'SAIL' : 'WNTR';
+            const poly = pennant.querySelector('polygon');
+            if (poly) poly.setAttribute('fill', c.decided === 1 ? '#ffe36e' : '#bf4a26');
+          } else {
+            pennant.style.display = 'none';
+          }
+        }
+
+        // Galley tilt for stranded
+        const ship = document.getElementById(`ship-${id}`);
+        if (ship) {
+          ship.style.opacity = c.health === 'stranded' ? '0.45' : '1';
+        }
+      });
+
+      // 4. Telemetry Header
+      const monSub = document.getElementById('mon-phase-round');
+      const roundNames = [
+        'Round 1: Proposals to Flagship',
+        'Round 2: Flagship Lock Broadcast',
+        'Round 3: Moorings & Decision Acks',
+        'Round 4: Lock-Release Round'
+      ];
+      if (monSub) {
+        monSub.textContent = `Phase ${state.phase} (Flagship ${cName(flagshipId)}) · ${roundNames[state.subround - 1]}`;
+      }
+
+      // 5. Quorum Bars
+      const pCount = state.proposalQuorum.length;
+      const pBadge = document.getElementById('prop-count-badge');
+      const pBar = document.getElementById('prop-bar-fill');
+      if (pBadge && pBar) {
+        pBadge.textContent = `${pCount} / 3`;
+        pBar.style.width = `${Math.min(100, (pCount / 5) * 100)}%`;
+        pBar.className = 'quorum-bar-fill' + (pCount >= 3 ? ' success' : '');
+      }
+
+      const aCount = state.ackQuorum.length;
+      const aBadge = document.getElementById('ack-count-badge');
+      const aBar = document.getElementById('ack-bar-fill');
+      if (aBadge && aBar) {
+        aBadge.textContent = `${aCount} / 3`;
+        aBar.style.width = `${Math.min(100, (aCount / 5) * 100)}%`;
+        aBar.className = 'quorum-bar-fill' + (aCount >= 3 ? ' success' : '');
+      }
+
+      // 6. Overlap Pill Badges
+      const pillsContainer = document.getElementById('overlap-pills');
+      if (pillsContainer) {
+        pillsContainer.innerHTML = '';
+        state.captains.forEach(c => {
+          const pill = document.createElement('span');
+          pill.className = 'cap-pill';
+          if (c.id === flagshipId) pill.classList.add('flagship');
+          if (c.id === state.overlapCaptainId) pill.classList.add('overlap');
+          else if (c.mooring) pill.classList.add('locked');
+
+          let txt = `C${c.id} ${cName(c.id)}`;
+          if (c.id === state.overlapCaptainId) txt += ' ⭐ (Overlap Guard)';
+          else if (c.mooring) txt += ` [Locked: ${c.mooring.val === 1 ? 'Sail' : 'Wntr'}]`;
+          pill.textContent = txt;
+          pillsContainer.appendChild(pill);
+        });
+      }
+
+      // 7. Captains Roster Table
+      const tbody = document.getElementById('captains-tbody');
+      if (tbody) {
+        tbody.innerHTML = '';
+        state.captains.forEach(c => {
+          const tr = document.createElement('tr');
+          const isFlag = c.id === flagshipId;
+
+          tr.innerHTML = `
+            <td><b>${c.id}</b></td>
+            <td><b>${cName(c.id)}</b> ${isFlag ? '🏮' : ''}</td>
+            <td>
+              <button type="button" class="cap-toggle-btn" data-action="health" data-id="${c.id}">
+                ${c.health === 'sound' ? '🟢 Sound' : c.health === 'stranded' ? '🪨 Stranded' : '🌊 Swamped'}
+              </button>
+            </td>
+            <td>
+              ${c.mooring ? `${c.mooring.val === 1 ? '⛵ Sail' : '⚓ Winter'} (k=${c.mooring.phase})` : '<i>None</i>'}
+            </td>
+            <td>
+              <b>${c.decided !== null ? (c.decided === 1 ? '⛵ SAIL' : '⚓ WINTER') : '—'}</b>
+            </td>
+          `;
+          tbody.appendChild(tr);
+        });
+
+        // Table toggle listeners
+        tbody.querySelectorAll('button[data-action="health"]').forEach(b => {
+          b.addEventListener('click', () => {
+            const id = parseInt(b.dataset.id, 10);
+            toggleHealth(id);
+          });
+        });
+      }
+    }
+
+    function toggleHealth(id) {
+      const c = state.captains.find(x => x.id === id);
+      if (!c) return;
+      if (c.health === 'sound') c.health = 'stranded';
+      else if (c.health === 'stranded') c.health = 'swamped';
+      else c.health = 'sound';
+      log('Crew Status', `Captain ${cName(id)} is now marked <b>${c.health.toUpperCase()}</b>.`);
+      updateView();
+    }
+
+    function toggleVote(id) {
+      const c = state.captains.find(x => x.id === id);
+      if (!c) return;
+      c.vote = c.vote === 1 ? 0 : 1;
+      c.proper = new Set([c.vote]);
+      log('Convoy Preference', `Captain ${cName(id)} now favors <b>${c.vote === 1 ? 'SAIL ⛵' : 'WINTER ⚓'}</b>.`);
+      updateView();
+    }
+
+    function step() {
+      clearSkiffs();
+      const flagshipId = ((state.phase - 1) % N) + 1;
+      const flagship = state.captains.find(c => c.id === flagshipId);
+
+      if (state.subround === 1) {
+        // ROUND 1: Acceptable Proposals to Flagship
+        state.proposalQuorum = [];
+        state.ackQuorum = [];
+        state.overlapCaptainId = null;
+
+        log(`Phase ${state.phase} · Round 1`, `Flagship <b>${cName(flagshipId)}</b> hoists the lantern. Sound captains row acceptable proposals.`);
+
+        const validCaptains = state.captains.filter(c => {
+          if (c.health === 'stranded') return false;
+          if (state.weather === 'storm' && (c.health === 'swamped' || Math.random() < 0.4)) {
+            // Lost in heavy storm
+            sendSkiff(c.id, flagshipId, 'PROP', true);
+            return false;
+          }
+          return true;
+        });
+
+        validCaptains.forEach(c => {
+          const isSailOk = !c.mooring || c.mooring.val === 1;
+          const isWntrOk = !c.mooring || c.mooring.val === 0;
+          let label = 'PROP';
+          if (isSailOk && !isWntrOk) label = 'PROP: ⛵';
+          else if (!isSailOk && isWntrOk) label = 'PROP: ⚓';
+          else label = 'PROP: Both';
+
+          if (c.id !== flagshipId) {
+            sendSkiff(c.id, flagshipId, label, false);
+          }
+          state.proposalQuorum.push(c.id);
+
+          // Union proper
+          c.proper.forEach(val => flagship.proper.add(val));
+        });
+
+        state.subround = 2;
+        updateView();
+
+      } else if (state.subround === 2) {
+        // ROUND 2: Flagship Lock Broadcast
+        log(`Phase ${state.phase} · Round 2`, `Flagship <b>${cName(flagshipId)}</b> tallies proposals received.`);
+
+        if (flagship.health === 'stranded') {
+          log('Silence', `Flagship ${cName(flagshipId)} is stranded! No lock slate sent.`);
+          state.proposedVal = null;
+          state.subround = 3;
+          updateView();
+          return;
+        }
+
+        // Tally acceptability
+        let sailCount = 0;
+        let wntrCount = 0;
+        state.proposalQuorum.forEach(cid => {
+          const c = state.captains.find(x => x.id === cid);
+          if (!c.mooring || c.mooring.val === 1) sailCount++;
+          if (!c.mooring || c.mooring.val === 0) wntrCount++;
+        });
+
+        // Did we have a prior decision?
+        if (state.firstDecidedVal !== null) {
+          // Check who is the overlap guard
+          const guard = state.captains.find(c => state.proposalQuorum.includes(c.id) && c.mooring && c.mooring.val === state.firstDecidedVal);
+          if (guard) {
+            state.overlapCaptainId = guard.id;
+            log('Overlap Guard Active', `Captain <b>${cName(guard.id)}</b> holds lock on ${guard.mooring.val === 1 ? 'SAIL' : 'WINTER'}. This blocks any conflicting proposal!`);
+          }
+        }
+
+        let chosenVal = null;
+        if (sailCount >= (N - t) && flagship.proper.has(1)) {
+          chosenVal = 1;
+        } else if (wntrCount >= (N - t) && flagship.proper.has(0)) {
+          chosenVal = 0;
+        }
+
+        state.proposedVal = chosenVal;
+        state.proposedPhase = state.phase;
+
+        if (chosenVal !== null) {
+          log('Lock Broadcast', `Flagship ${cName(flagshipId)} gathered a quorum of ${chosenVal === 1 ? sailCount : wntrCount} (≥ ${N - t}). Broadcasts <b>LOCK(${chosenVal === 1 ? 'SAIL ⛵' : 'WINTER ⚓'}, k=${state.phase})</b>.`);
+
+          // Broadcast skiffs
+          state.captains.forEach(c => {
+            if (c.id !== flagshipId && c.health !== 'stranded') {
+              const isLost = (state.weather === 'storm' && (c.health === 'swamped' || Math.random() < 0.35));
+              sendSkiff(flagshipId, c.id, `LOCK: ${chosenVal === 1 ? '⛵' : '⚓'}`, isLost);
+            }
+          });
+        } else {
+          log('Quorum Stalled', `Neither Sail (${sailCount}) nor Winter (${wntrCount}) reached the quorum of ${N - t}. No lock broadcast.`);
+        }
+
+        state.subround = 3;
+        updateView();
+
+      } else if (state.subround === 3) {
+        // ROUND 3: Moorings and Decision Acks
+        state.ackQuorum = [];
+
+        if (state.proposedVal !== null && flagship.health !== 'stranded') {
+          // Captains who received lock update their bollard
+          state.captains.forEach(c => {
+            if (c.health !== 'stranded') {
+              // Lock on proposed value
+              c.mooring = { val: state.proposedVal, phase: state.proposedPhase };
+
+              const isLost = (state.weather === 'storm' && (c.health === 'swamped' || Math.random() < 0.35));
+              if (c.id !== flagshipId) {
+                sendSkiff(c.id, flagshipId, 'ACK', isLost);
+              }
+              if (!isLost) {
+                state.ackQuorum.push(c.id);
+              }
+            }
+          });
+
+          // Check if Flagship decides
+          if (state.ackQuorum.length >= (t + 1)) {
+            flagship.decided = state.proposedVal;
+            if (state.firstDecidedVal === null) {
+              state.firstDecidedVal = state.proposedVal;
+              state.firstDecidedPhase = state.phase;
+            }
+            log('Decision Reached!', `🎉 Flagship <b>${cName(flagshipId)}</b> received ${state.ackQuorum.length} ACKs (≥ ${t + 1})! <b>DECIDED: ${flagship.decided === 1 ? 'SAIL (1) ⛵' : 'WINTER (0) ⚓'}</b>. Signal pennant hoisted!`);
+
+            // Sound captains who see the decision also decide
+            state.captains.forEach(c => {
+              if (c.health === 'sound') {
+                c.decided = flagship.decided;
+              }
+            });
+          } else {
+            log('Acks Incomplete', `Flagship received only ${state.ackQuorum.length} ACKs (< ${t + 1}). Cannot decide this phase.`);
+          }
+        } else {
+          log('Round 3', 'No lock was in flight. Captains maintain current moorings.');
+        }
+
+        state.subround = 4;
+        updateView();
+
+      } else if (state.subround === 4) {
+        // ROUND 4: Lock-Release
+        log(`Phase ${state.phase} · Round 4`, `Lock-Release Round: Captains broadcast current bollard moorings.`);
+
+        // In basic round model, if moored to (v, h) and sees (w, h') with w != v and h' >= h, cast off
+        // Note: By Lemma 3.2, once a decision has happened, no sound captain casts off.
+        if (state.firstDecidedVal === null) {
+          // If no decision yet, check conflicting moorings
+          const highestMooring = state.captains.reduce((max, c) => {
+            return (c.mooring && c.mooring.phase > max) ? c.mooring.phase : max;
+          }, 0);
+
+          state.captains.forEach(c => {
+            if (c.mooring && c.mooring.phase < highestMooring) {
+              log('Rope Cast Off', `Captain ${cName(c.id)} learned of higher phase mooring; untied older rope.`);
+              c.mooring = null;
+            }
+          });
+        } else {
+          log('Moorings Intact', `All moored captains remain safely locked on decided action.`);
+        }
+
+        // Phase advance!
+        state.phase++;
+        state.subround = 1;
+        updateView();
+      }
+    }
+
+    function reset() {
+      if (state.timer) clearInterval(state.timer);
+      state.playing = false;
+      const playBtn = document.getElementById('btn-sim-play');
+      if (playBtn) playBtn.textContent = '▶ Play';
+
+      state.phase = 1;
+      state.subround = 1;
+      state.proposedVal = null;
+      state.proposedPhase = 0;
+      state.proposalQuorum = [];
+      state.ackQuorum = [];
+      state.firstDecidedVal = null;
+      state.firstDecidedPhase = null;
+      state.overlapCaptainId = null;
+
+      state.captains.forEach((c, idx) => {
+        c.mooring = null;
+        c.decided = null;
+        c.health = 'sound';
+        c.vote = idx < 3 ? 1 : 0;
+        c.proper = new Set([c.vote]);
+      });
+
+      clearSkiffs();
+      log('Harbour Reset', 'Waters cleared. Captains at their moorings, all sound.');
+      updateView();
+    }
+
+    function togglePlay() {
+      const playBtn = document.getElementById('btn-sim-play');
+      if (state.playing) {
+        state.playing = false;
+        clearInterval(state.timer);
+        if (playBtn) playBtn.textContent = '▶ Play';
+      } else {
+        state.playing = true;
+        if (playBtn) playBtn.textContent = '⏸ Pause';
+        step();
+        state.timer = setInterval(() => {
+          step();
+        }, 1300);
+      }
+    }
+
+    function toggleSea() {
+      state.weather = state.weather === 'calm' ? 'storm' : 'calm';
+      log('Sea Condition Changed', `Weather is now <b>${state.weather === 'calm' ? 'PASSABLE SEASON (Calm)' : 'WINTER GALE (Storm)'}</b>.`);
+      updateView();
+    }
+
+    function loadPreset(name) {
+      reset();
+      document.querySelectorAll('.sim-btn.preset').forEach(b => b.classList.remove('active'));
+
+      if (name === 'calm') {
+        document.getElementById('btn-pre-calm').classList.add('active');
+        state.weather = 'calm';
+        log('Preset Loaded', '☀️ Calm Convoy: Passable season active, 3 Sail, 2 Winter. Smooth consensus.');
+      } else if (name === 'stranded') {
+        document.getElementById('btn-pre-stranded').classList.add('active');
+        state.weather = 'calm';
+        state.captains[0].health = 'stranded'; // Alexios stranded
+        log('Preset Loaded', '🪨 Stranded Flagship: Alexios is stranded. Phase 1 will fail silently; Phase 2 Flagship Berenike will take over!');
+      } else if (name === 'storm') {
+        document.getElementById('btn-pre-storm').classList.add('active');
+        state.weather = 'storm';
+        state.captains[1].health = 'swamped';
+        log('Preset Loaded', '⛈️ Winter Gale: Messages delayed/swamped. The rite stalls safely without deciding improperly until calm is restored.');
+      } else if (name === 'overlap') {
+        document.getElementById('btn-pre-overlap').classList.add('active');
+        state.weather = 'calm';
+        log('Preset Loaded', '🔒 Quorum Overlap: Advance through Phase 1 to see Captain Chares become the overlap guard blocking opposite votes.');
+      }
+      updateView();
+    }
+
+    function init() {
+      // Button listeners
+      const playBtn = document.getElementById('btn-sim-play');
+      const stepBtn = document.getElementById('btn-sim-step');
+      const resetBtn = document.getElementById('btn-sim-reset');
+      const seaBtn = document.getElementById('btn-toggle-sea');
+
+      if (playBtn) playBtn.addEventListener('click', togglePlay);
+      if (stepBtn) stepBtn.addEventListener('click', () => {
+        if (state.playing) togglePlay();
+        step();
+      });
+      if (resetBtn) resetBtn.addEventListener('click', reset);
+      if (seaBtn) seaBtn.addEventListener('click', toggleSea);
+
+      // Presets
+      document.getElementById('btn-pre-calm').addEventListener('click', () => loadPreset('calm'));
+      document.getElementById('btn-pre-stranded').addEventListener('click', () => loadPreset('stranded'));
+      document.getElementById('btn-pre-storm').addEventListener('click', () => loadPreset('storm'));
+      document.getElementById('btn-pre-overlap').addEventListener('click', () => loadPreset('overlap'));
+
+      // Quay SVG click handlers
+      quayMeta.forEach(q => {
+        const vbadge = document.getElementById(`vbadge-${q.id}`);
+        const hbadge = document.getElementById(`hbadge-${q.id}`);
+        if (vbadge) vbadge.addEventListener('click', () => toggleVote(q.id));
+        if (hbadge) hbadge.addEventListener('click', () => toggleHealth(q.id));
+      });
+
+      updateView();
+    }
+
+    return { init };
+  })();
+
+  /* ================= TAB 2: THE GROWING HOURGLASS ================= */
+  const Hourglass = (function(){
+    let r = 1;
+    let delta = 7;
+    const N = 5;
+    let autoInterval = null;
+
+    function getCapacity() {
+      return N + r;
+    }
+
+    function updateDisplay(result) {
+      const capTxt = document.getElementById('hg-capacity-txt');
+      const subTxt = document.getElementById('hg-status-sub');
+      const outcome = document.getElementById('hg-outcome-banner');
+      const outcomeTxt = document.getElementById('hg-outcome-text');
+      const cap = getCapacity();
+
+      if (capTxt) capTxt.textContent = `Round ${r} Capacity: ${N} + ${r} = ${cap} strokes`;
+
+      if (result) {
+        if (outcome) outcome.style.display = 'block';
+        if (outcomeTxt) {
+          outcomeTxt.textContent = result.text;
+          const rect = outcome.querySelector('rect');
+          if (rect) rect.setAttribute('fill', result.success ? '#d2ebd2' : '#fadcce');
+        }
+        if (subTxt) subTxt.textContent = result.sub;
+      }
+    }
+
+    function rowRound(onDone) {
+      const cap = getCapacity();
+      const skiff = document.getElementById('hg-skiff');
+      const outcome = document.getElementById('hg-outcome-banner');
+      if (outcome) outcome.style.display = 'none';
+
+      // Animate skiff across water (130px to 610px)
+      if (skiff) {
+        skiff.style.transition = 'transform 0.8s ease-in-out';
+        skiff.style.transform = 'translate(610px, 160px)';
+      }
+
+      setTimeout(() => {
+        const success = cap >= delta;
+        const result = {
+          success: success,
+          text: success
+            ? `SUCCESS! Capacity ${cap} ≥ Sea Delay Δ (${delta}). Message delivered in bounded round!`
+            : `TIMEOUT! Capacity ${cap} < Sea Delay Δ (${delta}). Sand expired before landfall!`,
+          sub: success
+            ? `Patience has overtaken the sea! The basic model is faithfully simulated.`
+            : `Skiff arrived late. Slate ignored. Crew increases sandglass to ${N + r + 1} strokes.`
+        };
+        updateDisplay(result);
+
+        if (!success) {
+          r++;
+        }
+
+        // Return skiff
+        setTimeout(() => {
+          if (skiff) {
+            skiff.style.transition = 'none';
+            skiff.style.transform = 'translate(130px, 160px)';
+          }
+          if (onDone) onDone(success);
+        }, 600);
+      }, 850);
+    }
+
+    function autoRun() {
+      if (autoInterval) {
+        clearInterval(autoInterval);
+        autoInterval = null;
+        return;
+      }
+      rowRound(function(success) {
+        if (!success) {
+          autoInterval = setTimeout(autoRun, 1100);
+        } else {
+          autoInterval = null;
+        }
+      });
+    }
+
+    function reset() {
+      if (autoInterval) {
+        clearTimeout(autoInterval);
+        autoInterval = null;
+      }
+      r = 1;
+      const skiff = document.getElementById('hg-skiff');
+      if (skiff) {
+        skiff.style.transition = 'none';
+        skiff.style.transform = 'translate(130px, 160px)';
+      }
+      const outcome = document.getElementById('hg-outcome-banner');
+      if (outcome) outcome.style.display = 'none';
+      updateDisplay({
+        success: false,
+        text: '',
+        sub: 'Waiting for stroke clock...'
+      });
+    }
+
+    function init() {
+      const slider = document.getElementById('hg-delta-slider');
+      const valTxt = document.getElementById('hg-delta-val');
+      if (slider && valTxt) {
+        slider.addEventListener('input', () => {
+          delta = parseInt(slider.value, 10);
+          valTxt.textContent = `${delta} strokes`;
+          reset();
+        });
+      }
+
+      const stepBtn = document.getElementById('btn-hg-step');
+      const autoBtn = document.getElementById('btn-hg-autorun');
+      const resetBtn = document.getElementById('btn-hg-reset');
+
+      if (stepBtn) stepBtn.addEventListener('click', () => rowRound());
+      if (autoBtn) autoBtn.addEventListener('click', autoRun);
+      if (resetBtn) resetBtn.addEventListener('click', reset);
+
+      updateDisplay();
+    }
+
+    return { init };
+  })();
+
+  /* ================= TAB 3: CAUSEWAY PARTITION (THEOREM 4.3) ================= */
+  const Partition = (function(){
+    let hasC5 = false;
+
+    function runPartition() {
+      const eastDec = document.getElementById('part-dec-east');
+      const eastTxt = document.getElementById('part-dec-east-txt');
+      const westDec = document.getElementById('part-dec-west');
+      const westTxt = document.getElementById('part-dec-west-txt');
+      const narr = document.getElementById('part-narrative-box');
+
+      if (!hasC5) {
+        // N = 4, t = 2: Both shores decide opposite values!
+        if (eastDec) eastDec.setAttribute('fill', '#f6e0d9');
+        if (eastTxt) {
+          eastTxt.textContent = 'East Shore: DECIDED WINTER (0) ⚓';
+          eastTxt.setAttribute('fill', '#8e2323');
+        }
+
+        if (westDec) westDec.setAttribute('fill', '#d9e9f6');
+        if (westTxt) {
+          westTxt.textContent = 'West Shore: DECIDED SAIL (1) ⛵';
+          westTxt.setAttribute('fill', '#136f9e');
+        }
+
+        if (narr) {
+          narr.innerHTML = `
+            <b style="color:var(--blood);">CATASTROPHIC FLEET SPLIT!</b><br>
+            Because <var>N</var> = 4 and <var>t</var> = 2, each shore needs only <var>N</var> − <var>t</var> = 2 votes to decide.
+            East Shore (C₁, C₂) decided WINTER, beached their ships, and butchered their pack mules.<br>
+            West Shore (C₃, C₄) decided SAIL, hoisted canvas, and rowed alone into the winter storm.<br>
+            <b>Mathematical cause:</b> Quorums of size 2 from a fleet of 4 do not overlap (2 + 2 = 4 = <var>N</var>).
+          `;
+        }
+      } else {
+        // N = 5, t = 2: Strict majority prevents decision!
+        if (eastDec) eastDec.setAttribute('fill', '#faeed4');
+        if (eastTxt) {
+          eastTxt.textContent = 'East: Waiting (Needs 3 votes, has 2)';
+          eastTxt.setAttribute('fill', '#615039');
+        }
+
+        if (westDec) westDec.setAttribute('fill', '#faeed4');
+        if (westTxt) {
+          westTxt.textContent = 'West: Waiting (Needs 3 votes, has 2)';
+          westTxt.setAttribute('fill', '#615039');
+        }
+
+        if (narr) {
+          narr.innerHTML = `
+            <b style="color:var(--olive);">FLEET SAFETY PRESERVED!</b><br>
+            With <var>N</var> = 2<var>t</var> + 1 = 5, any valid quorum requires <var>N</var> − <var>t</var> = 3 votes.<br>
+            Neither shore has 3 captains, so neither shore can decide while the causeway is flooded!<br>
+            Both groups wait safely at their moorings. When the Passable Season calms the water, the fleet agrees together.
+          `;
+        }
+      }
+    }
+
+    function toggleC5() {
+      hasC5 = !hasC5;
+      const bridge = document.getElementById('part-c5-bridge');
+      const c5Btn = document.getElementById('btn-part-c5');
+      const narr = document.getElementById('part-narrative-box');
+
+      if (bridge) bridge.style.display = hasC5 ? 'block' : 'none';
+      if (c5Btn) c5Btn.textContent = hasC5 ? '🛡️ Remove 5th Captain' : '🛡️ Add 5th Captain (Evander)';
+
+      reset();
+      if (narr) {
+        if (hasC5) {
+          narr.innerHTML = `<b>5th Guard Added (<var>N</var> = 5, <var>t</var> = 2):</b> A quorum now requires <var>N</var> − <var>t</var> = 3 captains. Click "Run Storm Partition" to see how the strict majority makes split decisions impossible!`;
+        } else {
+          narr.innerHTML = `<b>Standard Partition (<var>N</var> = 4, <var>t</var> = 2):</b> Each shore has 2 captains. Quorum size is 2. Click "Run Storm Partition" to watch the split.`;
+        }
+      }
+    }
+
+    function reset() {
+      const eastDec = document.getElementById('part-dec-east');
+      const eastTxt = document.getElementById('part-dec-east-txt');
+      const westDec = document.getElementById('part-dec-west');
+      const westTxt = document.getElementById('part-dec-west-txt');
+
+      if (eastDec) eastDec.setAttribute('fill', '#eae4d6');
+      if (eastTxt) {
+        eastTxt.textContent = 'East: Undecided';
+        eastTxt.setAttribute('fill', '#615039');
+      }
+
+      if (westDec) westDec.setAttribute('fill', '#eae4d6');
+      if (westTxt) {
+        westTxt.textContent = 'West: Undecided';
+        westTxt.setAttribute('fill', '#615039');
+      }
+    }
+
+    function init() {
+      const runBtn = document.getElementById('btn-part-run');
+      const c5Btn = document.getElementById('btn-part-c5');
+      const resetBtn = document.getElementById('btn-part-reset');
+
+      if (runBtn) runBtn.addEventListener('click', runPartition);
+      if (c5Btn) c5Btn.addEventListener('click', toggleC5);
+      if (resetBtn) resetBtn.addEventListener('click', reset);
+    }
+
+    return { init };
+  })();
+
+  // Initialize all simulators on DOM ready
+  Cothon.init();
+  Hourglass.init();
+  Partition.init();
 })();
 </script>
 </body>
