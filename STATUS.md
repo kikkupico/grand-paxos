@@ -34,6 +34,7 @@ _Last updated 16 Sep 2026._
 - **Comic style: 1970s halftone comic (user, 16 Sep 2026)**, not Franco-Belgian ligne claire, which the user found more cartoonish. Bold ink outlines, halftone dot shading, aged newsprint, the house palette; the reference sheets already use it.
 - **3D files:** `.blend`, `.glb` and renders are gitignored, and renders go to R2.
 - **The ledger is a parchment scroll on two rods (16 Sep 2026)**, replacing the codex. It is one continuous strip, written in order and wound from rod to rod, and it is the same object in every volume: IV's legislators' ledgers, VI's granary ledger, and the statues' scroll pose. The gazetteer's ledger cliffs are now "layered strata", not "stacked tablets", so they don't suggest a different ledger form. A law book (IV §3.3.2) is a set of scrolls, one per area of law, each tagged with the last decree it reflects (user, 16 Sep 2026).
+- **The ledger is written like a log (user, 17 Sep 2026).** Each entry is one line running parallel to the rods, and entries run top to bottom down the strip, with the newest at the bottom. There are no side-by-side columns. Open, it is held upright, with one rod across the top and one across the bottom (a rotulus, not a side-to-side handscroll). This applies to every ledger-like scroll: the law book's scrolls and IX's monks' scrolls, whose "last line" is the log's tail. It is stated in every image prompt: `LEDGER` in `tools/reference_sheets.py`, `CANON` in `tools/panel_images.py`, and the header of the panel briefs from `tools/volume_panels.py`. The statues' scroll pose holds the rods top and bottom.
 
 Canon for the period, the Great Round, the Parliament's port and the ledger is in §10 of the page.
 
@@ -45,13 +46,17 @@ Still open:
   - **Input:** `volumes/IV-shots.json` holds each panel's camera (loc, target, lens, clip_start, clear_m), aspect, resolution, objects to hide, and blocking figures and stand-in props in Blender world coordinates.
   - **Written back:** heights given as "surface" are ray-cast, and the resolved heights, each figure's frame position, visibility, lens clearance and centre clearance go back into the JSON, so a re-render reproduces the frame.
   - **Blocking collections:** one per panel under "Panels", hidden from renders and viewports. Only the panel being rendered is shown. `blender/panels-IV.blend` is saved with all of them hidden, which is checked by reopening the file.
-  - **Outlines:** ink comes from normal and depth passes; Freestyle over the whole island didn't finish in 10 minutes. Output is `renders/panels/<id>-layout.png`.
+  - **Figures (user, 17 Sep 2026):** posed low-poly mannequins from `tools/blender_mannequin.py`, one colour per character. There is one rig with named bones, and named poses are scripted as bone rotations: stand, stand_look_up, orator, scroll, run, give, take, sit, sit_look_up and doze. A mannequin can carry a scroll. Tripo was tried for rigged characters and dropped (55 credits spent on a messenger, kept in `tripo_output/`). The earlier static Kit mannequins couldn't run or sit.
+  - **Render (user, 17 Sep 2026):** a plain Cycles render on the GPU, 96 samples, denoised, taking about 30 s. The Eevee render with an ink-outline pass read as toon shading and gave the image model less to go on. Output is `renders/panels/<id>-layout.png`.
+  - **Cameras chosen by the user:** a Blender viewport has no stored camera, so a screenshot is fitted to one by reprojecting known features: figures, stair heads, the orchestra outline (hand-written Nelder–Mead, IV-11 to 1–7 px). The viewport's focal length frames like half that on a camera (viewport 60 mm is a 30 mm camera).
 - **Image:** `python3 tools/panel_images.py edit|fix|score|accept <id>` (Gemini API).
   - **Inputs:** the layout, then the panel's reference sheets, then `--anchor` (an accepted panel, for style).
-  - **Prompt:** built from the brief and the mannequin legend; it asks for a careful tracing of the layout, no border and no writing, and states the canon.
+  - **Prompt:** built from the brief and the mannequin legend; it asks for a careful tracing of the layout, no border and no writing, and states the canon. Two additions (17 Sep 2026):
+    - The legend gives each figure's frame position in percent, and the prompt states the exact number of people, since the model otherwise adds crowds.
+    - The prompt states how far the camera looks down and a standing person's height as a share of the frame (`screen_h`, written by the layout render). Without these, a smooth Cycles layout was redrawn at eye level with big figures.
   - **Fixes:** `fix` edits an attempt with one targeted change.
   - **Score:** the share of the layout's strongest edges kept in the image, against the same image flipped as a baseline. Attempt 1 of IV-03 had redrawn the gate and scored 0.74 against 0.74; the accepted attempt scored 0.92 against 0.78.
-  - **Limits of the score:** it can't judge canon, so every panel is also checked by eye. Attempts, prompts and side-by-sides go to `temp/panels/`; accepted panels go to `volumes/images/<id>.jpg`, which `volume_panels.py` uses in place of the placeholder.
+  - **Limits of the score:** it can't judge canon, so every panel is also checked by eye. It is tuned to outlined layouts, so it reads low against a smooth Cycles render: IV-11 attempt 6 redrew the whole view and still scored 0.78 against 0.78. Attempts, prompts and side-by-sides go to `temp/panels/`; accepted panels go to `volumes/images/<id>.jpg`, which `volume_panels.py` uses in place of the placeholder.
 - **Pilot results (15 API calls):**
   - **IV-03 (east gate):** 4 attempts. The first redrew the gate and put the verandah outside; one left a mannequin in as a draped stand; one copied low-poly shrubs.
   - **IV-11 (NextBallot from the verandah):** 1 attempt.
@@ -59,9 +64,14 @@ Still open:
   - **Lesson:** Blender helps even the close-up: it fixes the window, the ledge and the view.
 - **Staging found a modelling bug:** the Round stood in a ditch. Terrain vertices within 24 m are pulled down for the bowl, and the 12.5 m cells slope that down outside the 25 m wall, 4.8 m deep at the east gate. The fixes:
   - a paved terrace round the wall to 34 m, level with the gates;
-  - the Statue Walk's bed ramped over its last 120 m up to the gate level (its steepest grade is now 26.2%);
+  - the Statue Walk's bed ramped over its last 200 m up to the gate level (its steepest grade is now 23.0%);
   - a new Round check that every gate's forecourt meets its threshold and the terrace edge is only a step. It failed at −4.56 m before the fix.
-- **Staging lessons:** keep verandah cameras between the columns (every 7.2° from 3.6°) and clear of the gate attics, which reach 0.75 m into the verandah. Keep ground cameras inside the 45 m vegetation-free zone.
+- **IV-11 retry (17 Sep 2026, user's camera):** high above the south-west, looking down 34° across the cavea, 30 mm, 16:9 (the panel is now `wide`).
+  - **a2–a5:** the old outlined mannequins, then Tripo figures. Priests were added as crowds, runners drifted off the stairways, and a fix call lost the halftone.
+  - **a6:** mannequins in Cycles; redrawn at eye level.
+  - **a7:** the same, plus the camera and figure size in the prompt, with no style anchor. It kept the camera and every figure's place. Left to fix: the messenger taking the scroll is drawn terracotta like p, the runners look like blue bodysuits, the near priest is too large, and sea was added on the left.
+  - **Seat rows:** staging IV-11 showed they were straight chords (10 segments per turn, up to 1 m inside the circle mid-span); they're now 144 segments per turn.
+- **Staging lessons:** keep verandah cameras between the columns (every 7.5° from 3.75° since 16 Sep 2026; IV-11 was staged on the old 7.2° spacing) and clear of the gate attics, which reach 0.75 m into the verandah. Keep ground cameras inside the 45 m vegetation-free zone.
 - **Shapes:** strips are 21:9, since Gemini has no 12:5.
 
 ## Volume pages (`volumes/`)
@@ -153,7 +163,8 @@ The sections are:
   - `granaries`: buttressed storehouses turned along the contours.
   - `guild_quarter`: hall, 5 identical lock-houses with nameplates (one misspelled: CVSTOS IIII), quarry benches cut as 6 m terrain steps, stone stacks, loading quay, crane, office.
   - `monastery`: cloister, scriptorium, jetty and raft.
-- **The Statue Walk:** the exported least-cost route is Chaikin-smoothed and ends 32 m from the Round, at the gate, not in the bowl. Its bed is the running average of the ground over 9 samples, and the terrain is cut and filled to it. Result: 1.8 km, 29 statues, mean grade 10.5%, steepest 27.7% (40% on raw ground), which would need steps.
+- **The Statue Walk (`walk_route()`, shared with the vegetation masks):** the exported least-cost route is Chaikin-smoothed, then cut where it first comes within 85 m of the Round (the map's route runs on to the centre and doubles back near it), and eased onto the east gate's axis to stop at the terrace kerb, 35.25 m out. Its bed is the running average of the ground over 9 samples, ramped to gate level over the last 200 m of its length, and the terrain is cut and filled to it. No statues within 50 m of the Round, whose forecourt has its own. Result: 1.6 km, 25 statues, mean grade 10.9%, steepest 23.0% (45% on raw ground), which would need steps.
+  - **Fixed (user, 16 Sep 2026):** the walk used to go right through the Round. Points inside 32 m were dropped instead of the route being cut, so one 62 m paving slab spanned the bowl between the surviving points either side. The new check measures each segment's distance, not each point's.
 - **Checks (`sites-checks.json`):**
   - Sightline self-test: clear 500 m up, blocked through the summit.
   - Hamlet rooftops hidden from each other (rays through the terrain mesh).
@@ -168,16 +179,18 @@ The sections are:
 - **User refinement (16 Sep 2026):** the top tier is an inward-facing colonnaded verandah, its floor about 15 ft (4.6 m) above the outside ground. Windows in the ring wall along it look out over the island, with sills (5.5 m above the outside ground) high enough to read as windows, not entrances. The gates stay at ground level and join the cavea below the verandah, at the mid-height walkway, which the verandah bridges.
 - **Why:** with a plain high ring wall, the ray check showed the banquet house could not be seen from the tiers (blocked by the Round's floor through the gate, and by terrain).
 - **Layout:**
-  - Cavea: 7 lower rows (0.5 m rise) from the orchestra (3.5 m below the outside ground) to the walkway at ground level; then a 1.1 m podium and 6 upper rows (0.6 m rise); then the verandah (3 m deep, 50 columns, tiled roof). Treads are 0.8 m.
-  - Stairways: 8, with steps of 0.3 m or less.
-  - Gate passages are cut through the upper cavea with retaining walls. Doorways are 4 m (to fit under the verandah floor), with pylons, lintel, attic and pediment rising above the wall.
+  - Cavea: 7 lower rows (0.5 m rise) from the orchestra (3.5 m below the outside ground) to the walkway at ground level; then a 1.1 m podium and 6 upper rows (0.6 m rise); then the verandah (3 m deep, 48 columns, six between each pair of stairways so none stands at a stair head, tiled roof). Treads are 0.8 m.
+  - Stairways: 8, unbroken from the orchestra to the verandah (user, 16 Sep 2026). Two steps to each lower row, a landing across the walkway, then flights between anchors on the outer edges of upper rows 3 and 5 (`STAIR_UPPER_BREAKS`), because the 1.1 m podium can't be climbed within one 0.8 m tread. The last flight is let 0.9 m into the verandah floor. Risers 0.25–0.3 m, goings 0.3–0.43 m. Before the fix, steps covered only 0.8 m of the 2.2 m walkway row, leaving a 1.4 m hole, and the final 0.5 m riser was buried inside the verandah floor.
+  - Gate passages are cut through the upper cavea with retaining walls. Doorways are 4 m (to fit under the verandah floor), with pylons, lintel, attic and pediment rising above the wall. The verandah floor is cut at each passage and bridged above 4 m. It used to be a solid ring from the foundations up, which walled off every gate (user, 16 Sep 2026).
   - Ring wall: WALL_IN 23.4, WALL_OUT 25 m, ashlar brick texture mapped by angle × radius, 48 windows 1.4 × 1.9 m every 5° clear of the pylons.
-  - Doors: bronze with panels and bosses. The east gate is open (leaves swung in 80°, bar leaning on the jamb); the others are barred at 1.3 m.
+  - Doors: bronze with panels and bosses. All four stand open by default (user, 16 Sep 2026): leaves swung in 80°, bar leaning against the passage wall. List gates in `GATES_BARRED` (e.g. `("N", "W")`) to show them shut and barred at 1.3 m.
   - 20 statues on inscribed pedestals (orator, scroll and standing poses, 2.1 m). The scroll pose holds a ledger open between its two rods. Scale figures of 1.75 m.
 - **Kit additions:** `frustum`, `ellipsoid`, `beam` (a box between any two points).
 - **Checks (`round-checks.json`):**
   - Canon: 14 tiers, 8 stairways, cardinal gates, 50 m across.
-  - Human scale: seat risers, stair risers, drop-bar within reach.
+  - Human scale: seat risers, drop-bar within reach, and stair risers and goings measured by rays every 5 cm down each stairway (not the old constant).
+  - Stairways unbroken: no hole, no step down, top flush with the verandah floor.
+  - Every open gate clear right through to the walkway: horizontal rays at 1 m and 3.6 m on the axis and 1.2 m either side.
   - Verandah about 15 ft up; window sills ≥ 4.5 m; gates join below the verandah.
   - Ray casts from a person standing at the sill of the nearest window: to the banquet house (16°) and to the merchant quays (41°), blocked by neither the Round nor the terrain. With the eye 0.8 m back from the sill and 1.2 m windows, the banquet ray clipped a pier.
 - **Renders:** `renders/buildings-round_{aerial,interior,window,gate,statue}.png`.

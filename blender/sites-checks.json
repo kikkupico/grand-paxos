@@ -23,15 +23,20 @@
   ]
  },
  "statue_walk": {
-  "length_m": 1798,
-  "max_grade_pct": 26.2,
-  "mean_grade_pct": 10.7,
-  "max_grade_ungraded_pct": 39.8,
-  "statues": 29
+  "length_m": 1633,
+  "max_grade_pct": 23.0,
+  "steepest_from_round_m": 135,
+  "mean_grade_pct": 10.9,
+  "max_grade_ungraded_pct": 45.1,
+  "statues": 25,
+  "closest_to_round_m": 35.25,
+  "ends_before_gate_deg": 0,
+  "end_from_round_m": 35.25
  },
  "causeway_markers": 16,
  "monastery_jetty_tip_m": -8.4,
  "objects": 12,
- "faces": 5889,
+ "faces": 5747,
+ "statue_walk_stops_outside_the_round": true,
  "ok": true
 }

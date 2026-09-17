@@ -88,7 +88,7 @@
    "tilt": "l",
    "title": "Indelible ink",
    "desc": "Close on a legislator's hands at a verandah window, adding decree 155 to his ledger in dark iron-gall ink.",
-   "scene": "Tight close-up from over the shoulder. The ledger lies open across his knees between its two rods, with neat columns of entries. A reed pen makes a fresh line in dark brown-black iron-gall ink, and the ink pot rests on the window sill. Through the window: the col falling away to the sea. No legible writing anywhere.",
+   "scene": "Tight close-up from over the shoulder. The ledger lies open across his knees, one rod toward him and one away, with neat entries one per line, parallel to the rods, running down the strip. A reed pen makes a fresh line in dark brown-black iron-gall ink, and the ink pot rests on the window sill. Through the window: the col falling away to the sea. No legible writing anywhere.",
    "sites": [
     "round (verandah window)"
    ],
@@ -203,10 +203,10 @@
   },
   {
    "id": "IV-11",
-   "shape": "strip",
+   "shape": "wide",
    "title": "NextBallot(b)",
    "desc": "From the verandah, a priest sends messengers racing down the radial stairways with his new ballot number.",
-   "scene": "Looking across the cavea from the verandah. Priest p stands at the verandah edge handing small sealed scrolls, each with a bronze ballot token (an emblem, no digits), to five messengers. They race down different radial stairways toward priests scattered over the seat rows and the mid-height walkway. Some priests are looking up; one is dozing.",
+   "scene": "High above the Great Round from the south-west, looking down across the whole cavea toward the far verandah, with the harbour town and the sea beyond the ring wall. At the far verandah edge, priest p hands a small sealed scroll with a bronze ballot token (an emblem, no digits) to a messenger; four more messengers already race down different radial stairways, fanning out across the chamber toward priests seated on the seat rows and standing on the mid-height walkway. Some priests are looking up; one is dozing.",
    "sites": [
     "round (verandah, stairways)"
    ],

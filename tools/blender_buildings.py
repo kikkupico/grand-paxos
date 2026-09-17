@@ -357,7 +357,9 @@ def main():
             "oracle_below_local_summit_m": round(summit_near - ground.z(OX, OY, before=True), 1),
             "lock_houses": guild_info, "statue_walk": walk_info, "causeway_markers": n_markers, "monastery_jetty_tip_m": jetty_tip,
             "objects": len(site_objs), "faces": sum(len(o.data.polygons) for o in site_objs)}
-    sres["ok"] = (rays_work and not ham_seen and sres["beacon_fires_in_sight"] and sres["drum_decks_in_sight"] and gran_gap >= 300
+    walk_outside = walk_info["closest_to_round_m"] - .75 >= br.TERRACE_R + .5 and walk_info["ends_before_gate_deg"] in (0, 90, 180, 270)   # slabs overrun each point by 0.75 m
+    sres["statue_walk_stops_outside_the_round"] = walk_outside
+    sres["ok"] = (walk_outside and rays_work and not ham_seen and sres["beacon_fires_in_sight"] and sres["drum_decks_in_sight"] and gran_gap >= 300
                   and sres["oracle_below_local_summit_m"] <= 15 and guild_info["lock_ground_min_m"] > 1 and jetty_tip < -1)
     (bt.OUT / "sites-checks.json").write_text(json.dumps(sres, indent=1))
     print("SITES CHECKS", json.dumps(sres))
@@ -368,7 +370,8 @@ def main():
                    ("Granary storehouses, closest pair", f"{gran_gap} m apart"),
                    ("Lock-house spacing", ", ".join(f"{v} m" for v in guild_info["lock_spacing_m"])),
                    ("Causeway marker posts", str(n_markers)), ("Monastery jetty tip", f"{jetty_tip} m")],
-                  [("Sightline test works (clear 500 m up, blocked through the summit)", rays_work),
+                  [(f"Statue Walk stops outside the Round, at the terrace kerb before a gate (closest paving {walk_info['closest_to_round_m'] - .75:.2f} m from the centre; kerb {br.TERRACE_R + .5} m)", walk_outside),
+                   ("Sightline test works (clear 500 m up, blocked through the summit)", rays_work),
                    ("Hamlet rooftops hidden from each other (rays through the terrain)", not ham_seen),
                    ("Beacon fires in sight of each other", sres["beacon_fires_in_sight"]),
                    ("Drum platforms in sight across the strait", sres["drum_decks_in_sight"]),
@@ -422,14 +425,19 @@ def main():
     bt.page_block("ROUND",
                   [("Across the ring wall", f"{rres['outer_diameter_m']} m"), ("Orchestra below the outside ground", f"{rres['sunk_m']} m"),
                    ("Seat rows · verandah · stairways · gates", f"{rres['seat_rows']} · 1 · {rres['stairs']} · {len(rres['gates_deg'])}"),
+                   ("Verandah columns", str(rres["columns"])),
                    ("Seat rows", f"{rres['tread_m']} m treads, {rres['seat_risers_m'][0]} m rise below the walkway, {rres['seat_risers_m'][1]} m above"),
                    ("Verandah floor above the outside ground", f"{rres['verandah_floor_above_ground_m']} m (15 ft)"),
                    ("Window sills above the outside ground", f"{rres['window_sill_above_ground_m']} m; {rres['windows']} windows"),
                    ("Doorway · drop-bar", f"{rres['door_height_m']} m · {rres['drop_bar_height_m']} m above the threshold"),
+                   ("Stair steps, measured down each stairway", f"risers up to {rres['stair_riser_max_m']} m, goings from {rres['stair_going_min_m']} m; a landing across the walkway"),
+                   ("Doors standing open", ", ".join(rres["doors_open"]) or "none"),
                    ("Statues of legislators", str(rres["statues"]))],
                   [("14 tiers (13 seat rows and the verandah), 8 stairways, 4 cardinal gates, ~50 m across (canon)",
                     rres["canon_14_tiers"] and rres["canon_stairways_8"] and rres["canon_gates_cardinal"] and rres["canon_about_50m_across"]),
-                   ("Seat rows and stair steps at human scale", rres["seat_risers_comfortable"] and rres["stair_riser_climbable"]),
+                   ("Seat rows and stair steps at human scale (risers ≤ 0.3 m, goings ≥ 0.28 m)", rres["seat_risers_comfortable"] and rres["stair_riser_climbable"]),
+                   ("Every stairway unbroken from the orchestra to the verandah floor (no hole, no step down, no column at its head; sampled on the centreline and 0.5 m either side)", rres["stairs_continuous_orchestra_to_verandah"]),
+                   ("Every open gate clear right through to the walkway (rays at 1 m and 3.6 m, and 1.2 m either side)", rres["gates_open_right_through"]),
                    ("Verandah about 15 ft above the outside ground", rres["verandah_about_15ft_up"]),
                    ("Window sills high enough to read as windows, not entrances", rres["window_sills_read_as_windows"]),
                    ("Gates open onto the walkway, below the verandah", rres["gates_join_below_the_verandah"]),

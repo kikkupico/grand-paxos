@@ -1,6 +1,6 @@
 {
  "volume": "IV",
- "note": "Blender world coordinates (X east, Y north, metres), from the Round's site point and blender/round-checks.json. z 'surface' means standing on whatever surface is below (ray cast); the resolved value is written back as z_resolved. Verandah columns stand every 7.2 degrees from 3.6; keep cameras on the verandah between them.",
+ "note": "Blender world coordinates (X east, Y north, metres), from the Round's site point and blender/round-checks.json. z 'surface' means standing on whatever surface is below (ray cast); the resolved value is written back as z_resolved. Verandah columns stand every 7.5 degrees from 3.75; keep cameras on the verandah between them.",
  "colors": {
   "terracotta": "#bf4a26",
   "aegean": "#136f9e",
@@ -121,29 +121,29 @@
     }
    ],
    "props": [],
-   "ink_share": 0.069,
    "lens_clear": true,
    "centre_clear_m": 17.9
   },
   "IV-11": {
-   "aspect": "21:9",
+   "aspect": "16:9",
    "resolution": [
-    2520,
-    1080
+    2560,
+    1440
    ],
    "camera": {
     "loc": [
-     -136.92,
-     -140.28,
-     192.76
+     -136.91,
+     -157.14,
+     213.3
     ],
     "target": [
-     -113,
-     -128.5,
-     185.96
+     -115.08,
+     -132.09,
+     191.03
     ],
-    "lens": 22,
-    "clip_start": 0.2
+    "lens": 30,
+    "clip_start": 0.5,
+    "chosen_by": "user, 17 Sep 2026: a Blender viewport view (viewport lens 60 mm, which frames like a 30 mm camera), fitted from the screenshot to 1-7 px"
    },
    "hide": [
     "IV · Scale figures (1.75 m)"
@@ -151,269 +151,308 @@
    "figures": [
     {
      "id": "p",
-     "label": "priest p at the verandah edge, handing out sealed ballot scrolls",
+     "label": "priest p at the verandah edge, handing a small sealed scroll with a bronze ballot token to a messenger",
      "color": "terracotta",
      "xy": [
-      -134.34,
-      -139.97
+      -101.4,
+      -117.4
      ],
      "z": "surface",
-     "facing_deg": 25,
-     "pose": "scroll",
+     "z_from": 192.56,
+     "facing_deg": 225,
+     "pose": "give",
+     "z_resolved": 191.062,
      "screen": [
-      0.703,
-      0.645
+      0.51,
+      0.167
      ],
      "in_frame": true,
      "visible": true,
-     "z_from": 190.76,
-     "z_resolved": 190.262
+     "carry": "scroll",
+     "screen_h": 0.0438
     },
     {
      "id": "m0",
-     "label": "messenger taking a scroll from priest p",
+     "label": "messenger taking a sealed scroll from priest p",
      "color": "aegean",
      "xy": [
-      -134.21,
-      -138.09
+      -102.62,
+      -116.34
      ],
      "z": "surface",
-     "facing_deg": 340,
-     "pose": "stand",
+     "z_from": 192.56,
+     "facing_deg": 318.9,
+     "pose": "take",
+     "z_resolved": 191.062,
      "screen": [
-      0.369,
-      0.628
+      0.486,
+      0.167
      ],
      "in_frame": true,
      "visible": true,
-     "z_from": 190.76,
-     "z_resolved": 189.962
+     "screen_h": 0.0438
     },
     {
      "id": "m1",
-     "label": "messenger racing down a stairway",
+     "label": "messenger racing down a stairway with a sealed scroll",
      "color": "aegean",
      "xy": [
-      -131.71,
-      -125.49
+      -108.77,
+      -114.54
      ],
      "z": "surface",
-     "facing_deg": 337.5,
-     "pose": "stand",
-     "z_from": 190.76,
+     "z_from": 192.56,
+     "facing_deg": 247.5,
+     "pose": "run",
+     "z_resolved": 189.662,
      "screen": [
-      -0.078,
-      0.517
+      0.396,
+      0.231
      ],
-     "in_frame": false,
-     "visible": false,
-     "z_resolved": 188.162
+     "in_frame": true,
+     "visible": true,
+     "carry": "scroll",
+     "screen_h": 0.0438
     },
     {
      "id": "m2",
-     "label": "messenger racing down a stairway",
+     "label": "messenger racing down a stairway with a sealed scroll",
      "color": "aegean",
      "xy": [
-      -130.6,
-      -138.05
+      -100.39,
+      -125.53
      ],
      "z": "surface",
-     "facing_deg": 22.5,
-     "pose": "stand",
-     "z_from": 190.76,
+     "z_from": 192.56,
+     "facing_deg": 202.5,
+     "pose": "run",
+     "z_resolved": 187.9,
      "screen": [
-      0.565,
-      0.953
+      0.606,
+      0.308
      ],
      "in_frame": true,
      "visible": true,
-     "z_resolved": 187.012
+     "carry": "scroll",
+     "screen_h": 0.0435
     },
     {
      "id": "m3",
-     "label": "messenger near the bottom of a stairway",
+     "label": "messenger racing down a stairway with a sealed scroll",
      "color": "aegean",
      "xy": [
-      -120.78,
-      -120.45
+      -122.74,
+      -115.74
      ],
      "z": "surface",
+     "z_from": 192.56,
      "facing_deg": 292.5,
-     "pose": "stand",
-     "z_from": 190.76,
+     "pose": "run",
+     "z_resolved": 188.475,
      "screen": [
-      0.228,
-      0.487
+      0.205,
+      0.396
      ],
      "in_frame": true,
-     "visible": false,
-     "z_resolved": 185.462
+     "visible": true,
+     "carry": "scroll",
+     "screen_h": 0.0476
     },
     {
      "id": "m4",
-     "label": "messenger racing down a stairway",
+     "label": "messenger racing down a stairway with a sealed scroll",
      "color": "aegean",
      "xy": [
-      -122.7,
-      -148.17
+      -99.19,
+      -138.96
      ],
      "z": "surface",
-     "facing_deg": 67.5,
-     "pose": "stand",
-     "z_from": 190.76,
+     "z_from": 192.56,
+     "facing_deg": 157.5,
+     "pose": "run",
+     "z_resolved": 189.062,
      "screen": [
-      1.346,
-      0.548
-     ],
-     "in_frame": false,
-     "visible": true,
-     "z_resolved": 188.462
-    },
-    {
-     "id": "m5",
-     "label": "messenger racing down a stairway",
-     "color": "aegean",
-     "xy": [
-      -111.41,
-      -143.09
-     ],
-     "z": "surface",
-     "facing_deg": 112.5,
-     "pose": "stand",
-     "z_from": 190.76,
-     "screen": [
-      0.882,
-      0.436
+      0.808,
+      0.413
      ],
      "in_frame": true,
      "visible": true,
-     "z_resolved": 186.662
+     "carry": "scroll",
+     "screen_h": 0.0493
     },
     {
      "id": "q1",
-     "label": "priest on a seat row, looking up",
-     "color": "linen",
+     "label": "priest standing on the mid-height walkway, looking up at the messenger coming down",
+     "color": "olive",
      "xy": [
-      -99.84,
-      -126.12
+      -103.1,
+      -124.55
      ],
      "z": "surface",
-     "facing_deg": 200,
-     "pose": "stand",
-     "z_from": 190.76,
-     "z_resolved": 188.782,
+     "z_from": 192.56,
+     "facing_deg": 30,
+     "pose": "stand_look_up",
+     "z_resolved": 186.462,
      "screen": [
-      0.558,
-      0.226
-     ],
-     "in_frame": true,
-     "visible": true
-    },
-    {
-     "id": "q2",
-     "label": "priest on a seat row",
-     "color": "linen",
-     "xy": [
-      -104.74,
-      -138.5
-     ],
-     "z": "surface",
-     "facing_deg": 150,
-     "pose": "scroll",
-     "z_from": 190.76,
-     "z_resolved": 186.662,
-     "screen": [
-      0.758,
+      0.564,
       0.358
      ],
      "in_frame": true,
-     "visible": true
+     "visible": true,
+     "screen_h": 0.0427
+    },
+    {
+     "id": "q2",
+     "label": "priest seated on a seat row, looking up",
+     "color": "olive",
+     "xy": [
+      -113.67,
+      -121.04
+     ],
+     "z": "surface",
+     "z_from": 192.56,
+     "facing_deg": 258,
+     "pose": "sit_look_up",
+     "z_resolved": 184.962,
+     "screen": [
+      0.398,
+      0.477
+     ],
+     "in_frame": true,
+     "visible": true,
+     "screen_h": 0.0431
     },
     {
      "id": "q3",
-     "label": "priest on the walkway",
-     "color": "linen",
+     "label": "priest seated on a seat row",
+     "color": "olive",
      "xy": [
-      -107.4,
-      -119.71
+      -120.21,
+      -115.12
      ],
      "z": "surface",
-     "facing_deg": 235,
-     "pose": "stand",
-     "z_from": 190.76,
-     "z_resolved": 187.562,
+     "z_from": 192.56,
+     "facing_deg": 284,
+     "pose": "sit",
+     "z_resolved": 188.762,
      "screen": [
-      0.406,
-      0.286
+      0.243,
+      0.377
      ],
      "in_frame": true,
-     "visible": true
+     "visible": true,
+     "screen_h": 0.0468
     },
     {
      "id": "q4",
-     "label": "priest on a seat row",
-     "color": "linen",
+     "label": "priest seated on a seat row, looking up",
+     "color": "olive",
      "xy": [
-      -111.73,
-      -142.57
+      -103.32,
+      -133.78
      ],
      "z": "surface",
-     "facing_deg": 112,
-     "pose": "stand",
-     "z_from": 190.76,
-     "z_resolved": 186.662,
+     "z_from": 192.56,
+     "facing_deg": 172,
+     "pose": "sit_look_up",
+     "z_resolved": 185.962,
      "screen": [
-      0.866,
-      0.437
+      0.674,
+      0.499
      ],
      "in_frame": true,
-     "visible": true
+     "visible": true,
+     "screen_h": 0.0452
     },
     {
      "id": "q5",
-     "label": "priest dozing on a seat row",
+     "label": "priest dozing on a seat row, head nodding forward",
      "color": "plum",
      "xy": [
-      -103.92,
-      -133.7
+      -99.89,
+      -127.98
      ],
      "z": "surface",
-     "facing_deg": 172,
-     "pose": "stand",
-     "z_from": 190.76,
-     "z_resolved": 186.662,
+     "z_from": 192.56,
+     "facing_deg": 194,
+     "pose": "doze",
+     "z_resolved": 188.162,
      "screen": [
-      0.663,
-      0.339
+      0.64,
+      0.342
      ],
      "in_frame": true,
-     "visible": true
+     "visible": true,
+     "screen_h": 0.0444
     },
     {
      "id": "q6",
-     "label": "priest on an upper row",
-     "color": "linen",
+     "label": "priest seated on a low seat row, looking up",
+     "color": "olive",
      "xy": [
-      -100.31,
-      -120.6
+      -110.09,
+      -124.44
      ],
      "z": "surface",
-     "facing_deg": 216,
-     "pose": "stand",
-     "z_from": 190.76,
-     "z_resolved": 185.962,
+     "z_from": 192.56,
+     "facing_deg": 232,
+     "pose": "sit_look_up",
+     "z_resolved": 183.962,
      "screen": [
-      0.478,
-      0.321
+      0.479,
+      0.505
      ],
      "in_frame": true,
-     "visible": false
+     "visible": true,
+     "screen_h": 0.0422
+    },
+    {
+     "id": "q7",
+     "label": "priest standing on the mid-height walkway, looking up",
+     "color": "olive",
+     "xy": [
+      -125.17,
+      -120.26
+     ],
+     "z": "surface",
+     "z_from": 192.56,
+     "facing_deg": 128,
+     "pose": "stand_look_up",
+     "z_resolved": 186.462,
+     "screen": [
+      0.206,
+      0.541
+     ],
+     "in_frame": true,
+     "visible": true,
+     "screen_h": 0.0477
+    },
+    {
+     "id": "q8",
+     "label": "priest seated on a near seat row with his back to us, turning to look up",
+     "color": "olive",
+     "xy": [
+      -123.86,
+      -137.51
+     ],
+     "z": "surface",
+     "z_from": 192.56,
+     "facing_deg": 35,
+     "pose": "sit_look_up",
+     "z_resolved": 183.962,
+     "screen": [
+      0.428,
+      0.949
+     ],
+     "in_frame": true,
+     "visible": true,
+     "screen_h": 0.0487
     }
    ],
    "props": [],
-   "ink_share": 0.098,
    "lens_clear": true,
-   "centre_clear_m": 33.6
+   "centre_clear_m": 51.8,
+   "device": "GPU"
   },
   "IV-06": {
    "aspect": "4:3",
@@ -520,7 +559,6 @@
      "in_frame": true
     }
    ],
-   "ink_share": 0.039,
    "lens_clear": false,
    "centre_clear_m": 2.6
   }

@@ -12,6 +12,7 @@ import bpy, bmesh
 import numpy as np
 from mathutils import Matrix, Vector
 from blender_kit import *                                                                          # noqa: F401,F403
+import blender_sites as bs
 
 # ---------------------------------------------------------------- fields over the vertex grid
 def grid_xy(ground):
@@ -56,7 +57,7 @@ EXCLUDE_M = {"round": 45, "banquet": 26, "cothon": 285, "port": 120, "city": 135
 def tracks(smooth):
     """The track network and the Statue Walk as Blender-space polylines."""
     out = [smooth([B(x, y) for x, y in t["path"]], rounds=2) for t in SITES["built"]["tracks_m"] if len(t["path"]) > 1]
-    return out, smooth([B(x, y) for x, y in SITES["built"]["statue_walk_m"]], rounds=2)
+    return out, bs.walk_route()[0]
 
 def masks(ground, smooth, sightlines, prop_spots=()):
     X, Y = grid_xy(ground); z = ground.g.astype(np.float64)

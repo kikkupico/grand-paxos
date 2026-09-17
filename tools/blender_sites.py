@@ -144,18 +144,42 @@ def smooth_path(pts, rounds=3, step=12.0):
     ts = np.arange(0, t[-1], step)
     return list(zip(np.interp(ts, t, p[:, 0]), np.interp(ts, t, p[:, 1]))) + [tuple(p[-1])]
 
-def statue_walk(ground, M, agora, window=9, gate_z=None):
-    """The processional way: the route smoothed, a road bed graded as a running average of the ground along it
-    (the terrain is cut and filled to meet it), paved, with statues every ~45 m once clear of the town."""
+def seg_dist(c, p, q):
+    (px, py), (qx, qy) = p, q; dx, dy = qx - px, qy - py
+    t = max(0.0, min(1.0, ((c[0] - px) * dx + (c[1] - py) * dy) / max(dx * dx + dy * dy, 1e-9)))
+    return math.hypot(px + t * dx - c[0], py + t * dy - c[1])
+
+WALK_CUT_R, WALK_END_R = 85.0, 35.25                                                               # the kerb of the Round's terrace is at 34.5 m
+
+def walk_route():
+    """The Statue Walk as a Blender-space polyline, and the bearing of the Round's gate it ends at. The map's route runs
+    on to the Round's centre and doubles back on itself near it, so it is cut where it first comes within WALK_CUT_R
+    and eased onto the nearest gate's axis, ending at the terrace kerb. (Dropping the points inside the terrace left
+    one paving slab laid straight across the bowl.)"""
     path = smooth_path([B(x, y) for x, y in SITES["built"]["statue_walk_m"]], rounds=2)
     RX, RY = site("round")
-    path = [p for p in path if math.dist(p, (RX, RY)) > 32]                                         # ends at the Round's gate, not inside its bowl
+    cut = next(i for i, p in enumerate(path) if math.dist(p, (RX, RY)) <= WALK_CUT_R)
+    T = path[cut]
+    gate = round(math.atan2(T[1] - RY, T[0] - RX) / (TAU / 4)) * TAU / 4 % TAU
+    u = (math.cos(gate), math.sin(gate))
+    C, E = (RX + u[0] * 58, RY + u[1] * 58), (RX + u[0] * WALK_END_R, RY + u[1] * WALK_END_R)   # arrive along the gate axis
+    n = max(2, math.ceil((math.dist(T, C) + math.dist(C, E)) / 12))
+    tail = [tuple((1 - t) ** 2 * a + 2 * (1 - t) * t * c + t * t * e for a, c, e in zip(T, C, E)) for t in np.linspace(0, 1, n + 1)[1:]]
+    return path[:cut + 1] + tail, gate
+
+def statue_walk(ground, M, agora, window=9, gate_z=None):
+    """The processional way: the route smoothed, a road bed graded as a running average of the ground along it
+    (the terrain is cut and filled to meet it), paved, with statues every ~45 m once clear of the town. It ends
+    outside the Round, at the terrace kerb before a gate."""
+    path, gate = walk_route()
+    RX, RY = site("round")
     raw = np.array([ground.z(x, y) for x, y in path])
     pad_ = np.pad(raw, window // 2, mode="edge")
     bed = np.convolve(pad_, np.ones(window) / window, mode="valid")
     bed[0], bed[-1] = raw[0], raw[-1]
-    if gate_z is not None:                                                                          # a landing level with the Round's gate threshold, ramped over the last 120 m:
-        w = np.array([1 - float(smooth((math.dist(p, (RX, RY)) - 32) / 120)) for p in path])       # the running average had cut 4 m below the east gate
+    if gate_z is not None:                                                                          # a landing level with the Round's gate threshold, ramped over the last 200 m:
+        to_end = np.concatenate([np.cumsum([math.dist(p, q) for p, q in zip(path, path[1:])][::-1])[::-1], [0.0]])   # the running average had cut 4 m below the east gate
+        w = np.array([1 - float(smooth(d / 200)) for d in to_end])
         bed = bed * (1 - w) + gate_z * w
     for (x, y), z in zip(path, bed):                                                               # cut and fill a 6 m bed, feathered 10 m
         ground.edit(x, y, 16, lambda d, dX, dY, g, z=z: np.where(d < 16, g + (z - g) * (1 - smooth((d - 6) / 10)), g))
@@ -168,13 +192,17 @@ def statue_walk(ground, M, agora, window=9, gate_z=None):
         z0, z1 = bed[i], bed[i + 1]; ang = math.atan2(y1 - y0, x1 - x0)
         k.box((x0 + x1) / 2, (y0 + y1) / 2, min(z0, z1) - .6, max(z0, z1) + .2, L + 1.5, 5, ang, M["pave"])
         length += L; grades.append(abs(z1 - z0) / L); since += L
-        if since >= 45 and math.hypot(x1 - agora[0], y1 - agora[1]) > 320:
+        if since >= 45 and math.hypot(x1 - agora[0], y1 - agora[1]) > 320 and math.dist((x1, y1), (RX, RY)) > 50:   # the Round's forecourt has its own statues
             nx, ny = -math.sin(ang) * side, math.cos(ang) * side
             statue(k, M, x1 + nx * 5, y1 + ny * 5, ground.z(x1 + nx * 5, y1 + ny * 5), ang); statues += 1
             since, side = 0.0, -side
     raw_grades = [abs(b_ - a_) / max(math.dist(p, q), .1) for a_, b_, p, q in zip(raw, raw[1:], path, path[1:])]
-    return k, {"length_m": round(length), "max_grade_pct": round(100 * max(grades), 1), "mean_grade_pct": round(100 * float(np.mean(grades)), 1),
-               "max_grade_ungraded_pct": round(100 * max(raw_grades), 1), "statues": statues}
+    steep = path[int(np.argmax(grades))]
+    return k, {"length_m": round(length), "max_grade_pct": round(100 * max(grades), 1), "steepest_from_round_m": round(math.dist(steep, (RX, RY))), "mean_grade_pct": round(100 * float(np.mean(grades)), 1),
+               "max_grade_ungraded_pct": round(100 * max(raw_grades), 1), "statues": statues,
+               "closest_to_round_m": round(min(seg_dist((RX, RY), p, q) for p, q in zip(path, path[1:])), 2),   # segments, not points: a slab spans each one
+               "ends_before_gate_deg": round(math.degrees(gate)), "end_from_round_m": round(math.dist(path[-1], (RX, RY)), 2)}
+
 
 # ---------------------------------------------------------------- VI · Ledger of Many Decrees
 def storehouse(k, ground, M, X, Y, length, width):

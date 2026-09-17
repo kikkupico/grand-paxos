@@ -18,8 +18,13 @@
   0.5,
   0.6
  ],
- "stair_riser_max_m": 0.3,
  "door_height_m": 4.0,
+ "doors_open": [
+  "E",
+  "N",
+  "W",
+  "S"
+ ],
  "drop_bar_height_m": 1.3,
  "statues": 20,
  "figure_m": 1.75,
@@ -28,6 +33,13 @@
  "walkway_z": 186.46241760253906,
  "gate_floor_z": 186.46241760253906,
  "sunk_m": 3.5,
+ "columns": 48,
+ "stair_riser_max_m": 0.3,
+ "stair_going_min_m": 0.3,
+ "stair_drop_max_m": 0.0,
+ "stair_hole_samples": 0,
+ "stair_top_to_verandah_m": 0.0,
+ "gates_blocked": {},
  "gate_ground_offset_m": {
   "E": 0.22,
   "N": 0.22,
@@ -35,10 +47,10 @@
   "S": 0.0
  },
  "terrace_edge_step_m": {
-  "E": -0.07,
+  "E": -0.01,
   "N": 0.04,
   "W": 0.4,
-  "S": -0.22
+  "S": -0.23
  },
  "gates_meet_the_ground": true,
  "banquet_window_bearing_deg": 16.0,
@@ -49,6 +61,8 @@
  "canon_about_50m_across": true,
  "seat_risers_comfortable": true,
  "stair_riser_climbable": true,
+ "stairs_continuous_orchestra_to_verandah": true,
+ "gates_open_right_through": true,
  "verandah_about_15ft_up": true,
  "window_sills_read_as_windows": true,
  "gates_join_below_the_verandah": true,

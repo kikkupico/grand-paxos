@@ -8,3 +8,4 @@ __pycache__/
 *.fbx
 renders/
 temp/
+tripo_output/
